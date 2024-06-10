@@ -1,0 +1,140 @@
+{
+    "pbi_minero.csv": [
+        {
+            "private": "MINERI_6-1-1_1",
+            "public": "MINERI_g1"
+        }
+    ],
+    "minerales_vbp_mundial.csv": [
+        {
+            "private": "MINERI_6-1-1_2",
+            "public": "MINERI_g2"
+        }
+    ],
+    "expo_por_sectores.csv": [
+        {
+            "private": "MINERI_6-1-1_3",
+            "public": "MINERI_g3"
+        }
+    ],
+    "expo_mineras_por_grupo.csv": [
+        {
+            "private": "MINERI_6-1-1_4",
+            "public": "MINERI_g4"
+        }
+    ],
+    "importaciones_por_sector.csv": [
+        {
+            "private": "MINERI_6-1-1_5",
+            "public": "MINERI_g5"
+        }
+    ],
+    "importaciones_por_grupo.csv": [
+        {
+            "private": "MINERI_6-1-1_6",
+            "public": "MINERI_g6"
+        }
+    ],
+    "balanza_comercial_minera.csv": [
+        {
+            "private": "MINERI_6-1-1_7",
+            "public": "MINERI_g7"
+        }
+    ],
+    "precios_metales.csv": [
+        {
+            "private": "MINERI_6-1-1_8",
+            "public": "MINERI_g8"
+        }
+    ],
+    "precios_metales_real.csv": [
+        {
+            "private": "MINERI_6-1-1_9",
+            "public": "MINERI_g9"
+        }
+    ],
+    "peso_va_min_por_provincia.csv": [
+        {
+            "private": "MINERI_6-1-1_10",
+            "public": "MINERI_g10"
+        }
+    ],
+    "dist_provincial_pbi_minero.csv": [
+        {
+            "private": "MINERI_6-1-1_11",
+            "public": "MINERI_g11"
+        }
+    ],
+    "exportaciones_mineras_provinciales.csv": [
+        {
+            "private": "MINERI_6-1-1_12",
+            "public": "MINERI_g12"
+        }
+    ],
+    "empleo_minero.csv": [
+        {
+            "private": "MINERI_6-1-1_13",
+            "public": "MINERI_g13"
+        }
+    ],
+    "min_comp_categoria_ocupacional_rama.csv": [
+        {
+            "private": "MINERI_6-1-1_14",
+            "public": "MINERI_g14"
+        }
+    ],
+    "empleo_genero.csv": [
+        {
+            "private": "MINERI_6-1-1_15",
+            "public": "MINERI_g15"
+        }
+    ],
+    "tasa_feminizacion_sector.csv": [
+        {
+            "private": "MINERI_6-1-1_16",
+            "public": "MINERI_g16"
+        }
+    ],
+    "desc_ventas_min_metalifera.csv": [
+        {
+            "private": "MINERI_6-1-1_17",
+            "public": "MINERI_g17"
+        }
+    ],
+    "compras_sector_minero_rama.csv": [
+        {
+            "private": "MINERI_6-1-1_18",
+            "public": "MINERI_g18"
+        }
+    ],
+    "importaciones_directas_mineria.csv": [
+        {
+            "private": "MINERI_6-1-1_19",
+            "public": "MINERI_g19"
+        }
+    ],
+    "crecimiento_demanda_minerales_2040.csv": [
+        {
+            "private": "MINERI_6-1-1_20",
+            "public": "MINERI_g20"
+        }
+    ],
+    "minerales_criticos_energia.csv": [
+        {
+            "private": "MINERI_6-1-1_21",
+            "public": "MINERI_g21"
+        }
+    ],
+    "minerales_criticos_vehiculos.csv": [
+        {
+            "private": "MINERI_6-1-1_22",
+            "public": "MINERI_g22"
+        }
+    ],
+    "ranking_minerales_argentina.csv": [
+        {
+            "private": "MINERI_6-1-1_tabla 1",
+            "public": "MINERI_g23"
+        }
+    ]
+}
