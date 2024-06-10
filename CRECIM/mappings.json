@@ -1,0 +1,146 @@
+{
+    "pib_absoluto_per_capita.csv": [
+        {
+            "private": "CRECIM_4-2-1_1",
+            "public": "CRECIM_g01"
+        }
+    ],
+    "pib_vs_expectativa.csv": [
+        {
+            "private": "CRECIM_4-2-1_2",
+            "public": "CRECIM_g02"
+        }
+    ],
+    "pib_vs_educ_promedio.csv": [
+        {
+            "private": "CRECIM_4-2-1_3",
+            "public": "CRECIM_g03"
+        }
+    ],
+    "pib_vs_ingreso.csv": [
+        {
+            "private": "CRECIM_4-2-1_4",
+            "public": "CRECIM_g04"
+        }
+    ],
+    "pib_corriente_constante.csv": [
+        {
+            "private": "CRECIM_4-2-1_5",
+            "public": "CRECIM_g05"
+        }
+    ],
+    "pib_pc_ppp_2017.csv": [
+        {
+            "private": "CRECIM_4-2-1_6",
+            "public": "CRECIM_g06"
+        },
+        {
+            "private": "CRECIM_4-2-1_13",
+            "public": "CRECIM_g13"
+        }
+    ],
+    "participacion_pib_mundial.csv": [
+        {
+            "private": "CRECIM_4-2-1_7",
+            "public": "CRECIM_g07"
+        }
+    ],
+    "pib_per_capita_historico_cambio_1820.csv": [
+        {
+            "private": "CRECIM_4-2-1_8",
+            "public": "CRECIM_g08"
+        },
+        {
+            "private": "CRECIM_4-2-1_9",
+            "public": "CRECIM_g09"
+        },
+        {
+            "private": "CRECIM_4-2-1_15",
+            "public": "CRECIM_g15"
+        }
+    ],
+    "pib_per_capita_historico_cambio_1900.csv": [
+        {
+            "private": "CRECIM_4-2-1_10",
+            "public": "CRECIM_g10"
+        }
+    ],
+    "pib_per_capita_historico.csv": [
+        {
+            "private": "CRECIM_4-2-1_11",
+            "public": "CRECIM_g11"
+        }
+    ],
+    "pib_pc_cambio_1975.csv": [
+        {
+            "private": "CRECIM_4-2-1_12",
+            "public": "CRECIM_g12"
+        }
+    ],
+    "participacion_pib_latam.csv": [
+        {
+            "private": "CRECIM_4-2-1_14",
+            "public": "CRECIM_g14"
+        }
+    ],
+    "pib_per_capita_historico_relativo_arg.csv": [
+        {
+            "private": "CRECIM_4-2-1_16",
+            "public": "CRECIM_g16"
+        }
+    ],
+    "pib_pc_cambio_2011.csv": [
+        {
+            "private": "CRECIM_4-2-1_17",
+            "public": "CRECIM_g17"
+        }
+    ],
+    "vab_por_provincia.csv": [
+        {
+            "private": "CRECIM_4-2-1_18",
+            "public": "CRECIM_g18"
+        }
+    ],
+    "pbg_per_capita_relativo.csv": [
+        {
+            "private": "CRECIM_4-2-1_19",
+            "public": "CRECIM_g19"
+        }
+    ],
+    "provincia_part_vab.csv": [
+        {
+            "private": "CRECIM_4-2-1_20",
+            "public": "CRECIM_g20"
+        }
+    ],
+    "var_part_1953_2022.csv": [
+        {
+            "private": "CRECIM_4-2-1_21",
+            "public": "CRECIM_g21"
+        }
+    ],
+    "provincia_pib_pc_scatter.csv": [
+        {
+            "private": "CRECIM_4-2-1_22",
+            "public": "CRECIM_g22"
+        }
+    ],
+    "provincia_pib_pc.csv": [
+        {
+            "private": "CRECIM_4-2-1_23",
+            "public": "CRECIM_g23"
+        }
+    ],
+    "pbg_per_capita.csv": [
+        {
+            "private": "CRECIM_4-2-1_24",
+            "public": "CRECIM_g24"
+        }
+    ],
+    "provincia_pib_pc_relativo.csv": [
+        {
+            "private": "CRECIM_4-2-1_25",
+            "public": "CRECIM_g25"
+        }
+    ]
+}
