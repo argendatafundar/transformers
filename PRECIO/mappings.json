@@ -1,0 +1,74 @@
+{
+    "1_composicion_ipc_argentina.csv": [
+        {
+            "private": "PRECIO_2-1-6_1",
+            "public": "PRECIO_g1"
+        }
+    ],
+    "2_composicion_ipc_por_regiones_argentinas.csv": [
+        {
+            "private": "PRECIO_2-1-6_2",
+            "public": "PRECIO_g2"
+        }
+    ],
+    "3_tasa_de_inflacion_anual_argentina_1935_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_3",
+            "public": "PRECIO_g3"
+        }
+    ],
+    "4_tasa_de_inflacion_anual_paises_promedio_2007_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_4",
+            "public": "PRECIO_g4"
+        }
+    ],
+    "5_tasa_de_inflacion_anual_paises_2000_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_5",
+            "public": "PRECIO_g5"
+        }
+    ],
+    "6_comparacion_inflacion_mediana_latam_altosing_1980_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_6",
+            "public": "PRECIO_g6"
+        }
+    ],
+    "7_comparacion_inflacion_mediana_argentina_latam_1992_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_7",
+            "public": "PRECIO_g7"
+        }
+    ],
+    "8_evol_precios_aperturas_relativos_a_evol_precios_generales_argentina_1947_2022.csv": [
+        {
+            "private": "PRECIO_2-1-6_8",
+            "public": "PRECIO_g8"
+        }
+    ],
+    "9_inflacion_acumulada_argentina_dic2001_dic2002.csv": [
+        {
+            "private": "PRECIO_2-1-6_9",
+            "public": "PRECIO_g9"
+        }
+    ],
+    "10_tasa_trimestral_inflacion_y_pib_desestacionalizado_argentina_1984_1988.csv": [
+        {
+            "private": "PRECIO_2-1-6_10",
+            "public": "PRECIO_g10"
+        }
+    ],
+    "11_tasa_de_inflacion_mensual_argentina_feb1989_jun1990.csv": [
+        {
+            "private": "PRECIO_2-1-6_11",
+            "public": "PRECIO_g11"
+        }
+    ],
+    "12_tasa_de_inflacion_mensual_argentina_ene1989_dic1993.csv": [
+        {
+            "private": "PRECIO_2-1-6_12",
+            "public": "PRECIO_g12"
+        }
+    ]
+}
