@@ -1,0 +1,146 @@
+{
+    "ISA_desigualdad_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_1",
+            "public": "DESIGU_g1"
+        }
+    ],
+    "ISA_desigualdad_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_2",
+            "public": "DESIGU_g2"
+        }
+    ],
+    "ISA_desigualdad_i3.csv": [
+        {
+            "private": "DESIGU_4-3-1_3",
+            "public": "DESIGU_g3"
+        }
+    ],
+    "ISA_mundo_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_4",
+            "public": "DESIGU_g4"
+        }
+    ],
+    "ISA_mundo_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_5",
+            "public": "DESIGU_g5"
+        }
+    ],
+    "ISA_mundo_i3.csv": [
+        {
+            "private": "DESIGU_4-3-1_6",
+            "public": "DESIGU_g6"
+        }
+    ],
+    "ISA_movilidad_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_7",
+            "public": "DESIGU_g7"
+        }
+    ],
+    "ISA_movilidad_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_8",
+            "public": "DESIGU_g8"
+        }
+    ],
+    "ISA_desigualdad_laboral_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_9",
+            "public": "DESIGU_g9"
+        }
+    ],
+    "ISA_desigualdad_laboral_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_10",
+            "public": "DESIGU_g10"
+        }
+    ],
+    "ISA_desigualdad_laboral_i3.csv": [
+        {
+            "private": "DESIGU_4-3-1_11",
+            "public": "DESIGU_g11"
+        }
+    ],
+    "ISA_brechas_educativas_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_12",
+            "public": "DESIGU_g12"
+        }
+    ],
+    "ISA_brechas_educativas_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_13",
+            "public": "DESIGU_g13"
+        }
+    ],
+    "ISA_brechas_educativas_i3.csv": [
+        {
+            "private": "DESIGU_4-3-1_14",
+            "public": "DESIGU_g14"
+        }
+    ],
+    "ISA_funcional_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_15",
+            "public": "DESIGU_g15"
+        }
+    ],
+    "ISA_funcional_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_16",
+            "public": "DESIGU_g16"
+        }
+    ],
+    "ISA_regiones_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_17",
+            "public": "DESIGU_g17"
+        }
+    ],
+    "ISA_regiones_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_18",
+            "public": "DESIGU_g18"
+        }
+    ],
+    "ISA_demografia_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_19",
+            "public": "DESIGU_g19"
+        }
+    ],
+    "ISA_demografia_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_20",
+            "public": "DESIGU_g20"
+        }
+    ],
+    "ISA_genero_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_21",
+            "public": "DESIGU_g21"
+        }
+    ],
+    "ISA_genero_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_22",
+            "public": "DESIGU_g22"
+        }
+    ],
+    "ISA_vivienda_i1.csv": [
+        {
+            "private": "DESIGU_4-3-1_23",
+            "public": "DESIGU_g23"
+        }
+    ],
+    "ISA_vivienda_i2.csv": [
+        {
+            "private": "DESIGU_4-3-1_24",
+            "public": "DESIGU_g24"
+        }
+    ]
+}
