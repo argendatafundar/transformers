@@ -1,0 +1,168 @@
+{
+    "emisiones_anuales_co2_region_2021.csv": [
+        {
+            "private": "CAMCLI_1-1-1_7",
+            "public": "CAMCLI_g01"
+        }
+    ],
+    "emisiones_anuales_co2_region.csv": [
+        {
+            "private": "CAMCLI_1-1-1_8",
+            "public": "CAMCLI_g02"
+        }
+    ],
+    "emisiones_per_cap.csv": [
+        {
+            "private": "CAMCLI_1-1-1_9",
+            "public": "CAMCLI_g03"
+        }
+    ],
+    "emisiones_sector_global_2016.csv": [
+        {
+            "private": "CAMCLI_1-1-1_10",
+            "public": "CAMCLI_g04"
+        }
+    ],
+    "emisiones_global_sec_1850_2014.csv": [
+        {
+            "private": "CAMCLI_1-1-1_11",
+            "public": "CAMCLI_g05"
+        }
+    ],
+    "emisiones_subsec_arg_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_12",
+            "public": "CAMCLI_g06"
+        }
+    ],
+    "emisiones_arg_mundo.csv": [
+        {
+            "private": "CAMCLI_1-1-1_13",
+            "public": "CAMCLI_g07"
+        }
+    ],
+    "emisiones_arg_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_14",
+            "public": "CAMCLI_g08"
+        }
+    ],
+    "emisiones_arg_sec_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_15",
+            "public": "CAMCLI_g09"
+        }
+    ],
+    "emisiones_energia_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_16",
+            "public": "CAMCLI_g10"
+        }
+    ],
+    "emisiones_afolu_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_17",
+            "public": "CAMCLI_g11"
+        }
+    ],
+    "emisiones_piup_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_18",
+            "public": "CAMCLI_g12"
+        }
+    ],
+    "emisiones_residuos_1990_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_19",
+            "public": "CAMCLI_g13"
+        }
+    ],
+    "emisiones_prov_2010_2018.csv": [
+        {
+            "private": "CAMCLI_1-1-1_20",
+            "public": "CAMCLI_g14"
+        }
+    ],
+    "emisiones_vab_provincias.csv": [
+        {
+            "private": "CAMCLI_1-1-1_21",
+            "public": "CAMCLI_g15"
+        }
+    ],
+    "emisiones_anuales_co2_ch4_n20_1850_2022.csv": [
+        {
+            "private": "CAMCLI_7-1-1_1",
+            "public": "CAMCLI_g16"
+        },
+        {
+            "private": "CAMCLI_7-1-1_2",
+            "public": "CAMCLI_g17"
+        }
+    ],
+    "01_evolucion_CO2_historico.csv": [
+        {
+            "private": "CAMCLI_7-1-1_3",
+            "public": "CAMCLI_g18"
+        }
+    ],
+    "evolucion_temperatura_aire_1850_2020.csv": [
+        {
+            "private": "CAMCLI_7-1-1_4",
+            "public": "CAMCLI_g19"
+        }
+    ],
+    "evolucion_temperatura_1850_2023.csv": [
+        {
+            "private": "CAMCLI_7-1-1_5",
+            "public": "CAMCLI_g20"
+        }
+    ],
+    "06_evolucion_nivel_del_mar_1993_2022.csv": [
+        {
+            "private": "CAMCLI_7-1-1_6",
+            "public": "CAMCLI_g21"
+        }
+    ],
+    "tmp_media_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_22",
+            "public": "CAMCLI_g22"
+        }
+    ],
+    "cambio_temp_media_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_23",
+            "public": "CAMCLI_g23"
+        }
+    ],
+    "pp_media_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_24",
+            "public": "CAMCLI_g24"
+        }
+    ],
+    "cambio_pp_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_25",
+            "public": "CAMCLI_g25"
+        }
+    ],
+    "pp_maximo_media_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_26",
+            "public": "CAMCLI_g26"
+        }
+    ],
+    "cambios_pp_maximo_media_1960_2010.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_27",
+            "public": "CAMCLI_g27"
+        }
+    ],
+    "sst_cambio_1982_2017.geojson": [
+        {
+            "private": "CAMCLI_7-1-1_28",
+            "public": "CAMCLI_g28"
+        }
+    ]
+}
