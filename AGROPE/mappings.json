@@ -1,0 +1,230 @@
+{
+    "participacion_agropecuario.csv": [
+        {
+            "private": "AGROPE_6-1-2_1",
+            "public": "AGROPE_g1"
+        }
+    ],
+    "pbi_agro.csv": [
+        {
+            "private": "AGROPE_6-1-2_2",
+            "public": "AGROPE_g2"
+        }
+    ],
+    "apertura_cuentas_actividad_agropecuaria.csv": [
+        {
+            "private": "AGROPE_6-1-2_3",
+            "public": "AGROPE_g3"
+        }
+    ],
+    "agro_global.csv": [
+        {
+            "private": "AGROPE_6-1-2_4",
+            "public": "AGROPE_g4"
+        }
+    ],
+    "agro_global_b.csv": [
+        {
+            "private": "AGROPE_6-1-2_5",
+            "public": "AGROPE_g5"
+        }
+    ],
+    "PBG_participacion_agro_provincia_evolucion.csv": [
+        {
+            "private": "AGROPE_6-1-2_6",
+            "public": "AGROPE_g6"
+        }
+    ],
+    "share_cultivos.csv": [
+        {
+            "private": "AGROPE_6-1-2_7",
+            "public": "AGROPE_g7"
+        }
+    ],
+    "produccion_principales_cultivos.csv": [
+        {
+            "private": "AGROPE_6-1-2_8",
+            "public": "AGROPE_g8"
+        }
+    ],
+    "superficie_sembrada_principales_cultivos.csv": [
+        {
+            "private": "AGROPE_6-1-2_9",
+            "public": "AGROPE_g9"
+        }
+    ],
+    "rindes_principales_cultivos.csv": [
+        {
+            "private": "AGROPE_6-1-2_10",
+            "public": "AGROPE_g10"
+        }
+    ],
+    "rindes_maiz_internacional.csv": [
+        {
+            "private": "AGROPE_6-1-2_11",
+            "public": "AGROPE_g11"
+        }
+    ],
+    "rindes_soja_internacional.csv": [
+        {
+            "private": "AGROPE_6-1-2_12",
+            "public": "AGROPE_g12"
+        }
+    ],
+    "rindes_trigo_internacional.csv": [
+        {
+            "private": "AGROPE_6-1-2_13",
+            "public": "AGROPE_g13"
+        }
+    ],
+    "superficie_agricultura_paises_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_14",
+            "public": "AGROPE_g14"
+        }
+    ],
+    "produccion_soja_paises_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_15",
+            "public": "AGROPE_g15"
+        }
+    ],
+    "produccion_maiz_paises_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_16",
+            "public": "AGROPE_g16"
+        }
+    ],
+    "produccion_carne_tipos_arg_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_17",
+            "public": "AGROPE_g17"
+        }
+    ],
+    "consumo_carne_tipos_arg_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_18",
+            "public": "AGROPE_g18"
+        }
+    ],
+    "consumo_carne_tipos_mundo_2020.csv": [
+        {
+            "private": "AGROPE_6-1-2_19",
+            "public": "AGROPE_g19"
+        }
+    ],
+    "produccion_global_carne_bovina_2021.csv": [
+        {
+            "private": "AGROPE_6-1-2_20",
+            "public": "AGROPE_g20"
+        }
+    ],
+    "produccion_global_carne_aviar_2021.csv": [
+        {
+            "private": "AGROPE_6-1-2_21",
+            "public": "AGROPE_g21"
+        }
+    ],
+    "produccion_global_carne_bovina_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_22",
+            "public": "AGROPE_g22"
+        }
+    ],
+    "share_carne_expo_paises_seleccionados_1962_2021.csv": [
+        {
+            "private": "AGROPE_6-1-2_23",
+            "public": "AGROPE_g23"
+        }
+    ],
+    "share_carne_expo_argentinas_1962_2021.csv": [
+        {
+            "private": "AGROPE_6-1-2_24",
+            "public": "AGROPE_g24"
+        }
+    ],
+    "stock_bovina_regiones_argentina.csv": [
+        {
+            "private": "AGROPE_6-1-2_26",
+            "public": "AGROPE_g25"
+        }
+    ],
+    "participacion_PIB_pesca_PIB_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_27",
+            "public": "AGROPE_g26"
+        }
+    ],
+    "pesca_especie_arg_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_28",
+            "public": "AGROPE_g27"
+        }
+    ],
+    "consumo_peces_percapita_global_2020.csv": [
+        {
+            "private": "AGROPE_6-1-2_29",
+            "public": "AGROPE_g28"
+        }
+    ],
+    "exportaciones_pesca_argentina_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_30",
+            "public": "AGROPE_g29"
+        }
+    ],
+    "produccion_acuicultura_argentina_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_31",
+            "public": "AGROPE_g30"
+        }
+    ],
+    "produccion_acuicultura_global_2021.csv": [
+        {
+            "private": "AGROPE_6-1-2_32",
+            "public": "AGROPE_g31"
+        }
+    ],
+    "participacion_CAA_PIB_arg_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_33",
+            "public": "AGROPE_g32"
+        }
+    ],
+    "participacion_tipos_CAA_VAB.csv": [
+        {
+            "private": "AGROPE_6-1-2_34",
+            "public": "AGROPE_g33"
+        }
+    ],
+    "evolucion_vab_constantes_tipo_cadenas.csv": [
+        {
+            "private": "AGROPE_6-1-2_35",
+            "public": "AGROPE_g34"
+        }
+    ],
+    "drawing_data.geojson": [
+        {
+            "private": "AGROPE_6-1-2_36",
+            "public": "AGROPE_g35"
+        }
+    ],
+    "insercion_internacional_CAA.csv": [
+        {
+            "private": "AGROPE_6-1-2_37",
+            "public": "AGROPE_g36"
+        }
+    ],
+    "comex_arg_agroindustria_MOA_PP_evo.csv": [
+        {
+            "private": "AGROPE_6-1-2_38",
+            "public": "AGROPE_g37"
+        }
+    ],
+    "indices_precios_exportacion.csv": [
+        {
+            "private": "AGROPE_6-1-2_39",
+            "public": "AGROPE_g38"
+        }
+    ]
+}
