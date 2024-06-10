@@ -1,0 +1,104 @@
+{
+    "matriz_prim_mundo_historic_larga.csv": [
+        {
+            "private": "TRANEN_1-1-2_1",
+            "public": "TRANEN_g1"
+        }
+    ],
+    "matriz_prim_mundo_historic.csv": [
+        {
+            "private": "TRANEN_1-1-2_2",
+            "public": "TRANEN_g2"
+        },
+        {
+            "private": "TRANEN_1-1-2_3",
+            "public": "TRANEN_g3"
+        },
+        {
+            "private": "TRANEN_1-1-2_5",
+            "public": "TRANEN_g5"
+        }
+    ],
+    "energia_baja_carbono.csv": [
+        {
+            "private": "TRANEN_1-1-2_4",
+            "public": "TRANEN_g4"
+        }
+    ],
+    "generacion_hidro_twh.csv": [
+        {
+            "private": "TRANEN_1-1-2_6",
+            "public": "TRANEN_g6"
+        }
+    ],
+    "generacion_nuclear_twh.csv": [
+        {
+            "private": "TRANEN_1-1-2_7",
+            "public": "TRANEN_g7"
+        }
+    ],
+    "capacidad_instalada_fv_gw.csv": [
+        {
+            "private": "TRANEN_1-1-2_8",
+            "public": "TRANEN_g8"
+        }
+    ],
+    "capacidad_instalada_eolica_gw.csv": [
+        {
+            "private": "TRANEN_1-1-2_9",
+            "public": "TRANEN_g9"
+        }
+    ],
+    "produccion_biocomb.csv": [
+        {
+            "private": "TRANEN_1-1-2_10",
+            "public": "TRANEN_g10"
+        }
+    ],
+    "produc_electricidad_fuente_mundo_twh.csv": [
+        {
+            "private": "TRANEN_1-1-2_11",
+            "public": "TRANEN_g11"
+        },
+        {
+            "private": "TRANEN_1-1-2_12",
+            "public": "TRANEN_g12"
+        },
+        {
+            "private": "TRANEN_1-1-2_13",
+            "public": "TRANEN_g13"
+        }
+    ],
+    "potencia_instalada_renov_regional.csv": [
+        {
+            "private": "TRANEN_1-1-2_14",
+            "public": "TRANEN_g14"
+        }
+    ],
+    "identidad_kaya_mundo.csv": [
+        {
+            "private": "TRANEN_1-1-2_15",
+            "public": "TRANEN_g15"
+        },
+        {
+            "private": "TRANEN_1-1-2_16",
+            "public": "TRANEN_g16"
+        }
+    ],
+    "intensidad_energ_mundo.csv": [
+        {
+            "private": "TRANEN_1-1-2_17",
+            "public": "TRANEN_g17"
+        }
+    ],
+    "intensidad_carbono_electri_mundo.csv": [
+        {
+            "private": "TRANEN_1-1-2_18",
+            "public": "TRANEN_g18"
+        },
+        {
+            "private": "TRANEN_1-1-2_19",
+            "public": "TRANEN_g19"
+        }
+    ]
+}
