@@ -1,0 +1,108 @@
+{
+    "indice_desarrollo_humano.csv": [
+        {
+            "private": "DESHUM_4-2-2_1",
+            "public": "DESHUM_g01"
+        },
+        {
+            "private": "DESHUM_4-2-2_2",
+            "public": "DESHUM_g02"
+        },
+        {
+            "private": "DESHUM_4-2-2_3",
+            "public": "DESHUM_g03"
+        }
+    ],
+    "expectativa_vida.csv": [
+        {
+            "private": "DESHUM_4-2-2_4",
+            "public": "DESHUM_g04"
+        }
+    ],
+    "inb_pc.csv": [
+        {
+            "private": "DESHUM_4-2-2_5",
+            "public": "DESHUM_g05"
+        }
+    ],
+    "anios_prom_educ.csv": [
+        {
+            "private": "DESHUM_4-2-2_6",
+            "public": "DESHUM_g06"
+        }
+    ],
+    "expectativa_educ.csv": [
+        {
+            "private": "DESHUM_4-2-2_7",
+            "public": "DESHUM_g07"
+        }
+    ],
+    "idh_subcomponentes.csv": [
+        {
+            "private": "DESHUM_4-2-2_8",
+            "public": "DESHUM_g08"
+        }
+    ],
+    "idh_idhd.csv": [
+        {
+            "private": "DESHUM_4-2-2_9",
+            "public": "DESHUM_g09"
+        }
+    ],
+    "indice_desarrollo_humano_desigualdad.csv": [
+        {
+            "private": "DESHUM_4-2-2_10",
+            "public": "DESHUM_g10"
+        }
+    ],
+    "gdi.csv": [
+        {
+            "private": "DESHUM_4-2-2_11",
+            "public": "DESHUM_g11"
+        }
+    ],
+    "idh_sexo.csv": [
+        {
+            "private": "DESHUM_4-2-2_12",
+            "public": "DESHUM_g12"
+        }
+    ],
+    "idh_dif_idhp.csv": [
+        {
+            "private": "DESHUM_4-2-2_13",
+            "public": "DESHUM_g13"
+        }
+    ],
+    "ranking_diferencia_idh_idhp_2022_flourish.csv": [
+        {
+            "private": "DESHUM_4-2-2_14",
+            "public": "DESHUM_g14"
+        }
+    ],
+    "idh_idhp.csv": [
+        {
+            "private": "DESHUM_4-2-2_15",
+            "public": "DESHUM_g15"
+        }
+    ],
+    "idha_subindices.csv": [
+        {
+            "private": "DESHUM_4-2-2_16",
+            "public": "DESHUM_g16"
+        }
+    ],
+    "idha.csv": [
+        {
+            "private": "DESHUM_4-2-2_17",
+            "public": "DESHUM_g17"
+        },
+        {
+            "private": "DESHUM_4-2-2_18",
+            "public": "DESHUM_g18"
+        },
+        {
+            "private": "DESHUM_4-2-2_19",
+            "public": "DESHUM_g19"
+        }
+    ]
+}
