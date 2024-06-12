@@ -2,55 +2,55 @@
     "ISA_desigualdad_i1.csv": [
         {
             "private": "DESIGU_4-3-1_1",
-            "public": "DESIGU_g1"
+            "public": "DESIGU_g01"
         }
     ],
     "ISA_desigualdad_i2.csv": [
         {
             "private": "DESIGU_4-3-1_2",
-            "public": "DESIGU_g2"
+            "public": "DESIGU_g02"
         }
     ],
     "ISA_desigualdad_i3.csv": [
         {
             "private": "DESIGU_4-3-1_3",
-            "public": "DESIGU_g3"
+            "public": "DESIGU_g03"
         }
     ],
     "ISA_mundo_i1.csv": [
         {
             "private": "DESIGU_4-3-1_4",
-            "public": "DESIGU_g4"
+            "public": "DESIGU_g04"
         }
     ],
     "ISA_mundo_i2.csv": [
         {
             "private": "DESIGU_4-3-1_5",
-            "public": "DESIGU_g5"
+            "public": "DESIGU_g05"
         }
     ],
     "ISA_mundo_i3.csv": [
         {
             "private": "DESIGU_4-3-1_6",
-            "public": "DESIGU_g6"
+            "public": "DESIGU_g06"
         }
     ],
     "ISA_movilidad_i1.csv": [
         {
             "private": "DESIGU_4-3-1_7",
-            "public": "DESIGU_g7"
+            "public": "DESIGU_g07"
         }
     ],
     "ISA_movilidad_i2.csv": [
         {
             "private": "DESIGU_4-3-1_8",
-            "public": "DESIGU_g8"
+            "public": "DESIGU_g08"
         }
     ],
     "ISA_desigualdad_laboral_i1.csv": [
         {
             "private": "DESIGU_4-3-1_9",
-            "public": "DESIGU_g9"
+            "public": "DESIGU_g09"
         }
     ],
     "ISA_desigualdad_laboral_i2.csv": [
