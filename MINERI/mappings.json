@@ -2,61 +2,65 @@
     "pbi_minero.csv": [
         {
             "private": "MINERI_6-1-1_1",
-            "public": "MINERI_g1"
+            "public": "MINERI_g01"
         }
     ],
     "minerales_vbp_mundial.csv": [
         {
             "private": "MINERI_6-1-1_2",
-            "public": "MINERI_g2"
+            "public": "MINERI_g02"
         }
     ],
     "expo_por_sectores.csv": [
         {
             "private": "MINERI_6-1-1_3",
-            "public": "MINERI_g3"
+            "public": "MINERI_g03"
         }
     ],
     "expo_mineras_por_grupo.csv": [
         {
             "private": "MINERI_6-1-1_4",
-            "public": "MINERI_g4"
+            "public": "MINERI_g04"
         }
     ],
     "importaciones_por_sector.csv": [
         {
             "private": "MINERI_6-1-1_5",
-            "public": "MINERI_g5"
+            "public": "MINERI_g05"
         }
     ],
     "importaciones_por_grupo.csv": [
         {
             "private": "MINERI_6-1-1_6",
-            "public": "MINERI_g6"
+            "public": "MINERI_g06"
         }
     ],
     "balanza_comercial_minera.csv": [
         {
             "private": "MINERI_6-1-1_7",
-            "public": "MINERI_g7"
+            "public": "MINERI_g07"
         }
     ],
     "precios_metales.csv": [
         {
             "private": "MINERI_6-1-1_8",
-            "public": "MINERI_g8"
+            "public": "MINERI_g08"
         }
     ],
     "precios_metales_real.csv": [
         {
             "private": "MINERI_6-1-1_9",
-            "public": "MINERI_g9"
+            "public": "MINERI_g09"
         }
     ],
     "peso_va_min_por_provincia.csv": [
         {
             "private": "MINERI_6-1-1_10",
             "public": "MINERI_g10"
+        },
+        {
+            "private": "MINERI_6-1-1_23",
+            "public": "MINERI_g23"
         }
     ],
     "dist_provincial_pbi_minero.csv": [
@@ -134,7 +138,7 @@
     "ranking_minerales_argentina.csv": [
         {
             "private": "MINERI_6-1-1_tabla 1",
-            "public": "MINERI_g23"
+            "public": "MINERI_g24"
         }
     ]
 }
