@@ -2,55 +2,55 @@
     "1_composicion_ipc_argentina.csv": [
         {
             "private": "PRECIO_2-1-6_1",
-            "public": "PRECIO_g1"
+            "public": "PRECIO_g01"
         }
     ],
     "2_composicion_ipc_por_regiones_argentinas.csv": [
         {
             "private": "PRECIO_2-1-6_2",
-            "public": "PRECIO_g2"
+            "public": "PRECIO_g02"
         }
     ],
     "3_tasa_de_inflacion_anual_argentina_1935_2022.csv": [
         {
             "private": "PRECIO_2-1-6_3",
-            "public": "PRECIO_g3"
+            "public": "PRECIO_g03"
         }
     ],
     "4_tasa_de_inflacion_anual_paises_promedio_2007_2022.csv": [
         {
             "private": "PRECIO_2-1-6_4",
-            "public": "PRECIO_g4"
+            "public": "PRECIO_g04"
         }
     ],
     "5_tasa_de_inflacion_anual_paises_2000_2022.csv": [
         {
             "private": "PRECIO_2-1-6_5",
-            "public": "PRECIO_g5"
+            "public": "PRECIO_g05"
         }
     ],
     "6_comparacion_inflacion_mediana_latam_altosing_1980_2022.csv": [
         {
             "private": "PRECIO_2-1-6_6",
-            "public": "PRECIO_g6"
+            "public": "PRECIO_g06"
         }
     ],
     "7_comparacion_inflacion_mediana_argentina_latam_1992_2022.csv": [
         {
             "private": "PRECIO_2-1-6_7",
-            "public": "PRECIO_g7"
+            "public": "PRECIO_g07"
         }
     ],
     "8_evol_precios_aperturas_relativos_a_evol_precios_generales_argentina_1947_2022.csv": [
         {
             "private": "PRECIO_2-1-6_8",
-            "public": "PRECIO_g8"
+            "public": "PRECIO_g08"
         }
     ],
     "9_inflacion_acumulada_argentina_dic2001_dic2002.csv": [
         {
             "private": "PRECIO_2-1-6_9",
-            "public": "PRECIO_g9"
+            "public": "PRECIO_g09"
         }
     ],
     "10_tasa_trimestral_inflacion_y_pib_desestacionalizado_argentina_1984_1988.csv": [
@@ -69,6 +69,36 @@
         {
             "private": "PRECIO_2-1-6_12",
             "public": "PRECIO_g12"
+        }
+    ],
+    "ponderadores_engho_evolucion.csv": [
+        {
+            "private": "PRECIO_2-1-6_13",
+            "public": "PRECIO_g13"
+        }
+    ],
+    "precios_relativos_caba_empalmada.csv": [
+        {
+            "private": "PRECIO_2-1-6_14",
+            "public": "PRECIO_g14"
+        }
+    ],
+    "precios_relativos_empalmada.csv": [
+        {
+            "private": "PRECIO_2-1-6_15",
+            "public": "PRECIO_g15"
+        }
+    ],
+    "tasa_de_inflacion_anual_argentina_1935_2022_escala_lineal.csv": [
+        {
+            "private": "PRECIO_2-1-6_16",
+            "public": "PRECIO_g16"
+        }
+    ],
+    "tasa_de_inflacion_anual_argentina_1935_2022_valores_positivos.csv": [
+        {
+            "private": "PRECIO_2-1-6_17",
+            "public": "PRECIO_g17"
         }
     ]
 }
