@@ -1,0 +1,146 @@
+{
+    "particip_sector_vab.csv": [
+        {
+            "private": "ESTPRO_4-2-3_1",
+            "public": "ESTPRO_g01"
+        }
+    ],
+    "vab_por_sector.csv": [
+        {
+            "private": "ESTPRO_4-2-3_2",
+            "public": "ESTPRO_g02"
+        }
+    ],
+    "va_sectorial_pais_bys.csv": [
+        {
+            "private": "ESTPRO_4-2-3_3",
+            "public": "ESTPRO_g03"
+        }
+    ],
+    "va_sectorial_pais.csv": [
+        {
+            "private": "ESTPRO_4-2-3_4",
+            "public": "ESTPRO_g04"
+        }
+    ],
+    "particip_va_intensivos_id_bys.csv": [
+        {
+            "private": "ESTPRO_4-2-3_5",
+            "public": "ESTPRO_g05"
+        }
+    ],
+    "particip_sectorial_empleo.csv": [
+        {
+            "private": "ESTPRO_4-2-3_6",
+            "public": "ESTPRO_g06"
+        }
+    ],
+    "particip_sectorial_empleoyvab.csv": [
+        {
+            "private": "ESTPRO_4-2-3_7",
+            "public": "ESTPRO_g07"
+        }
+    ],
+    "empleo_sectores_ggdc_1950_2018.csv": [
+        {
+            "private": "ESTPRO_4-2-3_8",
+            "public": "ESTPRO_g08"
+        }
+    ],
+    "empn_tim_ocde.csv": [
+        {
+            "private": "ESTPRO_4-2-3_9",
+            "public": "ESTPRO_g09"
+        }
+    ],
+    "particip_calificados_sector.csv": [
+        {
+            "private": "ESTPRO_4-2-3_10",
+            "public": "ESTPRO_g10"
+        }
+    ],
+    "particip_mujer_varon.csv": [
+        {
+            "private": "ESTPRO_4-2-3_11",
+            "public": "ESTPRO_g11"
+        }
+    ],
+    "particip_mujer.csv": [
+        {
+            "private": "ESTPRO_4-2-3_12",
+            "public": "ESTPRO_g12"
+        }
+    ],
+    "vab_sectorial_granregion.csv": [
+        {
+            "private": "ESTPRO_4-2-3_13",
+            "public": "ESTPRO_g13"
+        }
+    ],
+    "vab_sectorial_provincia.csv": [
+        {
+            "private": "ESTPRO_4-2-3_14",
+            "public": "ESTPRO_g14"
+        }
+    ],
+    "productividad_internacional.csv": [
+        {
+            "private": "ESTPRO_4-2-3_15",
+            "public": "ESTPRO_g15"
+        }
+    ],
+    "pib_por_ocupado.csv": [
+        {
+            "private": "ESTPRO_4-2-3_16",
+            "public": "ESTPRO_g16"
+        }
+    ],
+    "va_por_trabajador.csv": [
+        {
+            "private": "ESTPRO_4-2-3_17",
+            "public": "ESTPRO_g17"
+        }
+    ],
+    "va_por_trabajador_pais.csv": [
+        {
+            "private": "ESTPRO_4-2-3_18",
+            "public": "ESTPRO_g18"
+        }
+    ],
+    "empresas_nacional.csv": [
+        {
+            "private": "ESTPRO_4-2-3_19",
+            "public": "ESTPRO_g19"
+        }
+    ],
+    "sector_escala.csv": [
+        {
+            "private": "ESTPRO_4-2-3_20",
+            "public": "ESTPRO_g20"
+        }
+    ],
+    "escala_salarios.csv": [
+        {
+            "private": "ESTPRO_4-2-3_21",
+            "public": "ESTPRO_g21"
+        }
+    ],
+    "densidad_empresarial_depto.csv": [
+        {
+            "private": "ESTPRO_4-2-3_22",
+            "public": "ESTPRO_g22"
+        }
+    ],
+    "tasa_informalidad_tamanio_empresa.csv": [
+        {
+            "private": "ESTPRO_4-2-3_23",
+            "public": "ESTPRO_g23"
+        }
+    ],
+    "densidad_nbi.csv": [
+        {
+            "private": "ESTPRO_4-2-3_24",
+            "public": "ESTPRO_g24"
+        }
+    ]
+}
