@@ -2,51 +2,51 @@
     "matriz_prim_mundo_historic_larga.csv": [
         {
             "private": "TRANEN_1-1-2_1",
-            "public": "TRANEN_g1"
+            "public": "TRANEN_g01"
         }
     ],
     "matriz_prim_mundo_historic.csv": [
         {
             "private": "TRANEN_1-1-2_2",
-            "public": "TRANEN_g2"
+            "public": "TRANEN_g02"
         },
         {
             "private": "TRANEN_1-1-2_3",
-            "public": "TRANEN_g3"
+            "public": "TRANEN_g03"
         },
         {
             "private": "TRANEN_1-1-2_5",
-            "public": "TRANEN_g5"
+            "public": "TRANEN_g05"
         }
     ],
     "energia_baja_carbono.csv": [
         {
             "private": "TRANEN_1-1-2_4",
-            "public": "TRANEN_g4"
+            "public": "TRANEN_g04"
         }
     ],
     "generacion_hidro_twh.csv": [
         {
             "private": "TRANEN_1-1-2_6",
-            "public": "TRANEN_g6"
+            "public": "TRANEN_g06"
         }
     ],
     "generacion_nuclear_twh.csv": [
         {
             "private": "TRANEN_1-1-2_7",
-            "public": "TRANEN_g7"
+            "public": "TRANEN_g07"
         }
     ],
     "capacidad_instalada_fv_gw.csv": [
         {
             "private": "TRANEN_1-1-2_8",
-            "public": "TRANEN_g8"
+            "public": "TRANEN_g08"
         }
     ],
     "capacidad_instalada_eolica_gw.csv": [
         {
             "private": "TRANEN_1-1-2_9",
-            "public": "TRANEN_g9"
+            "public": "TRANEN_g09"
         }
     ],
     "produccion_biocomb.csv": [
