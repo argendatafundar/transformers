@@ -57,18 +57,34 @@
         {
             "private": "CRECIM_4-2-1_15",
             "public": "CRECIM_g15"
+        },
+        {
+            "private": "CRECIM_4-2-1_26",
+            "public": "CRECIM_g26"
+        },
+        {
+            "private": "CRECIM_4-2-1_27",
+            "public": "CRECIM_g27"
         }
     ],
     "pib_per_capita_historico_cambio_1900.csv": [
         {
             "private": "CRECIM_4-2-1_10",
             "public": "CRECIM_g10"
+        },
+        {
+            "private": "CRECIM_4-2-1_28",
+            "public": "CRECIM_g28"
         }
     ],
     "pib_per_capita_historico.csv": [
         {
             "private": "CRECIM_4-2-1_11",
             "public": "CRECIM_g11"
+        },
+        {
+            "private": "CRECIM_4-2-1_29",
+            "public": "CRECIM_g29"
         }
     ],
     "pib_pc_cambio_1975.csv": [
