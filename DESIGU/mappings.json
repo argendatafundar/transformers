@@ -142,5 +142,11 @@
             "private": "DESIGU_4-3-1_24",
             "public": "DESIGU_g24"
         }
+    ],
+    "brecha_horas_trabajadas_genero.csv": [
+        {
+            "private": "DESIGU_4-3-1_25",
+            "public": "DESIGU_g25"
+        }
     ]
 }
