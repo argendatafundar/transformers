@@ -4,15 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tipo_auto': 'serie', 'mineral_critico': 'indicador', 'mineral_utilizado_kg_por_vehiculo': 'valor'})
+rename_columns(tipo_auto='categoria', mineral_critico='indicador', mineral_utilizado_kg_por_vehiculo='valor')
 )
 #  PIPELINE_END
 
@@ -32,16 +32,16 @@ rename_cols(map={'tipo_auto': 'serie', 'mineral_critico': 'indicador', 'mineral_
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tipo_auto': 'serie', 'mineral_critico': 'indicador', 'mineral_utilizado_kg_por_vehiculo': 'valor'})
+#  rename_columns(tipo_auto='categoria', mineral_critico='indicador', mineral_utilizado_kg_por_vehiculo='valor')
 #  RangeIndex: 18 entries, 0 to 17
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   serie      18 non-null     object 
+#   0   categoria  18 non-null     object 
 #   1   indicador  18 non-null     object 
 #   2   valor      18 non-null     float64
 #  
-#  |    | serie          | indicador   |   valor |
+#  |    | categoria      | indicador   |   valor |
 #  |---:|:---------------|:------------|--------:|
 #  |  0 | auto_electrico | cobre       |    53.2 |
 #  
