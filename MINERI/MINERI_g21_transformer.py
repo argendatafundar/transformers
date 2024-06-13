@@ -4,15 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tipo_energia': 'serie', 'mineral_critico': 'indicador', 'mineral_utilizado': 'valor'})
+rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_utilizado='valor')
 )
 #  PIPELINE_END
 
@@ -32,16 +32,16 @@ rename_cols(map={'tipo_energia': 'serie', 'mineral_critico': 'indicador', 'miner
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tipo_energia': 'serie', 'mineral_critico': 'indicador', 'mineral_utilizado': 'valor'})
+#  rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_utilizado='valor')
 #  RangeIndex: 60 entries, 0 to 59
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   serie      60 non-null     object 
+#   0   categoria  60 non-null     object 
 #   1   indicador  60 non-null     object 
 #   2   valor      60 non-null     float64
 #  
-#  |    | serie           | indicador   |   valor |
+#  |    | categoria       | indicador   |   valor |
 #  |---:|:----------------|:------------|--------:|
 #  |  0 | eolica_offshore | cobre       |    8000 |
 #  
