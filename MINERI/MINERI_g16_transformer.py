@@ -4,15 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'indicador', 'tasa_feminizacion': 'valor'})
+rename_columns(sector='categoria', tasa_feminizacion='valor')
 )
 #  PIPELINE_END
 
@@ -31,15 +31,15 @@ rename_cols(map={'sector': 'indicador', 'tasa_feminizacion': 'valor'})
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'sector': 'indicador', 'tasa_feminizacion': 'valor'})
+#  rename_columns(sector='categoria', tasa_feminizacion='valor')
 #  RangeIndex: 14 entries, 0 to 13
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  14 non-null     object 
+#   0   categoria  14 non-null     object 
 #   1   valor      14 non-null     float64
 #  
-#  |    | indicador   |   valor |
+#  |    | categoria   |   valor |
 #  |---:|:------------|--------:|
 #  |  0 | Enseñanza   |    72.8 |
 #  
