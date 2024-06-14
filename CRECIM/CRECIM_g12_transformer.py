@@ -19,6 +19,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -27,7 +32,8 @@ pipeline = chain(
 drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -99,6 +105,21 @@ drop_col(col='continente_fundar', axis=1),
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'})
+#  RangeIndex: 7482 entries, 0 to 7481
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7482 non-null   object 
+#   1   anio       7482 non-null   int64  
+#   2   valor      7482 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1975 |       0 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 7482 entries, 0 to 7481
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
