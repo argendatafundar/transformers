@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(grupo_de_paises='grupo', mediana_paises_inflacion='valor')
+rename_columns(grupo_de_paises='categoria', mediana_paises_inflacion='valor')
 )
 #  PIPELINE_END
 
@@ -32,16 +32,16 @@ rename_columns(grupo_de_paises='grupo', mediana_paises_inflacion='valor')
 #  
 #  ------------------------------
 #  
-#  rename_columns(grupo_de_paises='grupo', mediana_paises_inflacion='valor')
+#  rename_columns(grupo_de_paises='categoria', mediana_paises_inflacion='valor')
 #  RangeIndex: 88 entries, 0 to 87
 #  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   grupo   88 non-null     object 
-#   1   anio    88 non-null     int64  
-#   2   valor   88 non-null     float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  88 non-null     object 
+#   1   anio       88 non-null     int64  
+#   2   valor      88 non-null     float64
 #  
-#  |    | grupo                   |   anio |   valor |
+#  |    | categoria               |   anio |   valor |
 #  |---:|:------------------------|-------:|--------:|
 #  |  0 | América Latina y Caribe |   1980 |  21.206 |
 #  
