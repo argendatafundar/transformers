@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(pais_o_grupo_de_paises='grupo', mediana_paises_inflacion='valor')
+rename_columns(pais_o_grupo_de_paises='categoria', mediana_paises_inflacion='valor')
 )
 #  PIPELINE_END
 
@@ -32,18 +32,18 @@ rename_columns(pais_o_grupo_de_paises='grupo', mediana_paises_inflacion='valor')
 #  
 #  ------------------------------
 #  
-#  rename_columns(pais_o_grupo_de_paises='grupo', mediana_paises_inflacion='valor')
+#  rename_columns(pais_o_grupo_de_paises='categoria', mediana_paises_inflacion='valor')
 #  RangeIndex: 64 entries, 0 to 63
 #  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    64 non-null     int64  
-#   1   valor   64 non-null     float64
-#   2   grupo   64 non-null     object 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       64 non-null     int64  
+#   1   valor      64 non-null     float64
+#   2   categoria  64 non-null     object 
 #  
-#  |    |   anio |   valor | grupo     |
-#  |---:|-------:|--------:|:----------|
-#  |  0 |   1992 | 17.5459 | Argentina |
+#  |    |   anio |   valor | categoria   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1992 | 17.5459 | Argentina   |
 #  
 #  ------------------------------
 #  
