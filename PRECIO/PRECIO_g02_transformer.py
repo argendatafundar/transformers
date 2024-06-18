@@ -4,8 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_columns(df: DataFrame, **kwargs):
-    df = df.rename(columns=kwargs)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -47,11 +47,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(region='geocodigo', sector='indicador'),
+rename_cols(map={'region': 'geocodigo', 'sector': 'indicador'}),
 	replace_value(col='geocodigo', curr_value='Nacional', new_value='AR-NAC'),
-	replace_value(col='geocodigo', curr_value='Gran Buenos Aires', new_value='AR-GBA'),
-	replace_value(col='geocodigo', curr_value='Noroeste argentino', new_value='AR-NOA'),
-	replace_value(col='geocodigo', curr_value='Noreste Argentino', new_value='AR-NEA'),
+	replace_value(col='geocodigo', curr_value='GBA', new_value='AR-GBA'),
+	replace_value(col='geocodigo', curr_value='NOA', new_value='AR-NOA'),
+	replace_value(col='geocodigo', curr_value='NEA', new_value='AR-NEA'),
 	replace_value(col='geocodigo', curr_value='Pampeana', new_value='AR-PAM'),
 	replace_value(col='geocodigo', curr_value='Cuyo', new_value='AR-CUY'),
 	replace_value(col='geocodigo', curr_value='Patagonia', new_value='AR-PAT')
@@ -74,7 +74,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  ------------------------------
 #  
-#  rename_columns(region='geocodigo', sector='indicador')
+#  rename_cols(map={'region': 'geocodigo', 'sector': 'indicador'})
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -104,7 +104,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='geocodigo', curr_value='Gran Buenos Aires', new_value='AR-GBA')
+#  replace_value(col='geocodigo', curr_value='GBA', new_value='AR-GBA')
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -115,11 +115,11 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='geocodigo', curr_value='Noroeste argentino', new_value='AR-NOA')
+#  replace_value(col='geocodigo', curr_value='NOA', new_value='AR-NOA')
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -130,11 +130,11 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='geocodigo', curr_value='Noreste Argentino', new_value='AR-NEA')
+#  replace_value(col='geocodigo', curr_value='NEA', new_value='AR-NEA')
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -145,7 +145,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -160,7 +160,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -175,7 +175,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -190,7 +190,7 @@ rename_columns(region='geocodigo', sector='indicador'),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
