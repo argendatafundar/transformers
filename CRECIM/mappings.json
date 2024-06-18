@@ -65,6 +65,10 @@
         {
             "private": "CRECIM_4-2-1_27",
             "public": "CRECIM_g27"
+        },
+        {
+            "private": "CRECIM_4-2-1_30",
+            "public": "CRECIM_g30"
         }
     ],
     "pib_per_capita_historico_cambio_1900.csv": [
@@ -103,6 +107,10 @@
         {
             "private": "CRECIM_4-2-1_16",
             "public": "CRECIM_g16"
+        },
+        {
+            "private": "CRECIM_4-2-1_31",
+            "public": "CRECIM_g31"
         }
     ],
     "pib_pc_cambio_2011.csv": [
