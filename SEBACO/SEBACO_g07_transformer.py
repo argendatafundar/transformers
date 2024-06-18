@@ -48,10 +48,10 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 replace_value(col='provincia', curr_value='CABA', new_value='AR-C'),
-	replace_value(col='provincia', curr_value='Córdoba', new_value='AR-X'),
+	replace_value(col='provincia', curr_value='CÃ³rdoba', new_value='AR-X'),
 	replace_value(col='provincia', curr_value='GBA', new_value='AR-GBA'),
-	replace_value(col='provincia', curr_value='Resto', new_value='AR-RESTO-SEBACO'),
-	replace_value(col='provincia', curr_value='Resto de Buenos Aires', new_value='AR-B-RESTO-SEBACO'),
+	replace_value(col='provincia', curr_value='Resto', new_value='SEBACO_AR-RESTO'),
+	replace_value(col='provincia', curr_value='Resto de Buenos Aires', new_value='SEBACO_AR-B-RESTO'),
 	replace_value(col='provincia', curr_value='Santa Fe', new_value='AR-S'),
 	rename_cols(map={'provincia': 'geocodigo'}),
 	rename_cols(map={'prop': 'valor'})
@@ -89,7 +89,7 @@ replace_value(col='provincia', curr_value='CABA', new_value='AR-C'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='provincia', curr_value='Córdoba', new_value='AR-X')
+#  replace_value(col='provincia', curr_value='CÃ³rdoba', new_value='AR-X')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -119,7 +119,7 @@ replace_value(col='provincia', curr_value='CABA', new_value='AR-C'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='provincia', curr_value='Resto', new_value='AR-RESTO-SEBACO')
+#  replace_value(col='provincia', curr_value='Resto', new_value='SEBACO_AR-RESTO')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -134,7 +134,7 @@ replace_value(col='provincia', curr_value='CABA', new_value='AR-C'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='provincia', curr_value='Resto de Buenos Aires', new_value='AR-B-RESTO-SEBACO')
+#  replace_value(col='provincia', curr_value='Resto de Buenos Aires', new_value='SEBACO_AR-B-RESTO')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
