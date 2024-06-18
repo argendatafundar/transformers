@@ -1,1 +1,153 @@
-{"SEBACO_g01": "01_ventas_afip.csv", "SEBACO_g02": "02_vbp_ssi_fundar.csv", "SEBACO_g03": "03_vab_indec.csv", "SEBACO_g04": "04_exportacion_sbc.csv", "SEBACO_g05": "05_empleo_sbc_oede.csv", "SEBACO_g06": "06_empleo_sbc_provincia.csv", "SEBACO_g07": "07_empleo_sbc_provincias_princ.csv", "SEBACO_g08": "08_i_d_sbc.csv", "SEBACO_g09": "09_composicion_sbc_rama.csv", "SEBACO_g10": "10_empleo_x_rama_y_prop.csv", "SEBACO_g11": "11_ocupados_x_condicion.csv", "SEBACO_g12": "12_salarios_sbc_y_desagregado.csv", "SEBACO_g13": "13_ocupados_x_niveled.csv", "SEBACO_g14": "14_participacion_femenina_sbc.csv", "SEBACO_g15": "15_participacion_femenina_ssi.csv", "SEBACO_g16": "16_brecha_salarial_ssi.csv", "SEBACO_g17": "17_tasa_teletrabajo.csv", "SEBACO_g18": "18_expo_impo_saldo_x_sector.csv", "SEBACO_g19": "19_saldo_comex_x_sector.csv", "SEBACO_g20": "20_composicion_expo_sbc.csv", "SEBACO_g21": "21_exportaciones_ssi.csv", "SEBACO_g22": "22_participacion_expo_sbc.csv", "SEBACO_g23": "23_participacion_expo_ssi.csv", "SEBACO_g24": "24_expo_x_socio_comercial_arg.csv", "SEBACO_g25": "25_impo_x_socio_comercial_arg.csv"}
+
+{
+    "01_ventas_afip.csv": [
+        {
+            "private": "SEBACO_5-1-2_1",
+            "public": "SEBACO_g01"
+        }
+    ],
+    "02_vbp_ssi_fundar.csv": [
+        {
+            "private": "SEBACO_5-1-2_2",
+            "public": "SEBACO_g02"
+        }
+    ],
+    "03_vab_indec.csv": [
+        {
+            "private": "SEBACO_5-1-2_3",
+            "public": "SEBACO_g03"
+        }
+    ],
+    "04_exportacion_sbc.csv": [
+        {
+            "private": "SEBACO_5-1-2_4",
+            "public": "SEBACO_g04"
+        }
+    ],
+    "05_empleo_sbc_oede.csv": [
+        {
+            "private": "SEBACO_5-1-2_5",
+            "public": "SEBACO_g05"
+        }
+    ],
+    "06_empleo_sbc_provincia.csv": [
+        {
+            "private": "SEBACO_5-1-2_6",
+            "public": "SEBACO_g06"
+        }
+    ],
+    "07_empleo_sbc_provincias_princ.csv": [
+        {
+            "private": "SEBACO_5-1-2_7",
+            "public": "SEBACO_g07"
+        }
+    ],
+    "08_i_d_sbc.csv": [
+        {
+            "private": "SEBACO_5-1-2_8",
+            "public": "SEBACO_g08"
+        }
+    ],
+    "09_composicion_sbc_rama.csv": [
+        {
+            "private": "SEBACO_5-1-2_9",
+            "public": "SEBACO_g09"
+        }
+    ],
+    "10_empleo_x_rama_y_prop.csv": [
+        {
+            "private": "SEBACO_5-1-2_10",
+            "public": "SEBACO_g10"
+        }
+    ],
+    "11_ocupados_x_condicion.csv": [
+        {
+            "private": "SEBACO_5-1-2_11",
+            "public": "SEBACO_g11"
+        }
+    ],
+    "12_salarios_sbc_y_desagregado.csv": [
+        {
+            "private": "SEBACO_5-1-2_12",
+            "public": "SEBACO_g12"
+        }
+    ],
+    "13_ocupados_x_niveled.csv": [
+        {
+            "private": "SEBACO_5-1-2_13",
+            "public": "SEBACO_g13"
+        }
+    ],
+    "14_participacion_femenina_sbc.csv": [
+        {
+            "private": "SEBACO_5-1-2_14",
+            "public": "SEBACO_g14"
+        }
+    ],
+    "15_participacion_femenina_ssi.csv": [
+        {
+            "private": "SEBACO_5-1-2_15",
+            "public": "SEBACO_g15"
+        }
+    ],
+    "16_brecha_salarial_ssi.csv": [
+        {
+            "private": "SEBACO_5-1-2_16",
+            "public": "SEBACO_g16"
+        }
+    ],
+    "17_tasa_teletrabajo.csv": [
+        {
+            "private": "SEBACO_5-1-2_17",
+            "public": "SEBACO_g17"
+        }
+    ],
+    "18_expo_impo_saldo_x_sector.csv": [
+        {
+            "private": "SEBACO_5-1-2_18",
+            "public": "SEBACO_g18"
+        }
+    ],
+    "19_saldo_comex_x_sector.csv": [
+        {
+            "private": "SEBACO_5-1-2_19",
+            "public": "SEBACO_g19"
+        }
+    ],
+    "20_composicion_expo_sbc.csv": [
+        {
+            "private": "SEBACO_5-1-2_20",
+            "public": "SEBACO_g20"
+        }
+    ],
+    "21_exportaciones_ssi.csv": [
+        {
+            "private": "SEBACO_5-1-2_21",
+            "public": "SEBACO_g21"
+        }
+    ],
+    "22_participacion_expo_sbc.csv": [
+        {
+            "private": "SEBACO_5-1-2_22",
+            "public": "SEBACO_g22"
+        }
+    ],
+    "23_participacion_expo_ssi.csv": [
+        {
+            "private": "SEBACO_5-1-2_23",
+            "public": "SEBACO_g23"
+        }
+    ],
+    "24_expo_x_socio_comercial_arg.csv": [
+        {
+            "private": "SEBACO_5-1-2_24",
+            "public": "SEBACO_g24"
+        }
+    ],
+    "25_impo_x_socio_comercial_arg.csv": [
+        {
+            "private": "SEBACO_5-1-2_25",
+            "public": "SEBACO_g25"
+        }
+    ]
+}
