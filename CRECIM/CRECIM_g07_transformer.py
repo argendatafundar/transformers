@@ -28,6 +28,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -38,7 +43,8 @@ query(condition="iso3 == 'ARG'"),
 	drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
-	rename_cols(map={'participacion': 'valor'})
+	rename_cols(map={'participacion': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -149,9 +155,23 @@ query(condition="iso3 == 'ARG'"),
 #   0   anio    16 non-null     int64  
 #   1   valor   16 non-null     float64
 #  
-#  |    |   anio |     valor |
-#  |---:|-------:|----------:|
-#  | 42 |   1820 | 0.0007462 |
+#  |    |   anio |   valor |
+#  |---:|-------:|--------:|
+#  | 42 |   1820 | 0.07462 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 16 entries, 42 to 57
+#  Data columns (total 2 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    16 non-null     int64  
+#   1   valor   16 non-null     float64
+#  
+#  |    |   anio |   valor |
+#  |---:|-------:|--------:|
+#  | 42 |   1820 | 0.07462 |
 #  
 #  ------------------------------
 #  

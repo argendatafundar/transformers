@@ -4,88 +4,46 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-drop_col(col='pais', axis=1),
-	rename_cols(map={'iso3': 'geocodigo'}),
-	rename_cols(map={'inflacion': 'valor'})
+rename_columns(iso3='geocodigo', inflacion='valor')
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 3220 entries, 0 to 3219
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   pais       3220 non-null   object 
-#   1   iso3       3220 non-null   object 
-#   2   anio       3220 non-null   int64  
-#   3   inflacion  3152 non-null   float64
-#  
-#  |    | pais      | iso3   |   anio |   inflacion |
-#  |---:|:----------|:-------|-------:|------------:|
-#  |  0 | Argentina | ARG    |   2000 |   -0.733699 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='pais', axis=1)
-#  RangeIndex: 3220 entries, 0 to 3219
+#  RangeIndex: 3168 entries, 0 to 3167
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3       3220 non-null   object 
-#   1   anio       3220 non-null   int64  
-#   2   inflacion  3152 non-null   float64
+#   0   anio       3168 non-null   int64  
+#   1   inflacion  3168 non-null   float64
+#   2   iso3       3168 non-null   object 
 #  
-#  |    | iso3   |   anio |   inflacion |
-#  |---:|:-------|-------:|------------:|
-#  |  0 | ARG    |   2000 |   -0.733699 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'iso3': 'geocodigo'})
-#  RangeIndex: 3220 entries, 0 to 3219
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  3220 non-null   object 
-#   1   anio       3220 non-null   int64  
-#   2   inflacion  3152 non-null   float64
-#  
-#  |    | geocodigo   |   anio |   inflacion |
-#  |---:|:------------|-------:|------------:|
-#  |  0 | ARG         |   2000 |   -0.733699 |
+#  |    |   anio |   inflacion | iso3   |
+#  |---:|-------:|------------:|:-------|
+#  |  0 |   2000 |   -0.733699 | ARG    |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'inflacion': 'valor'})
-#  RangeIndex: 3220 entries, 0 to 3219
+#  rename_columns(iso3='geocodigo', inflacion='valor')
+#  RangeIndex: 3168 entries, 0 to 3167
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  3220 non-null   object 
-#   1   anio       3220 non-null   int64  
-#   2   valor      3152 non-null   float64
+#   0   anio       3168 non-null   int64  
+#   1   valor      3168 non-null   float64
+#   2   geocodigo  3168 non-null   object 
 #  
-#  |    | geocodigo   |   anio |     valor |
-#  |---:|:------------|-------:|----------:|
-#  |  0 | ARG         |   2000 | -0.733699 |
+#  |    |   anio |     valor | geocodigo   |
+#  |---:|-------:|----------:|:------------|
+#  |  0 |   2000 | -0.733699 | ARG         |
 #  
 #  ------------------------------
 #  
