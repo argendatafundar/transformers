@@ -4,21 +4,26 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'iso3': 'indicador'}),
-	rename_cols(map={'impo': 'valor'})
+query(condition='anio == anio.max()'),
+	drop_col(col='anio', axis=1),
+	rename_columns(iso3='geocodigo', impo='valor')
 )
 #  PIPELINE_END
 
@@ -38,33 +43,46 @@ rename_cols(map={'iso3': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'iso3': 'indicador'})
-#  RangeIndex: 1266 entries, 0 to 1265
+#  query(condition='anio == anio.max()')
+#  Index: 162 entries, 8 to 1265
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       1266 non-null   int64  
-#   1   indicador  1266 non-null   object 
-#   2   impo       1266 non-null   float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    162 non-null    int64  
+#   1   iso3    162 non-null    object 
+#   2   impo    162 non-null    float64
 #  
-#  |    |   anio | indicador   |   impo |
-#  |---:|-------:|:------------|-------:|
-#  |  0 |   2015 | NAM         |      0 |
+#  |    |   anio | iso3   |   impo |
+#  |---:|-------:|:-------|-------:|
+#  |  8 |   2022 | AND    |      0 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'impo': 'valor'})
-#  RangeIndex: 1266 entries, 0 to 1265
-#  Data columns (total 3 columns):
+#  drop_col(col='anio', axis=1)
+#  Index: 162 entries, 8 to 1265
+#  Data columns (total 2 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   iso3    162 non-null    object 
+#   1   impo    162 non-null    float64
+#  
+#  |    | iso3   |   impo |
+#  |---:|:-------|-------:|
+#  |  8 | AND    |      0 |
+#  
+#  ------------------------------
+#  
+#  rename_columns(iso3='geocodigo', impo='valor')
+#  Index: 162 entries, 8 to 1265
+#  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       1266 non-null   int64  
-#   1   indicador  1266 non-null   object 
-#   2   valor      1266 non-null   float64
+#   0   geocodigo  162 non-null    object 
+#   1   valor      162 non-null    float64
 #  
-#  |    |   anio | indicador   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   2015 | NAM         |       0 |
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  8 | AND         |       0 |
 #  
 #  ------------------------------
 #  
