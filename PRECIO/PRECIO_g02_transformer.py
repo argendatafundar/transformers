@@ -4,13 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_columns(df: DataFrame, **kwargs):
+    df = df.rename(columns=kwargs)
     return df
 
 @transformer.convert
@@ -52,8 +47,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'region': 'geocodigo'}),
-	rename_cols(map={'sector': 'indicador'}),
+rename_columns(region='geocodigo', sector='indicador'),
 	replace_value(col='geocodigo', curr_value='Nacional', new_value='AR-NAC'),
 	replace_value(col='geocodigo', curr_value='Gran Buenos Aires', new_value='AR-GBA'),
 	replace_value(col='geocodigo', curr_value='Noroeste argentino', new_value='AR-NOA'),
@@ -76,26 +70,11 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | region   | sector                             |   valor |
 #  |---:|:---------|:-----------------------------------|--------:|
-#  |  0 | Nacional | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'region': 'geocodigo'})
-#  RangeIndex: 84 entries, 0 to 83
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  84 non-null     object 
-#   1   sector     84 non-null     object 
-#   2   valor      84 non-null     float64
-#  
-#  |    | geocodigo   | sector                             |   valor |
-#  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | Nacional    | Alimentos y bebidas no alcoholicas |    26.9 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'sector': 'indicador'})
+#  rename_columns(region='geocodigo', sector='indicador')
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -106,7 +85,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | Nacional    | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -121,7 +100,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -136,7 +115,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -151,7 +130,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -166,7 +145,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -181,7 +160,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -196,7 +175,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
@@ -211,7 +190,7 @@ rename_cols(map={'region': 'geocodigo'}),
 #  
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
-#  |  0 | AR-NAC      | Alimentos y bebidas no alcoholicas |    26.9 |
+#  |  0 | GBA         | Alimentos y bebidas no alcoholicas |    23.4 |
 #  
 #  ------------------------------
 #  
