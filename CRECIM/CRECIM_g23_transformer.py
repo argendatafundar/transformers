@@ -34,6 +34,18 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def agregar_suma_total(df:DataFrame, keys:list[str], agg_col:str):
+    from pandas import concat
+    df_gr = df.groupby(keys)[agg_col].sum().reset_index()
+    df = concat([df, df_gr], axis=0)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -42,7 +54,9 @@ pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
-	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'})
+	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'}),
+	agregar_suma_total(keys=['anio'], agg_col='valor'),
+	replace_value(col='geocodigo', curr_value=nan, new_value='AR-NAC')
 )
 #  PIPELINE_END
 
@@ -52,15 +66,15 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   provincia_id      672 non-null    int64  
+#   0   provincia_id      672 non-null    object 
 #   1   provincia_nombre  672 non-null    object 
 #   2   region_pbg        672 non-null    object 
 #   3   anio              672 non-null    int64  
 #   4   pib_pc            672 non-null    float64
 #  
-#  |    |   provincia_id | provincia_nombre                | region_pbg      |   anio |   pib_pc |
-#  |---:|---------------:|:--------------------------------|:----------------|-------:|---------:|
-#  |  0 |              2 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc |
+#  |---:|:---------------|:--------------------------------|:----------------|-------:|---------:|
+#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
 #  
 #  ------------------------------
 #  
@@ -120,6 +134,36 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #   0   geocodigo  672 non-null    object 
 #   1   anio       672 non-null    int64  
 #   2   valor      672 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AR-C        |   1895 |  6085.6 |
+#  
+#  ------------------------------
+#  
+#  agregar_suma_total(keys=['anio'], agg_col='valor')
+#  Index: 700 entries, 0 to 27
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  672 non-null    object 
+#   1   anio       700 non-null    int64  
+#   2   valor      700 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AR-C        |   1895 |  6085.6 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value=nan, new_value='AR-NAC')
+#  Index: 700 entries, 0 to 27
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  700 non-null    object 
+#   1   anio       700 non-null    int64  
+#   2   valor      700 non-null    float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
