@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(rubro='grupo', precio_relativo='valor')
+rename_columns(rubro='categoria', precio_relativo='valor')
 )
 #  PIPELINE_END
 
@@ -34,18 +34,18 @@ rename_columns(rubro='grupo', precio_relativo='valor')
 #  
 #  ------------------------------
 #  
-#  rename_columns(rubro='grupo', precio_relativo='valor')
+#  rename_columns(rubro='categoria', precio_relativo='valor')
 #  RangeIndex: 748 entries, 0 to 747
 #  Data columns (total 5 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    748 non-null    int64  
-#   1   codigo  748 non-null    object 
-#   2   nivel   748 non-null    int64  
-#   3   grupo   748 non-null    object 
-#   4   valor   748 non-null    float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       748 non-null    int64  
+#   1   codigo     748 non-null    object 
+#   2   nivel      748 non-null    int64  
+#   3   categoria  748 non-null    object 
+#   4   valor      748 non-null    float64
 #  
-#  |    |   anio |   codigo |   nivel | grupo                              |   valor |
+#  |    |   anio |   codigo |   nivel | categoria                          |   valor |
 #  |---:|-------:|---------:|--------:|:-----------------------------------|--------:|
 #  |  0 |   2013 |       01 |       1 | Alimentos y bebidas no alcohólicas |     100 |
 #  
