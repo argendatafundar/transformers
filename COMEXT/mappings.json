@@ -1,0 +1,126 @@
+{
+    "indice_cantidad_exportaciones_argentina.csv": [
+        {
+            "private": "COMEXT_5-1-1_1",
+            "public": "COMEXT_g1"
+        }
+    ],
+    "exportaciones_bienes_servicios_millones_usd_constantes_2015.csv": [
+        {
+            "private": "COMEXT_5-1-1_2",
+            "public": "COMEXT_g2"
+        }
+    ],
+    "participacion_exportaciones_servicios_porcentaje_exportaciones.csv": [
+        {
+            "private": "COMEXT_5-1-1_3",
+            "public": "COMEXT_g3"
+        }
+    ],
+    "participacion_exportaciones_bienes_servicios_porcentaje_pib.csv": [
+        {
+            "private": "COMEXT_5-1-1_4",
+            "public": "COMEXT_g4"
+        }
+    ],
+    "participacion_exportaciones_bienes_servicios_mundo.csv": [
+        {
+            "private": "COMEXT_5-1-1_5",
+            "public": "COMEXT_g5"
+        },
+        {
+            "private": "COMEXT_5-1-1_6",
+            "public": "COMEXT_g6"
+        }
+    ],
+    "indice_valores_unitarios_exportacion_bienes_2000.csv": [
+        {
+            "private": "COMEXT_5-1-1_7",
+            "public": "COMEXT_g7"
+        }
+    ],
+    "indice_volumen_exportaciones_bienes_2000.csv": [
+        {
+            "private": "COMEXT_5-1-1_8",
+            "public": "COMEXT_g8"
+        }
+    ],
+    "indice_apertura_comercial.csv": [
+        {
+            "private": "COMEXT_5-1-1_9",
+            "public": "COMEXT_g9"
+        }
+    ],
+    "composicion_exportaciones_bienes_sitc_seccion.csv": [
+        {
+            "private": "COMEXT_5-1-1_10",
+            "public": "COMEXT_g10"
+        }
+    ],
+    "composicion_importaciones_bienes_sitc_seccion.csv": [
+        {
+            "private": "COMEXT_5-1-1_11",
+            "public": "COMEXT_g11"
+        }
+    ],
+    "composicion_exportaciones_bienes_sectores_Brambilla_Porto.csv": [
+        {
+            "private": "COMEXT_5-1-1_12",
+            "public": "COMEXT_g12"
+        }
+    ],
+    "composicion_importaciones_bienes_sectores_Brambilla_Porto.csv": [
+        {
+            "private": "COMEXT_5-1-1_13",
+            "public": "COMEXT_g13"
+        }
+    ],
+    "composicion_exportaciones_bienes_diferenciado_Bernini.csv": [
+        {
+            "private": "COMEXT_5-1-1_14",
+            "public": "COMEXT_g14"
+        }
+    ],
+    "composicion_importaciones_bienes_diferenciado_Bernini.csv": [
+        {
+            "private": "COMEXT_5-1-1_15",
+            "public": "COMEXT_g15"
+        }
+    ],
+    "composicion_exportaciones_bienes_regiones_mundo.csv": [
+        {
+            "private": "COMEXT_5-1-1_16",
+            "public": "COMEXT_g16"
+        }
+    ],
+    "composicion_importaciones_bienes_regiones_mundo.csv": [
+        {
+            "private": "COMEXT_5-1-1_17",
+            "public": "COMEXT_g17"
+        }
+    ],
+    "cambio_destinos_exportacion.csv": [
+        {
+            "private": "COMEXT_5-1-1_18",
+            "public": "COMEXT_g18"
+        }
+    ],
+    "cambio_origenes_importacion.csv": [
+        {
+            "private": "COMEXT_5-1-1_19",
+            "public": "COMEXT_g19"
+        }
+    ],
+    "composicion_exportaciones_servicios_EBOPS_2digitos_agrupado.csv": [
+        {
+            "private": "COMEXT_5-1-1_20",
+            "public": "COMEXT_g20"
+        }
+    ],
+    "exportaciones_servicios_top_20_destinos.csv": [
+        {
+            "private": "COMEXT_5-1-1_21",
+            "public": "COMEXT_g21"
+        }
+    ]
+}
