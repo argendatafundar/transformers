@@ -36,15 +36,10 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def agregar_suma_total(df:DataFrame, keys:list[str], agg_col:str):
+def agregar_filas(df:DataFrame, nuevas_filas:dict[str,list]): 
     from pandas import concat
-    df_gr = df.groupby(keys)[agg_col].sum().reset_index()
-    df = concat([df, df_gr], axis=0)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+    nuevas_filas = DataFrame(nuevas_filas)
+    df = concat([df, nuevas_filas], axis=0)
     return df
 #  DEFINITIONS_END
 
@@ -54,9 +49,10 @@ pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
-	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'}),
-	agregar_suma_total(keys=['anio'], agg_col='valor'),
-	replace_value(col='geocodigo', curr_value=nan, new_value='AR-NAC')
+	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'}),
+	agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': array([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005,
+       2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
+       2017, 2018, 2019, 2020, 2021, 2022]), 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
 )
 #  PIPELINE_END
 
@@ -70,11 +66,11 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #   1   provincia_nombre  672 non-null    object 
 #   2   region_pbg        672 non-null    object 
 #   3   anio              672 non-null    int64  
-#   4   pib_pc            672 non-null    float64
+#   4   pib_pc_relativo   672 non-null    float64
 #  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc |
-#  |---:|:---------------|:--------------------------------|:----------------|-------:|---------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc_relativo |
+#  |---:|:---------------|:--------------------------------|:----------------|-------:|------------------:|
+#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |            139.29 |
 #  
 #  ------------------------------
 #  
@@ -87,46 +83,46 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #   1   provincia_nombre  672 non-null    object 
 #   2   region_pbg        672 non-null    object 
 #   3   anio              672 non-null    int64  
-#   4   pib_pc            672 non-null    float64
+#   4   pib_pc_relativo   672 non-null    float64
 #  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc |
-#  |---:|:---------------|:--------------------------------|:----------------|-------:|---------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc_relativo |
+#  |---:|:---------------|:--------------------------------|:----------------|-------:|------------------:|
+#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |            139.29 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='provincia_nombre', axis=1)
 #  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 4 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   provincia_id  672 non-null    object 
-#   1   region_pbg    672 non-null    object 
-#   2   anio          672 non-null    int64  
-#   3   pib_pc        672 non-null    float64
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   provincia_id     672 non-null    object 
+#   1   region_pbg       672 non-null    object 
+#   2   anio             672 non-null    int64  
+#   3   pib_pc_relativo  672 non-null    float64
 #  
-#  |    | provincia_id   | region_pbg      |   anio |   pib_pc |
-#  |---:|:---------------|:----------------|-------:|---------:|
-#  |  0 | AR-C           | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | provincia_id   | region_pbg      |   anio |   pib_pc_relativo |
+#  |---:|:---------------|:----------------|-------:|------------------:|
+#  |  0 | AR-C           | Pampeana y CABA |   1895 |            139.29 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='region_pbg', axis=1)
 #  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   provincia_id  672 non-null    object 
-#   1   anio          672 non-null    int64  
-#   2   pib_pc        672 non-null    float64
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   provincia_id     672 non-null    object 
+#   1   anio             672 non-null    int64  
+#   2   pib_pc_relativo  672 non-null    float64
 #  
-#  |    | provincia_id   |   anio |   pib_pc |
-#  |---:|:---------------|-------:|---------:|
-#  |  0 | AR-C           |   1895 |   6085.6 |
+#  |    | provincia_id   |   anio |   pib_pc_relativo |
+#  |---:|:---------------|-------:|------------------:|
+#  |  0 | AR-C           |   1895 |            139.29 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'})
+#  rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'})
 #  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -137,26 +133,13 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  6085.6 |
+#  |  0 | AR-C        |   1895 |  139.29 |
 #  
 #  ------------------------------
 #  
-#  agregar_suma_total(keys=['anio'], agg_col='valor')
-#  Index: 700 entries, 0 to 27
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  672 non-null    object 
-#   1   anio       700 non-null    int64  
-#   2   valor      700 non-null    float64
-#  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  6085.6 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='geocodigo', curr_value=nan, new_value='AR-NAC')
+#  agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': array([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005,
+#         2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
+#         2017, 2018, 2019, 2020, 2021, 2022]), 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
 #  Index: 700 entries, 0 to 27
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -167,7 +150,7 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  6085.6 |
+#  |  0 | AR-C        |   1895 |  139.29 |
 #  
 #  ------------------------------
 #  
