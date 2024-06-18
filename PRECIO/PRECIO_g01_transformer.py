@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(sector='indicador')
+rename_columns(sector='categoria')
 )
 #  PIPELINE_END
 
@@ -31,15 +31,15 @@ rename_columns(sector='indicador')
 #  
 #  ------------------------------
 #  
-#  rename_columns(sector='indicador')
+#  rename_columns(sector='categoria')
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
+#   0   categoria  12 non-null     object 
 #   1   valor      12 non-null     float64
 #  
-#  |    | indicador                          |   valor |
+#  |    | categoria                          |   valor |
 #  |---:|:-----------------------------------|--------:|
 #  |  0 | Alimentos y bebidas no alcoholicas |   26.93 |
 #  
