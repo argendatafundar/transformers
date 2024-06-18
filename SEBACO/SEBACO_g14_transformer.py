@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(nivel='categoria', sector='indicador', prop_mujeres='valor')
+rename_columns(sector='categoria', prop_mujeres='valor')
 )
 #  PIPELINE_END
 
@@ -32,16 +32,16 @@ rename_columns(nivel='categoria', sector='indicador', prop_mujeres='valor')
 #  
 #  ------------------------------
 #  
-#  rename_columns(nivel='categoria', sector='indicador', prop_mujeres='valor')
+#  rename_columns(sector='categoria', prop_mujeres='valor')
 #  RangeIndex: 34 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       34 non-null     int64  
-#   1   indicador  34 non-null     object 
+#   1   categoria  34 non-null     object 
 #   2   valor      34 non-null     float64
 #  
-#  |    |   anio | indicador   |    valor |
+#  |    |   anio | categoria   |    valor |
 #  |---:|-------:|:------------|---------:|
 #  |  0 |   2007 | SBC         | 0.384661 |
 #  
