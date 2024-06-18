@@ -11,13 +11,19 @@ def rename_columns(df: DataFrame, **kwargs):
 @transformer.convert
 def drop_cols(df, cols_to_drop):
     return df[list(set(df.columns) - set(cols_to_drop))]
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_columns(iso3='geocodigo', cambio_relativo='valor'),
-	drop_cols(cols_to_drop=['continente_fundar', 'pais_nombre', 'es_agregacion', 'pib_per_capita'])
+	drop_cols(cols_to_drop=['continente_fundar', 'pais_nombre', 'es_agregacion', 'pib_per_capita']),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -65,13 +71,28 @@ rename_columns(iso3='geocodigo', cambio_relativo='valor'),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7831 non-null   object 
-#   1   valor      7831 non-null   float64
-#   2   anio       7831 non-null   int64  
+#   0   valor      7831 non-null   float64
+#   1   anio       7831 non-null   int64  
+#   2   geocodigo  7831 non-null   object 
 #  
-#  |    | geocodigo   |   valor |   anio |
-#  |---:|:------------|--------:|-------:|
-#  |  0 | ARG         |       0 |   1820 |
+#  |    |   valor |   anio | geocodigo   |
+#  |---:|--------:|-------:|:------------|
+#  |  0 |       0 |   1820 | ARG         |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 7831 entries, 0 to 7830
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   valor      7831 non-null   float64
+#   1   anio       7831 non-null   int64  
+#   2   geocodigo  7831 non-null   object 
+#  
+#  |    |   valor |   anio | geocodigo   |
+#  |---:|--------:|-------:|:------------|
+#  |  0 |       0 |   1820 | ARG         |
 #  
 #  ------------------------------
 #  
