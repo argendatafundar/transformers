@@ -14,14 +14,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def filter_rows(df: DataFrame, condition: str):
+def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
 
 @transformer.convert
 def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    df= df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-    return df 
+    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
@@ -47,20 +46,25 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
-	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'iso3': 'geocodigo'}),
-	filter_rows(condition='geocodigo == "WLD"'),
-	wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='indicador'),
-	replace_value(col='indicador', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2'),
-	replace_value(col='indicador', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energ閠ica (por unidad de PIB medido en d髄ares de 2011 PPA)'),
-	replace_value(col='indicador', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per c醦ita en d髄ares PPA 2011'),
-	replace_value(col='indicador', curr_value='poblacion', new_value='Poblaci髇'),
-	replace_value(col='indicador', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)')
+	rename_cols(map={'tipo_energia': 'categoria', 'valor_en_mw': 'valor', 'iso3': 'geocodigo'}),
+	query(condition='geocodigo == "WLD"'),
+	wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='categoria'),
+	replace_value(col='categoria', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2'),
+	replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energ茅tica (por unidad de PIB medido en d贸lares de 2011 PPA)'),
+	replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per c谩pita en d贸lares PPA 2011'),
+	replace_value(col='categoria', curr_value='poblacion', new_value='Poblaci贸n'),
+	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)'),
+	drop_col(col='geocodigo', axis=1)
 )
 #  PIPELINE_END
 
@@ -103,7 +107,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'iso3': 'geocodigo'})
+#  rename_cols(map={'tipo_energia': 'categoria', 'valor_en_mw': 'valor', 'iso3': 'geocodigo'})
 #  RangeIndex: 201096 entries, 0 to 201095
 #  Data columns (total 7 columns):
 #   #   Column                       Non-Null Count   Dtype  
@@ -122,7 +126,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  filter_rows(condition='geocodigo == "WLD"')
+#  query(condition='geocodigo == "WLD"')
 #  Index: 798 entries, 169974 to 170771
 #  Data columns (total 7 columns):
 #   #   Column                       Non-Null Count  Dtype  
@@ -141,99 +145,114 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='indicador')
+#  wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='categoria')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador             |       valor |
+#  |    |   anio | geocodigo   | categoria             |       valor |
 #  |---:|-------:|:------------|:----------------------|------------:|
 #  |  0 |   1949 | WLD         | emision_anual_co2_ton | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2')
+#  replace_value(col='categoria', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador                |       valor |
+#  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
 #  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energ閠ica (por unidad de PIB medido en d髄ares de 2011 PPA)')
+#  replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energ茅tica (por unidad de PIB medido en d贸lares de 2011 PPA)')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador                |       valor |
+#  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
 #  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per c醦ita en d髄ares PPA 2011')
+#  replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per c谩pita en d贸lares PPA 2011')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador                |       valor |
+#  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
 #  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='poblacion', new_value='Poblaci髇')
+#  replace_value(col='categoria', curr_value='poblacion', new_value='Poblaci贸n')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador                |       valor |
+#  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
 #  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)')
+#  replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)')
 #  RangeIndex: 3990 entries, 0 to 3989
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       3990 non-null   int64  
 #   1   geocodigo  3990 non-null   object 
-#   2   indicador  3990 non-null   object 
+#   2   categoria  3990 non-null   object 
 #   3   valor      624 non-null    float64
 #  
-#  |    |   anio | geocodigo   | indicador                |       valor |
+#  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
 #  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col='geocodigo', axis=1)
+#  RangeIndex: 3990 entries, 0 to 3989
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       3990 non-null   int64  
+#   1   categoria  3990 non-null   object 
+#   2   valor      624 non-null    float64
+#  
+#  |    |   anio | categoria                |       valor |
+#  |---:|-------:|:-------------------------|------------:|
+#  |  0 |   1949 | Emisiones anuales de CO2 | 5.18101e+09 |
 #  
 #  ------------------------------
 #  
