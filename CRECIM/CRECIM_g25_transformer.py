@@ -50,9 +50,11 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'}),
-	agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': array([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005,
-       2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
-       2017, 2018, 2019, 2020, 2021, 2022]), 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
+	agregar_filas(nuevas_filas={
+        'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 
+        'anio': [1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], 
+        'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+        })
 )
 #  PIPELINE_END
 
