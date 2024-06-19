@@ -15,6 +15,16 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -22,7 +32,9 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='indicador'),
 	rename_cols(map={'provincia': 'geocodigo'}),
-	drop_col(col='anio', axis=1)
+	drop_col(col='anio', axis=1),
+	replace_value(col='indicador', curr_value='valor_en_mtco2e_per_cap', new_value='Emisiones per cápita'),
+	replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='VAB per cápita (precios 2004)')
 )
 #  PIPELINE_END
 
@@ -87,6 +99,36 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  |    | geocodigo    | indicador               |   valor |
 #  |---:|:-------------|:------------------------|--------:|
 #  |  0 | Buenos Aires | valor_en_mtco2e_per_cap | 5.45417 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='valor_en_mtco2e_per_cap', new_value='Emisiones per cápita')
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
+#  
+#  |    | geocodigo    | indicador            |   valor |
+#  |---:|:-------------|:---------------------|--------:|
+#  |  0 | Buenos Aires | Emisiones per cápita | 5.45417 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='VAB per cápita (precios 2004)')
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
+#  
+#  |    | geocodigo    | indicador            |   valor |
+#  |---:|:-------------|:---------------------|--------:|
+#  |  0 | Buenos Aires | Emisiones per cápita | 5.45417 |
 #  
 #  ------------------------------
 #  
