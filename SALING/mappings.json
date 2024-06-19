@@ -1,0 +1,158 @@
+{
+    "ISA_ipcf_it1.csv": [
+        {
+            "private": "SALING_4-3_1",
+            "public": "SALING_g01"
+        }
+    ],
+    "ISA_ipcf-LAC_it1.csv": [
+        {
+            "private": "SALING_4-3_2",
+            "public": "SALING_g02"
+        }
+    ],
+    "ISA_ipcf-LAC_it2.csv": [
+        {
+            "private": "SALING_4-3_3",
+            "public": "SALING_g03"
+        }
+    ],
+    "ISA_regiones-ipcf_it1.csv": [
+        {
+            "private": "SALING_4-3_4",
+            "public": "SALING_g04"
+        }
+    ],
+    "ISA_regiones-ipcf_it2.csv": [
+        {
+            "private": "SALING_4-3_5",
+            "public": "SALING_g05"
+        }
+    ],
+    "ISA_composicion-ipcf_it1.csv": [
+        {
+            "private": "SALING_4-3_6",
+            "public": "SALING_g06"
+        }
+    ],
+    "ISA_composicion-ipcf_it2.csv": [
+        {
+            "private": "SALING_4-3_7",
+            "public": "SALING_g07"
+        }
+    ],
+    "ISA_composicion-ipcf_it3.csv": [
+        {
+            "private": "SALING_4-3_8",
+            "public": "SALING_g08"
+        }
+    ],
+    "ISA_composicion-ipcf_it4.csv": [
+        {
+            "private": "SALING_4-3_9",
+            "public": "SALING_g09"
+        }
+    ],
+    "ISA_composicion-ipcf_it5.csv": [
+        {
+            "private": "SALING_4-3_10",
+            "public": "SALING_g10"
+        }
+    ],
+    "ISA_salario_real_i1.csv": [
+        {
+            "private": "SALING_4-3_11",
+            "public": "SALING_g11"
+        }
+    ],
+    "ISA_salario_real_i2.csv": [
+        {
+            "private": "SALING_4-3_12",
+            "public": "SALING_g12"
+        }
+    ],
+    "ISA_salario_real_i3.csv": [
+        {
+            "private": "SALING_4-3_13",
+            "public": "SALING_g13"
+        }
+    ],
+    "ISA_salarios_mundo_i1.csv": [
+        {
+            "private": "SALING_4-3_14",
+            "public": "SALING_g14"
+        }
+    ],
+    "ISA_salarios_mundo_i2.csv": [
+        {
+            "private": "SALING_4-3_15",
+            "public": "SALING_g15"
+        }
+    ],
+    "ISA_tipo_empleo_i1.csv": [
+        {
+            "private": "SALING_4-3_16",
+            "public": "SALING_g16"
+        }
+    ],
+    "ISA_tipo_empleo_i2.csv": [
+        {
+            "private": "SALING_4-3_17",
+            "public": "SALING_g17"
+        }
+    ],
+    "ISA_tipo_empleo_i3.csv": [
+        {
+            "private": "SALING_4-3_18",
+            "public": "SALING_g18"
+        }
+    ],
+    "ISA_salarios_region_i1.csv": [
+        {
+            "private": "SALING_4-3_19",
+            "public": "SALING_g19"
+        }
+    ],
+    "ISA_salarios_region_i2.csv": [
+        {
+            "private": "SALING_4-3_20",
+            "public": "SALING_g20"
+        }
+    ],
+    "ISA_edad_genero_i1.csv": [
+        {
+            "private": "SALING_4-3_21",
+            "public": "SALING_g21"
+        }
+    ],
+    "ISA_edad_genero_i2.csv": [
+        {
+            "private": "SALING_4-3_22",
+            "public": "SALING_g22"
+        }
+    ],
+    "ISA_edad_genero_i3.csv": [
+        {
+            "private": "SALING_4-3_23",
+            "public": "SALING_g23"
+        }
+    ],
+    "salario_real_base1970.csv": [
+        {
+            "private": "SALING_4-3_24",
+            "public": "SALING_g24"
+        }
+    ],
+    "salario_real_ppa2017_ceped.csv": [
+        {
+            "private": "SALING_4-3_25",
+            "public": "SALING_g25"
+        }
+    ],
+    "prima_formalidad_argentina.csv": [
+        {
+            "private": "SALING_4-3_26",
+            "public": "SALING_g26"
+        }
+    ]
+}

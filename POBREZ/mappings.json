@@ -1,0 +1,130 @@
+{
+    "ISA_nbi-multidimensional_it1-it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_1",
+            "public": "POBREZ_g01"
+        },
+        {
+            "private": "POBREZ_4-3-6_2",
+            "public": "POBREZ_g02"
+        }
+    ],
+    "ISA_nbi-multidimensional_it3-it4.csv": [
+        {
+            "private": "POBREZ_4-3-6_3",
+            "public": "POBREZ_g03"
+        },
+        {
+            "private": "POBREZ_4-3-6_4",
+            "public": "POBREZ_g04"
+        }
+    ],
+    "ISA_pobreza_monetaria_it1.csv": [
+        {
+            "private": "POBREZ_4-3-6_5",
+            "public": "POBREZ_g05"
+        }
+    ],
+    "ISA_pobreza_monetaria_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_6",
+            "public": "POBREZ_g06"
+        }
+    ],
+    "ISA_pobreza_monetaria_it3_OLD.csv": [
+        {
+            "private": "POBREZ_4-3-6_7",
+            "public": "POBREZ_g07"
+        }
+    ],
+    "ISA_global-poverty_it1.csv": [
+        {
+            "private": "POBREZ_4-3-6_8",
+            "public": "POBREZ_g08"
+        }
+    ],
+    "ISA_global-poverty_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_9",
+            "public": "POBREZ_g09"
+        }
+    ],
+    "ISA_global-poverty_it3.csv": [
+        {
+            "private": "POBREZ_4-3-6_10",
+            "public": "POBREZ_g10"
+        }
+    ],
+    "ISA_region-pobreza_it1-it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_11",
+            "public": "POBREZ_g11"
+        },
+        {
+            "private": "POBREZ_4-3-6_12",
+            "public": "POBREZ_g12"
+        }
+    ],
+    "ISA_genero-pobreza_it1.csv": [
+        {
+            "private": "POBREZ_4-3-6_13",
+            "public": "POBREZ_g13"
+        }
+    ],
+    "ISA_genero-pobreza_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_14",
+            "public": "POBREZ_g14"
+        }
+    ],
+    "ISA_laboral-pobreza_it1-it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_15",
+            "public": "POBREZ_g15"
+        },
+        {
+            "private": "POBREZ_4-3-6_16",
+            "public": "POBREZ_g16"
+        }
+    ],
+    "ISA_educacion-pobreza_it1_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_17",
+            "public": "POBREZ_g17"
+        },
+        {
+            "private": "POBREZ_4-3-6_18",
+            "public": "POBREZ_g18"
+        }
+    ],
+    "ISA_etario-pobreza_it1.csv": [
+        {
+            "private": "POBREZ_4-3-6_19",
+            "public": "POBREZ_g19"
+        }
+    ],
+    "ISA_etario-pobreza_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_20",
+            "public": "POBREZ_g20"
+        }
+    ],
+    "ISA_transf-pobreza_it1.csv": [
+        {
+            "private": "POBREZ_4-3-6_21",
+            "public": "POBREZ_g21"
+        }
+    ],
+    "ISA_transf-pobreza_it2.csv": [
+        {
+            "private": "POBREZ_4-3-6_22",
+            "public": "POBREZ_g22"
+        }
+    ],
+    "ISA_pobreza_monetaria_it3.csv": [
+        {
+            "private": "POBREZ_4-3-6_23",
+            "public": "POBREZ_g23"
+        }
+    ]
+}
