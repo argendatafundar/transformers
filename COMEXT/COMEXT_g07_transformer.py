@@ -23,7 +23,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo'}),
 	drop_col(col='countryname', axis=1),
-	rename_cols(map={'exportunitvalueindex_200': 'valor'})
+	rename_cols(map={'exportunitvalueindex_2000': 'valor'})
 )
 #  PIPELINE_END
 
@@ -75,18 +75,18 @@ rename_cols(map={'iso3': 'geocodigo'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'exportunitvalueindex_200': 'valor'})
+#  rename_cols(map={'exportunitvalueindex_2000': 'valor'})
 #  RangeIndex: 16960 entries, 0 to 16959
 #  Data columns (total 3 columns):
-#   #   Column                     Non-Null Count  Dtype  
-#  ---  ------                     --------------  -----  
-#   0   anio                       16960 non-null  int64  
-#   1   geocodigo                  16960 non-null  object 
-#   2   exportunitvalueindex_2000  6291 non-null   float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       16960 non-null  int64  
+#   1   geocodigo  16960 non-null  object 
+#   2   valor      6291 non-null   float64
 #  
-#  |    |   anio | geocodigo   |   exportunitvalueindex_2000 |
-#  |---:|-------:|:------------|----------------------------:|
-#  |  0 |   2023 | ABW         |                         nan |
+#  |    |   anio | geocodigo   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   2023 | ABW         |     nan |
 #  
 #  ------------------------------
 #  
