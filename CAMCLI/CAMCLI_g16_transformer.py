@@ -14,7 +14,24 @@ def rename_cols(df: DataFrame, map):
 
 @transformer.convert
 def datetime_to_year(df, col: str):
+    import pandas as pd
+    
     df[col] = pd.to_datetime(df[col]).dt.year
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -23,7 +40,10 @@ def datetime_to_year(df, col: str):
 pipeline = chain(
 wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 	rename_cols(map={'fecha': 'anio'}),
-	datetime_to_year(col='anio')
+	datetime_to_year(col='anio'),
+	replace_value(col='indicador', curr_value='emisiones_anuales_co2_toneladas', new_value='Dióxido de carbono (CO2)'),
+	replace_value(col='indicador', curr_value='emisiones_anuales_n2o_en_co2_toneladas', new_value='Óxido nitroso (N2O)'),
+	replace_value(col='indicador', curr_value='emisiones_anuales_ch4_en_co2_toneladas', new_value='Metano (CH4)')
 )
 #  PIPELINE_END
 
@@ -86,6 +106,51 @@ wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 #  |    |   anio | indicador                       |       valor |
 #  |---:|-------:|:--------------------------------|------------:|
 #  |  0 |   1850 | emisiones_anuales_co2_toneladas | 2.61643e+09 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='emisiones_anuales_co2_toneladas', new_value='Dióxido de carbono (CO2)')
+#  RangeIndex: 516 entries, 0 to 515
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       516 non-null    int32  
+#   1   indicador  516 non-null    object 
+#   2   valor      516 non-null    float64
+#  
+#  |    |   anio | indicador                |       valor |
+#  |---:|-------:|:-------------------------|------------:|
+#  |  0 |   1850 | Dióxido de carbono (CO2) | 2.61643e+09 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='emisiones_anuales_n2o_en_co2_toneladas', new_value='Óxido nitroso (N2O)')
+#  RangeIndex: 516 entries, 0 to 515
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       516 non-null    int32  
+#   1   indicador  516 non-null    object 
+#   2   valor      516 non-null    float64
+#  
+#  |    |   anio | indicador                |       valor |
+#  |---:|-------:|:-------------------------|------------:|
+#  |  0 |   1850 | Dióxido de carbono (CO2) | 2.61643e+09 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='emisiones_anuales_ch4_en_co2_toneladas', new_value='Metano (CH4)')
+#  RangeIndex: 516 entries, 0 to 515
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       516 non-null    int32  
+#   1   indicador  516 non-null    object 
+#   2   valor      516 non-null    float64
+#  
+#  |    |   anio | indicador                |       valor |
+#  |---:|-------:|:-------------------------|------------:|
+#  |  0 |   1850 | Dióxido de carbono (CO2) | 2.61643e+09 |
 #  
 #  ------------------------------
 #  
