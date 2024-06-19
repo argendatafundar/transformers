@@ -30,13 +30,13 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 
 
 #  start()
-#  RangeIndex: 7310 entries, 0 to 7309
+#  RangeIndex: 7344 entries, 0 to 7343
 #  Data columns (total 3 columns):
 #   #   Column                 Non-Null Count  Dtype  
 #  ---  ------                 --------------  -----  
-#   0   anio                   7310 non-null   int64  
-#   1   iso3                   7310 non-null   object 
-#   2   valor_en_gco2_por_kwh  5318 non-null   float64
+#   0   anio                   7344 non-null   int64  
+#   1   iso3                   7344 non-null   object 
+#   2   valor_en_gco2_por_kwh  5342 non-null   float64
 #  
 #  |    |   anio | iso3   |   valor_en_gco2_por_kwh |
 #  |---:|-------:|:-------|------------------------:|
@@ -45,13 +45,13 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD')
-#  RangeIndex: 7310 entries, 0 to 7309
+#  RangeIndex: 7344 entries, 0 to 7343
 #  Data columns (total 3 columns):
 #   #   Column                 Non-Null Count  Dtype  
 #  ---  ------                 --------------  -----  
-#   0   anio                   7310 non-null   int64  
-#   1   iso3                   7310 non-null   object 
-#   2   valor_en_gco2_por_kwh  5318 non-null   float64
+#   0   anio                   7344 non-null   int64  
+#   1   iso3                   7344 non-null   object 
+#   2   valor_en_gco2_por_kwh  5342 non-null   float64
 #  
 #  |    |   anio | iso3   |   valor_en_gco2_por_kwh |
 #  |---:|-------:|:-------|------------------------:|
@@ -60,13 +60,13 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX')
-#  RangeIndex: 7310 entries, 0 to 7309
+#  RangeIndex: 7344 entries, 0 to 7343
 #  Data columns (total 3 columns):
 #   #   Column                 Non-Null Count  Dtype  
 #  ---  ------                 --------------  -----  
-#   0   anio                   7310 non-null   int64  
-#   1   iso3                   7310 non-null   object 
-#   2   valor_en_gco2_por_kwh  5318 non-null   float64
+#   0   anio                   7344 non-null   int64  
+#   1   iso3                   7344 non-null   object 
+#   2   valor_en_gco2_por_kwh  5342 non-null   float64
 #  
 #  |    |   anio | iso3   |   valor_en_gco2_por_kwh |
 #  |---:|-------:|:-------|------------------------:|
@@ -75,13 +75,13 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  rename_cols(map={'valor_en_gco2_por_kwh': 'valor', 'iso3': 'geocodigo'})
-#  RangeIndex: 7310 entries, 0 to 7309
+#  RangeIndex: 7344 entries, 0 to 7343
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       7310 non-null   int64  
-#   1   geocodigo  7310 non-null   object 
-#   2   valor      5318 non-null   float64
+#   0   anio       7344 non-null   int64  
+#   1   geocodigo  7344 non-null   object 
+#   2   valor      5342 non-null   float64
 #  
 #  |    |   anio | geocodigo   |   valor |
 #  |---:|-------:|:------------|--------:|
