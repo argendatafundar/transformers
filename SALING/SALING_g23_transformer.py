@@ -12,7 +12,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'              ano': 'anio', 'variable': 'indicador'})
+rename_cols(map={' ano': 'anio', 'variable': 'indicador'})
 )
 #  PIPELINE_END
 
@@ -32,16 +32,16 @@ rename_cols(map={'              ano': 'anio', 'variable': 'indicador'})
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'              ano': 'anio', 'variable': 'indicador'})
+#  rename_cols(map={' ano': 'anio', 'variable': 'indicador'})
 #  RangeIndex: 160 entries, 0 to 159
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
-#   0    ano       160 non-null    int64 
+#   0   anio       160 non-null    int64 
 #   1   indicador  160 non-null    object
 #   2   valor      160 non-null    int64 
 #  
-#  |    |    ano | indicador   |   valor |
+#  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1992 | Mujeres     |   11178 |
 #  
