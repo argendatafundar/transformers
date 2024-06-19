@@ -12,7 +12,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'serie', 'subsector': 'subserie', 'subsubsector': 'subsubserie', 'valor_en_porcent': 'valor'})
+rename_cols(map={'sector': 'nivel1', 'subsector': 'nivel2', 'subsubsector': 'nivel3', 'valor_en_porcent': 'valor'})
 )
 #  PIPELINE_END
 
@@ -29,23 +29,23 @@ rename_cols(map={'sector': 'serie', 'subsector': 'subserie', 'subsubsector': 'su
 #  
 #  |    | sector   | subsector                                      | subsubsector   |   valor_en_porcent |
 #  |---:|:---------|:-----------------------------------------------|:---------------|-------------------:|
-#  |  0 | Energía  | Industrias manufactureras y de la construcción | Hierro y acero |                7.2 |
+#  |  0 | EnergÃ­a  | Industrias manufactureras y de la construcciÃ³n | Hierro y acero |                7.2 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'sector': 'serie', 'subsector': 'subserie', 'subsubsector': 'subsubserie', 'valor_en_porcent': 'valor'})
+#  rename_cols(map={'sector': 'nivel1', 'subsector': 'nivel2', 'subsubsector': 'nivel3', 'valor_en_porcent': 'valor'})
 #  RangeIndex: 29 entries, 0 to 28
 #  Data columns (total 4 columns):
-#   #   Column       Non-Null Count  Dtype  
-#  ---  ------       --------------  -----  
-#   0   serie        29 non-null     object 
-#   1   subserie     29 non-null     object 
-#   2   subsubserie  29 non-null     object 
-#   3   valor        29 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  29 non-null     object 
+#   1   nivel2  29 non-null     object 
+#   2   nivel3  29 non-null     object 
+#   3   valor   29 non-null     float64
 #  
-#  |    | serie   | subserie                                       | subsubserie    |   valor |
-#  |---:|:--------|:-----------------------------------------------|:---------------|--------:|
-#  |  0 | Energía | Industrias manufactureras y de la construcción | Hierro y acero |     7.2 |
+#  |    | nivel1   | nivel2                                         | nivel3         |   valor |
+#  |---:|:---------|:-----------------------------------------------|:---------------|--------:|
+#  |  0 | EnergÃ­a  | Industrias manufactureras y de la construcciÃ³n | Hierro y acero |     7.2 |
 #  
 #  ------------------------------
 #  
