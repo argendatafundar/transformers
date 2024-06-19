@@ -14,7 +14,19 @@ def rename_cols(df: DataFrame, map):
 
 @transformer.convert
 def datetime_to_year(df, col: str):
+    import pandas as pd
+    
     df[col] = pd.to_datetime(df[col]).dt.year
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -23,7 +35,9 @@ def datetime_to_year(df, col: str):
 pipeline = chain(
 wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 	rename_cols(map={'fecha': 'anio'}),
-	datetime_to_year(col='anio')
+	datetime_to_year(col='anio'),
+	replace_value(col='indicador', curr_value='anomalia_temperatura_mar_relativ', new_value='Mar'),
+	replace_value(col='indicador', curr_value='anomalia_temperatura_tierra_relativ', new_value='Tierra')
 )
 #  PIPELINE_END
 
@@ -85,6 +99,36 @@ wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 #  |    |   anio | indicador                        |      valor |
 #  |---:|-------:|:---------------------------------|-----------:|
 #  |  0 |   1850 | anomalia_temperatura_mar_relativ | -0.0714867 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='anomalia_temperatura_mar_relativ', new_value='Mar')
+#  RangeIndex: 4178 entries, 0 to 4177
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       4178 non-null   int32  
+#   1   indicador  4178 non-null   object 
+#   2   valor      4167 non-null   float64
+#  
+#  |    |   anio | indicador   |      valor |
+#  |---:|-------:|:------------|-----------:|
+#  |  0 |   1850 | Mar         | -0.0714867 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='anomalia_temperatura_tierra_relativ', new_value='Tierra')
+#  RangeIndex: 4178 entries, 0 to 4177
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       4178 non-null   int32  
+#   1   indicador  4178 non-null   object 
+#   2   valor      4167 non-null   float64
+#  
+#  |    |   anio | indicador   |      valor |
+#  |---:|-------:|:------------|-----------:|
+#  |  0 |   1850 | Mar         | -0.0714867 |
 #  
 #  ------------------------------
 #  
