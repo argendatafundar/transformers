@@ -24,8 +24,8 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def df_merge_geonomenclador(df: DataFrame, df2: DataFrame = geonomenclador, left:str = 'iso3', right:str = 'geocodigo', how:str='left'):
-    df =  df.merge(df2, left_on = left, right_on = right, how = how)
+def df_merge_geonomenclador(df: DataFrame, left:str = 'iso3', right:str = 'geocodigo', how:str='left'):
+    df =  df.merge(geonomenclador, left_on = left, right_on = right, how = how)
     return df
 
 @transformer.convert
@@ -54,33 +54,7 @@ query(condition="anio == anio.max() & iso3.isin(['NOR', 'ISL', 'DNK', 'USA', 'HU
 	replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 	replace_value(col='iso3', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC'),
 	replace_value(col='iso3', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
-	df_merge_geonomenclador(df2=           geocodigo                     name_long  \
-0                ABW                         Aruba   
-1                AFE  África Oriental y Meridional   
-2                AFG                    Afganistán   
-3                AFW   África Occidental y Central   
-4                AGO                        Angola   
-...              ...                           ...   
-1002  DESHUM_ZZF.EAP       Este de Asia y Pacífico   
-1003  DESHUM_ZZG.ECA         Europa y Asia Central   
-1004  DESHUM_ZZH.LAC    América Latina y el Caribe   
-1005   DESHUM_ZZI.SA               Asia meridional   
-1006  DESHUM_ZZJ.SSA           África Subsahariana   
-
-                        name_short iso_2  
-0                            Aruba    AW  
-1     África Oriental y Meridional   NaN  
-2                       Afganistán    AF  
-3      África Occidental y Central   NaN  
-4                           Angola    AO  
-...                            ...   ...  
-1002       Este de Asia y Pacífico   NaN  
-1003         Europa y Asia Central   NaN  
-1004    América Latina y el Caribe   NaN  
-1005               Asia meridional   NaN  
-1006           África Subsahariana   NaN  
-
-[1007 rows x 4 columns], left='iso3', right='geocodigo', how='left'),
+	df_merge_geonomenclador(left='iso3', right='geocodigo', how='left'),
 	drop_col(col=['geocodigo', 'iso3', 'country', 'name_short', 'iso_2', 'anio'], axis=1),
 	rename_cols(map={'name_long': 'categoria'}),
 	wide_to_long(primary_keys=['categoria'], value_name='valor', var_name='indicador'),
@@ -174,33 +148,7 @@ query(condition="anio == anio.max() & iso3.isin(['NOR', 'ISL', 'DNK', 'USA', 'HU
 #  
 #  ------------------------------
 #  
-#  df_merge_geonomenclador(df2=           geocodigo                     name_long  \
-#  0                ABW                         Aruba   
-#  1                AFE  África Oriental y Meridional   
-#  2                AFG                    Afganistán   
-#  3                AFW   África Occidental y Central   
-#  4                AGO                        Angola   
-#  ...              ...                           ...   
-#  1002  DESHUM_ZZF.EAP       Este de Asia y Pacífico   
-#  1003  DESHUM_ZZG.ECA         Europa y Asia Central   
-#  1004  DESHUM_ZZH.LAC    América Latina y el Caribe   
-#  1005   DESHUM_ZZI.SA               Asia meridional   
-#  1006  DESHUM_ZZJ.SSA           África Subsahariana   
-#  
-#                          name_short iso_2  
-#  0                            Aruba    AW  
-#  1     África Oriental y Meridional   NaN  
-#  2                       Afganistán    AF  
-#  3      África Occidental y Central   NaN  
-#  4                           Angola    AO  
-#  ...                            ...   ...  
-#  1002       Este de Asia y Pacífico   NaN  
-#  1003         Europa y Asia Central   NaN  
-#  1004    América Latina y el Caribe   NaN  
-#  1005               Asia meridional   NaN  
-#  1006           África Subsahariana   NaN  
-#  
-#  [1007 rows x 4 columns], left='iso3', right='geocodigo', how='left')
+#  df_merge_geonomenclador(left='iso3', right='geocodigo', how='left')
 #  RangeIndex: 15 entries, 0 to 14
 #  Data columns (total 9 columns):
 #   #   Column      Non-Null Count  Dtype  
