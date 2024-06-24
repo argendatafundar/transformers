@@ -30,7 +30,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='year == 2019'),
+query(condition='year == year.max()'),
 	query(condition='poverty_line == 6.85'),
 	drop_col(col='poverty_line', axis=1),
 	drop_col(col='year', axis=1),
@@ -55,7 +55,7 @@ query(condition='year == 2019'),
 #  
 #  ------------------------------
 #  
-#  query(condition='year == 2019')
+#  query(condition='year == year.max()')
 #  Index: 355 entries, 1 to 544
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
