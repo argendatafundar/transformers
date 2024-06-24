@@ -1,0 +1,92 @@
+{
+    "tasa_informalidad_productive_legal_ultimo_anio_latam.csv": [
+        {
+            "private": "INFDES_4-3-4_1",
+            "public": "INFDES_g01"
+        }
+    ],
+    "tasa_formalidad_productiva_pib_per_capita.csv": [
+        {
+            "private": "INFDES_4-3-4_2",
+            "public": "INFDES_g02"
+        }
+    ],
+    "composicion_empleo_ultimo_anio_latam.csv": [
+        {
+            "private": "INFDES_4-3-4_3",
+            "public": "INFDES_g03"
+        }
+    ],
+    "tasa_informalidad_argentina_tipo_anio.csv": [
+        {
+            "private": "INFDES_4-3-4_4",
+            "public": "INFDES_g04"
+        }
+    ],
+    "tasa_informalidad_legal_latam.csv": [
+        {
+            "private": "INFDES_4-3-4_5",
+            "public": "INFDES_g05"
+        }
+    ],
+    "tasa_informalidad_provincia_definicion_productiva_legal.csv": [
+        {
+            "private": "INFDES_4-3-4_6",
+            "public": "INFDES_g06"
+        }
+    ],
+    "tasa_informalidad_legal_por_edad_sexo.csv": [
+        {
+            "private": "INFDES_4-3-4_7",
+            "public": "INFDES_g07"
+        }
+    ],
+    "tasa_informalidad_argentina_genero.csv": [
+        {
+            "private": "INFDES_4-3-4_8",
+            "public": "INFDES_g08"
+        }
+    ],
+    "brecha_tasa_informalidad_genero_latam_2000_2021.csv": [
+        {
+            "private": "INFDES_4-3-4_9",
+            "public": "INFDES_g09"
+        }
+    ],
+    "anios_educacion_genero_por_pais.csv": [
+        {
+            "private": "INFDES_4-3-4_10",
+            "public": "INFDES_g10"
+        }
+    ],
+    "tasa_desempleo_arg_mundial_modelada.csv": [
+        {
+            "private": "INFDES_4-3-4_11",
+            "public": "INFDES_g11"
+        }
+    ],
+    "tasa_desempleo_sexo_paises_modelada.csv": [
+        {
+            "private": "INFDES_4-3-4_12",
+            "public": "INFDES_g12"
+        }
+    ],
+    "satisfaccion_vida_desempleo_pais.csv": [
+        {
+            "private": "INFDES_4-3-4_13",
+            "public": "INFDES_g13"
+        }
+    ],
+    "tasa_desempleo_ephtu_sexo_edad.csv": [
+        {
+            "private": "INFDES_4-3-4_14",
+            "public": "INFDES_g14"
+        }
+    ],
+    "tasa_desempleo_eph_niveled.csv": [
+        {
+            "private": "INFDES_4-3-4_15",
+            "public": "INFDES_g15"
+        }
+    ]
+}
