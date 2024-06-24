@@ -1,0 +1,128 @@
+{
+    "tasa_participacion_censos.csv": [
+        {
+            "private": "MERTRA_4-3-4_1",
+            "public": "MERTRA_g01"
+        }
+    ],
+    "ratio_tasa_actividad_mujer_varon_por_pais_anio.csv": [
+        {
+            "private": "MERTRA_4-3-4_2",
+            "public": "MERTRA_g02"
+        }
+    ],
+    "tasa_actividad_por_pais_anio.csv": [
+        {
+            "private": "MERTRA_4-3-4_3",
+            "public": "MERTRA_g03"
+        }
+    ],
+    "media_movil_por_edad_de_tasa_actividad.csv": [
+        {
+            "private": "MERTRA_4-3-4_4",
+            "public": "MERTRA_g04"
+        }
+    ],
+    "media_movil_por_edad_sexo_de_tasa_actividad_brecha.csv": [
+        {
+            "private": "MERTRA_4-3-4_5",
+            "public": "MERTRA_g05"
+        }
+    ],
+    "media_movil_por_edad_reg_desc_fundar_de_tasa_actividad.csv": [
+        {
+            "private": "MERTRA_4-3-4_6",
+            "public": "MERTRA_g06"
+        }
+    ],
+    "puestos_percapita_anio_pais.csv": [
+        {
+            "private": "MERTRA_4-3-4_7",
+            "public": "MERTRA_g07"
+        }
+    ],
+    "tasa_empleo_anio_provincia.csv": [
+        {
+            "private": "MERTRA_4-3-4_8",
+            "public": "MERTRA_g08"
+        }
+    ],
+    "tasa_empleo_por_franja_etaria_anio_provincia.csv": [
+        {
+            "private": "MERTRA_4-3-4_9",
+            "public": "MERTRA_g09"
+        }
+    ],
+    "tasa_empleo_anio_provincia_sexo.csv": [
+        {
+            "private": "MERTRA_4-3-4_10",
+            "public": "MERTRA_g10"
+        }
+    ],
+    "tasa_empleo_menores_provincia.csv": [
+        {
+            "private": "MERTRA_4-3-4_11",
+            "public": "MERTRA_g11"
+        }
+    ],
+    "establecimientos_tasa_empleo_provincia.csv": [
+        {
+            "private": "MERTRA_4-3-4_12",
+            "public": "MERTRA_g12"
+        }
+    ],
+    "tasa_empleo_mujer_salario_provincia_anio.csv": [
+        {
+            "private": "MERTRA_4-3-4_13",
+            "public": "MERTRA_g13"
+        }
+    ],
+    "lavarropas_tasa_empleo_fem_provincia.csv": [
+        {
+            "private": "MERTRA_4-3-4_14",
+            "public": "MERTRA_g14"
+        }
+    ],
+    "share_acuerdo_varones_empleo_region_arg.csv": [
+        {
+            "private": "MERTRA_4-3-4_15",
+            "public": "MERTRA_g15"
+        }
+    ],
+    "tasa_empleo_provincia_nivel_educativo.csv": [
+        {
+            "private": "MERTRA_4-3-4_16",
+            "public": "MERTRA_g16"
+        }
+    ],
+    "tiempo_social_trabajo_sexo.csv": [
+        {
+            "private": "MERTRA_4-3-4_17",
+            "public": "MERTRA_g17"
+        }
+    ],
+    "tiempo_social_trabajo_sexo_edad.csv": [
+        {
+            "private": "MERTRA_4-3-4_18",
+            "public": "MERTRA_g18"
+        }
+    ],
+    "tiempo_social_trabajo_sexo_niveleducativo.csv": [
+        {
+            "private": "MERTRA_4-3-4_19",
+            "public": "MERTRA_g19"
+        }
+    ],
+    "tipo_trabajo_no_rem_sexo.csv": [
+        {
+            "private": "MERTRA_4-3-4_20",
+            "public": "MERTRA_g20"
+        }
+    ],
+    "trabajo_no_remunerado_sexo_internacional.csv": [
+        {
+            "private": "MERTRA_4-3-4_21",
+            "public": "MERTRA_g21"
+        }
+    ]
+}
