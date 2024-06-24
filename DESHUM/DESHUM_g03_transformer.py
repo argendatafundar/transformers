@@ -59,6 +59,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -75,6 +80,7 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 	replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD'),
 	replace_value(col='iso3', curr_value='ZZB.HHD', new_value='DESHUM_ZZB.HHD'),
 	replace_value(col='iso3', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD'),
+	replace_value(col='iso3', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD'),
 	replace_value(col='iso3', curr_value='ZZE.AS', new_value='DESHUM_ZZE.AS'),
 	replace_value(col='iso3', curr_value='ZZF.EAP', new_value='DESHUM_ZZF.EAP'),
 	replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD'),
@@ -161,6 +167,24 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD')
+#  RangeIndex: 6171 entries, 0 to 6170
+#  Data columns (total 6 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   iso3               6171 non-null   object 
+#   1   pais_nombre        6171 non-null   object 
+#   2   continente_fundar  5808 non-null   object 
+#   3   es_agregacion      5808 non-null   float64
+#   4   anio               6171 non-null   int64  
+#   5   idh                6171 non-null   float64
+#  
+#  |    | iso3   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   idh |
+#  |---:|:-------|:--------------|:--------------------|----------------:|-------:|------:|
+#  |  0 | AFG    | Afganistán    | Asia                |               0 |   1990 | 0.284 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='iso3', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD')
 #  RangeIndex: 6171 entries, 0 to 6170
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
