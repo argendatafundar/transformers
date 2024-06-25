@@ -16,11 +16,6 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
-
-@transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
 #  DEFINITIONS_END
 
 
@@ -28,8 +23,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 query(condition='anio == 2019 & productividad_tipo == "Productividad por ocupado"'),
 	rename_cols(map={'iso3': 'geocodigo'}),
-	drop_col(col=['productividad_tipo', 'anio'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	drop_col(col=['productividad_tipo', 'anio'], axis=1)
 )
 #  PIPELINE_END
 
@@ -90,23 +84,9 @@ query(condition='anio == 2019 & productividad_tipo == "Productividad por ocupado
 #   0   geocodigo  183 non-null    object 
 #   1   valor      177 non-null    float64
 #  
-#  |     | geocodigo   |       valor |
-#  |----:|:------------|------------:|
-#  | 139 | ABW         | 6.44685e+06 |
-#  
-#  ------------------------------
-#  
-#  mutiplicar_por_escalar(col='valor', k=100)
-#  Index: 183 entries, 139 to 25619
-#  Data columns (total 2 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  183 non-null    object 
-#   1   valor      177 non-null    float64
-#  
-#  |     | geocodigo   |       valor |
-#  |----:|:------------|------------:|
-#  | 139 | ABW         | 6.44685e+06 |
+#  |     | geocodigo   |   valor |
+#  |----:|:------------|--------:|
+#  | 139 | ABW         | 64468.5 |
 #  
 #  ------------------------------
 #  
