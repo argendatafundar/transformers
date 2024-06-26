@@ -4,99 +4,26 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def df_merge_geonomenclador(df: DataFrame, left:str = 'iso3', right:str = 'geocodigo', how:str='left'):
+    df =  df.merge(geonomenclador, left_on = left, right_on = right, how = how)
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'country_code': 'categoria', 'year': 'anio', 'ipcf_promedio': 'valor'}),
-	replace_value(col='categoria', curr_value='ARG', new_value='Argentina'),
-	replace_value(col='categoria', curr_value='BOL', new_value='Bolivia'),
-	replace_value(col='categoria', curr_value='BRA', new_value='Brasil'),
-	replace_value(col='categoria', curr_value='CHL', new_value='Chile'),
-	replace_value(col='categoria', curr_value='COL', new_value='Colombia'),
-	replace_value(col='categoria', curr_value='CRI', new_value='Costa Rica'),
-	replace_value(col='categoria', curr_value='DOM', new_value='Dominicana'),
-	replace_value(col='categoria', curr_value='ECU', new_value='Ecuador'),
-	replace_value(col='categoria', curr_value='MEX', new_value='México'),
-	replace_value(col='categoria', curr_value='PAN', new_value='Panamá'),
-	replace_value(col='categoria', curr_value='PER', new_value='Perú'),
-	replace_value(col='categoria', curr_value='PRY', new_value='Paraguay'),
-	replace_value(col='categoria', curr_value='SLV', new_value='El Salvador'),
-	replace_value(col='categoria', curr_value='URY', new_value='Uruguay')
+df_merge_geonomenclador(left='country_code', right='geocodigo', how='left'),
+	drop_col(col=['country_code', 'geocodigo', 'name_short', 'iso_2'], axis=1),
+	rename_cols(map={'name_long': 'categoria', 'year': 'indicador', 'ipcf_promedio': 'valor'})
 )
 #  PIPELINE_END
 
@@ -116,228 +43,52 @@ rename_cols(map={'country_code': 'categoria', 'year': 'anio', 'ipcf_promedio': '
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'country_code': 'categoria', 'year': 'anio', 'ipcf_promedio': 'valor'})
+#  df_merge_geonomenclador(left='country_code', right='geocodigo', how='left')
 #  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
+#  Data columns (total 7 columns):
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   country_code   14 non-null     object 
+#   1   year           14 non-null     int64  
+#   2   ipcf_promedio  14 non-null     float64
+#   3   geocodigo      14 non-null     object 
+#   4   name_long      14 non-null     object 
+#   5   name_short     14 non-null     object 
+#   6   iso_2          14 non-null     object 
 #  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | ARG         |   2022 | 695.306 |
+#  |    | country_code   |   year |   ipcf_promedio | geocodigo   | name_long   | name_short   | iso_2   |
+#  |---:|:---------------|-------:|----------------:|:------------|:------------|:-------------|:--------|
+#  |  0 | ARG            |   2022 |         695.306 | ARG         | Argentina   | Argentina    | AR      |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='ARG', new_value='Argentina')
+#  drop_col(col=['country_code', 'geocodigo', 'name_short', 'iso_2'], axis=1)
 #  RangeIndex: 14 entries, 0 to 13
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   year           14 non-null     int64  
+#   1   ipcf_promedio  14 non-null     float64
+#   2   name_long      14 non-null     object 
 #  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
+#  |    |   year |   ipcf_promedio | name_long   |
+#  |---:|-------:|----------------:|:------------|
+#  |  0 |   2022 |         695.306 | Argentina   |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='BOL', new_value='Bolivia')
+#  rename_cols(map={'name_long': 'categoria', 'year': 'indicador', 'ipcf_promedio': 'valor'})
 #  RangeIndex: 14 entries, 0 to 13
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
+#   0   indicador  14 non-null     int64  
+#   1   valor      14 non-null     float64
+#   2   categoria  14 non-null     object 
 #  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='BRA', new_value='Brasil')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='CHL', new_value='Chile')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='COL', new_value='Colombia')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='CRI', new_value='Costa Rica')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='DOM', new_value='Dominicana')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='ECU', new_value='Ecuador')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='MEX', new_value='México')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='PAN', new_value='Panamá')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='PER', new_value='Perú')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='PRY', new_value='Paraguay')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='SLV', new_value='El Salvador')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='URY', new_value='Uruguay')
-#  RangeIndex: 14 entries, 0 to 13
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  14 non-null     object 
-#   1   anio       14 non-null     int64  
-#   2   valor      14 non-null     float64
-#  
-#  |    | categoria   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Argentina   |   2022 | 695.306 |
+#  |    |   indicador |   valor | categoria   |
+#  |---:|------------:|--------:|:------------|
+#  |  0 |        2022 | 695.306 | Argentina   |
 #  
 #  ------------------------------
 #  
