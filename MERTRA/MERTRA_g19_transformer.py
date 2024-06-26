@@ -17,7 +17,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'cateoria', 'minutos': 'valor'}),
+rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'categoria', 'minutos': 'valor'}),
 	query(condition="indicador != 'Total'")
 )
 #  PIPELINE_END
@@ -38,16 +38,16 @@ rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'cateoria', 'minutos': 
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'cateoria', 'minutos': 'valor'})
+#  rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'categoria', 'minutos': 'valor'})
 #  RangeIndex: 15 entries, 0 to 14
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   indicador  15 non-null     object 
-#   1   cateoria   15 non-null     object 
+#   1   categoria  15 non-null     object 
 #   2   valor      15 non-null     float64
 #  
-#  |    | indicador   | cateoria                  |   valor |
+#  |    | indicador   | categoria                 |   valor |
 #  |---:|:------------|:--------------------------|--------:|
 #  |  0 | Mujeres     | Hasta primario incompleto | 410.242 |
 #  
@@ -59,10 +59,10 @@ rename_cols(map={'sexo': 'indicador', 'nivel_educativo': 'cateoria', 'minutos': 
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   indicador  10 non-null     object 
-#   1   cateoria   10 non-null     object 
+#   1   categoria  10 non-null     object 
 #   2   valor      10 non-null     float64
 #  
-#  |    | indicador   | cateoria                  |   valor |
+#  |    | indicador   | categoria                 |   valor |
 #  |---:|:------------|:--------------------------|--------:|
 #  |  0 | Mujeres     | Hasta primario incompleto | 410.242 |
 #  
