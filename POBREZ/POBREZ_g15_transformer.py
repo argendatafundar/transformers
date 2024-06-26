@@ -39,6 +39,11 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -51,7 +56,8 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	rename_cols(map={'labor_status': 'categoria', 'poverty_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	drop_col(col='poverty_line', axis=1)
+	drop_col(col='poverty_line', axis=1),
+	query(condition="categoria == 'Ocupados' | categoria == 'Desocupados' | categoria == 'Inactivos'")
 )
 #  PIPELINE_END
 
@@ -207,6 +213,21 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  |     | categoria   |   valor | aniosem   |
 #  |----:|:------------|--------:|:----------|
 #  | 400 | Total       | 54.5894 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  query(condition="categoria == 'Ocupados' | categoria == 'Desocupados' | categoria == 'Inactivos'")
+#  Index: 120 entries, 401 to 793
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  120 non-null    object 
+#   1   valor      114 non-null    float64
+#   2   aniosem    120 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 401 | Ocupados    | 49.3369 | 2003-2    |
 #  
 #  ------------------------------
 #  
