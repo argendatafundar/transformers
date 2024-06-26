@@ -11,7 +11,7 @@ def round_to(df, col, n):
         decimal_number = Decimal(str(number))
         rounding_format = Decimal('1.' + '0' * n)
         rounded_number = decimal_number.quantize(rounding_format, rounding=ROUND_HALF_UP)
-        return float(rounded_number)
+        return rounded_number
 
     def round_to(n):
         return lambda x: round_to_n_digits(x,n)
@@ -66,12 +66,12 @@ round_to(col='valor', n=2),
 #  round_to(col='valor', n=2)
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   region_wvs_code  12 non-null     int64  
-#   1   region_wvs       12 non-null     object 
-#   2   nivel_acuerdo    12 non-null     object 
-#   3   valor            12 non-null     float64
+#   #   Column           Non-Null Count  Dtype 
+#  ---  ------           --------------  ----- 
+#   0   region_wvs_code  12 non-null     int64 
+#   1   region_wvs       12 non-null     object
+#   2   nivel_acuerdo    12 non-null     object
+#   3   valor            12 non-null     object
 #  
 #  |    |   region_wvs_code | region_wvs                     | nivel_acuerdo   |   valor |
 #  |---:|------------------:|:-------------------------------|:----------------|--------:|
@@ -82,12 +82,12 @@ round_to(col='valor', n=2),
 #  mutiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   region_wvs_code  12 non-null     int64  
-#   1   region_wvs       12 non-null     object 
-#   2   nivel_acuerdo    12 non-null     object 
-#   3   valor            12 non-null     float64
+#   #   Column           Non-Null Count  Dtype 
+#  ---  ------           --------------  ----- 
+#   0   region_wvs_code  12 non-null     int64 
+#   1   region_wvs       12 non-null     object
+#   2   nivel_acuerdo    12 non-null     object
+#   3   valor            12 non-null     object
 #  
 #  |    |   region_wvs_code | region_wvs                     | nivel_acuerdo   |   valor |
 #  |---:|------------------:|:-------------------------------|:----------------|--------:|
@@ -98,11 +98,11 @@ round_to(col='valor', n=2),
 #  drop_col(col='region_wvs_code', axis=1)
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 3 columns):
-#   #   Column         Non-Null Count  Dtype  
-#  ---  ------         --------------  -----  
-#   0   region_wvs     12 non-null     object 
-#   1   nivel_acuerdo  12 non-null     object 
-#   2   valor          12 non-null     float64
+#   #   Column         Non-Null Count  Dtype 
+#  ---  ------         --------------  ----- 
+#   0   region_wvs     12 non-null     object
+#   1   nivel_acuerdo  12 non-null     object
+#   2   valor          12 non-null     object
 #  
 #  |    | region_wvs                     | nivel_acuerdo   |   valor |
 #  |---:|:-------------------------------|:----------------|--------:|
@@ -113,11 +113,11 @@ round_to(col='valor', n=2),
 #  rename_cols(map={'region_wvs': 'categoria', 'nivel_acuerdo': 'indicador'})
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  12 non-null     object 
-#   1   indicador  12 non-null     object 
-#   2   valor      12 non-null     float64
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   categoria  12 non-null     object
+#   1   indicador  12 non-null     object
+#   2   valor      12 non-null     object
 #  
 #  |    | categoria                      | indicador   |   valor |
 #  |---:|:-------------------------------|:------------|--------:|
