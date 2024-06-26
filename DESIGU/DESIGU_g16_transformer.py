@@ -7,106 +7,43 @@ from data_transformers import chain, transformer
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
-	replace_value(col='categoria', curr_value='remuneraciontrabajo', new_value='Remuneración al trabajo asalariado'),
-	replace_value(col='categoria', curr_value='ingresobrutomixto', new_value='Ingreso mixto bruto'),
-	replace_value(col='categoria', curr_value='excedentebruto', new_value='Excedente de explotación bruto')
+rename_cols(map={'participacion': 'valor'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 21 entries, 0 to 20
+#  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
-#   #   Column    Non-Null Count  Dtype  
-#  ---  ------    --------------  -----  
-#   0   ano       21 non-null     int64  
-#   1   variable  21 non-null     object 
-#   2   valor     21 non-null     float64
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   anio           24 non-null     int64  
+#   1   categoria      24 non-null     object 
+#   2   participacion  24 non-null     float64
 #  
-#  |    |   ano | variable            |   valor |
-#  |---:|------:|:--------------------|--------:|
-#  |  0 |  2016 | remuneraciontrabajo |      52 |
+#  |    |   anio | categoria                          |   participacion |
+#  |---:|-------:|:-----------------------------------|----------------:|
+#  |  0 |   2016 | Remuneración al trabajo asalariado |         51.8371 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'ano': 'anio', 'variable': 'categoria'})
-#  RangeIndex: 21 entries, 0 to 20
+#  rename_cols(map={'participacion': 'valor'})
+#  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       21 non-null     int64  
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
-#  
-#  |    |   anio | categoria           |   valor |
-#  |---:|-------:|:--------------------|--------:|
-#  |  0 |   2016 | remuneraciontrabajo |      52 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='remuneraciontrabajo', new_value='Remuneración al trabajo asalariado')
-#  RangeIndex: 21 entries, 0 to 20
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       21 non-null     int64  
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
+#   0   anio       24 non-null     int64  
+#   1   categoria  24 non-null     object 
+#   2   valor      24 non-null     float64
 #  
 #  |    |   anio | categoria                          |   valor |
 #  |---:|-------:|:-----------------------------------|--------:|
-#  |  0 |   2016 | Remuneración al trabajo asalariado |      52 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='ingresobrutomixto', new_value='Ingreso mixto bruto')
-#  RangeIndex: 21 entries, 0 to 20
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       21 non-null     int64  
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
-#  
-#  |    |   anio | categoria                          |   valor |
-#  |---:|-------:|:-----------------------------------|--------:|
-#  |  0 |   2016 | Remuneración al trabajo asalariado |      52 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='excedentebruto', new_value='Excedente de explotación bruto')
-#  RangeIndex: 21 entries, 0 to 20
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       21 non-null     int64  
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
-#  
-#  |    |   anio | categoria                          |   valor |
-#  |---:|-------:|:-----------------------------------|--------:|
-#  |  0 |   2016 | Remuneración al trabajo asalariado |      52 |
+#  |  0 |   2016 | Remuneración al trabajo asalariado | 51.8371 |
 #  
 #  ------------------------------
 #  
