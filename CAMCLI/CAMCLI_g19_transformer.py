@@ -10,7 +10,8 @@ def rename_cols(df: DataFrame, map):
 
 @transformer.convert
 def datetime_to_year(df, col: str):
-    df[col] = pd.to_datetime(df[col]).dt.year
+    from pandas import to_datetime
+    df[col] = to_datetime(df[col]).dt.year
     return df
 #  DEFINITIONS_END
 
