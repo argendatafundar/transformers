@@ -31,6 +31,11 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -39,9 +44,10 @@ pipeline = chain(
 replace_value(col='semester', curr_value='I', new_value=1),
 	replace_value(col='date', curr_value='II', new_value=2),
 	filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester'),
-	rename_cols(map={'region': 'categoria', 'k_value': 'indicador', 'pov_rate': 'valor'}),
+	rename_cols(map={'region': 'indicador', 'k_value': 'categoria', 'pov_rate': 'valor'}),
 	drop_col(col='year', axis=1),
-	drop_col(col='semester', axis=1)
+	drop_col(col='semester', axis=1),
+	query(condition="indicador != 'Total'")
 )
 #  PIPELINE_END
 
@@ -114,18 +120,18 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'region': 'categoria', 'k_value': 'indicador', 'pov_rate': 'valor'})
+#  rename_cols(map={'region': 'indicador', 'k_value': 'categoria', 'pov_rate': 'valor'})
 #  Index: 16 entries, 312 to 639
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   year       16 non-null     int64  
 #   1   semester   16 non-null     object 
-#   2   categoria  16 non-null     object 
-#   3   indicador  16 non-null     float64
+#   2   indicador  16 non-null     object 
+#   3   categoria  16 non-null     float64
 #   4   valor      16 non-null     float64
 #  
-#  |     |   year |   semester | categoria   |   indicador |     valor |
+#  |     |   year |   semester | indicador   |   categoria |     valor |
 #  |----:|-------:|-----------:|:------------|------------:|----------:|
 #  | 312 |   2023 |          1 | Total       |        0.25 | 0.0890548 |
 #  
@@ -137,11 +143,11 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   semester   16 non-null     object 
-#   1   categoria  16 non-null     object 
-#   2   indicador  16 non-null     float64
+#   1   indicador  16 non-null     object 
+#   2   categoria  16 non-null     float64
 #   3   valor      16 non-null     float64
 #  
-#  |     |   semester | categoria   |   indicador |     valor |
+#  |     |   semester | indicador   |   categoria |     valor |
 #  |----:|-----------:|:------------|------------:|----------:|
 #  | 312 |          1 | Total       |        0.25 | 0.0890548 |
 #  
@@ -152,13 +158,28 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  16 non-null     object 
-#   1   indicador  16 non-null     float64
+#   0   indicador  16 non-null     object 
+#   1   categoria  16 non-null     float64
 #   2   valor      16 non-null     float64
 #  
-#  |     | categoria   |   indicador |     valor |
+#  |     | indicador   |   categoria |     valor |
 #  |----:|:------------|------------:|----------:|
 #  | 312 | Total       |        0.25 | 0.0890548 |
+#  
+#  ------------------------------
+#  
+#  query(condition="indicador != 'Total'")
+#  Index: 14 entries, 313 to 639
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  14 non-null     object 
+#   1   categoria  14 non-null     float64
+#   2   valor      14 non-null     float64
+#  
+#  |     | indicador   |   categoria |   valor |
+#  |----:|:------------|------------:|--------:|
+#  | 313 | Partidos    |        0.25 | 0.12649 |
 #  
 #  ------------------------------
 #  
