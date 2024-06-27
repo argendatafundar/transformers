@@ -27,10 +27,10 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'              ano': 'anio', 'variable': 'indicador'}),
-	replace_value(col='indicador', curr_value='Asalariadosfirmasgrandes', new_value='Asalariados firmas grandes'),
-	replace_value(col='indicador', curr_value='Asalariadospúblico', new_value='Asalariados público'),
-	replace_value(col='indicador', curr_value='Asalariadospequeñas', new_value='Asalariados pequeñas')
+rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
+	replace_value(col='categoria', curr_value='Asalariadosfirmasgrandes', new_value='Asalariados firmas grandes'),
+	replace_value(col='categoria', curr_value='Asalariadospequeñas', new_value='Asalariados firmas pequeñas'),
+	replace_value(col='categoria', curr_value='Asalariadospúblico', new_value='Asalariados sector público')
 )
 #  PIPELINE_END
 
@@ -38,73 +38,73 @@ rename_cols(map={'              ano': 'anio', 'variable': 'indicador'}),
 #  start()
 #  RangeIndex: 192 entries, 0 to 191
 #  Data columns (total 3 columns):
-#   #   Column             Non-Null Count  Dtype 
-#  ---  ------             --------------  ----- 
-#   0                 ano  192 non-null    int64 
-#   1   variable           192 non-null    object
-#   2   valor              192 non-null    int64 
+#   #   Column    Non-Null Count  Dtype 
+#  ---  ------    --------------  ----- 
+#   0   ano       192 non-null    int64 
+#   1   variable  192 non-null    object
+#   2   valor     192 non-null    int64 
 #  
-#  |    |                 ano | variable    |   valor |
-#  |---:|--------------------:|:------------|--------:|
-#  |  0 |                1992 | Empresarios |     140 |
+#  |    |   ano | variable    |   valor |
+#  |---:|------:|:------------|--------:|
+#  |  0 |  1992 | Empresarios |     140 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'              ano': 'anio', 'variable': 'indicador'})
+#  rename_cols(map={'variable': 'categoria', 'ano': 'anio'})
 #  RangeIndex: 192 entries, 0 to 191
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
 #   0   anio       192 non-null    int64 
-#   1   indicador  192 non-null    object
+#   1   categoria  192 non-null    object
 #   2   valor      192 non-null    int64 
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1992 | Empresarios |     140 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Asalariadosfirmasgrandes', new_value='Asalariados firmas grandes')
+#  replace_value(col='categoria', curr_value='Asalariadosfirmasgrandes', new_value='Asalariados firmas grandes')
 #  RangeIndex: 192 entries, 0 to 191
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
 #   0   anio       192 non-null    int64 
-#   1   indicador  192 non-null    object
+#   1   categoria  192 non-null    object
 #   2   valor      192 non-null    int64 
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1992 | Empresarios |     140 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Asalariadospúblico', new_value='Asalariados público')
+#  replace_value(col='categoria', curr_value='Asalariadospequeñas', new_value='Asalariados firmas pequeñas')
 #  RangeIndex: 192 entries, 0 to 191
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
 #   0   anio       192 non-null    int64 
-#   1   indicador  192 non-null    object
+#   1   categoria  192 non-null    object
 #   2   valor      192 non-null    int64 
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1992 | Empresarios |     140 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Asalariadospequeñas', new_value='Asalariados pequeñas')
+#  replace_value(col='categoria', curr_value='Asalariadospúblico', new_value='Asalariados sector público')
 #  RangeIndex: 192 entries, 0 to 191
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
 #   0   anio       192 non-null    int64 
-#   1   indicador  192 non-null    object
+#   1   categoria  192 non-null    object
 #   2   valor      192 non-null    int64 
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1992 | Empresarios |     140 |
 #  
