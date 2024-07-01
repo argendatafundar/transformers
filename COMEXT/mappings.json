@@ -2,53 +2,53 @@
     "indice_cantidad_exportaciones_argentina.csv": [
         {
             "private": "COMEXT_5-1-1_1",
-            "public": "COMEXT_g1"
+            "public": "COMEXT_g01"
         }
     ],
     "exportaciones_bienes_servicios_millones_usd_constantes_2015.csv": [
         {
             "private": "COMEXT_5-1-1_2",
-            "public": "COMEXT_g2"
+            "public": "COMEXT_g02"
         }
     ],
     "participacion_exportaciones_servicios_porcentaje_exportaciones.csv": [
         {
             "private": "COMEXT_5-1-1_3",
-            "public": "COMEXT_g3"
+            "public": "COMEXT_g03"
         }
     ],
     "participacion_exportaciones_bienes_servicios_porcentaje_pib.csv": [
         {
             "private": "COMEXT_5-1-1_4",
-            "public": "COMEXT_g4"
+            "public": "COMEXT_g04"
         }
     ],
     "participacion_exportaciones_bienes_servicios_mundo.csv": [
         {
             "private": "COMEXT_5-1-1_5",
-            "public": "COMEXT_g5"
+            "public": "COMEXT_g05"
         },
         {
             "private": "COMEXT_5-1-1_6",
-            "public": "COMEXT_g6"
+            "public": "COMEXT_g06"
         }
     ],
     "indice_valores_unitarios_exportacion_bienes_2000.csv": [
         {
             "private": "COMEXT_5-1-1_7",
-            "public": "COMEXT_g7"
+            "public": "COMEXT_g07"
         }
     ],
     "indice_volumen_exportaciones_bienes_2000.csv": [
         {
             "private": "COMEXT_5-1-1_8",
-            "public": "COMEXT_g8"
+            "public": "COMEXT_g08"
         }
     ],
     "indice_apertura_comercial.csv": [
         {
             "private": "COMEXT_5-1-1_9",
-            "public": "COMEXT_g9"
+            "public": "COMEXT_g09"
         }
     ],
     "composicion_exportaciones_bienes_sitc_seccion.csv": [
