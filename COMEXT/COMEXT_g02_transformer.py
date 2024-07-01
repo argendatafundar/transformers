@@ -29,6 +29,18 @@ def query(df: DataFrame, condition: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df: DataFrame, col:str):
+    df = df.dropna(subset= col, axis=0)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -39,7 +51,9 @@ drop_col(col='countryname', axis=1),
 	replace_value(col='indicador', curr_value='exportsconstant_goods_v2', new_value='Bienes'),
 	replace_value(col='indicador', curr_value='exportsconstant_servi_v2', new_value='Servicios'),
 	query(condition='iso3 == "ARG"'),
-	drop_col(col='iso3', axis=1)
+	drop_col(col='iso3', axis=1),
+	drop_na(col='valor'),
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -55,9 +69,9 @@ drop_col(col='countryname', axis=1),
 #   3   exportsconstant_goods_v2  6251 non-null   float64
 #   4   exportsconstant_servi_v2  6251 non-null   float64
 #  
-#  |    |   anio | iso3   | countryname                 |   exportsconstant_goods_v2 |   exportsconstant_servi_v2 |
-#  |---:|-------:|:-------|:----------------------------|---------------------------:|---------------------------:|
-#  |  0 |   2023 | AFE    | Africa Eastern and Southern |                        nan |                        nan |
+#  |    |   anio | iso3   | countryname   |   exportsconstant_goods_v2 |   exportsconstant_servi_v2 |
+#  |---:|-------:|:-------|:--------------|---------------------------:|---------------------------:|
+#  |  0 |   2023 | ABW    | Aruba         |                        nan |                        nan |
 #  
 #  ------------------------------
 #  
@@ -73,7 +87,7 @@ drop_col(col='countryname', axis=1),
 #  
 #  |    |   anio | iso3   |   exportsconstant_goods_v2 |   exportsconstant_servi_v2 |
 #  |---:|-------:|:-------|---------------------------:|---------------------------:|
-#  |  0 |   2023 | AFE    |                        nan |                        nan |
+#  |  0 |   2023 | ABW    |                        nan |                        nan |
 #  
 #  ------------------------------
 #  
@@ -89,7 +103,7 @@ drop_col(col='countryname', axis=1),
 #  
 #  |    |   anio | iso3   | indicador                |   valor |
 #  |---:|-------:|:-------|:-------------------------|--------:|
-#  |  0 |   2023 | AFE    | exportsconstant_goods_v2 |     nan |
+#  |  0 |   2023 | ABW    | exportsconstant_goods_v2 |     nan |
 #  
 #  ------------------------------
 #  
@@ -105,7 +119,7 @@ drop_col(col='countryname', axis=1),
 #  
 #  |    |   anio | iso3   | indicador   |   valor |
 #  |---:|-------:|:-------|:------------|--------:|
-#  |  0 |   2023 | AFE    | Bienes      |     nan |
+#  |  0 |   2023 | ABW    | Bienes      |     nan |
 #  
 #  ------------------------------
 #  
@@ -121,12 +135,12 @@ drop_col(col='countryname', axis=1),
 #  
 #  |    |   anio | iso3   | indicador   |   valor |
 #  |---:|-------:|:-------|:------------|--------:|
-#  |  0 |   2023 | AFE    | Bienes      |     nan |
+#  |  0 |   2023 | ABW    | Bienes      |     nan |
 #  
 #  ------------------------------
 #  
 #  query(condition='iso3 == "ARG"')
-#  Index: 128 entries, 3520 to 20543
+#  Index: 128 entries, 576 to 17599
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -135,14 +149,14 @@ drop_col(col='countryname', axis=1),
 #   2   indicador  128 non-null    object 
 #   3   valor      94 non-null     float64
 #  
-#  |      |   anio | iso3   | indicador   |   valor |
-#  |-----:|-------:|:-------|:------------|--------:|
-#  | 3520 |   2023 | ARG    | Bienes      |     nan |
+#  |     |   anio | iso3   | indicador   |   valor |
+#  |----:|-------:|:-------|:------------|--------:|
+#  | 576 |   2023 | ARG    | Bienes      |     nan |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3', axis=1)
-#  Index: 128 entries, 3520 to 20543
+#  Index: 128 entries, 576 to 17599
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -150,9 +164,39 @@ drop_col(col='countryname', axis=1),
 #   1   indicador  128 non-null    object 
 #   2   valor      94 non-null     float64
 #  
-#  |      |   anio | indicador   |   valor |
-#  |-----:|-------:|:------------|--------:|
-#  | 3520 |   2023 | Bienes      |     nan |
+#  |     |   anio | indicador   |   valor |
+#  |----:|-------:|:------------|--------:|
+#  | 576 |   2023 | Bienes      |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(col='valor')
+#  Index: 94 entries, 577 to 17599
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       94 non-null     int64  
+#   1   indicador  94 non-null     object 
+#   2   valor      94 non-null     float64
+#  
+#  |     |   anio | indicador   |   valor |
+#  |----:|-------:|:------------|--------:|
+#  | 577 |   2022 | Bienes      | 61887.4 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 94 entries, 0 to 93
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       94 non-null     int64  
+#   1   indicador  94 non-null     object 
+#   2   valor      94 non-null     float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1976 | Bienes      | 9548.58 |
 #  
 #  ------------------------------
 #  
