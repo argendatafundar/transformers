@@ -39,6 +39,31 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -51,7 +76,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	rename_cols(map={'educ_level': 'categoria', 'poverty_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	drop_col(col='poverty_line', axis=1)
+	drop_col(col='poverty_line', axis=1),
+	replace_value(col='categoria', curr_value='Primaria_o_menos', new_value='Primaria o menos'),
+	replace_value(col='categoria', curr_value='Secu_incompleta', new_value='Secundaria incompleta'),
+	replace_value(col='categoria', curr_value='Secu_completa', new_value='Secundaria completa'),
+	replace_value(col='categoria', curr_value='Supe_incompleta', new_value='Superior incompleta'),
+	replace_value(col='categoria', curr_value='Supe_completa', new_value='Superior completa')
 )
 #  PIPELINE_END
 
@@ -196,6 +226,81 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='poverty_line', axis=1)
+#  Index: 240 entries, 240 to 479
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  240 non-null    object 
+#   1   valor      228 non-null    float64
+#   2   aniosem    240 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 240 | Todos       | 54.6942 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Primaria_o_menos', new_value='Primaria o menos')
+#  Index: 240 entries, 240 to 479
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  240 non-null    object 
+#   1   valor      228 non-null    float64
+#   2   aniosem    240 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 240 | Todos       | 54.6942 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Secu_incompleta', new_value='Secundaria incompleta')
+#  Index: 240 entries, 240 to 479
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  240 non-null    object 
+#   1   valor      228 non-null    float64
+#   2   aniosem    240 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 240 | Todos       | 54.6942 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Secu_completa', new_value='Secundaria completa')
+#  Index: 240 entries, 240 to 479
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  240 non-null    object 
+#   1   valor      228 non-null    float64
+#   2   aniosem    240 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 240 | Todos       | 54.6942 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Supe_incompleta', new_value='Superior incompleta')
+#  Index: 240 entries, 240 to 479
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  240 non-null    object 
+#   1   valor      228 non-null    float64
+#   2   aniosem    240 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 240 | Todos       | 54.6942 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Supe_completa', new_value='Superior completa')
 #  Index: 240 entries, 240 to 479
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
