@@ -16,6 +16,13 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -23,7 +30,8 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo'}),
 	drop_col(col='countryname', axis=1),
-	rename_cols(map={'exportunitvalueindex_2000': 'valor'})
+	rename_cols(map={'exportunitvalueindex_2000': 'valor'}),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -87,6 +95,21 @@ rename_cols(map={'iso3': 'geocodigo'}),
 #  |    |   anio | geocodigo   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   2023 | ABW         |     nan |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 16960 entries, 0 to 16959
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       16960 non-null  int64  
+#   1   geocodigo  16960 non-null  object 
+#   2   valor      6291 non-null   float64
+#  
+#  |    |   anio | geocodigo   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1960 | ABW         |     nan |
 #  
 #  ------------------------------
 #  
