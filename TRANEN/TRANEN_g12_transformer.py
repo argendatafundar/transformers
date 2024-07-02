@@ -19,6 +19,26 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -44,6 +64,10 @@ pipeline = chain(
 replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 	replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	query(condition='iso3 == "ARG" & tipo_energia != "Total"'),
+	replace_value(col='tipo_energia', curr_value='Bioenergia', new_value='Bioenergía'),
+	replace_value(col='tipo_energia', curr_value='Carbon', new_value='Carbón'),
+	replace_value(col='tipo_energia', curr_value='Petroleo', new_value='Petróleo'),
+	replace_value(col='tipo_energia', curr_value='Eolica', new_value='Eólica'),
 	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'}),
 	drop_col(col=['iso3', 'porcentaje'], axis=1),
 	drop_na(cols=['valor']),
@@ -120,6 +144,74 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #  
 #  ------------------------------
 #  
+#  replace_value(col='tipo_energia', curr_value='Bioenergia', new_value='Bioenergía')
+#  Index: 351 entries, 390 to 65948
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   anio          351 non-null    int64  
+#   1   iso3          351 non-null    object 
+#   2   tipo_energia  351 non-null    object 
+#   3   valor_en_twh  351 non-null    float64
+#   4   porcentaje    351 non-null    float64
+#  
+#  |     |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
+#  |----:|-------:|:-------|:-----------------|---------------:|-------------:|
+#  | 390 |   1985 | ARG    | Otras renovables |              0 |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='tipo_energia', curr_value='Carbon', new_value='Carbón')
+#  Index: 351 entries, 390 to 65948
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   anio          351 non-null    int64  
+#   1   iso3          351 non-null    object 
+#   2   tipo_energia  351 non-null    object 
+#   3   valor_en_twh  351 non-null    float64
+#   4   porcentaje    351 non-null    float64
+#  
+#  |     |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
+#  |----:|-------:|:-------|:-----------------|---------------:|-------------:|
+#  | 390 |   1985 | ARG    | Otras renovables |              0 |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='tipo_energia', curr_value='Petroleo', new_value='Petróleo')
+#  Index: 351 entries, 390 to 65948
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   anio          351 non-null    int64  
+#   1   iso3          351 non-null    object 
+#   2   tipo_energia  351 non-null    object 
+#   3   valor_en_twh  351 non-null    float64
+#   4   porcentaje    351 non-null    float64
+#  
+#  |     |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
+#  |----:|-------:|:-------|:-----------------|---------------:|-------------:|
+#  | 390 |   1985 | ARG    | Otras renovables |              0 |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='tipo_energia', curr_value='Eolica', new_value='Eólica')
+#  Index: 351 entries, 390 to 65948
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   anio          351 non-null    int64  
+#   1   iso3          351 non-null    object 
+#   2   tipo_energia  351 non-null    object 
+#   3   valor_en_twh  351 non-null    float64
+#   4   porcentaje    351 non-null    float64
+#  
+#  |     |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
+#  |----:|-------:|:-------|:-----------------|---------------:|-------------:|
+#  | 390 |   1985 | ARG    | Otras renovables |              0 |            0 |
+#  
+#  ------------------------------
+#  
 #  rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'})
 #  Index: 351 entries, 390 to 65948
 #  Data columns (total 5 columns):
@@ -178,7 +270,7 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #  
 #  |      |   anio | indicador   |   valor |
 #  |-----:|-------:|:------------|--------:|
-#  | 8580 |   1985 | Bioenergia  |       0 |
+#  | 8580 |   1985 | Bioenergía  |       0 |
 #  
 #  ------------------------------
 #  
