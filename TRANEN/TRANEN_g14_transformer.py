@@ -11,13 +11,26 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort_values(by=by, ascending=how == 'ascending')
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 'categoria'}),
-	drop_col(col='porcentaje', axis=1)
+	drop_col(col='porcentaje', axis=1),
+	query(condition='indicador != "Total"'),
+	sort_values(how='ascending', by=['categoria', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -56,6 +69,36 @@ rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 
 #  
 #  drop_col(col='porcentaje', axis=1)
 #  RangeIndex: 36 entries, 0 to 35
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   categoria  36 non-null     object
+#   1   indicador  36 non-null     object
+#   2   valor      36 non-null     int64 
+#  
+#  |    | categoria                        | indicador   |   valor |
+#  |---:|:---------------------------------|:------------|--------:|
+#  |  0 | CABA y Provincia de Buenos Aires | Bioenergía  |      48 |
+#  
+#  ------------------------------
+#  
+#  query(condition='indicador != "Total"')
+#  Index: 36 entries, 0 to 35
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   categoria  36 non-null     object
+#   1   indicador  36 non-null     object
+#   2   valor      36 non-null     int64 
+#  
+#  |    | categoria                        | indicador   |   valor |
+#  |---:|:---------------------------------|:------------|--------:|
+#  |  0 | CABA y Provincia de Buenos Aires | Bioenergía  |      48 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['categoria', 'indicador'])
+#  Index: 36 entries, 0 to 35
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
