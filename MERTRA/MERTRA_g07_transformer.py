@@ -19,6 +19,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def multiplicar_por_escalar(df:DataFrame, col:str, k:float):
+    df[col] = df[col] * k
+    return df
 #  DEFINITIONS_END
 
 
@@ -26,7 +31,8 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'puestos_per_capita': 'valor'}),
 	drop_na(col='valor'),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -85,9 +91,24 @@ rename_cols(map={'iso3': 'geocodigo', 'puestos_per_capita': 'valor'}),
 #   1   anio       9529 non-null   int64  
 #   2   valor      9529 non-null   float64
 #  
-#  |    | geocodigo   |   anio |    valor |
-#  |---:|:------------|-------:|---------:|
-#  |  0 | ARG         |   1950 | 0.386666 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1950 | 38.6666 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 9529 entries, 0 to 9528
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  9529 non-null   object 
+#   1   anio       9529 non-null   int64  
+#   2   valor      9529 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1950 | 38.6666 |
 #  
 #  ------------------------------
 #  
