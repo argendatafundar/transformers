@@ -36,7 +36,7 @@ drop_col(col='iso3_desc', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'ratio_tasa_actividad_mujer_varon': 'valor'}),
 	drop_na(col='valor'),
-	sort_values(how='ascending', by=['geocodigo'])
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -119,7 +119,7 @@ drop_col(col='iso3_desc', axis=1),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['geocodigo'])
+#  sort_values(how='ascending', by=['anio'])
 #  RangeIndex: 4951 entries, 0 to 4950
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -130,7 +130,7 @@ drop_col(col='iso3_desc', axis=1),
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | ABW         |   1960 | 32.2957 |
+#  |  0 | DMA         |   1960 | 67.0964 |
 #  
 #  ------------------------------
 #  
