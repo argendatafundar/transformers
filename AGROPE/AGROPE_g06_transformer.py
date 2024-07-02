@@ -30,6 +30,13 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -37,7 +44,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 	rename_cols(map={'cod_pcia': 'geocodigo'}),
-	drop_col(col='nom_pcia', axis=1)
+	drop_col(col='nom_pcia', axis=1),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -102,6 +110,21 @@ convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
 #  |  0 |   2004 |  0.0021 | AR-C        |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 432 entries, 0 to 431
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       432 non-null    int64  
+#   1   valor      432 non-null    float64
+#   2   geocodigo  432 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   2004 |  0.1407 | AR-A        |
 #  
 #  ------------------------------
 #  
