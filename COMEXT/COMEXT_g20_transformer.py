@@ -28,7 +28,7 @@ pipeline = chain(
 query(condition="iso3 == 'ARG'"),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='reportingeconomy', axis=1),
-	rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor'})
+	rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'})
 )
 #  PIPELINE_END
 
@@ -98,16 +98,16 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor'})
+#  rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'})
 #  Index: 90 entries, 23 to 15652
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   year       90 non-null     int64  
+#   0   anio       90 non-null     int64  
 #   1   indicador  90 non-null     object 
 #   2   valor      90 non-null     float64
 #  
-#  |    |   year | indicador                     |   valor |
+#  |    |   anio | indicador                     |   valor |
 #  |---:|-------:|:------------------------------|--------:|
 #  | 23 |   2005 | Otros servicios empresariales | 24.7445 |
 #  
