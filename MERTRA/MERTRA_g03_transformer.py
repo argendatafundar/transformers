@@ -15,6 +15,23 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -22,71 +39,119 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 drop_col(col='iso3_desc', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'tasa_actividad': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'tasa_actividad': 'valor'}),
+	query(condition='anio >= 1990'),
+	drop_na(col='valor'),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 16758 entries, 0 to 16757
+#  RangeIndex: 16704 entries, 0 to 16703
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   iso3              16758 non-null  object 
-#   1   iso3_desc         16758 non-null  object 
-#   2   anio              16758 non-null  int64  
-#   3   tasa_actividad    7749 non-null   float64
-#   4   nivel_agregacion  16695 non-null  object 
+#   0   iso3              16704 non-null  object 
+#   1   anio              16704 non-null  int64  
+#   2   tasa_actividad    7391 non-null   float64
+#   3   iso3_desc         16704 non-null  object 
+#   4   nivel_agregacion  16704 non-null  object 
 #  
-#  |    | iso3   | iso3_desc   |   anio |   tasa_actividad | nivel_agregacion   |
-#  |---:|:-------|:------------|-------:|-----------------:|:-------------------|
-#  |  0 | ABW    | Aruba       |   1960 |              nan | pais               |
+#  |    | iso3   |   anio |   tasa_actividad | iso3_desc                    | nivel_agregacion   |
+#  |---:|:-------|-------:|-----------------:|:-----------------------------|:-------------------|
+#  |  0 | AFE    |   2023 |              nan | África Oriental y Meridional | agregacion         |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3_desc', axis=1)
-#  RangeIndex: 16758 entries, 0 to 16757
+#  RangeIndex: 16704 entries, 0 to 16703
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   iso3              16758 non-null  object 
-#   1   anio              16758 non-null  int64  
-#   2   tasa_actividad    7749 non-null   float64
-#   3   nivel_agregacion  16695 non-null  object 
+#   0   iso3              16704 non-null  object 
+#   1   anio              16704 non-null  int64  
+#   2   tasa_actividad    7391 non-null   float64
+#   3   nivel_agregacion  16704 non-null  object 
 #  
 #  |    | iso3   |   anio |   tasa_actividad | nivel_agregacion   |
 #  |---:|:-------|-------:|-----------------:|:-------------------|
-#  |  0 | ABW    |   1960 |              nan | pais               |
+#  |  0 | AFE    |   2023 |              nan | agregacion         |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='nivel_agregacion', axis=1)
-#  RangeIndex: 16758 entries, 0 to 16757
+#  RangeIndex: 16704 entries, 0 to 16703
 #  Data columns (total 3 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            16758 non-null  object 
-#   1   anio            16758 non-null  int64  
-#   2   tasa_actividad  7749 non-null   float64
+#   0   iso3            16704 non-null  object 
+#   1   anio            16704 non-null  int64  
+#   2   tasa_actividad  7391 non-null   float64
 #  
 #  |    | iso3   |   anio |   tasa_actividad |
 #  |---:|:-------|-------:|-----------------:|
-#  |  0 | ABW    |   1960 |              nan |
+#  |  0 | AFE    |   2023 |              nan |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'tasa_actividad': 'valor'})
-#  RangeIndex: 16758 entries, 0 to 16757
+#  RangeIndex: 16704 entries, 0 to 16703
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  16758 non-null  object 
-#   1   anio       16758 non-null  int64  
-#   2   valor      7749 non-null   float64
+#   0   geocodigo  16704 non-null  object 
+#   1   anio       16704 non-null  int64  
+#   2   valor      7391 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | ABW         |   1960 |     nan |
+#  |  0 | AFE         |   2023 |     nan |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 1990')
+#  Index: 8874 entries, 0 to 16673
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  8874 non-null   object 
+#   1   anio       8874 non-null   int64  
+#   2   valor      7391 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   2023 |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(col='valor')
+#  Index: 7391 entries, 1 to 16672
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7391 non-null   object 
+#   1   anio       7391 non-null   int64  
+#   2   valor      7391 non-null   float64
+#  
+#  |    | geocodigo   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  1 | AFE         |   2022 | 0.410307 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 7391 entries, 0 to 7390
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7391 non-null   object 
+#   1   anio       7391 non-null   int64  
+#   2   valor      7391 non-null   float64
+#  
+#  |    | geocodigo   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | AFE         |   1991 | 0.389849 |
 #  
 #  ------------------------------
 #  
