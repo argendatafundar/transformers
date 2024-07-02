@@ -52,6 +52,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
 
@@ -75,6 +80,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='categoria', curr_value='poblacion', new_value='Población'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)'),
 	drop_col(col='geocodigo', axis=1),
+	query(condition='anio >= 1965'),
 	drop_na(cols=['valor']),
 	sort_values(how='ascending', by=['anio', 'categoria'])
 )
@@ -268,33 +274,48 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  drop_na(cols=['valor'])
-#  Index: 624 entries, 0 to 3464
+#  query(condition='anio >= 1965')
+#  Index: 290 entries, 215 to 3464
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       624 non-null    int64  
-#   1   categoria  624 non-null    object 
-#   2   valor      624 non-null    float64
+#   0   anio       290 non-null    int64  
+#   1   categoria  290 non-null    object 
+#   2   valor      199 non-null    float64
 #  
-#  |    |   anio | categoria                |       valor |
-#  |---:|-------:|:-------------------------|------------:|
-#  |  0 |   1750 | Emisiones anuales de CO2 | 9.30594e+06 |
+#  |     |   anio | categoria                |       valor |
+#  |----:|-------:|:-------------------------|------------:|
+#  | 215 |   1965 | Emisiones anuales de CO2 | 1.13097e+10 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 199 entries, 215 to 3464
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       199 non-null    int64  
+#   1   categoria  199 non-null    object 
+#   2   valor      199 non-null    float64
+#  
+#  |     |   anio | categoria                |       valor |
+#  |----:|-------:|:-------------------------|------------:|
+#  | 215 |   1965 | Emisiones anuales de CO2 | 1.13097e+10 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'categoria'])
-#  Index: 624 entries, 3170 to 1868
+#  Index: 199 entries, 215 to 1868
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       624 non-null    int64  
-#   1   categoria  624 non-null    object 
-#   2   valor      624 non-null    float64
+#   0   anio       199 non-null    int64  
+#   1   categoria  199 non-null    object 
+#   2   valor      199 non-null    float64
 #  
-#  |      |   anio | categoria   |       valor |
-#  |-----:|-------:|:------------|------------:|
-#  | 3170 | -10000 | Población   | 4.43227e+06 |
+#  |     |   anio | categoria                |       valor |
+#  |----:|-------:|:-------------------------|------------:|
+#  | 215 |   1965 | Emisiones anuales de CO2 | 1.13097e+10 |
 #  
 #  ------------------------------
 #  
