@@ -11,13 +11,21 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
-	drop_col(col='pais', axis=1)
+	drop_col(col='pais', axis=1),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -55,6 +63,21 @@ rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 #  ------------------------------
 #  
 #  drop_col(col='pais', axis=1)
+#  RangeIndex: 240 entries, 0 to 239
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       240 non-null    int64  
+#   1   valor      240 non-null    float64
+#   2   geocodigo  240 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1962 |  0.2181 | ARG         |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
 #  RangeIndex: 240 entries, 0 to 239
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
