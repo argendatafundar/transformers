@@ -16,6 +16,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'),
 	drop_col(col=['year', 'semestre'], axis=1),
-	rename_cols(map={'proporcion': 'valor'})
+	rename_cols(map={'proporcion': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -83,7 +89,21 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  
 #  |    |   valor | aniosem   |
 #  |---:|--------:|:----------|
-#  |  0 | 0.83449 | 2003-2    |
+#  |  0 |  83.449 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 40 entries, 0 to 39
+#  Data columns (total 2 columns):
+#   #   Column   Non-Null Count  Dtype  
+#  ---  ------   --------------  -----  
+#   0   valor    38 non-null     float64
+#   1   aniosem  40 non-null     object 
+#  
+#  |    |   valor | aniosem   |
+#  |---:|--------:|:----------|
+#  |  0 |  83.449 | 2003-2    |
 #  
 #  ------------------------------
 #  
