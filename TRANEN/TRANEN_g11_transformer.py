@@ -21,15 +21,27 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort_values(by=by, ascending=how == 'ascending')
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
-	query(condition='iso3 == "WLD"'),
+	query(condition='iso3 == "WLD" & tipo_energia != "Total"'),
 	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'}),
-	drop_col(col=['iso3', 'porcentaje'], axis=1)
+	drop_col(col=['iso3', 'porcentaje'], axis=1),
+	drop_na(cols=['valor']),
+	sort_values(how='ascending', by=['anio', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -42,12 +54,12 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   0   anio          81900 non-null  int64  
 #   1   iso3          81900 non-null  object 
 #   2   tipo_energia  81900 non-null  object 
-#   3   valor_en_twh  57771 non-null  float64
+#   3   valor_en_twh  57843 non-null  float64
 #   4   porcentaje    81900 non-null  float64
 #  
 #  |    |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
 #  |---:|-------:|:-------|:-----------------|---------------:|-------------:|
-#  |  0 |   2000 | AFG    | Otras renovables |              0 |            0 |
+#  |  0 |   1985 | GBR    | Otras renovables |              0 |            0 |
 #  
 #  ------------------------------
 #  
@@ -59,61 +71,91 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   0   anio          81900 non-null  int64  
 #   1   iso3          81900 non-null  object 
 #   2   tipo_energia  81900 non-null  object 
-#   3   valor_en_twh  57771 non-null  float64
+#   3   valor_en_twh  57843 non-null  float64
 #   4   porcentaje    81900 non-null  float64
 #  
 #  |    |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
 #  |---:|-------:|:-------|:-----------------|---------------:|-------------:|
-#  |  0 |   2000 | AFG    | Otras renovables |              0 |            0 |
+#  |  0 |   1985 | GBR    | Otras renovables |              0 |            0 |
 #  
 #  ------------------------------
 #  
-#  query(condition='iso3 == "WLD"')
-#  Index: 390 entries, 8034 to 81835
+#  query(condition='iso3 == "WLD" & tipo_energia != "Total"')
+#  Index: 351 entries, 1209 to 66767
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          390 non-null    int64  
-#   1   iso3          390 non-null    object 
-#   2   tipo_energia  390 non-null    object 
-#   3   valor_en_twh  390 non-null    float64
-#   4   porcentaje    390 non-null    float64
+#   0   anio          351 non-null    int64  
+#   1   iso3          351 non-null    object 
+#   2   tipo_energia  351 non-null    object 
+#   3   valor_en_twh  351 non-null    float64
+#   4   porcentaje    351 non-null    float64
 #  
 #  |      |   anio | iso3   | tipo_energia     |   valor_en_twh |   porcentaje |
 #  |-----:|-------:|:-------|:-----------------|---------------:|-------------:|
-#  | 8034 |   2000 | WLD    | Otras renovables |          43.65 |     0.285724 |
+#  | 1209 |   1985 | WLD    | Otras renovables |              0 |            0 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'})
-#  Index: 390 entries, 8034 to 81835
+#  Index: 351 entries, 1209 to 66767
 #  Data columns (total 5 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   anio        390 non-null    int64  
-#   1   iso3        390 non-null    object 
-#   2   indicador   390 non-null    object 
-#   3   valor       390 non-null    float64
-#   4   porcentaje  390 non-null    float64
+#   0   anio        351 non-null    int64  
+#   1   iso3        351 non-null    object 
+#   2   indicador   351 non-null    object 
+#   3   valor       351 non-null    float64
+#   4   porcentaje  351 non-null    float64
 #  
 #  |      |   anio | iso3   | indicador        |   valor |   porcentaje |
 #  |-----:|-------:|:-------|:-----------------|--------:|-------------:|
-#  | 8034 |   2000 | WLD    | Otras renovables |   43.65 |     0.285724 |
+#  | 1209 |   1985 | WLD    | Otras renovables |       0 |            0 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['iso3', 'porcentaje'], axis=1)
-#  Index: 390 entries, 8034 to 81835
+#  Index: 351 entries, 1209 to 66767
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       390 non-null    int64  
-#   1   indicador  390 non-null    object 
-#   2   valor      390 non-null    float64
+#   0   anio       351 non-null    int64  
+#   1   indicador  351 non-null    object 
+#   2   valor      351 non-null    float64
 #  
 #  |      |   anio | indicador        |   valor |
 #  |-----:|-------:|:-----------------|--------:|
-#  | 8034 |   2000 | Otras renovables |   43.65 |
+#  | 1209 |   1985 | Otras renovables |       0 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 351 entries, 1209 to 66767
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       351 non-null    int64  
+#   1   indicador  351 non-null    object 
+#   2   valor      351 non-null    float64
+#  
+#  |      |   anio | indicador        |   valor |
+#  |-----:|-------:|:-----------------|--------:|
+#  | 1209 |   1985 | Otras renovables |       0 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'indicador'])
+#  Index: 351 entries, 9399 to 17627
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       351 non-null    int64  
+#   1   indicador  351 non-null    object 
+#   2   valor      351 non-null    float64
+#  
+#  |      |   anio | indicador   |   valor |
+#  |-----:|-------:|:------------|--------:|
+#  | 9399 |   1985 | Bioenergia  |       0 |
 #  
 #  ------------------------------
 #  
