@@ -17,7 +17,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 drop_col(col='iso3', axis=1),
-	rename_cols(map={'pais_nombre': 'categoria'})
+	rename_cols(map={'pais_nombre': 'categoria', 'participacion': 'valor'})
 )
 #  PIPELINE_END
 
@@ -53,18 +53,18 @@ drop_col(col='iso3', axis=1),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'pais_nombre': 'categoria'})
+#  rename_cols(map={'pais_nombre': 'categoria', 'participacion': 'valor'})
 #  RangeIndex: 64 entries, 0 to 63
 #  Data columns (total 3 columns):
-#   #   Column         Non-Null Count  Dtype  
-#  ---  ------         --------------  -----  
-#   0   categoria      64 non-null     object 
-#   1   anio           64 non-null     int64  
-#   2   participacion  64 non-null     float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  64 non-null     object 
+#   1   anio       64 non-null     int64  
+#   2   valor      64 non-null     float64
 #  
-#  |    | categoria   |   anio |   participacion |
-#  |---:|:------------|-------:|----------------:|
-#  |  0 | Resto LATAM |   1820 |        0.405228 |
+#  |    | categoria   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | Resto LATAM |   1820 | 0.405228 |
 #  
 #  ------------------------------
 #  
