@@ -20,6 +20,11 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -28,7 +33,8 @@ pipeline = chain(
 replace_value(col='iso3', curr_value='CHA', new_value='CHI'),
 	query(condition='anio == anio.max()'),
 	drop_col(col='iso3_desc_fundar', axis=1),
-	drop_col(col='anio', axis=1)
+	drop_col(col='anio', axis=1),
+	rename_cols(map={'iso3': 'geocodigo'})
 )
 #  PIPELINE_END
 
@@ -107,6 +113,20 @@ replace_value(col='iso3', curr_value='CHA', new_value='CHI'),
 #  |    | iso3   |   valor |
 #  |---:|:-------|--------:|
 #  |  0 | ABW    |       2 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'iso3': 'geocodigo'})
+#  Index: 224 entries, 0 to 223
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  224 non-null    object 
+#   1   valor      224 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | ABW         |       2 |
 #  
 #  ------------------------------
 #  
