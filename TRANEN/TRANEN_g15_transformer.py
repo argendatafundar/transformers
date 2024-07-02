@@ -50,6 +50,16 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort_values(by=by, ascending=how == 'ascending')
 #  DEFINITIONS_END
 
 
@@ -64,7 +74,9 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per cápita en dólares PPA 2011'),
 	replace_value(col='categoria', curr_value='poblacion', new_value='Población'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)'),
-	drop_col(col='geocodigo', axis=1)
+	drop_col(col='geocodigo', axis=1),
+	drop_na(cols=['valor']),
+	sort_values(how='ascending', by=['anio', 'categoria'])
 )
 #  PIPELINE_END
 
@@ -77,14 +89,14 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   0   anio                         201096 non-null  int64  
 #   1   iso3                         201096 non-null  object 
 #   2   emision_anual_co2_ton        24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh   7832 non-null    float64
+#   3   energia_por_unidad_pib_kwh   7789 non-null    float64
 #   4   pib_per_cap_usd_ppa_2011     21314 non-null   float64
 #   5   poblacion                    54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh  9329 non-null    float64
+#   6   emision_anual_kgco2_por_kwh  9328 non-null    float64
 #  
 #  |    |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |
 #  |---:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|
-#  |  0 |   1949 | AFG    |                   14656 |                          nan |                        nan | 7.35689e+06 |                           nan |
+#  |  0 |   1750 | GBR    |             9.30594e+06 |                          nan |                       2702 | 9.28817e+06 |                           nan |
 #  
 #  ------------------------------
 #  
@@ -96,14 +108,14 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   0   anio                         201096 non-null  int64  
 #   1   iso3                         201096 non-null  object 
 #   2   emision_anual_co2_ton        24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh   7832 non-null    float64
+#   3   energia_por_unidad_pib_kwh   7789 non-null    float64
 #   4   pib_per_cap_usd_ppa_2011     21314 non-null   float64
 #   5   poblacion                    54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh  9329 non-null    float64
+#   6   emision_anual_kgco2_por_kwh  9328 non-null    float64
 #  
 #  |    |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |
 #  |---:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|
-#  |  0 |   1949 | AFG    |                   14656 |                          nan |                        nan | 7.35689e+06 |                           nan |
+#  |  0 |   1750 | GBR    |             9.30594e+06 |                          nan |                       2702 | 9.28817e+06 |                           nan |
 #  
 #  ------------------------------
 #  
@@ -115,19 +127,19 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   0   anio                         201096 non-null  int64  
 #   1   geocodigo                    201096 non-null  object 
 #   2   emision_anual_co2_ton        24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh   7832 non-null    float64
+#   3   energia_por_unidad_pib_kwh   7789 non-null    float64
 #   4   pib_per_cap_usd_ppa_2011     21314 non-null   float64
 #   5   poblacion                    54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh  9329 non-null    float64
+#   6   emision_anual_kgco2_por_kwh  9328 non-null    float64
 #  
 #  |    |   anio | geocodigo   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |
 #  |---:|-------:|:------------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|
-#  |  0 |   1949 | AFG         |                   14656 |                          nan |                        nan | 7.35689e+06 |                           nan |
+#  |  0 |   1750 | GBR         |             9.30594e+06 |                          nan |                       2702 | 9.28817e+06 |                           nan |
 #  
 #  ------------------------------
 #  
 #  query(condition='geocodigo == "WLD"')
-#  Index: 798 entries, 169974 to 170771
+#  Index: 798 entries, 11172 to 11969
 #  Data columns (total 7 columns):
 #   #   Column                       Non-Null Count  Dtype  
 #  ---  ------                       --------------  -----  
@@ -139,9 +151,9 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #   5   poblacion                    259 non-null    float64
 #   6   emision_anual_kgco2_por_kwh  58 non-null     float64
 #  
-#  |        |   anio | geocodigo   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |
-#  |-------:|-------:|:------------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|
-#  | 169974 |   1949 | WLD         |             5.18101e+09 |                          nan |                        nan | 2.46324e+09 |                           nan |
+#  |       |   anio | geocodigo   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |
+#  |------:|-------:|:------------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|
+#  | 11172 |   1750 | WLD         |             9.30594e+06 |                          nan |                        nan | 7.45664e+08 |                           nan |
 #  
 #  ------------------------------
 #  
@@ -157,7 +169,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria             |       valor |
 #  |---:|-------:|:------------|:----------------------|------------:|
-#  |  0 |   1949 | WLD         | emision_anual_co2_ton | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | emision_anual_co2_ton | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -173,7 +185,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
-#  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | Emisiones anuales de CO2 | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -189,7 +201,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
-#  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | Emisiones anuales de CO2 | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -205,7 +217,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
-#  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | Emisiones anuales de CO2 | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -221,7 +233,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
-#  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | Emisiones anuales de CO2 | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -237,7 +249,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |       valor |
 #  |---:|-------:|:------------|:-------------------------|------------:|
-#  |  0 |   1949 | WLD         | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | WLD         | Emisiones anuales de CO2 | 9.30594e+06 |
 #  
 #  ------------------------------
 #  
@@ -252,7 +264,37 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | categoria                |       valor |
 #  |---:|-------:|:-------------------------|------------:|
-#  |  0 |   1949 | Emisiones anuales de CO2 | 5.18101e+09 |
+#  |  0 |   1750 | Emisiones anuales de CO2 | 9.30594e+06 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 624 entries, 0 to 3464
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       624 non-null    int64  
+#   1   categoria  624 non-null    object 
+#   2   valor      624 non-null    float64
+#  
+#  |    |   anio | categoria                |       valor |
+#  |---:|-------:|:-------------------------|------------:|
+#  |  0 |   1750 | Emisiones anuales de CO2 | 9.30594e+06 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'categoria'])
+#  Index: 624 entries, 3170 to 1868
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       624 non-null    int64  
+#   1   categoria  624 non-null    object 
+#   2   valor      624 non-null    float64
+#  
+#  |      |   anio | categoria   |       valor |
+#  |-----:|-------:|:------------|------------:|
+#  | 3170 | -10000 | Población   | 4.43227e+06 |
 #  
 #  ------------------------------
 #  
