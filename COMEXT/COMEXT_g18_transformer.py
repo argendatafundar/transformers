@@ -37,8 +37,8 @@ query(condition='iso3 == "ARG"'),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='location_name_short_en', axis=1),
 	drop_col(col='partner_name_short_en', axis=1),
-	rename_cols(map={'partner_code': 'geoselector'}),
-	wide_to_long(primary_keys=['geoselector'], value_name='valor', var_name='indicador')
+	rename_cols(map={'partner_code': 'geocodigo'}),
+	wide_to_long(primary_keys=['geocodigo'], value_name='valor', var_name='indicador')
 )
 #  PIPELINE_END
 
