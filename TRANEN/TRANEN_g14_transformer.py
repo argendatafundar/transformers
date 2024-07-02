@@ -29,7 +29,7 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 'categoria'}),
 	drop_col(col='porcentaje', axis=1),
-	query(condition='indicador != "Total"'),
+	query(condition='categoria != "Total"'),
 	sort_values(how='ascending', by=['categoria', 'indicador'])
 )
 #  PIPELINE_END
@@ -82,14 +82,14 @@ rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 
 #  
 #  ------------------------------
 #  
-#  query(condition='indicador != "Total"')
-#  Index: 36 entries, 0 to 35
+#  query(condition='categoria != "Total"')
+#  Index: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
-#   0   categoria  36 non-null     object
-#   1   indicador  36 non-null     object
-#   2   valor      36 non-null     int64 
+#   0   categoria  32 non-null     object
+#   1   indicador  32 non-null     object
+#   2   valor      32 non-null     int64 
 #  
 #  |    | categoria                        | indicador   |   valor |
 #  |---:|:---------------------------------|:------------|--------:|
@@ -98,13 +98,13 @@ rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['categoria', 'indicador'])
-#  Index: 36 entries, 0 to 35
+#  Index: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
-#   0   categoria  36 non-null     object
-#   1   indicador  36 non-null     object
-#   2   valor      36 non-null     int64 
+#   0   categoria  32 non-null     object
+#   1   indicador  32 non-null     object
+#   2   valor      32 non-null     int64 
 #  
 #  |    | categoria                        | indicador   |   valor |
 #  |---:|:---------------------------------|:------------|--------:|
