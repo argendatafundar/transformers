@@ -38,7 +38,7 @@ query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
 	drop_col(col='provincia_id', axis=1),
 	drop_col(col='vab_pb', axis=1),
-	rename_cols(map={'provincia_nombre': 'subindicador', 'region': 'indicador', 'participacion': 'valor'}),
+	rename_cols(map={'provincia_nombre': 'nivel1', 'region': 'nivel2', 'participacion': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -128,16 +128,16 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'provincia_nombre': 'subindicador', 'region': 'indicador', 'participacion': 'valor'})
+#  rename_cols(map={'provincia_nombre': 'nivel1', 'region': 'nivel2', 'participacion': 'valor'})
 #  Index: 24 entries, 432 to 455
 #  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   subindicador  24 non-null     object 
-#   1   indicador     24 non-null     object 
-#   2   valor         24 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  24 non-null     object 
+#   1   nivel2  24 non-null     object 
+#   2   valor   24 non-null     float64
 #  
-#  |     | subindicador                    | indicador       |   valor |
+#  |     | nivel1                          | nivel2          |   valor |
 #  |----:|:--------------------------------|:----------------|--------:|
 #  | 432 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   19.73 |
 #  
@@ -146,13 +146,13 @@ query(condition='anio == anio.max()'),
 #  mutiplicar_por_escalar(col='valor', k=100)
 #  Index: 24 entries, 432 to 455
 #  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   subindicador  24 non-null     object 
-#   1   indicador     24 non-null     object 
-#   2   valor         24 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  24 non-null     object 
+#   1   nivel2  24 non-null     object 
+#   2   valor   24 non-null     float64
 #  
-#  |     | subindicador                    | indicador       |   valor |
+#  |     | nivel1                          | nivel2          |   valor |
 #  |----:|:--------------------------------|:----------------|--------:|
 #  | 432 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   19.73 |
 #  
