@@ -45,6 +45,16 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort_values(by=by, ascending=how == 'ascending')
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
 #  DEFINITIONS_END
 
 
@@ -58,22 +68,24 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='indicador', curr_value='Eolica', new_value='Eólica'),
 	replace_value(col='indicador', curr_value='Biomasa tradicional ', new_value='Biomasa tradicional'),
 	drop_col(col='porcentaje', axis=1),
-	drop_col(col='tipo_energia', axis=1)
+	drop_col(col='tipo_energia', axis=1),
+	sort_values(how='ascending', by=['geocodigo', 'anio', 'indicador']),
+	drop_na(cols=['valor'])
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 51852 entries, 0 to 51851
+#  RangeIndex: 52923 entries, 0 to 52922
 #  Data columns (total 6 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            51852 non-null  object 
-#   1   anio            51852 non-null  int64  
-#   2   fuente_energia  51852 non-null  object 
-#   3   tipo_energia    51852 non-null  object 
-#   4   valor_en_twh    40880 non-null  float64
-#   5   porcentaje      51852 non-null  float64
+#   0   iso3            52923 non-null  object 
+#   1   anio            52923 non-null  int64  
+#   2   fuente_energia  52923 non-null  object 
+#   3   tipo_energia    52923 non-null  object 
+#   4   valor_en_twh    41782 non-null  float64
+#   5   porcentaje      52923 non-null  float64
 #  
 #  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
 #  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
@@ -82,16 +94,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD')
-#  RangeIndex: 51852 entries, 0 to 51851
+#  RangeIndex: 52923 entries, 0 to 52922
 #  Data columns (total 6 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            51852 non-null  object 
-#   1   anio            51852 non-null  int64  
-#   2   fuente_energia  51852 non-null  object 
-#   3   tipo_energia    51852 non-null  object 
-#   4   valor_en_twh    40880 non-null  float64
-#   5   porcentaje      51852 non-null  float64
+#   0   iso3            52923 non-null  object 
+#   1   anio            52923 non-null  int64  
+#   2   fuente_energia  52923 non-null  object 
+#   3   tipo_energia    52923 non-null  object 
+#   4   valor_en_twh    41782 non-null  float64
+#   5   porcentaje      52923 non-null  float64
 #  
 #  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
 #  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
@@ -100,16 +112,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  rename_cols(map={'fuente_energia': 'indicador', 'valor_en_twh': 'valor', 'iso3': 'geocodigo'})
-#  RangeIndex: 51852 entries, 0 to 51851
+#  RangeIndex: 52923 entries, 0 to 52922
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     51852 non-null  object 
-#   1   anio          51852 non-null  int64  
-#   2   indicador     51852 non-null  object 
-#   3   tipo_energia  51852 non-null  object 
-#   4   valor         40880 non-null  float64
-#   5   porcentaje    51852 non-null  float64
+#   0   geocodigo     52923 non-null  object 
+#   1   anio          52923 non-null  int64  
+#   2   indicador     52923 non-null  object 
+#   3   tipo_energia  52923 non-null  object 
+#   4   valor         41782 non-null  float64
+#   5   porcentaje    52923 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -118,16 +130,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  query(condition='indicador != "Total"')
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
-#   5   porcentaje    45530 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
+#   5   porcentaje    46433 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -136,16 +148,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Carbon', new_value='Carbón')
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
-#   5   porcentaje    45530 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
+#   5   porcentaje    46433 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -154,16 +166,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Petroleo', new_value='Petróleo')
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
-#   5   porcentaje    45530 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
+#   5   porcentaje    46433 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -172,16 +184,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Eolica', new_value='Eólica')
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
-#   5   porcentaje    45530 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
+#   5   porcentaje    46433 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -190,16 +202,16 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Biomasa tradicional ', new_value='Biomasa tradicional')
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
-#   5   porcentaje    45530 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
+#   5   porcentaje    46433 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
@@ -208,15 +220,15 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_col(col='porcentaje', axis=1)
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     45530 non-null  object 
-#   1   anio          45530 non-null  int64  
-#   2   indicador     45530 non-null  object 
-#   3   tipo_energia  45530 non-null  object 
-#   4   valor         34558 non-null  float64
+#   0   geocodigo     46433 non-null  object 
+#   1   anio          46433 non-null  int64  
+#   2   indicador     46433 non-null  object 
+#   3   tipo_energia  46433 non-null  object 
+#   4   valor         35292 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |
 #  |---:|:------------|-------:|:----------------|:---------------|--------:|
@@ -225,18 +237,50 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_col(col='tipo_energia', axis=1)
-#  Index: 45530 entries, 0 to 51793
+#  Index: 46433 entries, 0 to 52863
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  45530 non-null  object 
-#   1   anio       45530 non-null  int64  
-#   2   indicador  45530 non-null  object 
-#   3   valor      34558 non-null  float64
+#   0   geocodigo  46433 non-null  object 
+#   1   anio       46433 non-null  int64  
+#   2   indicador  46433 non-null  object 
+#   3   valor      35292 non-null  float64
 #  
 #  |    | geocodigo   |   anio | indicador       |   valor |
 #  |---:|:------------|-------:|:----------------|--------:|
 #  |  0 | AGO         |   1965 | Biocombustibles |     nan |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['geocodigo', 'anio', 'indicador'])
+#  Index: 46433 entries, 0 to 52863
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  46433 non-null  object 
+#   1   anio       46433 non-null  int64  
+#   2   indicador  46433 non-null  object 
+#   3   valor      35292 non-null  float64
+#  
+#  |    | geocodigo   |   anio | indicador       |   valor |
+#  |---:|:------------|-------:|:----------------|--------:|
+#  |  0 | AGO         |   1965 | Biocombustibles |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 35292 entries, 59 to 52863
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  35292 non-null  object 
+#   1   anio       35292 non-null  int64  
+#   2   indicador  35292 non-null  object 
+#   3   valor      35292 non-null  float64
+#  
+#  |    | geocodigo   |   anio | indicador   |   valor |
+#  |---:|:------------|-------:|:------------|--------:|
+#  | 59 | AGO         |   1965 | Nuclear     |       0 |
 #  
 #  ------------------------------
 #  
