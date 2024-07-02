@@ -32,6 +32,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def multiplicar_por_escalar(df:DataFrame, col:str, k:float):
+    df[col] = df[col] * k
+    return df
 #  DEFINITIONS_END
 
 
@@ -42,7 +47,8 @@ drop_col(col='iso3_desc', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'tasa_actividad': 'valor'}),
 	query(condition='anio >= 1990'),
 	drop_na(col='valor'),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -149,9 +155,24 @@ drop_col(col='iso3_desc', axis=1),
 #   1   anio       7391 non-null   int64  
 #   2   valor      7391 non-null   float64
 #  
-#  |    | geocodigo   |   anio |    valor |
-#  |---:|:------------|-------:|---------:|
-#  |  0 | AFE         |   1991 | 0.389849 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1991 | 38.9849 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 7391 entries, 0 to 7390
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7391 non-null   object 
+#   1   anio       7391 non-null   int64  
+#   2   valor      7391 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1991 | 38.9849 |
 #  
 #  ------------------------------
 #  
