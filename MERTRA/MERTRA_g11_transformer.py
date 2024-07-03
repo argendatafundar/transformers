@@ -145,6 +145,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -181,6 +186,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 	replace_value(col='provincia', curr_value='Santiago del Estero', new_value='AR-G'),
 	replace_value(col='provincia', curr_value='Tucumán', new_value='AR-T'),
 	replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V'),
+	rename_cols(map={'provincia': 'geocodigo'}),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -617,7 +623,22 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #   1   indicador  50 non-null     object 
 #   2   valor      50 non-null     float64
 #  
-#  |     | provincia   | indicador      |   valor |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'provincia': 'geocodigo'})
+#  Index: 50 entries, 172 to 393
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
+#  
+#  |     | geocodigo   | indicador      |   valor |
 #  |----:|:------------|:---------------|--------:|
 #  | 172 | AR-B        | Tasa de empleo | 45.0225 |
 #  
@@ -628,11 +649,11 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  50 non-null     object 
+#   0   geocodigo  50 non-null     object 
 #   1   indicador  50 non-null     object 
 #   2   valor      50 non-null     float64
 #  
-#  |     | provincia   | indicador      |   valor |
+#  |     | geocodigo   | indicador      |   valor |
 #  |----:|:------------|:---------------|--------:|
 #  | 172 | AR-B        | Tasa de empleo | 45.0225 |
 #  
