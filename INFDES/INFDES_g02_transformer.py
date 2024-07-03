@@ -41,14 +41,14 @@ drop_col(col='pais', axis=1),
 #   #   Column                      Non-Null Count  Dtype  
 #  ---  ------                      --------------  -----  
 #   0   iso3                        16 non-null     object 
-#   1   anio                        16 non-null     int64  
-#   2   pais                        16 non-null     object 
-#   3   pib_per_capita              16 non-null     float64
-#   4   tasa_formalidad_productiva  16 non-null     float64
+#   1   pais                        16 non-null     object 
+#   2   anio                        16 non-null     int64  
+#   3   tasa_formalidad_productiva  16 non-null     float64
+#   4   pib_per_capita_ppp          16 non-null     float64
 #  
-#  |    | iso3   |   anio | pais      |   pib_per_capita |   tasa_formalidad_productiva |
-#  |---:|:-------|-------:|:----------|-----------------:|-----------------------------:|
-#  |  0 | ARG    |   2021 | Argentina |          21527.2 |                      0.61333 |
+#  |    | iso3   | pais      |   anio |   tasa_formalidad_productiva |   pib_per_capita_ppp |
+#  |---:|:-------|:----------|-------:|-----------------------------:|---------------------:|
+#  |  0 | ARG    | Argentina |   2022 |                        0.599 |              27127.4 |
 #  
 #  ------------------------------
 #  
@@ -59,12 +59,12 @@ drop_col(col='pais', axis=1),
 #  ---  ------                      --------------  -----  
 #   0   iso3                        16 non-null     object 
 #   1   anio                        16 non-null     int64  
-#   2   pib_per_capita              16 non-null     float64
-#   3   tasa_formalidad_productiva  16 non-null     float64
+#   2   tasa_formalidad_productiva  16 non-null     float64
+#   3   pib_per_capita_ppp          16 non-null     float64
 #  
-#  |    | iso3   |   anio |   pib_per_capita |   tasa_formalidad_productiva |
-#  |---:|:-------|-------:|-----------------:|-----------------------------:|
-#  |  0 | ARG    |   2021 |          21527.2 |                      0.61333 |
+#  |    | iso3   |   anio |   tasa_formalidad_productiva |   pib_per_capita_ppp |
+#  |---:|:-------|-------:|-----------------------------:|---------------------:|
+#  |  0 | ARG    |   2022 |                        0.599 |              27127.4 |
 #  
 #  ------------------------------
 #  
@@ -78,9 +78,9 @@ drop_col(col='pais', axis=1),
 #   2   indicador  32 non-null     object 
 #   3   valor      32 non-null     float64
 #  
-#  |    | iso3   |   anio | indicador      |   valor |
-#  |---:|:-------|-------:|:---------------|--------:|
-#  |  0 | ARG    |   2021 | pib_per_capita | 21527.2 |
+#  |    | iso3   |   anio | indicador                  |   valor |
+#  |---:|:-------|-------:|:---------------------------|--------:|
+#  |  0 | ARG    |   2022 | tasa_formalidad_productiva |   0.599 |
 #  
 #  ------------------------------
 #  
@@ -94,24 +94,24 @@ drop_col(col='pais', axis=1),
 #   2   indicador  32 non-null     object 
 #   3   valor      32 non-null     float64
 #  
-#  |    | geocodigo   |   anio | indicador      |   valor |
-#  |---:|:------------|-------:|:---------------|--------:|
-#  |  0 | ARG         |   2021 | pib_per_capita | 21527.2 |
+#  |    | geocodigo   |   anio | indicador                  |   valor |
+#  |---:|:------------|-------:|:---------------------------|--------:|
+#  |  0 | ARG         |   2022 | tasa_formalidad_productiva |   0.599 |
 #  
 #  ------------------------------
 #  
 #  latest_year(by='anio')
-#  Index: 22 entries, 0 to 31
+#  Index: 20 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  22 non-null     object 
-#   1   indicador  22 non-null     object 
-#   2   valor      22 non-null     float64
+#   0   geocodigo  20 non-null     object 
+#   1   indicador  20 non-null     object 
+#   2   valor      20 non-null     float64
 #  
-#  |    | geocodigo   | indicador      |   valor |
-#  |---:|:------------|:---------------|--------:|
-#  |  0 | ARG         | pib_per_capita | 21527.2 |
+#  |    | geocodigo   | indicador                  |   valor |
+#  |---:|:------------|:---------------------------|--------:|
+#  |  0 | ARG         | tasa_formalidad_productiva |   0.599 |
 #  
 #  ------------------------------
 #  
