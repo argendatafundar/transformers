@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'})
+rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
@@ -41,9 +47,24 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'})
 #   1   anio       139 non-null    int64  
 #   2   valor      139 non-null    float64
 #  
-#  |    | indicador   |   anio |       valor |
-#  |---:|:------------|-------:|------------:|
-#  |  0 | cobre       |   1994 | 3.63523e+06 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | cobre       |   1994 | 3.63523 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=1e-06)
+#  RangeIndex: 139 entries, 0 to 138
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  139 non-null    object 
+#   1   anio       139 non-null    int64  
+#   2   valor      139 non-null    float64
+#  
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | cobre       |   1994 | 3.63523 |
 #  
 #  ------------------------------
 #  
