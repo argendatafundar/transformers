@@ -12,6 +12,11 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
@@ -147,6 +152,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 pipeline = chain(
 drop_col(col='prov_cod', axis=1),
 	wide_to_long(primary_keys=['prov_desc'], value_name='valor', var_name='indicador'),
+	multiplicar_por_escalar(col='valor', k=100),
 	replace_value(col='indicador', curr_value='tasa_empleo_18_65_mujeres', new_value='Tasa de empleo femenino'),
 	replace_value(col='indicador', curr_value='prop_usa_lavarropas', new_value='Hogares con lavarropas'),
 	replace_value(col='prov_desc', curr_value='CABA', new_value='AR-C'),
@@ -219,7 +225,22 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador                 |   valor |
 #  |---:|:------------|:--------------------------|--------:|
-#  |  0 | CABA        | tasa_empleo_18_65_mujeres | 0.75518 |
+#  |  0 | CABA        | tasa_empleo_18_65_mujeres |  75.518 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   prov_desc  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
+#  
+#  |    | prov_desc   | indicador                 |   valor |
+#  |---:|:------------|:--------------------------|--------:|
+#  |  0 | CABA        | tasa_empleo_18_65_mujeres |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -234,7 +255,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | CABA        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | CABA        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -249,7 +270,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | CABA        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | CABA        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -264,7 +285,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -279,7 +300,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -294,7 +315,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -309,7 +330,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -324,7 +345,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -339,7 +360,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -354,7 +375,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -369,7 +390,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -384,7 +405,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -399,7 +420,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -414,7 +435,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -429,7 +450,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -444,7 +465,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -459,7 +480,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -474,7 +495,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -489,7 +510,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -504,7 +525,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -519,7 +540,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -534,7 +555,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -549,7 +570,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -564,7 +585,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -579,7 +600,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -594,7 +615,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
@@ -609,7 +630,7 @@ drop_col(col='prov_cod', axis=1),
 #  
 #  |    | prov_desc   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
-#  |  0 | AR-C        | Tasa de empleo femenino | 0.75518 |
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
 #  ------------------------------
 #  
