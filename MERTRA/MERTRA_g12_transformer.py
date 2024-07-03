@@ -138,6 +138,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -187,9 +192,10 @@ drop_col(col='provincia_id', axis=1),
 	replace_value(col='provincia_desc', curr_value='Santiago del Estero', new_value='AR-G'),
 	replace_value(col='provincia_desc', curr_value='Tucumán', new_value='AR-T'),
 	replace_value(col='provincia_desc', curr_value='Tierra del Fuego', new_value='AR-V'),
+	multiplicar_por_escalar(col='tasa_empleo_18_65', k=100),
 	rename_cols(map={'provincia_desc': 'geocodigo'}),
 	wide_to_long(primary_keys=['geocodigo'], value_name='valor', var_name='indicador'),
-	replace_value(col='indicador', curr_value='tasa_empleo_18_65_2022', new_value='Tasa de empleo'),
+	replace_value(col='indicador', curr_value='tasa_empleo_18_65', new_value='Tasa de empleo'),
 	replace_value(col='indicador', curr_value='establecimientos_cada_1000_hab', new_value='Establecimientos productivos')
 )
 #  PIPELINE_END
@@ -612,7 +618,22 @@ drop_col(col='provincia_id', axis=1),
 #  
 #  |    | provincia_desc   |   establecimientos_cada_1000_hab |   tasa_empleo_18_65 |
 #  |---:|:-----------------|---------------------------------:|--------------------:|
-#  |  0 | AR-C             |                          50.0578 |            0.789682 |
+#  |  0 | AR-C             |                          50.0578 |             78.9682 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='tasa_empleo_18_65', k=100)
+#  RangeIndex: 24 entries, 0 to 23
+#  Data columns (total 3 columns):
+#   #   Column                          Non-Null Count  Dtype  
+#  ---  ------                          --------------  -----  
+#   0   provincia_desc                  24 non-null     object 
+#   1   establecimientos_cada_1000_hab  24 non-null     float64
+#   2   tasa_empleo_18_65               24 non-null     float64
+#  
+#  |    | provincia_desc   |   establecimientos_cada_1000_hab |   tasa_empleo_18_65 |
+#  |---:|:-----------------|---------------------------------:|--------------------:|
+#  |  0 | AR-C             |                          50.0578 |             78.9682 |
 #  
 #  ------------------------------
 #  
@@ -627,7 +648,7 @@ drop_col(col='provincia_id', axis=1),
 #  
 #  |    | geocodigo   |   establecimientos_cada_1000_hab |   tasa_empleo_18_65 |
 #  |---:|:------------|---------------------------------:|--------------------:|
-#  |  0 | AR-C        |                          50.0578 |            0.789682 |
+#  |  0 | AR-C        |                          50.0578 |             78.9682 |
 #  
 #  ------------------------------
 #  
@@ -646,7 +667,7 @@ drop_col(col='provincia_id', axis=1),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='tasa_empleo_18_65_2022', new_value='Tasa de empleo')
+#  replace_value(col='indicador', curr_value='tasa_empleo_18_65', new_value='Tasa de empleo')
 #  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
