@@ -49,7 +49,7 @@ drop_col(col='iso3_desc', axis=1),
 #   0   iso3                              16704 non-null  object 
 #   1   iso3_desc                         16704 non-null  object 
 #   2   anio                              16704 non-null  int64  
-#   3   ratio_tasa_actividad_mujer_varon  4951 non-null   float64
+#   3   ratio_tasa_actividad_mujer_varon  5027 non-null   float64
 #   4   nivel_agregacion                  16704 non-null  object 
 #  
 #  |    | iso3   | iso3_desc                   |   anio |   ratio_tasa_actividad_mujer_varon | nivel_agregacion   |
@@ -65,7 +65,7 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------                            --------------  -----  
 #   0   iso3                              16704 non-null  object 
 #   1   anio                              16704 non-null  int64  
-#   2   ratio_tasa_actividad_mujer_varon  4951 non-null   float64
+#   2   ratio_tasa_actividad_mujer_varon  5027 non-null   float64
 #   3   nivel_agregacion                  16704 non-null  object 
 #  
 #  |    | iso3   |   anio |   ratio_tasa_actividad_mujer_varon | nivel_agregacion   |
@@ -81,7 +81,7 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------                            --------------  -----  
 #   0   iso3                              16704 non-null  object 
 #   1   anio                              16704 non-null  int64  
-#   2   ratio_tasa_actividad_mujer_varon  4951 non-null   float64
+#   2   ratio_tasa_actividad_mujer_varon  5027 non-null   float64
 #  
 #  |    | iso3   |   anio |   ratio_tasa_actividad_mujer_varon |
 #  |---:|:-------|-------:|-----------------------------------:|
@@ -96,7 +96,7 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  16704 non-null  object 
 #   1   anio       16704 non-null  int64  
-#   2   valor      4951 non-null   float64
+#   2   valor      5027 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -105,28 +105,28 @@ drop_col(col='iso3_desc', axis=1),
 #  ------------------------------
 #  
 #  drop_na(col='valor')
-#  Index: 4951 entries, 135 to 16681
+#  Index: 5027 entries, 65 to 16681
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4951 non-null   object 
-#   1   anio       4951 non-null   int64  
-#   2   valor      4951 non-null   float64
+#   0   geocodigo  5027 non-null   object 
+#   1   anio       5027 non-null   int64  
+#   2   valor      5027 non-null   float64
 #  
-#  |     | geocodigo   |   anio |   valor |
-#  |----:|:------------|-------:|--------:|
-#  | 135 | ARB         |   2016 | 32.8257 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  | 65 | AFW         |   2022 |  87.371 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 4951 entries, 0 to 4950
+#  RangeIndex: 5027 entries, 0 to 5026
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4951 non-null   object 
-#   1   anio       4951 non-null   int64  
-#   2   valor      4951 non-null   float64
+#   0   geocodigo  5027 non-null   object 
+#   1   anio       5027 non-null   int64  
+#   2   valor      5027 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
