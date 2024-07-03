@@ -21,8 +21,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+    return df.sort_values(by=by, ascending=how == 'ascending')
 #  DEFINITIONS_END
 
 
