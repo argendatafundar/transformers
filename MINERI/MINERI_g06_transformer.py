@@ -17,7 +17,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
+rename_cols(map={'grupo_nuevo': 'categoria', 'impo_grupo': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
@@ -38,16 +38,16 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'})
+#  rename_cols(map={'grupo_nuevo': 'categoria', 'impo_grupo': 'valor'})
 #  RangeIndex: 145 entries, 0 to 144
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  145 non-null    object 
+#   0   categoria  145 non-null    object 
 #   1   anio       145 non-null    int64  
 #   2   valor      145 non-null    float64
 #  
-#  |    | indicador   |   anio |   valor |
+#  |    | categoria   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | aluminio    |   1994 | 8.39544 |
 #  
@@ -58,11 +58,11 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  145 non-null    object 
+#   0   categoria  145 non-null    object 
 #   1   anio       145 non-null    int64  
 #   2   valor      145 non-null    float64
 #  
-#  |    | indicador   |   anio |   valor |
+#  |    | categoria   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | aluminio    |   1994 | 8.39544 |
 #  
