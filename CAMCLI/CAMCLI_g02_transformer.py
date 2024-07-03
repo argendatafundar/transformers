@@ -15,6 +15,11 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def agrupar_y_sumar(df: DataFrame, col_indicador, col_anio):
     return df.groupby([col_indicador, col_anio]).sum().reset_index()
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -22,7 +27,8 @@ def agrupar_y_sumar(df: DataFrame, col_indicador, col_anio):
 pipeline = chain(
 drop_col(col='iso3', axis=1),
 	rename_cols(map={'continente_fundar': 'indicador', 'valor_en_ton': 'valor'}),
-	agrupar_y_sumar(col_indicador='indicador', col_anio='anio')
+	agrupar_y_sumar(col_indicador='indicador', col_anio='anio'),
+	mutiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
@@ -82,9 +88,24 @@ drop_col(col='iso3', axis=1),
 #   1   anio       1469 non-null   int64  
 #   2   valor      1469 non-null   float64
 #  
-#  |    | indicador                              |   anio |   valor |
-#  |---:|:---------------------------------------|-------:|--------:|
-#  |  0 | América del Norte, Central y el Caribe |   1785 |    3664 |
+#  |    | indicador                              |   anio |    valor |
+#  |---:|:---------------------------------------|-------:|---------:|
+#  |  0 | América del Norte, Central y el Caribe |   1785 | 0.003664 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=1e-06)
+#  RangeIndex: 1469 entries, 0 to 1468
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  1469 non-null   object 
+#   1   anio       1469 non-null   int64  
+#   2   valor      1469 non-null   float64
+#  
+#  |    | indicador                              |   anio |    valor |
+#  |---:|:---------------------------------------|-------:|---------:|
+#  |  0 | América del Norte, Central y el Caribe |   1785 | 0.003664 |
 #  
 #  ------------------------------
 #  
