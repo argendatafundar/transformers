@@ -34,77 +34,77 @@ query(condition="iso3 == 'ARG'"),
 
 
 #  start()
-#  RangeIndex: 64 entries, 0 to 63
+#  RangeIndex: 66 entries, 0 to 65
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            64 non-null     object 
-#   1   pais_desc       64 non-null     object 
-#   2   anio            64 non-null     int64  
-#   3   tasa_desempleo  64 non-null     float64
+#   0   iso3            66 non-null     object 
+#   1   anio            66 non-null     int64  
+#   2   tasa_desempleo  66 non-null     float64
+#   3   pais_desc       66 non-null     object 
 #  
-#  |    | iso3   | pais_desc   |   anio |   tasa_desempleo |
-#  |---:|:-------|:------------|-------:|-----------------:|
-#  |  0 | ARG    | Argentina   |   1991 |           0.0544 |
+#  |    | iso3   |   anio |   tasa_desempleo | pais_desc   |
+#  |---:|:-------|-------:|-----------------:|:------------|
+#  |  0 | WLD    |   2023 |        0.0512316 | Mundo       |
 #  
 #  ------------------------------
 #  
 #  query(condition="iso3 == 'ARG'")
-#  Index: 32 entries, 0 to 31
+#  Index: 33 entries, 33 to 65
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            32 non-null     object 
-#   1   pais_desc       32 non-null     object 
-#   2   anio            32 non-null     int64  
-#   3   tasa_desempleo  32 non-null     float64
+#   0   iso3            33 non-null     object 
+#   1   anio            33 non-null     int64  
+#   2   tasa_desempleo  33 non-null     float64
+#   3   pais_desc       33 non-null     object 
 #  
-#  |    | iso3   | pais_desc   |   anio |   tasa_desempleo |
-#  |---:|:-------|:------------|-------:|-----------------:|
-#  |  0 | ARG    | Argentina   |   1991 |           0.0544 |
+#  |    | iso3   |   anio |   tasa_desempleo | pais_desc   |
+#  |---:|:-------|-------:|-----------------:|:------------|
+#  | 33 | ARG    |   2023 |          0.06841 | Argentina   |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3', axis=1)
-#  Index: 32 entries, 0 to 31
+#  Index: 33 entries, 33 to 65
 #  Data columns (total 3 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   pais_desc       32 non-null     object 
-#   1   anio            32 non-null     int64  
-#   2   tasa_desempleo  32 non-null     float64
+#   0   anio            33 non-null     int64  
+#   1   tasa_desempleo  33 non-null     float64
+#   2   pais_desc       33 non-null     object 
 #  
-#  |    | pais_desc   |   anio |   tasa_desempleo |
-#  |---:|:------------|-------:|-----------------:|
-#  |  0 | Argentina   |   1991 |           0.0544 |
+#  |    |   anio |   tasa_desempleo | pais_desc   |
+#  |---:|-------:|-----------------:|:------------|
+#  | 33 |   2023 |          0.06841 | Argentina   |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='pais_desc', axis=1)
-#  Index: 32 entries, 0 to 31
+#  Index: 33 entries, 33 to 65
 #  Data columns (total 2 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   anio            32 non-null     int64  
-#   1   tasa_desempleo  32 non-null     float64
+#   0   anio            33 non-null     int64  
+#   1   tasa_desempleo  33 non-null     float64
 #  
 #  |    |   anio |   tasa_desempleo |
 #  |---:|-------:|-----------------:|
-#  |  0 |   1991 |           0.0544 |
+#  | 33 |   2023 |          0.06841 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'tasa_desempleo': 'valor'})
-#  Index: 32 entries, 0 to 31
+#  Index: 33 entries, 33 to 65
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   anio    32 non-null     int64  
-#   1   valor   32 non-null     float64
+#   0   anio    33 non-null     int64  
+#   1   valor   33 non-null     float64
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  |  0 |   1991 |  0.0544 |
+#  | 33 |   2023 | 0.06841 |
 #  
 #  ------------------------------
 #  
