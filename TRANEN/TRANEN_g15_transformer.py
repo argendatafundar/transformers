@@ -116,6 +116,10 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
@@ -138,6 +142,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011', new_value='Intensidad de carbono (CO2/$ PPA 2011)'),
 	drop_col(col='geocodigo', axis=1),
+	drop_na(cols='valor'),
 	sort_values(how='ascending', by=['anio', 'categoria'])
 )
 #  PIPELINE_END
@@ -390,13 +395,28 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'categoria'])
-#  Index: 348 entries, 0 to 231
+#  drop_na(cols='valor')
+#  Index: 212 entries, 0 to 347
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   categoria  348 non-null    object 
+#   0   anio       212 non-null    int64  
+#   1   categoria  212 non-null    object 
+#   2   valor      212 non-null    float64
+#  
+#  |    |   anio | categoria                |   valor |
+#  |---:|-------:|:-------------------------|--------:|
+#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'categoria'])
+#  Index: 212 entries, 0 to 173
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       212 non-null    int64  
+#   1   categoria  212 non-null    object 
 #   2   valor      212 non-null    float64
 #  
 #  |    |   anio | categoria                |   valor |
