@@ -27,7 +27,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'periodo': 'indicador'}),
+rename_cols(map={'periodo': 'categoria'}),
 	rename_cols(map={'rubro': 'indicador'}),
 	rename_cols(map={'porcentaje': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=100)
@@ -50,16 +50,16 @@ rename_cols(map={'periodo': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'periodo': 'indicador'})
+#  rename_cols(map={'periodo': 'categoria'})
 #  RangeIndex: 39 entries, 0 to 38
 #  Data columns (total 3 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
 #   0   rubro       39 non-null     object 
-#   1   indicador   39 non-null     object 
+#   1   categoria   39 non-null     object 
 #   2   porcentaje  39 non-null     float64
 #  
-#  |    | rubro                              | indicador   |   porcentaje |
+#  |    | rubro                              | categoria   |   porcentaje |
 #  |---:|:-----------------------------------|:------------|-------------:|
 #  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997   |        0.288 |
 #  
@@ -71,10 +71,10 @@ rename_cols(map={'periodo': 'indicador'}),
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
 #   0   indicador   39 non-null     object 
-#   1   indicador   39 non-null     object 
+#   1   categoria   39 non-null     object 
 #   2   porcentaje  39 non-null     float64
 #  
-#  |    | indicador                          | indicador   |   porcentaje |
+#  |    | indicador                          | categoria   |   porcentaje |
 #  |---:|:-----------------------------------|:------------|-------------:|
 #  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997   |        0.288 |
 #  
@@ -86,10 +86,10 @@ rename_cols(map={'periodo': 'indicador'}),
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   indicador  39 non-null     object 
-#   1   indicador  39 non-null     object 
+#   1   categoria  39 non-null     object 
 #   2   valor      39 non-null     float64
 #  
-#  |    | indicador                          | indicador   |   valor |
+#  |    | indicador                          | categoria   |   valor |
 #  |---:|:-----------------------------------|:------------|--------:|
 #  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997   |    28.8 |
 #  
@@ -101,10 +101,10 @@ rename_cols(map={'periodo': 'indicador'}),
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   indicador  39 non-null     object 
-#   1   indicador  39 non-null     object 
+#   1   categoria  39 non-null     object 
 #   2   valor      39 non-null     float64
 #  
-#  |    | indicador                          | indicador   |   valor |
+#  |    | indicador                          | categoria   |   valor |
 #  |---:|:-----------------------------------|:------------|--------:|
 #  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997   |    28.8 |
 #  
