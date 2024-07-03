@@ -11,13 +11,18 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
-	drop_col(col='pais', axis=1)
+	drop_col(col='pais', axis=1),
+	drop_na(cols=['valor'])
 )
 #  PIPELINE_END
 
@@ -66,6 +71,21 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | HIC         |   2022 |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 631 entries, 1 to 732
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  631 non-null    object 
+#   1   anio       631 non-null    int64  
+#   2   valor      631 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  1 | HIC         |   2021 | 1.27667 |
 #  
 #  ------------------------------
 #  
