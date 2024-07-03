@@ -54,7 +54,7 @@ def recalculo_kaya(df: DataFrame, group: str, date_col: str):
             baseline = datos.loc[datos[date_col].idxmin(), i]
             
             # Calculate the base index
-            data_code[i] = data_code[i] / baseline * 100
+            data_code[i] = ((data_code[i] / baseline)-1) * 100
 
 
         # Append the modified dataframe to the list
@@ -219,7 +219,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |       |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
 #  |------:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 70439 |   1965 | ABW    |                     100 |                          nan |                        nan |         100 |                           nan |                                    nan |
+#  | 70439 |   1965 | ABW    |                       0 |                          nan |                        nan |           0 |                           nan |                                    nan |
 #  
 #  ------------------------------
 #  
@@ -239,7 +239,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |       |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
 #  |------:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 11387 |   1965 | WLD    |                     100 |                          nan |                        nan |         100 |                           100 |                                    nan |
+#  | 11387 |   1965 | WLD    |                       0 |                          nan |                        nan |           0 |                             0 |                                    nan |
 #  
 #  ------------------------------
 #  
@@ -259,7 +259,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |       |   anio | geocodigo   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
 #  |------:|-------:|:------------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 11387 |   1965 | WLD         |                     100 |                          nan |                        nan |         100 |                           100 |                                    nan |
+#  | 11387 |   1965 | WLD         |                       0 |                          nan |                        nan |           0 |                             0 |                                    nan |
 #  
 #  ------------------------------
 #  
@@ -275,7 +275,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria             |   valor |
 #  |---:|-------:|:------------|:----------------------|--------:|
-#  |  0 |   1965 | WLD         | emision_anual_co2_ton |     100 |
+#  |  0 |   1965 | WLD         | emision_anual_co2_ton |       0 |
 #  
 #  ------------------------------
 #  
@@ -291,7 +291,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -307,7 +307,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -323,7 +323,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -339,7 +339,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -355,7 +355,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -371,7 +371,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | geocodigo   | categoria                |   valor |
 #  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -386,7 +386,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | categoria                |   valor |
 #  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1965 | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
@@ -401,7 +401,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  |    |   anio | categoria                |   valor |
 #  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1965 | Emisiones anuales de CO2 |     100 |
+#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
