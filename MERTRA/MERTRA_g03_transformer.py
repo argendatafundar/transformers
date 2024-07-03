@@ -34,8 +34,8 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def multiplicar_por_escalar(df:DataFrame, col:str, k:float):
-    df[col] = df[col] * k
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
 
@@ -60,13 +60,13 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------            --------------  -----  
 #   0   iso3              16704 non-null  object 
 #   1   anio              16704 non-null  int64  
-#   2   tasa_actividad    7391 non-null   float64
+#   2   tasa_actividad    7620 non-null   float64
 #   3   iso3_desc         16704 non-null  object 
 #   4   nivel_agregacion  16704 non-null  object 
 #  
 #  |    | iso3   |   anio |   tasa_actividad | iso3_desc                    | nivel_agregacion   |
 #  |---:|:-------|-------:|-----------------:|:-----------------------------|:-------------------|
-#  |  0 | AFE    |   2023 |              nan | África Oriental y Meridional | agregacion         |
+#  |  0 | AFE    |   2023 |         0.412985 | África Oriental y Meridional | agregacion         |
 #  
 #  ------------------------------
 #  
@@ -77,12 +77,12 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------            --------------  -----  
 #   0   iso3              16704 non-null  object 
 #   1   anio              16704 non-null  int64  
-#   2   tasa_actividad    7391 non-null   float64
+#   2   tasa_actividad    7620 non-null   float64
 #   3   nivel_agregacion  16704 non-null  object 
 #  
 #  |    | iso3   |   anio |   tasa_actividad | nivel_agregacion   |
 #  |---:|:-------|-------:|-----------------:|:-------------------|
-#  |  0 | AFE    |   2023 |              nan | agregacion         |
+#  |  0 | AFE    |   2023 |         0.412985 | agregacion         |
 #  
 #  ------------------------------
 #  
@@ -93,11 +93,11 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------          --------------  -----  
 #   0   iso3            16704 non-null  object 
 #   1   anio            16704 non-null  int64  
-#   2   tasa_actividad  7391 non-null   float64
+#   2   tasa_actividad  7620 non-null   float64
 #  
 #  |    | iso3   |   anio |   tasa_actividad |
 #  |---:|:-------|-------:|-----------------:|
-#  |  0 | AFE    |   2023 |              nan |
+#  |  0 | AFE    |   2023 |         0.412985 |
 #  
 #  ------------------------------
 #  
@@ -108,11 +108,11 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  16704 non-null  object 
 #   1   anio       16704 non-null  int64  
-#   2   valor      7391 non-null   float64
+#   2   valor      7620 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AFE         |   2023 |     nan |
+#  |    | geocodigo   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | AFE         |   2023 | 0.412985 |
 #  
 #  ------------------------------
 #  
@@ -123,37 +123,37 @@ drop_col(col='iso3_desc', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  8874 non-null   object 
 #   1   anio       8874 non-null   int64  
-#   2   valor      7391 non-null   float64
+#   2   valor      7620 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AFE         |   2023 |     nan |
+#  |    | geocodigo   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | AFE         |   2023 | 0.412985 |
 #  
 #  ------------------------------
 #  
 #  drop_na(col='valor')
-#  Index: 7391 entries, 1 to 16672
+#  Index: 7620 entries, 0 to 16672
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7391 non-null   object 
-#   1   anio       7391 non-null   int64  
-#   2   valor      7391 non-null   float64
+#   0   geocodigo  7620 non-null   object 
+#   1   anio       7620 non-null   int64  
+#   2   valor      7620 non-null   float64
 #  
 #  |    | geocodigo   |   anio |    valor |
 #  |---:|:------------|-------:|---------:|
-#  |  1 | AFE         |   2022 | 0.410307 |
+#  |  0 | AFE         |   2023 | 0.412985 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 7391 entries, 0 to 7390
+#  RangeIndex: 7620 entries, 0 to 7619
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7391 non-null   object 
-#   1   anio       7391 non-null   int64  
-#   2   valor      7391 non-null   float64
+#   0   geocodigo  7620 non-null   object 
+#   1   anio       7620 non-null   int64  
+#   2   valor      7620 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -162,13 +162,13 @@ drop_col(col='iso3_desc', axis=1),
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 7391 entries, 0 to 7390
+#  RangeIndex: 7620 entries, 0 to 7619
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7391 non-null   object 
-#   1   anio       7391 non-null   int64  
-#   2   valor      7391 non-null   float64
+#   0   geocodigo  7620 non-null   object 
+#   1   anio       7620 non-null   int64  
+#   2   valor      7620 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
