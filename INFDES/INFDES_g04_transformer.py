@@ -18,32 +18,32 @@ rename_cols(map={'tipo_informalidad': 'indicador'})
 
 
 #  start()
-#  RangeIndex: 65 entries, 0 to 64
+#  RangeIndex: 67 entries, 0 to 66
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   anio               65 non-null     int64  
-#   1   tipo_informalidad  65 non-null     object 
-#   2   valor              65 non-null     float64
+#   0   anio               67 non-null     int64  
+#   1   tipo_informalidad  67 non-null     object 
+#   2   valor              67 non-null     float64
 #  
-#  |    |   anio | tipo_informalidad   |   valor |
-#  |---:|-------:|:--------------------|--------:|
-#  |  0 |   2021 | Definición legal    | 32.7077 |
+#  |    |   anio | tipo_informalidad     |   valor |
+#  |---:|-------:|:----------------------|--------:|
+#  |  0 |   1988 | Definición productiva | 48.1013 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'tipo_informalidad': 'indicador'})
-#  RangeIndex: 65 entries, 0 to 64
+#  RangeIndex: 67 entries, 0 to 66
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       65 non-null     int64  
-#   1   indicador  65 non-null     object 
-#   2   valor      65 non-null     float64
+#   0   anio       67 non-null     int64  
+#   1   indicador  67 non-null     object 
+#   2   valor      67 non-null     float64
 #  
-#  |    |   anio | indicador        |   valor |
-#  |---:|-------:|:-----------------|--------:|
-#  |  0 |   2021 | Definición legal | 32.7077 |
+#  |    |   anio | indicador             |   valor |
+#  |---:|-------:|:----------------------|--------:|
+#  |  0 |   1988 | Definición productiva | 48.1013 |
 #  
 #  ------------------------------
 #  
