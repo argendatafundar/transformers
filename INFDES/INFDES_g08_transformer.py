@@ -18,13 +18,13 @@ rename_cols(map={'apertura_sexo': 'indicador'})
 
 
 #  start()
-#  RangeIndex: 102 entries, 0 to 101
+#  RangeIndex: 105 entries, 0 to 104
 #  Data columns (total 3 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   anio           102 non-null    int64  
-#   1   apertura_sexo  102 non-null    object 
-#   2   valor          102 non-null    float64
+#   0   anio           105 non-null    int64  
+#   1   apertura_sexo  105 non-null    object 
+#   2   valor          105 non-null    float64
 #  
 #  |    |   anio | apertura_sexo   |    valor |
 #  |---:|-------:|:----------------|---------:|
@@ -33,13 +33,13 @@ rename_cols(map={'apertura_sexo': 'indicador'})
 #  ------------------------------
 #  
 #  rename_cols(map={'apertura_sexo': 'indicador'})
-#  RangeIndex: 102 entries, 0 to 101
+#  RangeIndex: 105 entries, 0 to 104
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       102 non-null    int64  
-#   1   indicador  102 non-null    object 
-#   2   valor      102 non-null    float64
+#   0   anio       105 non-null    int64  
+#   1   indicador  105 non-null    object 
+#   2   valor      105 non-null    float64
 #  
 #  |    |   anio | indicador   |    valor |
 #  |---:|-------:|:------------|---------:|
