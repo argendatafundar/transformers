@@ -28,69 +28,69 @@ drop_col(col='continente_fundar', axis=1),
 
 
 #  start()
-#  RangeIndex: 20832 entries, 0 to 20831
+#  RangeIndex: 21483 entries, 0 to 21482
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3               20832 non-null  object 
-#   1   pais_desc          20832 non-null  object 
-#   2   continente_fundar  20832 non-null  object 
-#   3   anio               20832 non-null  int64  
-#   4   sexo               20832 non-null  object 
-#   5   tasa_desempleo     17949 non-null  float64
+#   0   iso3               21483 non-null  object 
+#   1   anio               21483 non-null  int64  
+#   2   sexo               21483 non-null  object 
+#   3   tasa_desempleo     18504 non-null  float64
+#   4   pais_desc          21483 non-null  object 
+#   5   continente_fundar  21483 non-null  object 
 #  
-#  |    | iso3   | pais_desc   | continente_fundar                      |   anio | sexo   |   tasa_desempleo |
-#  |---:|:-------|:------------|:---------------------------------------|-------:|:-------|-----------------:|
-#  |  0 | ABW    | Aruba       | América del Norte, Central y el Caribe |   1991 | Total  |              nan |
+#  |    | iso3   |   anio | sexo   |   tasa_desempleo | pais_desc   | continente_fundar   |
+#  |---:|:-------|-------:|:-------|-----------------:|:------------|:--------------------|
+#  |  0 | AFG    |   2023 | Total  |          0.15378 | Afganistán  | Asia                |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='continente_fundar', axis=1)
-#  RangeIndex: 20832 entries, 0 to 20831
+#  RangeIndex: 21483 entries, 0 to 21482
 #  Data columns (total 5 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            20832 non-null  object 
-#   1   pais_desc       20832 non-null  object 
-#   2   anio            20832 non-null  int64  
-#   3   sexo            20832 non-null  object 
-#   4   tasa_desempleo  17949 non-null  float64
+#   0   iso3            21483 non-null  object 
+#   1   anio            21483 non-null  int64  
+#   2   sexo            21483 non-null  object 
+#   3   tasa_desempleo  18504 non-null  float64
+#   4   pais_desc       21483 non-null  object 
 #  
-#  |    | iso3   | pais_desc   |   anio | sexo   |   tasa_desempleo |
-#  |---:|:-------|:------------|-------:|:-------|-----------------:|
-#  |  0 | ABW    | Aruba       |   1991 | Total  |              nan |
+#  |    | iso3   |   anio | sexo   |   tasa_desempleo | pais_desc   |
+#  |---:|:-------|-------:|:-------|-----------------:|:------------|
+#  |  0 | AFG    |   2023 | Total  |          0.15378 | Afganistán  |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='pais_desc', axis=1)
-#  RangeIndex: 20832 entries, 0 to 20831
+#  RangeIndex: 21483 entries, 0 to 21482
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            20832 non-null  object 
-#   1   anio            20832 non-null  int64  
-#   2   sexo            20832 non-null  object 
-#   3   tasa_desempleo  17949 non-null  float64
+#   0   iso3            21483 non-null  object 
+#   1   anio            21483 non-null  int64  
+#   2   sexo            21483 non-null  object 
+#   3   tasa_desempleo  18504 non-null  float64
 #  
 #  |    | iso3   |   anio | sexo   |   tasa_desempleo |
 #  |---:|:-------|-------:|:-------|-----------------:|
-#  |  0 | ABW    |   1991 | Total  |              nan |
+#  |  0 | AFG    |   2023 | Total  |          0.15378 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'tasa_desempleo': 'valor'})
-#  RangeIndex: 20832 entries, 0 to 20831
+#  RangeIndex: 21483 entries, 0 to 21482
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  20832 non-null  object 
-#   1   anio       20832 non-null  int64  
-#   2   sexo       20832 non-null  object 
-#   3   valor      17949 non-null  float64
+#   0   geocodigo  21483 non-null  object 
+#   1   anio       21483 non-null  int64  
+#   2   sexo       21483 non-null  object 
+#   3   valor      18504 non-null  float64
 #  
 #  |    | geocodigo   |   anio | sexo   |   valor |
 #  |---:|:------------|-------:|:-------|--------:|
-#  |  0 | ABW         |   1991 | Total  |     nan |
+#  |  0 | AFG         |   2023 | Total  | 0.15378 |
 #  
 #  ------------------------------
 #  
