@@ -76,6 +76,10 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
 #  DEFINITIONS_END
 
 
@@ -95,7 +99,8 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 	replace_value(col='iso3', curr_value='AHDI.WLD', new_value='DESHUM_AHDI.WLD'),
 	replace_value(col='iso3', curr_value='AHDI.WOF', new_value='DESHUM_AHDI.WOF'),
 	rename_cols(map={'idha': 'valor', 'iso3': 'geocodigo'}),
-	drop_col(col=['iso3_desc_fundar'], axis=1)
+	drop_col(col=['iso3_desc_fundar'], axis=1),
+	drop_na(cols=['valor'])
 )
 #  PIPELINE_END
 
@@ -352,6 +357,21 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | AFG         |   1870 |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 3685 entries, 9 to 4175
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  3685 non-null   object 
+#   1   anio       3685 non-null   int64  
+#   2   valor      3685 non-null   float64
+#  
+#  |    | geocodigo   |   anio |     valor |
+#  |---:|:------------|-------:|----------:|
+#  |  9 | AFG         |   1950 | 0.0500429 |
 #  
 #  ------------------------------
 #  
