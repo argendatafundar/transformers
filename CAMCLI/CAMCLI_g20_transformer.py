@@ -30,8 +30,13 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def promedio_anual(df: pd.DataFrame):
+def promedio_anual(df: DataFrame):
     return df.groupby(['anio', 'indicador']).agg({'valor': 'mean'}).reset_index()
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -42,7 +47,8 @@ wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 	datetime_to_year(col='anio'),
 	replace_value(col='indicador', curr_value='anomalia_temperatura_mar_relativ', new_value='Mar'),
 	replace_value(col='indicador', curr_value='anomalia_temperatura_tierra_relativ', new_value='Tierra'),
-	promedio_anual()
+	promedio_anual(),
+	rename_cols(map={'indicador': 'categoria'})
 )
 #  PIPELINE_END
 
@@ -147,6 +153,21 @@ wide_to_long(primary_keys=['fecha'], value_name='valor', var_name='indicador'),
 #   2   valor      348 non-null    float64
 #  
 #  |    |   anio | indicador   |      valor |
+#  |---:|-------:|:------------|-----------:|
+#  |  0 |   1850 | Mar         | -0.0497822 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'indicador': 'categoria'})
+#  RangeIndex: 348 entries, 0 to 347
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       348 non-null    int32  
+#   1   categoria  348 non-null    object 
+#   2   valor      348 non-null    float64
+#  
+#  |    |   anio | categoria   |      valor |
 #  |---:|-------:|:------------|-----------:|
 #  |  0 |   1850 | Mar         | -0.0497822 |
 #  
