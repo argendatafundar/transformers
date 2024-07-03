@@ -18,6 +18,11 @@ def sort_values(df: DataFrame, how: str, by: list):
 @transformer.convert
 def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -25,7 +30,8 @@ def drop_na(df:DataFrame, cols:list):
 pipeline = chain(
 rename_columns(rubro='categoria', precio_relativo='valor'),
 	sort_values(how='ascending', by=['anio', 'categoria']),
-	drop_na(cols=['valor'])
+	drop_na(cols=['valor']),
+	query(condition='valor > 0')
 )
 #  PIPELINE_END
 
@@ -83,6 +89,21 @@ rename_columns(rubro='categoria', precio_relativo='valor'),
 #   0   anio       778 non-null    int64  
 #   1   categoria  778 non-null    object 
 #   2   valor      778 non-null    float64
+#  
+#  |    |   anio | categoria           |   valor |
+#  |---:|-------:|:--------------------|--------:|
+#  |  0 |   1947 | Alimentos y bebidas | 92.3782 |
+#  
+#  ------------------------------
+#  
+#  query(condition='valor > 0')
+#  Index: 670 entries, 0 to 777
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       670 non-null    int64  
+#   1   categoria  670 non-null    object 
+#   2   valor      670 non-null    float64
 #  
 #  |    |   anio | categoria           |   valor |
 #  |---:|-------:|:--------------------|--------:|
