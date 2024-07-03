@@ -26,6 +26,16 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -33,7 +43,9 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
 pipeline = chain(
 medias_anuales(date_col='fecha', year_col='anio', cols_valores=None),
 	drop_col(col='fecha', axis=1),
-	wide_to_long(primary_keys='anio', value_name='valor', var_name='indicador')
+	wide_to_long(primary_keys='anio', value_name='valor', var_name='indicador'),
+	mutiplicar_por_escalar(col='valor', k=100),
+	query(condition="indicador == 'altura_nivel_mar_filtrada_corr_tpac_drift'")
 )
 #  PIPELINE_END
 
@@ -94,9 +106,39 @@ medias_anuales(date_col='fecha', year_col='anio', cols_valores=None),
 #   1   indicador  60 non-null     object 
 #   2   valor      60 non-null     float64
 #  
-#  |    |   anio | indicador                        |      valor |
-#  |---:|-------:|:---------------------------------|-----------:|
-#  |  0 |   1993 | altura_nivel_mar_corr_tpac_drift | 0.00712589 |
+#  |    |   anio | indicador                        |    valor |
+#  |---:|-------:|:---------------------------------|---------:|
+#  |  0 |   1993 | altura_nivel_mar_corr_tpac_drift | 0.712589 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 60 entries, 0 to 59
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       60 non-null     int32  
+#   1   indicador  60 non-null     object 
+#   2   valor      60 non-null     float64
+#  
+#  |    |   anio | indicador                        |    valor |
+#  |---:|-------:|:---------------------------------|---------:|
+#  |  0 |   1993 | altura_nivel_mar_corr_tpac_drift | 0.712589 |
+#  
+#  ------------------------------
+#  
+#  query(condition="indicador == 'altura_nivel_mar_filtrada_corr_tpac_drift'")
+#  Index: 30 entries, 30 to 59
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       30 non-null     int32  
+#   1   indicador  30 non-null     object 
+#   2   valor      30 non-null     float64
+#  
+#  |    |   anio | indicador                                 |    valor |
+#  |---:|-------:|:------------------------------------------|---------:|
+#  | 30 |   1993 | altura_nivel_mar_filtrada_corr_tpac_drift | 0.715534 |
 #  
 #  ------------------------------
 #  
