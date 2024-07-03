@@ -143,6 +143,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -175,445 +180,461 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 	replace_value(col='provincia', curr_value='Santa Fe', new_value='AR-S'),
 	replace_value(col='provincia', curr_value='Santiago del Estero', new_value='AR-G'),
 	replace_value(col='provincia', curr_value='Tucumán', new_value='AR-T'),
-	replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V')
+	replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V'),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 165 entries, 0 to 164
+#  RangeIndex: 197 entries, 0 to 196
 #  Data columns (total 4 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   anio           165 non-null    int64  
-#   1   provincia      165 non-null    object 
-#   2   tasa_empleo    165 non-null    float64
-#   3   tasa_menor_18  165 non-null    float64
+#   0   anio           197 non-null    int64  
+#   1   provincia      197 non-null    object 
+#   2   tasa_empleo    197 non-null    float64
+#   3   tasa_menor_18  197 non-null    float64
 #  
-#  |    |   anio | provincia              |   tasa_empleo |   tasa_menor_18 |
-#  |---:|-------:|:-----------------------|--------------:|----------------:|
-#  |  0 |   2016 | Ciudad de Buenos Aires |      0.513004 |        0.188306 |
+#  |    |   anio | provincia    |   tasa_empleo |   tasa_menor_18 |
+#  |---:|-------:|:-------------|--------------:|----------------:|
+#  |  0 |   2016 | Buenos Aires |      0.406335 |        0.282782 |
 #  
 #  ------------------------------
 #  
 #  wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='indicador')
-#  RangeIndex: 330 entries, 0 to 329
+#  RangeIndex: 394 entries, 0 to 393
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       330 non-null    int64  
-#   1   provincia  330 non-null    object 
-#   2   indicador  330 non-null    object 
-#   3   valor      330 non-null    float64
+#   0   anio       394 non-null    int64  
+#   1   provincia  394 non-null    object 
+#   2   indicador  394 non-null    object 
+#   3   valor      394 non-null    float64
 #  
-#  |    |   anio | provincia              | indicador   |    valor |
-#  |---:|-------:|:-----------------------|:------------|---------:|
-#  |  0 |   2016 | Ciudad de Buenos Aires | tasa_empleo | 0.513004 |
+#  |    |   anio | provincia    | indicador   |    valor |
+#  |---:|-------:|:-------------|:------------|---------:|
+#  |  0 |   2016 | Buenos Aires | tasa_empleo | 0.406335 |
 #  
 #  ------------------------------
 #  
 #  latest_year(by='anio')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia              | indicador   |    valor |
-#  |---:|:-----------------------|:------------|---------:|
-#  |  6 | Ciudad de Buenos Aires | tasa_empleo | 0.510064 |
+#  |     | provincia    | indicador   |    valor |
+#  |----:|:-------------|:------------|---------:|
+#  | 172 | Buenos Aires | tasa_empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='tasa_empleo', new_value='Tasa de empleo')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia              | indicador      |    valor |
-#  |---:|:-----------------------|:---------------|---------:|
-#  |  6 | Ciudad de Buenos Aires | Tasa de empleo | 0.510064 |
+#  |     | provincia    | indicador      |    valor |
+#  |----:|:-------------|:---------------|---------:|
+#  | 172 | Buenos Aires | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='tasa_menor_18', new_value='Población menor de 18 años')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia              | indicador      |    valor |
-#  |---:|:-----------------------|:---------------|---------:|
-#  |  6 | Ciudad de Buenos Aires | Tasa de empleo | 0.510064 |
+#  |     | provincia    | indicador      |    valor |
+#  |----:|:-------------|:---------------|---------:|
+#  | 172 | Buenos Aires | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Ciudad de Buenos Aires', new_value='AR-C')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia    | indicador      |    valor |
+#  |----:|:-------------|:---------------|---------:|
+#  | 172 | Buenos Aires | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Buenos Aires', new_value='AR-B')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Catamarca', new_value='AR-K')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Córdoba', new_value='AR-X')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Corrientes', new_value='AR-W')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Chaco', new_value='AR-H')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Chubut', new_value='AR-U')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Entre Ríos', new_value='AR-E')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Formosa', new_value='AR-P')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Jujuy', new_value='AR-Y')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='La Pampa', new_value='AR-L')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='La Rioja', new_value='AR-F')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Mendoza', new_value='AR-M')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Misiones', new_value='AR-N')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Neuquén', new_value='AR-Q')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Río Negro', new_value='AR-R')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Salta', new_value='AR-A')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='San Juan', new_value='AR-J')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='San Luis', new_value='AR-D')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Santa Cruz', new_value='AR-Z')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Santa Fe', new_value='AR-S')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Santiago del Estero', new_value='AR-G')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Tucumán', new_value='AR-T')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |    valor |
+#  |----:|:------------|:---------------|---------:|
+#  | 172 | AR-B        | Tasa de empleo | 0.450225 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V')
-#  Index: 48 entries, 6 to 329
+#  Index: 50 entries, 172 to 393
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   provincia  48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
 #  
-#  |    | provincia   | indicador      |    valor |
-#  |---:|:------------|:---------------|---------:|
-#  |  6 | AR-C        | Tasa de empleo | 0.510064 |
+#  |     | provincia   | indicador      |   valor |
+#  |----:|:------------|:---------------|--------:|
+#  | 172 | AR-B        | Tasa de empleo | 45.0225 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  Index: 50 entries, 172 to 393
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   provincia  50 non-null     object 
+#   1   indicador  50 non-null     object 
+#   2   valor      50 non-null     float64
+#  
+#  |     | provincia   | indicador      |   valor |
+#  |----:|:------------|:---------------|--------:|
+#  | 172 | AR-B        | Tasa de empleo | 45.0225 |
 #  
 #  ------------------------------
 #  
