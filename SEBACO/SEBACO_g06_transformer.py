@@ -36,7 +36,7 @@ query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
 	rename_cols(map={'prop': 'valor', 'provincia': 'categoria'}),
 	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(how='descending', by=['valor'])
+	sort_values(how='ascending', by=['valor'])
 )
 #  PIPELINE_END
 
@@ -113,17 +113,17 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='descending', by=['valor'])
-#  Index: 25 entries, 26 to 215
+#  sort_values(how='ascending', by=['valor'])
+#  Index: 25 entries, 215 to 26
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   categoria  25 non-null     object 
 #   1   valor      25 non-null     float64
 #  
-#  |    | categoria   |   valor |
-#  |---:|:------------|--------:|
-#  | 26 | CABA        | 58.1325 |
+#  |     | categoria   |   valor |
+#  |----:|:------------|--------:|
+#  | 215 | Formosa     | 0.10317 |
 #  
 #  ------------------------------
 #  
