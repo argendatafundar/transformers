@@ -13,9 +13,20 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def rename_columns(df: DataFrame, **kwargs):
-    df = df.rename(columns=kwargs)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort_values(by=by, ascending=how == 'ascending')
 #  DEFINITIONS_END
 
 
@@ -23,7 +34,9 @@ def rename_columns(df: DataFrame, **kwargs):
 pipeline = chain(
 query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
-	rename_columns(prop='valor', provincia='categoria')
+	rename_cols(map={'prop': 'valor', 'provincia': 'categoria'}),
+	mutiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='descending', by=['valor'])
 )
 #  PIPELINE_END
 
@@ -72,7 +85,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  rename_columns(prop='valor', provincia='categoria')
+#  rename_cols(map={'prop': 'valor', 'provincia': 'categoria'})
 #  Index: 25 entries, 26 to 674
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -80,9 +93,37 @@ query(condition='anio == anio.max()'),
 #   0   categoria  25 non-null     object 
 #   1   valor      25 non-null     float64
 #  
-#  |    | categoria   |    valor |
-#  |---:|:------------|---------:|
-#  | 26 | CABA        | 0.581325 |
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  | 26 | CABA        | 58.1325 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 25 entries, 26 to 674
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  25 non-null     object 
+#   1   valor      25 non-null     float64
+#  
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  | 26 | CABA        | 58.1325 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='descending', by=['valor'])
+#  Index: 25 entries, 26 to 215
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  25 non-null     object 
+#   1   valor      25 non-null     float64
+#  
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  | 26 | CABA        | 58.1325 |
 #  
 #  ------------------------------
 #  
