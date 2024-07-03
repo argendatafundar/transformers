@@ -32,9 +32,9 @@ rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'}),
 #   2   subsector        145 non-null    object 
 #   3   valor_en_mtco2e  145 non-null    float64
 #  
-#  |    |   anio | sector   | subsector                |   valor_en_mtco2e |
-#  |---:|-------:|:---------|:-------------------------|------------------:|
-#  |  0 |   1990 | Energía  | Industrias de la energía |              22.3 |
+#  |    |   anio | sector   | subsector                                                          |   valor_en_mtco2e |
+#  |---:|-------:|:---------|:-------------------------------------------------------------------|------------------:|
+#  |  0 |   1990 | EnergÃ­a  | Emisiones fugitivas provenientes de la fabricaciÃ³n de combustibles |              6.44 |
 #  
 #  ------------------------------
 #  
@@ -48,9 +48,9 @@ rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'}),
 #   2   indicador  145 non-null    object 
 #   3   valor      145 non-null    float64
 #  
-#  |    |   anio | sector   | indicador                |   valor |
-#  |---:|-------:|:---------|:-------------------------|--------:|
-#  |  0 |   1990 | Energía  | Industrias de la energía |    22.3 |
+#  |    |   anio | sector   | indicador                                                          |   valor |
+#  |---:|-------:|:---------|:-------------------------------------------------------------------|--------:|
+#  |  0 |   1990 | EnergÃ­a  | Emisiones fugitivas provenientes de la fabricaciÃ³n de combustibles |    6.44 |
 #  
 #  ------------------------------
 #  
@@ -63,9 +63,9 @@ rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'}),
 #   1   indicador  145 non-null    object 
 #   2   valor      145 non-null    float64
 #  
-#  |    |   anio | indicador                |   valor |
-#  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1990 | Industrias de la energía |    22.3 |
+#  |    |   anio | indicador                                                          |   valor |
+#  |---:|-------:|:-------------------------------------------------------------------|--------:|
+#  |  0 |   1990 | Emisiones fugitivas provenientes de la fabricaciÃ³n de combustibles |    6.44 |
 #  
 #  ------------------------------
 #  
