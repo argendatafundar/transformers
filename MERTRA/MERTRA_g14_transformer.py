@@ -145,6 +145,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -178,7 +183,8 @@ drop_col(col='prov_cod', axis=1),
 	replace_value(col='prov_desc', curr_value='Santa Fe', new_value='AR-S'),
 	replace_value(col='prov_desc', curr_value='Santiago del Estero', new_value='AR-G'),
 	replace_value(col='prov_desc', curr_value='Tucumán', new_value='AR-T'),
-	replace_value(col='prov_desc', curr_value='Tierra del Fuego', new_value='AR-V')
+	replace_value(col='prov_desc', curr_value='Tierra del Fuego', new_value='AR-V'),
+	rename_cols(map={'prov_desc': 'geocodigo'})
 )
 #  PIPELINE_END
 
@@ -629,6 +635,21 @@ drop_col(col='prov_cod', axis=1),
 #   2   valor      48 non-null     float64
 #  
 #  |    | prov_desc   | indicador               |   valor |
+#  |---:|:------------|:------------------------|--------:|
+#  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'prov_desc': 'geocodigo'})
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
+#  
+#  |    | geocodigo   | indicador               |   valor |
 #  |---:|:------------|:------------------------|--------:|
 #  |  0 | AR-C        | Tasa de empleo femenino |  75.518 |
 #  
