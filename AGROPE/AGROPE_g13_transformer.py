@@ -40,6 +40,10 @@ def drop_col(df: DataFrame, col, axis=1):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
 #  DEFINITIONS_END
 
 
@@ -52,7 +56,8 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 	rename_cols(map={'iso3': 'geocodigo', 'rindes_trigo_ma5': 'valor'}),
 	drop_col(col='iso3_desc_fundar', axis=1),
 	drop_col(col='rindes', axis=1),
-	query(condition='anio >= 1965')
+	query(condition='anio >= 1965'),
+	drop_na(cols=['valor'])
 )
 #  PIPELINE_END
 
@@ -191,6 +196,21 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #  ------------------------------
 #  
 #  query(condition='anio >= 1965')
+#  Index: 6504 entries, 4 to 6875
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   geocodigo  6504 non-null   object
+#   1   anio       6504 non-null   int64 
+#   2   valor      6504 non-null   object
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  4 | AFG         |   1965 |  0.9501 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
 #  Index: 6504 entries, 4 to 6875
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
