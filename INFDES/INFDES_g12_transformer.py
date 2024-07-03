@@ -15,6 +15,15 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
@@ -22,7 +31,9 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 drop_col(col='continente_fundar', axis=1),
 	drop_col(col='pais_desc', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'tasa_desempleo': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'tasa_desempleo': 'valor'}),
+	query(condition="sexo == 'Total'"),
+	drop_col(col='sexo', axis=1)
 )
 #  PIPELINE_END
 
@@ -91,6 +102,37 @@ drop_col(col='continente_fundar', axis=1),
 #  |    | geocodigo   |   anio | sexo   |   valor |
 #  |---:|:------------|-------:|:-------|--------:|
 #  |  0 | AFG         |   2023 | Total  | 0.15378 |
+#  
+#  ------------------------------
+#  
+#  query(condition="sexo == 'Total'")
+#  Index: 7161 entries, 0 to 21480
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7161 non-null   object 
+#   1   anio       7161 non-null   int64  
+#   2   sexo       7161 non-null   object 
+#   3   valor      6168 non-null   float64
+#  
+#  |    | geocodigo   |   anio | sexo   |   valor |
+#  |---:|:------------|-------:|:-------|--------:|
+#  |  0 | AFG         |   2023 | Total  | 0.15378 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col='sexo', axis=1)
+#  Index: 7161 entries, 0 to 21480
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7161 non-null   object 
+#   1   anio       7161 non-null   int64  
+#   2   valor      6168 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   2023 | 0.15378 |
 #  
 #  ------------------------------
 #  
