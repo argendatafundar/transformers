@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(destino='categoria', concepto='subcategoria', porcentaje_total='valor')
+rename_columns(destino='nivel1', concepto='nivel2', porcentaje_total='valor')
 )
 #  PIPELINE_END
 
@@ -32,18 +32,18 @@ rename_columns(destino='categoria', concepto='subcategoria', porcentaje_total='v
 #  
 #  ------------------------------
 #  
-#  rename_columns(destino='categoria', concepto='subcategoria', porcentaje_total='valor')
+#  rename_columns(destino='nivel1', concepto='nivel2', porcentaje_total='valor')
 #  RangeIndex: 16 entries, 0 to 15
 #  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   categoria     16 non-null     object 
-#   1   subcategoria  16 non-null     object 
-#   2   valor         16 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  16 non-null     object 
+#   1   nivel2  16 non-null     object 
+#   2   valor   16 non-null     float64
 #  
-#  |    | categoria   | subcategoria                                                   |   valor |
-#  |---:|:------------|:---------------------------------------------------------------|--------:|
-#  |  0 | local       | consumo intermedio nacional (neto de importaciones indirectas) |    29.8 |
+#  |    | nivel1   | nivel2                                                         |   valor |
+#  |---:|:---------|:---------------------------------------------------------------|--------:|
+#  |  0 | local    | consumo intermedio nacional (neto de importaciones indirectas) |    29.8 |
 #  
 #  ------------------------------
 #  
