@@ -151,11 +151,6 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -192,7 +187,6 @@ latest_year(by='anio'),
 	rename_cols(map={'apertura_edad': 'indicador', 'tasa_empleo': 'valor', 'prov_desc': 'geocodigo'}),
 	query(condition="indicador in ('Edad, entre 18 y 65', 'Edad, total')"),
 	replace_value(col='indicador', curr_value='Edad, entre 18 y 65', new_value='Población entre 18 y 65 años'),
-	replace_value(col='indicador', curr_value='Edad, mayor a 65', new_value='Población mayor a 65 años'),
 	replace_value(col='indicador', curr_value='Edad, total', new_value='Población total'),
 	multiplicar_por_escalar(col='valor', k=100)
 )
@@ -621,21 +615,6 @@ latest_year(by='anio'),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Edad, entre 18 y 65', new_value='Población entre 18 y 65 años')
-#  Index: 50 entries, 688 to 787
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  50 non-null     object 
-#   1   indicador  50 non-null     object 
-#   2   valor      50 non-null     float64
-#  
-#  |     | geocodigo   | indicador                    |    valor |
-#  |----:|:------------|:-----------------------------|---------:|
-#  | 688 | AR-B        | Población entre 18 y 65 años | 0.714799 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Edad, mayor a 65', new_value='Población mayor a 65 años')
 #  Index: 50 entries, 688 to 787
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
