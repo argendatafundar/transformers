@@ -16,7 +16,7 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(sector='categoria', ciiu_3_4c_desc='subcategoria', perc_total='valor'),
+rename_columns(sector='nivel1', ciiu_3_4c_desc='nivel2', perc_total='valor'),
 	drop_col(col='monto', axis=1)
 )
 #  PIPELINE_END
@@ -38,17 +38,17 @@ rename_columns(sector='categoria', ciiu_3_4c_desc='subcategoria', perc_total='va
 #  
 #  ------------------------------
 #  
-#  rename_columns(sector='categoria', ciiu_3_4c_desc='subcategoria', perc_total='valor')
+#  rename_columns(sector='nivel1', ciiu_3_4c_desc='nivel2', perc_total='valor')
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 4 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   categoria     21 non-null     object 
-#   1   subcategoria  21 non-null     object 
-#   2   monto         21 non-null     int64  
-#   3   valor         21 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  21 non-null     object 
+#   1   nivel2  21 non-null     object 
+#   2   monto   21 non-null     int64  
+#   3   valor   21 non-null     float64
 #  
-#  |    | categoria               | subcategoria                                                                                   |   monto |   valor |
+#  |    | nivel1                  | nivel2                                                                                         |   monto |   valor |
 #  |---:|:------------------------|:-----------------------------------------------------------------------------------------------|--------:|--------:|
 #  |  0 | Metales y metalmecánica | Fabricación de maquinaria para la explotación de minas y canteras y para obras de construcción |    3117 |   20.48 |
 #  
@@ -57,13 +57,13 @@ rename_columns(sector='categoria', ciiu_3_4c_desc='subcategoria', perc_total='va
 #  drop_col(col='monto', axis=1)
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   categoria     21 non-null     object 
-#   1   subcategoria  21 non-null     object 
-#   2   valor         21 non-null     float64
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  21 non-null     object 
+#   1   nivel2  21 non-null     object 
+#   2   valor   21 non-null     float64
 #  
-#  |    | categoria               | subcategoria                                                                                   |   valor |
+#  |    | nivel1                  | nivel2                                                                                         |   valor |
 #  |---:|:------------------------|:-----------------------------------------------------------------------------------------------|--------:|
 #  |  0 | Metales y metalmecánica | Fabricación de maquinaria para la explotación de minas y canteras y para obras de construcción |   20.48 |
 #  
