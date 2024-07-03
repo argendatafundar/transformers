@@ -11,13 +11,19 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 wide_to_long(primary_keys=['anio', 'grupo_nuevo'], value_name='valor', var_name='indicador'),
-	rename_cols(map={'grupo_nuevo': 'serie'})
+	rename_cols(map={'grupo_nuevo': 'serie'}),
+	mutiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
@@ -63,9 +69,25 @@ wide_to_long(primary_keys=['anio', 'grupo_nuevo'], value_name='valor', var_name=
 #   2   indicador  145 non-null    object 
 #   3   valor      145 non-null    float64
 #  
-#  |    |   anio | serie    | indicador   |       valor |
-#  |---:|-------:|:---------|:------------|------------:|
-#  |  0 |   1994 | aluminio | impo_grupo  | 8.39544e+06 |
+#  |    |   anio | serie    | indicador   |   valor |
+#  |---:|-------:|:---------|:------------|--------:|
+#  |  0 |   1994 | aluminio | impo_grupo  | 8.39544 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=1e-06)
+#  RangeIndex: 145 entries, 0 to 144
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       145 non-null    int64  
+#   1   serie      145 non-null    object 
+#   2   indicador  145 non-null    object 
+#   3   valor      145 non-null    float64
+#  
+#  |    |   anio | serie    | indicador   |   valor |
+#  |---:|-------:|:---------|:------------|--------:|
+#  |  0 |   1994 | aluminio | impo_grupo  | 8.39544 |
 #  
 #  ------------------------------
 #  
