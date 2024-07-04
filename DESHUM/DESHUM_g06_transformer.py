@@ -88,7 +88,7 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 	replace_value(col='iso3', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC'),
 	replace_value(col='iso3', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA'),
 	replace_value(col='iso3', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
-	rename_cols(map={'iso3': 'geocodigo', 'anios_prom_educ ': 'valor'}),
+	rename_cols(map={'iso3': 'geocodigo', 'anios_prom_educ': 'valor'}),
 	drop_col(col=['pais_nombre', 'continente_fundar', 'es_agregacion'], axis=1)
 )
 #  PIPELINE_END
@@ -328,7 +328,7 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'iso3': 'geocodigo', 'anios_prom_educ ': 'valor'})
+#  rename_cols(map={'iso3': 'geocodigo', 'anios_prom_educ': 'valor'})
 #  RangeIndex: 6254 entries, 0 to 6253
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
@@ -338,26 +338,26 @@ replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
 #   2   continente_fundar  5891 non-null   object 
 #   3   es_agregacion      5891 non-null   float64
 #   4   anio               6254 non-null   int64  
-#   5   anios_prom_educ    6254 non-null   float64
+#   5   valor              6254 non-null   float64
 #  
-#  |    | geocodigo   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   anios_prom_educ |
-#  |---:|:------------|:--------------|:--------------------|----------------:|-------:|------------------:|
-#  |  0 | AFG         | Afganistán    | Asia                |               0 |   1990 |              0.87 |
+#  |    | geocodigo   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   valor |
+#  |---:|:------------|:--------------|:--------------------|----------------:|-------:|--------:|
+#  |  0 | AFG         | Afganistán    | Asia                |               0 |   1990 |    0.87 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['pais_nombre', 'continente_fundar', 'es_agregacion'], axis=1)
 #  RangeIndex: 6254 entries, 0 to 6253
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigo        6254 non-null   object 
-#   1   anio             6254 non-null   int64  
-#   2   anios_prom_educ  6254 non-null   float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  6254 non-null   object 
+#   1   anio       6254 non-null   int64  
+#   2   valor      6254 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   anios_prom_educ |
-#  |---:|:------------|-------:|------------------:|
-#  |  0 | AFG         |   1990 |              0.87 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1990 |    0.87 |
 #  
 #  ------------------------------
 #  
