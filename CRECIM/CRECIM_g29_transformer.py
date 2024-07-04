@@ -19,6 +19,10 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
 #  DEFINITIONS_END
 
 
@@ -27,7 +31,8 @@ pipeline = chain(
 drop_col(col='continente_fundar', axis=1),
 	drop_col(col='es_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'pib_per_capita': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'pib_per_capita': 'valor'}),
+	drop_na(cols=['valor'])
 )
 #  PIPELINE_END
 
@@ -105,6 +110,21 @@ drop_col(col='continente_fundar', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  21618 non-null  object 
 #   1   anio       21618 non-null  int64  
+#   2   valor      21586 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1950 |    1156 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
+#  Index: 21586 entries, 0 to 21617
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  21586 non-null  object 
+#   1   anio       21586 non-null  int64  
 #   2   valor      21586 non-null  float64
 #  
 #  |    | geocodigo   |   anio |   valor |
