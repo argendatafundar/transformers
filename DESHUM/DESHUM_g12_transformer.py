@@ -36,6 +36,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -47,7 +52,8 @@ query(condition='anio == anio.max()'),
 	replace_value(col='iso3', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
 	df_merge_geonomenclador(left='iso3', right='geocodigo', how='left'),
 	drop_col(col=['geocodigo', 'iso3', 'country', 'name_short', 'iso_2', 'anio'], axis=1),
-	rename_cols(map={'name_long': 'categoria', 'sexo': 'indicador', 'idh': 'valor'})
+	rename_cols(map={'name_long': 'categoria', 'sexo': 'indicador', 'idh': 'valor'}),
+	query(condition="categoria in ('Yemen', 'Noruega', 'Suiza', 'Burundi', 'Brasil', 'Mundo')")
 )
 #  PIPELINE_END
 
@@ -147,9 +153,9 @@ query(condition='anio == anio.max()'),
 #   2   anio        412 non-null    int64  
 #   3   sexo        412 non-null    object 
 #   4   idh         386 non-null    float64
-#   5   geocodigo   396 non-null    object 
-#   6   name_long   396 non-null    object 
-#   7   name_short  396 non-null    object 
+#   5   geocodigo   392 non-null    object 
+#   6   name_long   392 non-null    object 
+#   7   name_short  392 non-null    object 
 #   8   iso_2       388 non-null    object 
 #  
 #  |    | iso3   | country     |   anio | sexo    |      idh | geocodigo   | name_long   | name_short   | iso_2   |
@@ -165,7 +171,7 @@ query(condition='anio == anio.max()'),
 #  ---  ------     --------------  -----  
 #   0   sexo       412 non-null    object 
 #   1   idh        386 non-null    float64
-#   2   name_long  396 non-null    object 
+#   2   name_long  392 non-null    object 
 #  
 #  |    | sexo    |      idh | name_long   |
 #  |---:|:--------|---------:|:------------|
@@ -180,11 +186,26 @@ query(condition='anio == anio.max()'),
 #  ---  ------     --------------  -----  
 #   0   indicador  412 non-null    object 
 #   1   valor      386 non-null    float64
-#   2   categoria  396 non-null    object 
+#   2   categoria  392 non-null    object 
 #  
 #  |    | indicador   |    valor | categoria   |
 #  |---:|:------------|---------:|:------------|
 #  |  0 | Varones     | 0.534145 | Afganistán  |
+#  
+#  ------------------------------
+#  
+#  query(condition="categoria in ('Yemen', 'Noruega', 'Suiza', 'Burundi', 'Brasil', 'Mundo')")
+#  Index: 12 entries, 11 to 411
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  12 non-null     object 
+#   1   valor      12 non-null     float64
+#   2   categoria  12 non-null     object 
+#  
+#  |    | indicador   |    valor | categoria   |
+#  |---:|:------------|---------:|:------------|
+#  | 11 | Varones     | 0.436317 | Burundi     |
 #  
 #  ------------------------------
 #  
