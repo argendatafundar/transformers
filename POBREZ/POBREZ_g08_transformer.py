@@ -25,6 +25,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -34,7 +39,8 @@ query(condition='year == year.max()'),
 	query(condition='poverty_line == 6.85'),
 	drop_col(col='poverty_line', axis=1),
 	drop_col(col='year', axis=1),
-	rename_cols(map={'country_code': 'geocodigo', 'poverty_rate': 'valor'})
+	rename_cols(map={'country_code': 'geocodigo', 'poverty_rate': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -124,9 +130,23 @@ query(condition='year == year.max()'),
 #   0   geocodigo  71 non-null     object 
 #   1   valor      71 non-null     float64
 #  
-#  |     | geocodigo   |    valor |
-#  |----:|:------------|---------:|
-#  | 219 | ALB         | 0.149019 |
+#  |     | geocodigo   |   valor |
+#  |----:|:------------|--------:|
+#  | 219 | ALB         | 14.9019 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 71 entries, 219 to 326
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  71 non-null     object 
+#   1   valor      71 non-null     float64
+#  
+#  |     | geocodigo   |   valor |
+#  |----:|:------------|--------:|
+#  | 219 | ALB         | 14.9019 |
 #  
 #  ------------------------------
 #  
