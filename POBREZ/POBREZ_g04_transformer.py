@@ -36,6 +36,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -47,7 +52,8 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	rename_cols(map={'region': 'indicador', 'k_value': 'categoria', 'pov_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	query(condition="indicador != 'Total'")
+	query(condition="indicador != 'Total'"),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -179,7 +185,22 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     | indicador   |   categoria |   valor |
 #  |----:|:------------|------------:|--------:|
-#  | 313 | Partidos    |        0.25 | 0.12649 |
+#  | 313 | Partidos    |        0.25 |  12.649 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 14 entries, 313 to 639
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  14 non-null     object 
+#   1   categoria  14 non-null     float64
+#   2   valor      14 non-null     float64
+#  
+#  |     | indicador   |   categoria |   valor |
+#  |----:|:------------|------------:|--------:|
+#  | 313 | Partidos    |        0.25 |  12.649 |
 #  
 #  ------------------------------
 #  
