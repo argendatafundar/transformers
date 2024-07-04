@@ -23,7 +23,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 query(condition="province == 'argentina'"),
 	drop_col(col='province', axis=1),
-	rename_cols(map={'year': 'anio', 'nbi_rate': 'valor'})
+	rename_cols(map={'year': 'categoria', 'nbi_rate': 'valor'})
 )
 #  PIPELINE_END
 
@@ -72,17 +72,17 @@ query(condition="province == 'argentina'"),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'year': 'anio', 'nbi_rate': 'valor'})
+#  rename_cols(map={'year': 'categoria', 'nbi_rate': 'valor'})
 #  Index: 4 entries, 0 to 3
 #  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    4 non-null      int64  
-#   1   valor   4 non-null      float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  4 non-null      int64  
+#   1   valor      4 non-null      float64
 #  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1980 |    22.3 |
+#  |    |   categoria |   valor |
+#  |---:|------------:|--------:|
+#  |  0 |        1980 |    22.3 |
 #  
 #  ------------------------------
 #  
