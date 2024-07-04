@@ -25,6 +25,71 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -34,7 +99,20 @@ query(condition='year == 2021'),
 	query(condition='poverty_line == 6.85'),
 	drop_col(col='poverty_line', axis=1),
 	drop_col(col='year', axis=1),
-	rename_cols(map={'country_code': 'geocodigo', 'poverty_rate': 'valor'})
+	rename_cols(map={'country_code': 'categoria', 'poverty_rate': 'valor'}),
+	replace_value(col='categoria', curr_value='ARG', new_value='Argentina'),
+	replace_value(col='categoria', curr_value='BOL', new_value='Bolivia'),
+	replace_value(col='categoria', curr_value='BRA', new_value='Brasil'),
+	replace_value(col='categoria', curr_value='COL', new_value='Colombia'),
+	replace_value(col='categoria', curr_value='CRI', new_value='Costa Rica'),
+	replace_value(col='categoria', curr_value='DOM', new_value='Dominicana'),
+	replace_value(col='categoria', curr_value='ECU', new_value='Ecuador'),
+	replace_value(col='categoria', curr_value='PAN', new_value='Panamá'),
+	replace_value(col='categoria', curr_value='PER', new_value='Perú'),
+	replace_value(col='categoria', curr_value='PRY', new_value='Paraguay'),
+	replace_value(col='categoria', curr_value='SLV', new_value='El Salvador'),
+	replace_value(col='categoria', curr_value='URY', new_value='Uruguay'),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -116,17 +194,199 @@ query(condition='year == 2021'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'country_code': 'geocodigo', 'poverty_rate': 'valor'})
+#  rename_cols(map={'country_code': 'categoria', 'poverty_rate': 'valor'})
 #  Index: 12 entries, 932 to 1336
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  12 non-null     object 
+#   0   categoria  12 non-null     object 
 #   1   valor      12 non-null     float64
 #  
-#  |     | geocodigo   |    valor |
+#  |     | categoria   |    valor |
 #  |----:|:------------|---------:|
 #  | 932 | ARG         | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='ARG', new_value='Argentina')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='BOL', new_value='Bolivia')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='BRA', new_value='Brasil')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='COL', new_value='Colombia')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='CRI', new_value='Costa Rica')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='DOM', new_value='Dominicana')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='ECU', new_value='Ecuador')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='PAN', new_value='Panamá')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='PER', new_value='Perú')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='PRY', new_value='Paraguay')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='SLV', new_value='El Salvador')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |    valor |
+#  |----:|:------------|---------:|
+#  | 932 | Argentina   | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='URY', new_value='Uruguay')
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |   valor |
+#  |----:|:------------|--------:|
+#  | 932 | Argentina   | 10.6201 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 12 entries, 932 to 1336
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  12 non-null     object 
+#   1   valor      12 non-null     float64
+#  
+#  |     | categoria   |   valor |
+#  |----:|:------------|--------:|
+#  | 932 | Argentina   | 10.6201 |
 #  
 #  ------------------------------
 #  
