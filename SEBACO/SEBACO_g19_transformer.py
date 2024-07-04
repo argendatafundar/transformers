@@ -4,15 +4,23 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_columns(df: DataFrame, **kwargs):
-    df = df.rename(columns=kwargs)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(sector='indicador', balanza='valor')
+rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
+	sort_values(how='ascending', by=['anio', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -32,7 +40,7 @@ rename_columns(sector='indicador', balanza='valor')
 #  
 #  ------------------------------
 #  
-#  rename_columns(sector='indicador', balanza='valor')
+#  rename_cols(map={'sector': 'indicador', 'balanza': 'valor'})
 #  RangeIndex: 102 entries, 0 to 101
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -44,6 +52,21 @@ rename_columns(sector='indicador', balanza='valor')
 #  |    |   anio | indicador             |    valor |
 #  |---:|-------:|:----------------------|---------:|
 #  |  0 |   2006 | Propiedad intelectual | -814.312 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'indicador'])
+#  RangeIndex: 102 entries, 0 to 101
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       102 non-null    int64  
+#   1   indicador  102 non-null    object 
+#   2   valor      102 non-null    float64
+#  
+#  |    |   anio | indicador                  |   valor |
+#  |---:|-------:|:---------------------------|--------:|
+#  |  0 |   2006 | Investigación y desarrollo | 106.637 |
 #  
 #  ------------------------------
 #  
