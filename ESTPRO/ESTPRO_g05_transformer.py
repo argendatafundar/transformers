@@ -71,6 +71,11 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -89,7 +94,8 @@ query(condition='anio == anio.max() & anio >= 2023 | anio == 2019'),
 	replace_value(col='iso3', curr_value='WXOECD', new_value='NONOECD'),
 	replace_value(col='iso3', curr_value='W_O', new_value='ZOTH'),
 	rename_cols(map={'particip_bys_alta_intensidad': 'valor', 'iso3': 'geocodigo'}),
-	drop_col(col=['iso3_desc_fundar', 'es_agregacion'], axis=1)
+	drop_col(col=['iso3_desc_fundar', 'es_agregacion'], axis=1),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -341,9 +347,24 @@ query(condition='anio == anio.max() & anio >= 2023 | anio == 2019'),
 #   1   geocodigo  95 non-null     object 
 #   2   valor      95 non-null     float64
 #  
-#  |    |   anio | geocodigo   |    valor |
-#  |---:|-------:|:------------|---------:|
-#  | 24 |   2019 | ZSCA        | 0.121979 |
+#  |    |   anio | geocodigo   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 24 |   2019 | ZSCA        | 12.1979 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 95 entries, 24 to 2468
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       95 non-null     int64  
+#   1   geocodigo  95 non-null     object 
+#   2   valor      95 non-null     float64
+#  
+#  |    |   anio | geocodigo   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 24 |   2019 | ZSCA        | 12.1979 |
 #  
 #  ------------------------------
 #  
