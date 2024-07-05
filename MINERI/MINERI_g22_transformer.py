@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(iso3='geoselector')
+rename_columns(iso3='geocodigo')
 )
 #  PIPELINE_END
 
