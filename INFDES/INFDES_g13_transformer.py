@@ -30,7 +30,7 @@ pipeline = chain(
 drop_col(col='anio', axis=1),
 	drop_col(col='pais_desc', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'estado': 'indicador', 'satisfaccion_vida': 'valor'}),
-	sort_values(how='ascending', by=['geocodigo', 'indicador'])
+	sort_values(how='ascending', by=['indicador'])
 )
 #  PIPELINE_END
 
@@ -98,7 +98,7 @@ drop_col(col='anio', axis=1),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['geocodigo', 'indicador'])
+#  sort_values(how='ascending', by=['indicador'])
 #  RangeIndex: 193 entries, 0 to 192
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
