@@ -15,6 +15,13 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -22,7 +29,8 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 drop_col(col='anio', axis=1),
 	drop_col(col='pais_desc', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'estado': 'indicador', 'satisfaccion_vida': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'estado': 'indicador', 'satisfaccion_vida': 'valor'}),
+	sort_values(how='ascending', by=['indicador'])
 )
 #  PIPELINE_END
 
@@ -76,6 +84,21 @@ drop_col(col='anio', axis=1),
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'estado': 'indicador', 'satisfaccion_vida': 'valor'})
+#  RangeIndex: 193 entries, 0 to 192
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  193 non-null    object 
+#   1   indicador  193 non-null    object 
+#   2   valor      193 non-null    float64
+#  
+#  |    | geocodigo   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | ALB         | Desocupado  |   6.642 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['indicador'])
 #  RangeIndex: 193 entries, 0 to 192
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
