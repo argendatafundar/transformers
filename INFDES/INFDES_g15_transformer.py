@@ -16,6 +16,11 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 rename_cols(map={'tasa_desocupacion': 'valor', 'nivel_ed_desc': 'indicador'}),
 	rename_cols(map={'indicador': 'categoria'}),
-	drop_col(col='nivel_ed_cod', axis=1)
+	drop_col(col='nivel_ed_cod', axis=1),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -85,9 +91,24 @@ rename_cols(map={'tasa_desocupacion': 'valor', 'nivel_ed_desc': 'indicador'}),
 #   1   categoria  84 non-null     object 
 #   2   valor      84 non-null     float64
 #  
-#  |    |   anio | categoria                   |    valor |
-#  |---:|-------:|:----------------------------|---------:|
-#  |  0 |   2003 | Hasta secundaria incompleta | 0.119657 |
+#  |    |   anio | categoria                   |   valor |
+#  |---:|-------:|:----------------------------|--------:|
+#  |  0 |   2003 | Hasta secundaria incompleta | 11.9657 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       84 non-null     int64  
+#   1   categoria  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    |   anio | categoria                   |   valor |
+#  |---:|-------:|:----------------------------|--------:|
+#  |  0 |   2003 | Hasta secundaria incompleta | 11.9657 |
 #  
 #  ------------------------------
 #  
