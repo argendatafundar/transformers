@@ -23,6 +23,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -31,7 +36,8 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	sort_values(how='ascending', by=['rango_edad', 'sexo']),
 	drop_col(col=['anio', 'rango_edad'], axis=1),
-	rename_cols(map={'rango_edad_desc': 'categoria', 'sexo': 'indicador', 'tasa_desocupacion': 'valor'})
+	rename_cols(map={'rango_edad_desc': 'categoria', 'sexo': 'indicador', 'tasa_desocupacion': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -111,9 +117,24 @@ query(condition='anio == anio.max()'),
 #   1   indicador  8 non-null      object 
 #   2   valor      8 non-null      float64
 #  
-#  |    | categoria   | indicador   |    valor |
-#  |---:|:------------|:------------|---------:|
-#  |  0 | Hasta 30    | Mujeres     | 0.124757 |
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Hasta 30    | Mujeres     | 12.4757 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 8 entries, 0 to 7
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  8 non-null      object 
+#   1   indicador  8 non-null      object 
+#   2   valor      8 non-null      float64
+#  
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Hasta 30    | Mujeres     | 12.4757 |
 #  
 #  ------------------------------
 #  
