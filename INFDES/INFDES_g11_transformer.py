@@ -25,6 +25,13 @@ def rename_cols(df: DataFrame, map):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -34,7 +41,8 @@ query(condition="iso3 == 'ARG'"),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='pais_desc', axis=1),
 	rename_cols(map={'tasa_desempleo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -125,6 +133,20 @@ query(condition="iso3 == 'ARG'"),
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
 #  | 33 |   2023 |   6.841 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 33 entries, 0 to 32
+#  Data columns (total 2 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    33 non-null     int64  
+#   1   valor   33 non-null     float64
+#  
+#  |    |   anio |   valor |
+#  |---:|-------:|--------:|
+#  |  0 |   1991 |    5.44 |
 #  
 #  ------------------------------
 #  
