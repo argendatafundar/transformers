@@ -15,6 +15,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -22,7 +27,8 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 drop_col(col='pais', axis=1),
 	drop_col(col='serie', axis=1),
-	rename_cols(map={'iso3': 'geocodigo'})
+	rename_cols(map={'iso3': 'geocodigo'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -84,9 +90,24 @@ drop_col(col='pais', axis=1),
 #   1   anio       286 non-null    int64  
 #   2   valor      286 non-null    float64
 #  
-#  |    | geocodigo   |   anio |    valor |
-#  |---:|:------------|-------:|---------:|
-#  |  0 | ARG         |   1986 | 0.268756 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1986 | 26.8756 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 286 entries, 0 to 285
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  286 non-null    object 
+#   1   anio       286 non-null    int64  
+#   2   valor      286 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1986 | 26.8756 |
 #  
 #  ------------------------------
 #  
