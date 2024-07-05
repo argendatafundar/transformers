@@ -20,6 +20,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -28,7 +33,8 @@ pipeline = chain(
 query(condition="iso3 == 'ARG'"),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='pais_desc', axis=1),
-	rename_cols(map={'tasa_desempleo': 'valor'})
+	rename_cols(map={'tasa_desempleo': 'valor'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -104,7 +110,21 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  | 33 |   2023 | 0.06841 |
+#  | 33 |   2023 |   6.841 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 33 entries, 33 to 65
+#  Data columns (total 2 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    33 non-null     int64  
+#   1   valor   33 non-null     float64
+#  
+#  |    |   anio |   valor |
+#  |---:|-------:|--------:|
+#  | 33 |   2023 |   6.841 |
 #  
 #  ------------------------------
 #  
