@@ -12,7 +12,7 @@ def rename_columns(df: DataFrame, **kwargs):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(iso3='geocodigo')
+rename_columns(tipo_auto='categoria', mineral_critico='indicador', mineral_utilizado_kg_por_vehiculo='valor')
 )
 #  PIPELINE_END
 
@@ -32,18 +32,18 @@ rename_columns(iso3='geocodigo')
 #  
 #  ------------------------------
 #  
-#  rename_columns(iso3='geoselector')
+#  rename_columns(tipo_auto='categoria', mineral_critico='indicador', mineral_utilizado_kg_por_vehiculo='valor')
 #  RangeIndex: 18 entries, 0 to 17
 #  Data columns (total 3 columns):
-#   #   Column                             Non-Null Count  Dtype  
-#  ---  ------                             --------------  -----  
-#   0   tipo_auto                          18 non-null     object 
-#   1   mineral_critico                    18 non-null     object 
-#   2   mineral_utilizado_kg_por_vehiculo  18 non-null     float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  18 non-null     object 
+#   1   indicador  18 non-null     object 
+#   2   valor      18 non-null     float64
 #  
-#  |    | tipo_auto      | mineral_critico   |   mineral_utilizado_kg_por_vehiculo |
-#  |---:|:---------------|:------------------|------------------------------------:|
-#  |  0 | auto_electrico | cobre             |                                53.2 |
+#  |    | categoria      | indicador   |   valor |
+#  |---:|:---------------|:------------|--------:|
+#  |  0 | auto_electrico | cobre       |    53.2 |
 #  
 #  ------------------------------
 #  
