@@ -17,7 +17,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'apertura_sexo': 'indicador'}),
+rename_cols(map={'apertura_sexo': 'categoria'}),
 	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -38,16 +38,16 @@ rename_cols(map={'apertura_sexo': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'apertura_sexo': 'indicador'})
+#  rename_cols(map={'apertura_sexo': 'categoria'})
 #  RangeIndex: 105 entries, 0 to 104
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       105 non-null    int64  
-#   1   indicador  105 non-null    object 
+#   1   categoria  105 non-null    object 
 #   2   valor      105 non-null    float64
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1986 | Mujer       | 29.9352 |
 #  
@@ -59,10 +59,10 @@ rename_cols(map={'apertura_sexo': 'indicador'}),
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       105 non-null    int64  
-#   1   indicador  105 non-null    object 
+#   1   categoria  105 non-null    object 
 #   2   valor      105 non-null    float64
 #  
-#  |    |   anio | indicador   |   valor |
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1986 | Mujer       | 29.9352 |
 #  
