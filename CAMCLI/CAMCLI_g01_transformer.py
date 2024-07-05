@@ -17,7 +17,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 drop_col(col='iso3', axis=1),
-	rename_cols(map={'continente_fundar': 'categoria', 'iso3_desc_fundar': 'subcategoria', 'valor_en_porcent': 'valor'})
+	rename_cols(map={'continente_fundar': 'nivel1', 'iso3_desc_fundar': 'nivel2', 'valor_en_porcent': 'valor'})
 )
 #  PIPELINE_END
 
