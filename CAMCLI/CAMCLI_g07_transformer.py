@@ -12,7 +12,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'region': 'grupo', 'sector': 'indicador', 'valor_en_porcent': 'valor'})
+rename_cols(map={'region': 'categoria', 'sector': 'indicador', 'valor_en_porcent': 'valor'})
 )
 #  PIPELINE_END
 
@@ -28,7 +28,7 @@ rename_cols(map={'region': 'grupo', 'sector': 'indicador', 'valor_en_porcent': '
 #  
 #  |    | region    | sector   |   valor_en_porcent |
 #  |---:|:----------|:---------|-------------------:|
-#  |  0 | Argentina | Energía  |               53.8 |
+#  |  0 | Argentina | EnergÃ­a  |               53.8 |
 #  
 #  ------------------------------
 #  
@@ -43,7 +43,7 @@ rename_cols(map={'region': 'grupo', 'sector': 'indicador', 'valor_en_porcent': '
 #  
 #  |    | grupo     | indicador   |   valor |
 #  |---:|:----------|:------------|--------:|
-#  |  0 | Argentina | Energía     |    53.8 |
+#  |  0 | Argentina | EnergÃ­a     |    53.8 |
 #  
 #  ------------------------------
 #  
