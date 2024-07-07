@@ -26,8 +26,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -38,8 +43,9 @@ query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
 	drop_col(col='provincia_id', axis=1),
 	drop_col(col='vab_pb', axis=1),
-	rename_cols(map={'provincia_nombre': 'nivel1', 'region': 'nivel2', 'participacion': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	rename_cols(map={'provincia_nombre': 'nivel2', 'region': 'nivel1', 'participacion': 'valor'}),
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='nivel2', curr_value='Ciudad Autónoma de Buenos Aires', new_value='CABA')
 )
 #  PIPELINE_END
 
@@ -128,33 +134,48 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'provincia_nombre': 'nivel1', 'region': 'nivel2', 'participacion': 'valor'})
+#  rename_cols(map={'provincia_nombre': 'nivel2', 'region': 'nivel1', 'participacion': 'valor'})
 #  Index: 24 entries, 432 to 455
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  24 non-null     object 
-#   1   nivel2  24 non-null     object 
+#   0   nivel2  24 non-null     object 
+#   1   nivel1  24 non-null     object 
 #   2   valor   24 non-null     float64
 #  
-#  |     | nivel1                          | nivel2          |   valor |
+#  |     | nivel2                          | nivel1          |   valor |
 #  |----:|:--------------------------------|:----------------|--------:|
 #  | 432 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   19.73 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 24 entries, 432 to 455
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  24 non-null     object 
-#   1   nivel2  24 non-null     object 
+#   0   nivel2  24 non-null     object 
+#   1   nivel1  24 non-null     object 
 #   2   valor   24 non-null     float64
 #  
-#  |     | nivel1                          | nivel2          |   valor |
+#  |     | nivel2                          | nivel1          |   valor |
 #  |----:|:--------------------------------|:----------------|--------:|
 #  | 432 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   19.73 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='nivel2', curr_value='Ciudad Autónoma de Buenos Aires', new_value='CABA')
+#  Index: 24 entries, 432 to 455
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel2  24 non-null     object 
+#   1   nivel1  24 non-null     object 
+#   2   valor   24 non-null     float64
+#  
+#  |     | nivel2   | nivel1          |   valor |
+#  |----:|:---------|:----------------|--------:|
+#  | 432 | CABA     | Pampeana y CABA |   19.73 |
 #  
 #  ------------------------------
 #  
