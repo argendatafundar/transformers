@@ -18,7 +18,6 @@ def inputar(df, row):
 #  PIPELINE_START
 pipeline = chain(
 rename_columns(iso3='geocodigo', inflacion_prom_07_22='valor'),
-	inputar(row=['ZWE', 87.09157143])
 )
 #  PIPELINE_END
 
