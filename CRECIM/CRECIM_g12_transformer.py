@@ -35,6 +35,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -46,7 +51,8 @@ drop_col(col='continente_fundar', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 	drop_na(cols=['valor']),
 	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TSA'])")
 )
 #  PIPELINE_END
 
@@ -170,6 +176,21 @@ drop_col(col='continente_fundar', axis=1),
 #   0   geocodigo  7482 non-null   object 
 #   1   anio       7482 non-null   int64  
 #   2   valor      7482 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1975 |       0 |
+#  
+#  ------------------------------
+#  
+#  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TSA'])")
+#  Index: 7146 entries, 0 to 7481
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7146 non-null   object 
+#   1   anio       7146 non-null   int64  
+#   2   valor      7146 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
