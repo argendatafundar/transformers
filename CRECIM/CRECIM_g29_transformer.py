@@ -23,6 +23,33 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -32,7 +59,12 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='es_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'pib_per_capita': 'valor'}),
-	drop_na(cols=['valor'])
+	drop_na(cols=['valor']),
+	replace_value(col='geocodigo', curr_value='WRL_MPD', new_value='WLD'),
+	replace_value(col='geocodigo', curr_value='YUG', new_value='SER'),
+	replace_value(col='geocodigo', curr_value='SUN', new_value='SVU'),
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	query(condition='anio >= 1900')
 )
 #  PIPELINE_END
 
@@ -130,6 +162,81 @@ drop_col(col='continente_fundar', axis=1),
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | AFG         |   1950 |    1156 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='WRL_MPD', new_value='WLD')
+#  Index: 21586 entries, 0 to 21617
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  21586 non-null  object 
+#   1   anio       21586 non-null  int64  
+#   2   valor      21586 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1950 |    1156 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='YUG', new_value='SER')
+#  Index: 21586 entries, 0 to 21617
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  21586 non-null  object 
+#   1   anio       21586 non-null  int64  
+#   2   valor      21586 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1950 |    1156 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='SUN', new_value='SVU')
+#  Index: 21586 entries, 0 to 21617
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  21586 non-null  object 
+#   1   anio       21586 non-null  int64  
+#   2   valor      21586 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1950 |    1156 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 21586 entries, 0 to 21585
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  21586 non-null  object 
+#   1   anio       21586 non-null  int64  
+#   2   valor      21586 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | BEL         |      1 |     956 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 1900')
+#  Index: 14886 entries, 6700 to 21585
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  14886 non-null  object 
+#   1   anio       14886 non-null  int64  
+#   2   valor      14886 non-null  float64
+#  
+#  |      | geocodigo   |   anio |   valor |
+#  |-----:|:------------|-------:|--------:|
+#  | 6700 | ALB         |   1900 |    1092 |
 #  
 #  ------------------------------
 #  
