@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def rename_columns(df: DataFrame, **kwargs):
     df = df.rename(columns=kwargs)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(grupo_de_paises='categoria', mediana_paises_inflacion='valor')
+rename_columns(grupo_de_paises='categoria', mediana_paises_inflacion='valor'),
+    replace_value(col='categoria', curr_value='Países de Altos Ingresos', new_value='Países de altos ingresos')
 )
 #  PIPELINE_END
 
