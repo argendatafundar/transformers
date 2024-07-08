@@ -24,6 +24,13 @@ def rename_cols(df: DataFrame, map):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -33,7 +40,8 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -120,6 +128,21 @@ drop_col(col='continente_fundar', axis=1),
 #  ------------------------------
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 7482 entries, 0 to 7481
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7482 non-null   object 
+#   1   anio       7482 non-null   int64  
+#   2   valor      7482 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1975 |       0 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
 #  RangeIndex: 7482 entries, 0 to 7481
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
