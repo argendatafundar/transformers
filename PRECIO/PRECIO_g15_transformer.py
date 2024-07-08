@@ -28,8 +28,8 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(rubro='categoria', precio_relativo='valor'),
-	sort_values(how='ascending', by=['anio', 'categoria']),
+rename_columns(rubro='indicador', precio_relativo='valor'),
+	sort_values(how='ascending', by=['anio', 'indicador']),
 	drop_na(cols=['valor']),
 	query(condition='valor > 0')
 )
