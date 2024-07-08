@@ -20,9 +20,21 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
@@ -37,7 +49,9 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='es_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
 	drop_col(col='pib_per_capita', axis=1),
+	replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
 	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -128,7 +142,37 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  ------------------------------
 #  
+#  replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD')
+#  RangeIndex: 7831 entries, 0 to 7830
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   iso3             7831 non-null   object 
+#   1   anio             7831 non-null   int64  
+#   2   cambio_relativo  7831 non-null   float64
+#  
+#  |    | iso3   |   anio |   cambio_relativo |
+#  |---:|:-------|-------:|------------------:|
+#  |  0 | ARG    |   1820 |                 0 |
+#  
+#  ------------------------------
+#  
 #  rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'})
+#  RangeIndex: 7831 entries, 0 to 7830
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7831 non-null   object 
+#   1   anio       7831 non-null   int64  
+#   2   valor      7831 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1820 |       0 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
 #  RangeIndex: 7831 entries, 0 to 7830
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
