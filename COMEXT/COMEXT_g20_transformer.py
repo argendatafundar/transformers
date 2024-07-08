@@ -20,6 +20,14 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict):
+    mapcol = colname+'_map'
+    df[mapcol] = df[colname].map(precedence)
+    df.sort_values(by=['anio', mapcol], inplace=True)
+    df.drop(mapcol, inplace=True, axis=1)
+    return df
 #  DEFINITIONS_END
 
 
@@ -28,7 +36,8 @@ pipeline = chain(
 query(condition="iso3 == 'ARG'"),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='reportingeconomy', axis=1),
-	rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'})
+	rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'}),
+	sort_values_by_comparison(colname='indicador', precedence={'Viajes': 0, 'Otros servicios empresariales': 1, 'Servicios de telecomunicaciones, informática e información': 2, 'Transportes': 3, 'Resto': 4})
 )
 #  PIPELINE_END
 
@@ -99,7 +108,7 @@ query(condition="iso3 == 'ARG'"),
 #  ------------------------------
 #  
 #  rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'})
-#  Index: 90 entries, 23 to 15652
+#  Index: 90 entries, 27 to 15649
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -107,9 +116,24 @@ query(condition="iso3 == 'ARG'"),
 #   1   indicador  90 non-null     object 
 #   2   valor      90 non-null     float64
 #  
-#  |    |   anio | indicador                     |   valor |
-#  |---:|-------:|:------------------------------|--------:|
-#  | 23 |   2005 | Otros servicios empresariales | 24.7445 |
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 27 |   2005 | Viajes      | 42.2577 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Viajes': 0, 'Otros servicios empresariales': 1, 'Servicios de telecomunicaciones, informática e información': 2, 'Transportes': 3, 'Resto': 4})
+#  Index: 90 entries, 27 to 15649
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       90 non-null     int64  
+#   1   indicador  90 non-null     object 
+#   2   valor      90 non-null     float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 27 |   2005 | Viajes      | 42.2577 |
 #  
 #  ------------------------------
 #  
