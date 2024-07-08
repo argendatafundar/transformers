@@ -12,13 +12,23 @@ def rename_cols(df: DataFrame, map):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'rubro': 'indicador'}),
-	rename_cols(map={'precio_relativo': 'valor'})
+	rename_cols(map={'precio_relativo': 'valor'}),
+	drop_col(col='nivel', axis=1),
+	drop_col(col='codigo', axis=1)
 )
 #  PIPELINE_END
 
@@ -71,6 +81,37 @@ rename_cols(map={'rubro': 'indicador'}),
 #  |    |   anio |   codigo |   nivel | indicador                          |   valor |
 #  |---:|-------:|---------:|--------:|:-----------------------------------|--------:|
 #  |  0 |   2013 |       01 |       1 | Alimentos y bebidas no alcohólicas |     100 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col='nivel', axis=1)
+#  RangeIndex: 748 entries, 0 to 747
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       748 non-null    int64  
+#   1   codigo     748 non-null    object 
+#   2   indicador  748 non-null    object 
+#   3   valor      748 non-null    float64
+#  
+#  |    |   anio |   codigo | indicador                          |   valor |
+#  |---:|-------:|---------:|:-----------------------------------|--------:|
+#  |  0 |   2013 |       01 | Alimentos y bebidas no alcohólicas |     100 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col='codigo', axis=1)
+#  RangeIndex: 748 entries, 0 to 747
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       748 non-null    int64  
+#   1   indicador  748 non-null    object 
+#   2   valor      748 non-null    float64
+#  
+#  |    |   anio | indicador                          |   valor |
+#  |---:|-------:|:-----------------------------------|--------:|
+#  |  0 |   2013 | Alimentos y bebidas no alcohólicas |     100 |
 #  
 #  ------------------------------
 #  
