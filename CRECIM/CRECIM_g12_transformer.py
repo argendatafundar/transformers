@@ -21,6 +21,10 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -40,6 +44,7 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
+	drop_na(cols=['valor']),
 	mutiplicar_por_escalar(col='valor', k=100),
 	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
@@ -113,6 +118,21 @@ drop_col(col='continente_fundar', axis=1),
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'})
+#  RangeIndex: 7482 entries, 0 to 7481
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7482 non-null   object 
+#   1   anio       7482 non-null   int64  
+#   2   valor      7482 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFE         |   1975 |       0 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['valor'])
 #  RangeIndex: 7482 entries, 0 to 7481
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
