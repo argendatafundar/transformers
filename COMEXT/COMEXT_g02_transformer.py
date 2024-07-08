@@ -31,16 +31,16 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_na(df: DataFrame, col:str):
-    df = df.dropna(subset= col, axis=0)
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+def sort_values_by_comparison(df, colname: str, precedence: dict):
+    mapcol = colname+'_map'
+    df.loc[:, mapcol] = df[colname].map(precedence)
+    df = df.sort_values(by=['anio', mapcol])
+    return df.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -53,7 +53,7 @@ drop_col(col='countryname', axis=1),
 	query(condition='iso3 == "ARG"'),
 	drop_col(col='iso3', axis=1),
 	drop_na(col='valor'),
-	sort_values(how='ascending', by=['anio'])
+	sort_values_by_comparison(colname='indicador', precedence={'Bienes': 0, 'Servicios': 1})
 )
 #  PIPELINE_END
 
@@ -172,6 +172,22 @@ drop_col(col='countryname', axis=1),
 #  
 #  drop_na(col='valor')
 #  Index: 94 entries, 577 to 17599
+#  Data columns (total 4 columns):
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   anio           94 non-null     int64  
+#   1   indicador      94 non-null     object 
+#   2   valor          94 non-null     float64
+#   3   indicador_map  94 non-null     int64  
+#  
+#  |     |   anio | indicador   |   valor |   indicador_map |
+#  |----:|-------:|:------------|--------:|----------------:|
+#  | 577 |   2022 | Bienes      | 61887.4 |               0 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Bienes': 0, 'Servicios': 1})
+#  Index: 94 entries, 622 to 17537
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -181,22 +197,7 @@ drop_col(col='countryname', axis=1),
 #  
 #  |     |   anio | indicador   |   valor |
 #  |----:|-------:|:------------|--------:|
-#  | 577 |   2022 | Bienes      | 61887.4 |
-#  
-#  ------------------------------
-#  
-#  sort_values(how='ascending', by=['anio'])
-#  RangeIndex: 94 entries, 0 to 93
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       94 non-null     int64  
-#   1   indicador  94 non-null     object 
-#   2   valor      94 non-null     float64
-#  
-#  |    |   anio | indicador   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1976 | Bienes      | 9548.58 |
+#  | 622 |   1976 | Bienes      | 9548.58 |
 #  
 #  ------------------------------
 #  
