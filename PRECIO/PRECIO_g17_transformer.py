@@ -11,13 +11,21 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_columns(df: DataFrame, **kwargs):
     df = df.rename(columns=kwargs)
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 drop_col(col='tasa_inflacion', axis=1),
-	rename_columns(tasa_inflacion_valores_positivos='valor')
+	rename_columns(tasa_inflacion_valores_positivos='valor'),
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
