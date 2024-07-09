@@ -83,7 +83,7 @@ query(condition='anio == anio.max()'),
 	replace_value(col='nivel2', curr_value='Adm. pública y defensa', new_value='Administración \npública \ny defensa'),
 	replace_value(col='nivel2', curr_value='Serv. comunitarios, sociales y personales', new_value='Servicios \ncomunitarios, \nsociales y \npersonales'),
 	replace_value(col='nivel2', curr_value='Servicio doméstico', new_value='Servicio \ndoméstico'),
-	replace_value(col='nivel2', curr_value='Transporte y Comunicaciones', new_value='Transporte y \nComunicaciones')
+	replace_value(col='nivel2', curr_value='Transporte y comunicaciones', new_value='Transporte y \ncomunicaciones')
 )
 #  PIPELINE_END
 
@@ -292,7 +292,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='nivel2', curr_value='Transporte y Comunicaciones', new_value='Transporte y \nComunicaciones')
+#  replace_value(col='nivel2', curr_value='Transporte y comunicaciones', new_value='Transporte y \ncomunicaciones')
 #  Index: 16 entries, 304 to 319
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
