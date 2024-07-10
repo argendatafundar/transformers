@@ -23,7 +23,7 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 query(condition='iso3 == "ARG"'),
 	rename_cols(map={'microd_name': 'categoria', 'import_value_pc': 'valor'}),
-	drop_col(col=['country_name_abbreviation', 'microd'], axis=1)
+	drop_col(col=['country_name_abbreviation', 'microd', 'year', 'iso3'], axis=1)
 )
 #  PIPELINE_END
 
@@ -42,12 +42,12 @@ query(condition='iso3 == "ARG"'),
 #  
 #  |    |   year | iso3   | country_name_abbreviation   |   microd | microd_name   |   import_value_pc |
 #  |---:|-------:|:-------|:----------------------------|---------:|:--------------|------------------:|
-#  |  0 |   2020 | ARM    | Armenia                     |        1 | Diferenciado  |            59.832 |
+#  |  0 |   2020 | ABW    | Aruba                       |        1 | Diferenciado  |           77.3215 |
 #  
 #  ------------------------------
 #  
 #  query(condition='iso3 == "ARG"')
-#  Index: 2 entries, 212 to 213
+#  Index: 2 entries, 14 to 15
 #  Data columns (total 6 columns):
 #   #   Column                     Non-Null Count  Dtype  
 #  ---  ------                     --------------  -----  
@@ -58,14 +58,14 @@ query(condition='iso3 == "ARG"'),
 #   4   microd_name                2 non-null      object 
 #   5   import_value_pc            2 non-null      float64
 #  
-#  |     |   year | iso3   | country_name_abbreviation   |   microd | microd_name   |   import_value_pc |
-#  |----:|-------:|:-------|:----------------------------|---------:|:--------------|------------------:|
-#  | 212 |   2020 | ARG    | Argentina                   |        1 | Diferenciado  |           66.5803 |
+#  |    |   year | iso3   | country_name_abbreviation   |   microd | microd_name   |   import_value_pc |
+#  |---:|-------:|:-------|:----------------------------|---------:|:--------------|------------------:|
+#  | 14 |   2020 | ARG    | Argentina                   |        1 | Diferenciado  |           66.5803 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'microd_name': 'categoria', 'import_value_pc': 'valor'})
-#  Index: 2 entries, 212 to 213
+#  Index: 2 entries, 14 to 15
 #  Data columns (total 6 columns):
 #   #   Column                     Non-Null Count  Dtype  
 #  ---  ------                     --------------  -----  
@@ -76,25 +76,23 @@ query(condition='iso3 == "ARG"'),
 #   4   categoria                  2 non-null      object 
 #   5   valor                      2 non-null      float64
 #  
-#  |     |   year | iso3   | country_name_abbreviation   |   microd | categoria    |   valor |
-#  |----:|-------:|:-------|:----------------------------|---------:|:-------------|--------:|
-#  | 212 |   2020 | ARG    | Argentina                   |        1 | Diferenciado | 66.5803 |
+#  |    |   year | iso3   | country_name_abbreviation   |   microd | categoria    |   valor |
+#  |---:|-------:|:-------|:----------------------------|---------:|:-------------|--------:|
+#  | 14 |   2020 | ARG    | Argentina                   |        1 | Diferenciado | 66.5803 |
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['country_name_abbreviation', 'microd'], axis=1)
-#  Index: 2 entries, 212 to 213
-#  Data columns (total 4 columns):
+#  drop_col(col=['country_name_abbreviation', 'microd', 'year', 'iso3'], axis=1)
+#  Index: 2 entries, 14 to 15
+#  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   year       2 non-null      int64  
-#   1   iso3       2 non-null      object 
-#   2   categoria  2 non-null      object 
-#   3   valor      2 non-null      float64
+#   0   categoria  2 non-null      object 
+#   1   valor      2 non-null      float64
 #  
-#  |     |   year | iso3   | categoria    |   valor |
-#  |----:|-------:|:-------|:-------------|--------:|
-#  | 212 |   2020 | ARG    | Diferenciado | 66.5803 |
+#  |    | categoria    |   valor |
+#  |---:|:-------------|--------:|
+#  | 14 | Diferenciado | 66.5803 |
 #  
 #  ------------------------------
 #  
