@@ -54,7 +54,7 @@ query(condition='iso3 == "ARG"'),
 	drop_col(col='location_name_short_en', axis=1),
 	drop_col(col='sitc_2_1_cod', axis=1),
 	rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'}),
-	replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles y combustibles'),
+	replace_value(col='indicador', curr_value='Materiales crudos, no comestibles', new_value='Materiales crudos no comestibles'),
 	replace_value(col='indicador', curr_value='Combustibles minerales, lubricantes y productos similares', new_value='Combustibles minerales, lubricantes y similares'),
 	replace_value(col='indicador', curr_value='Artículos manufacturados, clasificados principalmente según el material', new_value='Artículos manufacturados según material'),
 	replace_value(col='indicador', curr_value='Transacciones y mercaderías diversas, N. E. P.', new_value='Transacciones y mercaderías diversas')
@@ -161,7 +161,7 @@ query(condition='iso3 == "ARG"'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles y combustibles')
+#  replace_value(col='indicador', curr_value='Materiales crudos, no comestibles', new_value='Materiales crudos no comestibles')
 #  Index: 600 entries, 50 to 120309
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
