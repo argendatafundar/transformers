@@ -30,6 +30,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -40,7 +45,8 @@ query(condition='anio == anio.max()'),
 	drop_col(col=['anio', 'letra', 'id_tipo_sector'], axis=1),
 	wide_to_long(primary_keys=['grupo', 'categoria'], value_name='valor', var_name='indicador'),
 	replace_value(col='indicador', curr_value='share_sectorial', new_value='Share sectorial'),
-	replace_value(col='indicador', curr_value='share_vab', new_value='Share VAB')
+	replace_value(col='indicador', curr_value='share_vab', new_value='Share VAB'),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -160,9 +166,25 @@ query(condition='anio == anio.max()'),
 #   2   indicador  28 non-null     object 
 #   3   valor      28 non-null     float64
 #  
-#  |    | grupo   | categoria    | indicador       |     valor |
-#  |---:|:--------|:-------------|:----------------|----------:|
-#  |  0 | Bienes  | Agro y pesca | Share sectorial | 0.0637079 |
+#  |    | grupo   | categoria    | indicador       |   valor |
+#  |---:|:--------|:-------------|:----------------|--------:|
+#  |  0 | Bienes  | Agro y pesca | Share sectorial | 6.37079 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 28 entries, 0 to 27
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   grupo      28 non-null     object 
+#   1   categoria  28 non-null     object 
+#   2   indicador  28 non-null     object 
+#   3   valor      28 non-null     float64
+#  
+#  |    | grupo   | categoria    | indicador       |   valor |
+#  |---:|:--------|:-------------|:----------------|--------:|
+#  |  0 | Bienes  | Agro y pesca | Share sectorial | 6.37079 |
 #  
 #  ------------------------------
 #  
