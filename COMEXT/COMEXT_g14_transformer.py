@@ -23,7 +23,7 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 query(condition='iso3 == "ARG"'),
 	rename_cols(map={'microd_name': 'categoria', 'export_value_pc': 'valor'}),
-	drop_col(col=['country_name_abbreviation', 'microd'], axis=1)
+	drop_col(col=['country_name_abbreviation', 'microd', 'year', 'iso3'], axis=1)
 )
 #  PIPELINE_END
 
@@ -82,19 +82,17 @@ query(condition='iso3 == "ARG"'),
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['country_name_abbreviation', 'microd'], axis=1)
+#  drop_col(col=['country_name_abbreviation', 'microd', 'year', 'iso3'], axis=1)
 #  Index: 2 entries, 212 to 213
-#  Data columns (total 4 columns):
+#  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   year       2 non-null      int64  
-#   1   iso3       2 non-null      object 
-#   2   categoria  2 non-null      object 
-#   3   valor      2 non-null      float64
+#   0   categoria  2 non-null      object 
+#   1   valor      2 non-null      float64
 #  
-#  |     |   year | iso3   | categoria    |   valor |
-#  |----:|-------:|:-------|:-------------|--------:|
-#  | 212 |   2020 | ARG    | Diferenciado | 24.6849 |
+#  |     | categoria    |   valor |
+#  |----:|:-------------|--------:|
+#  | 212 | Diferenciado | 24.6849 |
 #  
 #  ------------------------------
 #  
