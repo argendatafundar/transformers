@@ -36,7 +36,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 query(condition='anio == anio.max()'),
-	rename_cols(map={'tipo_sector': 'categoria', 'letra_desc_abrev': 'grupo'}),
+	rename_cols(map={'tipo_sector': 'grupo', 'letra_desc_abrev': 'categoria'}),
 	drop_col(col=['anio', 'letra', 'id_tipo_sector'], axis=1),
 	wide_to_long(primary_keys=['grupo', 'categoria'], value_name='valor', var_name='indicador'),
 	replace_value(col='indicador', curr_value='share_sectorial', new_value='Share sectorial'),
@@ -83,22 +83,22 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tipo_sector': 'categoria', 'letra_desc_abrev': 'grupo'})
+#  rename_cols(map={'tipo_sector': 'grupo', 'letra_desc_abrev': 'categoria'})
 #  Index: 14 entries, 252 to 265
 #  Data columns (total 7 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
 #   0   anio             14 non-null     int64  
 #   1   letra            14 non-null     object 
-#   2   grupo            14 non-null     object 
+#   2   categoria        14 non-null     object 
 #   3   share_sectorial  14 non-null     float64
 #   4   id_tipo_sector   14 non-null     int64  
-#   5   categoria        14 non-null     object 
+#   5   grupo            14 non-null     object 
 #   6   share_vab        14 non-null     float64
 #  
-#  |     |   anio | letra   | grupo        |   share_sectorial |   id_tipo_sector | categoria   |   share_vab |
-#  |----:|-------:|:--------|:-------------|------------------:|-----------------:|:------------|------------:|
-#  | 252 |   2022 | AB      | Agro y pesca |         0.0637079 |                1 | Bienes      |   0.0791809 |
+#  |     |   anio | letra   | categoria    |   share_sectorial |   id_tipo_sector | grupo   |   share_vab |
+#  |----:|-------:|:--------|:-------------|------------------:|-----------------:|:--------|------------:|
+#  | 252 |   2022 | AB      | Agro y pesca |         0.0637079 |                1 | Bienes  |   0.0791809 |
 #  
 #  ------------------------------
 #  
@@ -107,14 +107,14 @@ query(condition='anio == anio.max()'),
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   grupo            14 non-null     object 
+#   0   categoria        14 non-null     object 
 #   1   share_sectorial  14 non-null     float64
-#   2   categoria        14 non-null     object 
+#   2   grupo            14 non-null     object 
 #   3   share_vab        14 non-null     float64
 #  
-#  |     | grupo        |   share_sectorial | categoria   |   share_vab |
-#  |----:|:-------------|------------------:|:------------|------------:|
-#  | 252 | Agro y pesca |         0.0637079 | Bienes      |   0.0791809 |
+#  |     | categoria    |   share_sectorial | grupo   |   share_vab |
+#  |----:|:-------------|------------------:|:--------|------------:|
+#  | 252 | Agro y pesca |         0.0637079 | Bienes  |   0.0791809 |
 #  
 #  ------------------------------
 #  
@@ -128,9 +128,9 @@ query(condition='anio == anio.max()'),
 #   2   indicador  28 non-null     object 
 #   3   valor      28 non-null     float64
 #  
-#  |    | grupo        | categoria   | indicador       |     valor |
-#  |---:|:-------------|:------------|:----------------|----------:|
-#  |  0 | Agro y pesca | Bienes      | share_sectorial | 0.0637079 |
+#  |    | grupo   | categoria    | indicador       |     valor |
+#  |---:|:--------|:-------------|:----------------|----------:|
+#  |  0 | Bienes  | Agro y pesca | share_sectorial | 0.0637079 |
 #  
 #  ------------------------------
 #  
@@ -144,9 +144,9 @@ query(condition='anio == anio.max()'),
 #   2   indicador  28 non-null     object 
 #   3   valor      28 non-null     float64
 #  
-#  |    | grupo        | categoria   | indicador       |     valor |
-#  |---:|:-------------|:------------|:----------------|----------:|
-#  |  0 | Agro y pesca | Bienes      | Share sectorial | 0.0637079 |
+#  |    | grupo   | categoria    | indicador       |     valor |
+#  |---:|:--------|:-------------|:----------------|----------:|
+#  |  0 | Bienes  | Agro y pesca | Share sectorial | 0.0637079 |
 #  
 #  ------------------------------
 #  
@@ -160,9 +160,9 @@ query(condition='anio == anio.max()'),
 #   2   indicador  28 non-null     object 
 #   3   valor      28 non-null     float64
 #  
-#  |    | grupo        | categoria   | indicador       |     valor |
-#  |---:|:-------------|:------------|:----------------|----------:|
-#  |  0 | Agro y pesca | Bienes      | Share sectorial | 0.0637079 |
+#  |    | grupo   | categoria    | indicador       |     valor |
+#  |---:|:--------|:-------------|:----------------|----------:|
+#  |  0 | Bienes  | Agro y pesca | Share sectorial | 0.0637079 |
 #  
 #  ------------------------------
 #  
