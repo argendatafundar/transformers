@@ -24,6 +24,26 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -33,7 +53,11 @@ query(condition='iso3 == "ARG"'),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='location_name_short_en', axis=1),
 	drop_col(col='sitc_2_1_cod', axis=1),
-	rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'})
+	rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'}),
+	replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles y combustibles'),
+	replace_value(col='indicador', curr_value='Combustibles minerales, lubricantes y productos similares', new_value='Combustibles minerales, lubricantes y similares'),
+	replace_value(col='indicador', curr_value='Artículos manufacturados, clasificados principalmente según el material', new_value='Artículos manufacturados según material'),
+	replace_value(col='indicador', curr_value='Transacciones y mercaderías diversas, N. E. P.', new_value='Transacciones y mercaderías diversas')
 )
 #  PIPELINE_END
 
@@ -123,6 +147,66 @@ query(condition='iso3 == "ARG"'),
 #  ------------------------------
 #  
 #  rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'})
+#  Index: 600 entries, 50 to 120309
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       600 non-null    int64  
+#   1   indicador  600 non-null    object 
+#   2   valor      600 non-null    float64
+#  
+#  |    |   anio | indicador              |   valor |
+#  |---:|-------:|:-----------------------|--------:|
+#  | 50 |   1962 | Productos alimenticios | 65.8647 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles y combustibles')
+#  Index: 600 entries, 50 to 120309
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       600 non-null    int64  
+#   1   indicador  600 non-null    object 
+#   2   valor      600 non-null    float64
+#  
+#  |    |   anio | indicador              |   valor |
+#  |---:|-------:|:-----------------------|--------:|
+#  | 50 |   1962 | Productos alimenticios | 65.8647 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Combustibles minerales, lubricantes y productos similares', new_value='Combustibles minerales, lubricantes y similares')
+#  Index: 600 entries, 50 to 120309
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       600 non-null    int64  
+#   1   indicador  600 non-null    object 
+#   2   valor      600 non-null    float64
+#  
+#  |    |   anio | indicador              |   valor |
+#  |---:|-------:|:-----------------------|--------:|
+#  | 50 |   1962 | Productos alimenticios | 65.8647 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Artículos manufacturados, clasificados principalmente según el material', new_value='Artículos manufacturados según material')
+#  Index: 600 entries, 50 to 120309
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       600 non-null    int64  
+#   1   indicador  600 non-null    object 
+#   2   valor      600 non-null    float64
+#  
+#  |    |   anio | indicador              |   valor |
+#  |---:|-------:|:-----------------------|--------:|
+#  | 50 |   1962 | Productos alimenticios | 65.8647 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Transacciones y mercaderías diversas, N. E. P.', new_value='Transacciones y mercaderías diversas')
 #  Index: 600 entries, 50 to 120309
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
