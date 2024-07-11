@@ -42,8 +42,16 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def drop_na(df:DataFrame, cols:list):
-    return df.dropna(subset=cols)
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -57,7 +65,8 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 	drop_col(col='iso3_desc_fundar', axis=1),
 	drop_col(col='rindes', axis=1),
 	query(condition='anio >= 1965'),
-	drop_na(cols=['valor'])
+	drop_na(col=['valor']),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -210,7 +219,7 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #  
 #  ------------------------------
 #  
-#  drop_na(cols=['valor'])
+#  drop_na(col=['valor'])
 #  Index: 4576 entries, 0 to 4770
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
@@ -222,6 +231,21 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #  |    | geocodigo   |   anio | valor   |
 #  |---:|:------------|-------:|:--------|
 #  |  0 | AGO         |   2000 | NA      |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 4576 entries, 0 to 4575
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   geocodigo  4576 non-null   object
+#   1   anio       4576 non-null   int64 
+#   2   valor      4576 non-null   object
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1965 | 1.06008 |
 #  
 #  ------------------------------
 #  
