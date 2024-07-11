@@ -9,29 +9,30 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
 @transformer.convert
-def sort_values(df, args, how='ascending'):
-    if how == 'ascending':
-        ascending = [True] * len(args)
-    elif how == 'descending':
-        ascending = [False] * len(args)
-    else:
-        raise ValueError("Invalid value for 'how'. Use 'ascending' or 'descending'.")
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
-    sorted_df = df.sort_values(by=list(args), ascending=ascending)
-    return sorted_df
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'cuenta': 'indicador', 'participacion_pbi': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(args=['anio'], how='ascending')
+	multiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='ascending', by=['anio']),
+	query(condition="indicador != 'Total'")
 )
 #  PIPELINE_END
 
@@ -66,7 +67,7 @@ rename_cols(map={'cuenta': 'indicador', 'participacion_pbi': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 76 entries, 0 to 75
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -81,14 +82,29 @@ rename_cols(map={'cuenta': 'indicador', 'participacion_pbi': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values(args=['anio'], how='ascending')
-#  Index: 76 entries, 0 to 75
+#  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 76 entries, 0 to 75
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       76 non-null     int64  
 #   1   indicador  76 non-null     object 
 #   2   valor      76 non-null     float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   2004 | Agricultura |       5 |
+#  
+#  ------------------------------
+#  
+#  query(condition="indicador != 'Total'")
+#  Index: 57 entries, 0 to 74
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       57 non-null     int64  
+#   1   indicador  57 non-null     object 
+#   2   valor      57 non-null     float64
 #  
 #  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
