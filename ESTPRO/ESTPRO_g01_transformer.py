@@ -97,9 +97,9 @@ query(condition='anio == anio.max()'),
 #   1   nivel1  16 non-null     object 
 #   2   valor   16 non-null     float64
 #  
-#  |     | nivel2   | nivel1   |     valor |
-#  |----:|:---------|:---------|----------:|
-#  | 304 | Agro     | Bienes   | 0.0694929 |
+#  |     | nivel2   | nivel1   |   valor |
+#  |----:|:---------|:---------|--------:|
+#  | 304 | Agro     | Bienes   | 6.94929 |
 #  
 #  ------------------------------
 #  
@@ -112,9 +112,9 @@ query(condition='anio == anio.max()'),
 #   1   nivel1  16 non-null     object 
 #   2   valor   16 non-null     float64
 #  
-#  |     | nivel2   | nivel1   |     valor |
-#  |----:|:---------|:---------|----------:|
-#  | 304 | Agro     | Bienes   | 0.0694929 |
+#  |     | nivel2   | nivel1   |   valor |
+#  |----:|:---------|:---------|--------:|
+#  | 304 | Agro     | Bienes   | 6.94929 |
 #  
 #  ------------------------------
 #  
