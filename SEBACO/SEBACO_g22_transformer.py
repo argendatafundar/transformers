@@ -17,6 +17,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -24,7 +29,8 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'prop_expo': 'valor'}),
 	replace_value(col='geocodigo', curr_value='ROM', new_value='ROU'),
-	replace_value(col='geocodigo', curr_value='CHT', new_value='TWN')
+	replace_value(col='geocodigo', curr_value='CHT', new_value='TWN'),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -83,9 +89,24 @@ rename_cols(map={'iso3': 'geocodigo', 'prop_expo': 'valor'}),
 #   1   anio       3194 non-null   int64  
 #   2   valor      3194 non-null   float64
 #  
-#  |    | geocodigo   |   anio |       valor |
-#  |---:|:------------|-------:|------------:|
-#  |  0 | AFG         |   2008 | 0.000248476 |
+#  |    | geocodigo   |   anio |     valor |
+#  |---:|:------------|-------:|----------:|
+#  |  0 | AFG         |   2008 | 0.0248476 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 3194 entries, 0 to 3193
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  3194 non-null   object 
+#   1   anio       3194 non-null   int64  
+#   2   valor      3194 non-null   float64
+#  
+#  |    | geocodigo   |   anio |     valor |
+#  |---:|:------------|-------:|----------:|
+#  |  0 | AFG         |   2008 | 0.0248476 |
 #  
 #  ------------------------------
 #  
