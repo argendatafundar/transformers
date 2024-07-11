@@ -18,53 +18,8 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -74,16 +29,7 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'particip_vab': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100),
-	replace_value(col='nivel2', curr_value='Petróleo y minería', new_value='Petróleo y \nminería'),
-	replace_value(col='nivel2', curr_value='Industria manufacturera', new_value='Industria \nmanufacturera'),
-	replace_value(col='nivel2', curr_value='Electricidad, gas y agua', new_value='Electricidad, \ngas y agua'),
-	replace_value(col='nivel2', curr_value='Hotelería y restaurantes', new_value='Hotelería y \nrestaurantes'),
-	replace_value(col='nivel2', curr_value='Serv. inmobiliarios y profesionales', new_value='Servicios \ninmobiliarios y \nprofesionales'),
-	replace_value(col='nivel2', curr_value='Adm. pública y defensa', new_value='Administración \npública \ny defensa'),
-	replace_value(col='nivel2', curr_value='Serv. comunitarios, sociales y personales', new_value='Servicios \ncomunitarios, \nsociales y \npersonales'),
-	replace_value(col='nivel2', curr_value='Servicio doméstico', new_value='Servicio \ndoméstico'),
-	replace_value(col='nivel2', curr_value='Transporte y comunicaciones', new_value='Transporte y \ncomunicaciones')
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -157,142 +103,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Petróleo y minería', new_value='Petróleo y \nminería')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Industria manufacturera', new_value='Industria \nmanufacturera')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Electricidad, gas y agua', new_value='Electricidad, \ngas y agua')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Hotelería y restaurantes', new_value='Hotelería y \nrestaurantes')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Serv. inmobiliarios y profesionales', new_value='Servicios \ninmobiliarios y \nprofesionales')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Adm. pública y defensa', new_value='Administración \npública \ny defensa')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Serv. comunitarios, sociales y personales', new_value='Servicios \ncomunitarios, \nsociales y \npersonales')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Servicio doméstico', new_value='Servicio \ndoméstico')
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='nivel2', curr_value='Transporte y comunicaciones', new_value='Transporte y \ncomunicaciones')
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 16 entries, 304 to 319
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
