@@ -21,6 +21,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def round_col(df:DataFrame, col:str, decimals:int):
+    df[col] = df[col].round(decimals)
+    return df
 #  DEFINITIONS_END
 
 
@@ -29,7 +34,8 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'share_sectorial': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	round_col(col='valor', decimals=1)
 )
 #  PIPELINE_END
 
@@ -100,7 +106,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     |   anio | nivel2       |   valor | nivel1   |
 #  |----:|-------:|:-------------|--------:|:---------|
-#  | 252 |   2022 | Agro y pesca | 6.37079 | Bienes   |
+#  | 252 |   2022 | Agro y pesca |     6.4 | Bienes   |
 #  
 #  ------------------------------
 #  
@@ -116,7 +122,23 @@ query(condition='anio == anio.max()'),
 #  
 #  |     |   anio | nivel2       |   valor | nivel1   |
 #  |----:|-------:|:-------------|--------:|:---------|
-#  | 252 |   2022 | Agro y pesca | 6.37079 | Bienes   |
+#  | 252 |   2022 | Agro y pesca |     6.4 | Bienes   |
+#  
+#  ------------------------------
+#  
+#  round_col(col='valor', decimals=1)
+#  Index: 14 entries, 252 to 265
+#  Data columns (total 4 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    14 non-null     int64  
+#   1   nivel2  14 non-null     object 
+#   2   valor   14 non-null     float64
+#   3   nivel1  14 non-null     object 
+#  
+#  |     |   anio | nivel2       |   valor | nivel1   |
+#  |----:|-------:|:-------------|--------:|:---------|
+#  | 252 |   2022 | Agro y pesca |     6.4 | Bienes   |
 #  
 #  ------------------------------
 #  
