@@ -13,8 +13,16 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_na(df:DataFrame, cols:list):
-    return df.dropna(subset=cols)
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -22,7 +30,8 @@ def drop_na(df:DataFrame, cols:list):
 pipeline = chain(
 rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 	drop_col(col='pais', axis=1),
-	drop_na(cols=['valor'])
+	drop_na(col=['valor']),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -74,7 +83,7 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  drop_na(cols=['valor'])
+#  drop_na(col=['valor'])
 #  Index: 631 entries, 1 to 732
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -86,6 +95,21 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  1 | HIC         |   2021 | 1.27667 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 631 entries, 0 to 630
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  631 non-null    object 
+#   1   anio       631 non-null    int64  
+#   2   valor      631 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | BRA         |   1960 | 15.7324 |
 #  
 #  ------------------------------
 #  
