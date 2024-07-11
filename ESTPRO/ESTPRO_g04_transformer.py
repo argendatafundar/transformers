@@ -48,7 +48,7 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
@@ -58,6 +58,10 @@ def sort_values_by_comparison(df, colname: str, precedence: dict):
     df.loc[:, mapcol] = df[colname].map(precedence)
     df = df.sort_values(by=['anio', mapcol])
     return df.drop(mapcol, axis=1)
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
@@ -72,8 +76,9 @@ query(condition='anio == anio.max()'),
 	replace_value(col='iso3', curr_value='YUG', new_value='SER'),
 	rename_cols(map={'iso3': 'geocodigo', 'particip_va_pib': 'valor', 'gran_sector': 'indicador'}),
 	drop_col(col=['iso3_desc_fundar', 'es_agregacion', 'letra', 'id_tipo_sector', 'tipo_sector'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values_by_comparison(colname='indicador', precedence={'Agro y pesca': 0, 'Industria manufacturera': 1, 'Energía y minería': 2, 'Construcción': 3, 'Comercio, hotelería y restaurantes': 4, 'Transporte y comunicaciones': 5, 'Otros servicios': 6})
+	multiplicar_por_escalar(col='valor', k=100),
+	sort_values_by_comparison(colname='indicador', precedence={'Agro y pesca': 0, 'Industria manufacturera': 1, 'Energía y minería': 2, 'Construcción': 3, 'Comercio, hotelería y restaurantes': 4, 'Transporte y comunicaciones': 5, 'Otros servicios': 6}),
+	drop_col(col='anio', axis=1)
 )
 #  PIPELINE_END
 
@@ -284,7 +289,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 1537 entries, 79924 to 81460
 #  Data columns (total 5 columns):
 #   #   Column         Non-Null Count  Dtype  
@@ -314,6 +319,21 @@ query(condition='anio == anio.max()'),
 #  |       |   anio | geocodigo   | indicador    |   valor |
 #  |------:|-------:|:------------|:-------------|--------:|
 #  | 79924 |   2022 | AFG         | Agro y pesca | 35.5494 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col='anio', axis=1)
+#  Index: 1537 entries, 79924 to 81458
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  1537 non-null   object 
+#   1   indicador  1537 non-null   object 
+#   2   valor      1439 non-null   float64
+#  
+#  |       | geocodigo   | indicador    |   valor |
+#  |------:|:------------|:-------------|--------:|
+#  | 79924 | AFG         | Agro y pesca | 35.5494 |
 #  
 #  ------------------------------
 #  
