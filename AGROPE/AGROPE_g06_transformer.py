@@ -32,6 +32,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
@@ -45,6 +50,7 @@ pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 	rename_cols(map={'cod_pcia': 'geocodigo'}),
 	drop_col(col='nom_pcia', axis=1),
+	multiplicar_por_escalar(col='valor', k=100),
 	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
@@ -58,11 +64,11 @@ convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 #   0   anio      432 non-null    int64  
 #   1   nom_pcia  432 non-null    object 
 #   2   valor     432 non-null    float64
-#   3   cod_pcia  432 non-null    object 
+#   3   cod_pcia  432 non-null    int64  
 #  
-#  |    |   anio | nom_pcia               |   valor | cod_pcia   |
-#  |---:|-------:|:-----------------------|--------:|:-----------|
-#  |  0 |   2004 | Ciudad de Buenos Aires |  0.0021 | AR-C       |
+#  |    |   anio | nom_pcia               |   valor |   cod_pcia |
+#  |---:|-------:|:-----------------------|--------:|-----------:|
+#  |  0 |   2004 | Ciudad de Buenos Aires |  0.0021 |          2 |
 #  
 #  ------------------------------
 #  
@@ -109,7 +115,22 @@ convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   2004 |  0.0021 | AR-C        |
+#  |  0 |   2004 |    0.21 | AR-C        |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 432 entries, 0 to 431
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       432 non-null    int64  
+#   1   valor      432 non-null    float64
+#   2   geocodigo  432 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   2004 |    0.21 | AR-C        |
 #  
 #  ------------------------------
 #  
@@ -124,7 +145,7 @@ convert_indec_codes_to_isoprov(df_cod_col='cod_pcia'),
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   2004 |  0.1407 | AR-A        |
+#  |  0 |   2004 |   14.07 | AR-A        |
 #  
 #  ------------------------------
 #  
