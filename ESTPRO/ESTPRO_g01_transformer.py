@@ -35,7 +35,7 @@ query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'particip_vab': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	round_col(col='valor', decimals=2)
+	round_col(col='valor', decimals=4)
 )
 #  PIPELINE_END
 
@@ -105,7 +105,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |    6.95 |
+#  | 304 | Agro     | Bienes   |  6.9493 |
 #  
 #  ------------------------------
 #  
@@ -120,11 +120,11 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |    6.95 |
+#  | 304 | Agro     | Bienes   |  6.9493 |
 #  
 #  ------------------------------
 #  
-#  round_col(col='valor', decimals=2)
+#  round_col(col='valor', decimals=4)
 #  Index: 16 entries, 304 to 319
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
@@ -135,7 +135,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |    6.95 |
+#  | 304 | Agro     | Bienes   |  6.9493 |
 #  
 #  ------------------------------
 #  
