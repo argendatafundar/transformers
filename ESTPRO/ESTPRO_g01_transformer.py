@@ -18,11 +18,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def proporcion_col(df:DataFrame, col:str):
-    df[col] = df[col]/df[col].sum()
-    return df
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -34,7 +29,6 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'particip_vab': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1),
-	proporcion_col(col='valor'),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -95,21 +89,6 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1)
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   | 6.94929 |
-#  
-#  ------------------------------
-#  
-#  proporcion_col(col='valor')
 #  Index: 16 entries, 304 to 319
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype  
