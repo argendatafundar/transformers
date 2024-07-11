@@ -18,6 +18,16 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -25,7 +35,9 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 	drop_col(col='pais', axis=1),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	drop_na(col='valor'),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -89,6 +101,36 @@ rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
 #  |  0 |   1962 |  0.2181 | ARG         |
+#  
+#  ------------------------------
+#  
+#  drop_na(col='valor')
+#  RangeIndex: 240 entries, 0 to 239
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       240 non-null    int64  
+#   1   valor      240 non-null    float64
+#   2   geocodigo  240 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1962 |   21.81 | ARG         |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 240 entries, 0 to 239
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       240 non-null    int64  
+#   1   valor      240 non-null    float64
+#   2   geocodigo  240 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1962 |   21.81 | ARG         |
 #  
 #  ------------------------------
 #  
