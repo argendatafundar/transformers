@@ -33,11 +33,26 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -49,7 +64,10 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 	replace_value(col='iso3', curr_value='F51', new_value='CSK'),
 	rename_cols(map={'iso3': 'geocodigo'}),
 	drop_col(col='iso3_desc_fundar', axis=1),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	drop_na(col=['valor']),
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	query(condition="geocodigo != 'F351'"),
+	multiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
@@ -165,6 +183,21 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #  
 #  ------------------------------
 #  
+#  drop_na(col=['valor'])
+#  RangeIndex: 6138 entries, 0 to 6137
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  6138 non-null   object 
+#   1   anio       6138 non-null   int64  
+#   2   valor      6138 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AGO         |   1961 |       0 |
+#  
+#  ------------------------------
+#  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
 #  RangeIndex: 6138 entries, 0 to 6137
 #  Data columns (total 3 columns):
@@ -173,6 +206,36 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #   0   geocodigo  6138 non-null   object 
 #   1   anio       6138 non-null   int64  
 #   2   valor      6138 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AGO         |   1961 |       0 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigo != 'F351'")
+#  Index: 6076 entries, 0 to 6137
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  6076 non-null   object 
+#   1   anio       6076 non-null   int64  
+#   2   valor      6076 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AGO         |   1961 |       0 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=1e-06)
+#  Index: 6076 entries, 0 to 6137
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  6076 non-null   object 
+#   1   anio       6076 non-null   int64  
+#   2   valor      6076 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
