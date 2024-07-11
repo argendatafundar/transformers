@@ -26,11 +26,6 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def round_col(df:DataFrame, col:str, decimals:int):
     df[col] = df[col].round(decimals)
     return df
-
-@transformer.convert
-def round_col(df:DataFrame, col:str, decimals:int):
-    df[col] = df[col].round(decimals)
-    return df
 #  DEFINITIONS_END
 
 
@@ -40,8 +35,7 @@ query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'particip_vab': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	round_col(col='valor', decimals=2),
-	round_col(col='valor', decimals=1)
+	round_col(col='valor', decimals=2)
 )
 #  PIPELINE_END
 
@@ -111,7 +105,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |       7 |
+#  | 304 | Agro     | Bienes   |    6.95 |
 #  
 #  ------------------------------
 #  
@@ -126,7 +120,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |       7 |
+#  | 304 | Agro     | Bienes   |    6.95 |
 #  
 #  ------------------------------
 #  
@@ -141,22 +135,7 @@ query(condition='anio == anio.max()'),
 #  
 #  |     | nivel2   | nivel1   |   valor |
 #  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |       7 |
-#  
-#  ------------------------------
-#  
-#  round_col(col='valor', decimals=1)
-#  Index: 16 entries, 304 to 319
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   nivel2  16 non-null     object 
-#   1   nivel1  16 non-null     object 
-#   2   valor   16 non-null     float64
-#  
-#  |     | nivel2   | nivel1   |   valor |
-#  |----:|:---------|:---------|--------:|
-#  | 304 | Agro     | Bienes   |       7 |
+#  | 304 | Agro     | Bienes   |    6.95 |
 #  
 #  ------------------------------
 #  
