@@ -105,6 +105,11 @@ def sort_values(df: DataFrame, how: str, by: list):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -130,7 +135,8 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 	rank_col(col='IDH', rank_col='rank', ascending=False),
 	wide_to_long(primary_keys=['name_short', 'rank'], value_name='valor', var_name='indicador'),
 	sort_values(how='ascending', by=['rank', 'indicador']),
-	drop_col(col=['rank'], axis=1)
+	drop_col(col=['rank'], axis=1),
+	rename_cols(map={'name_short': 'categoria'})
 )
 #  PIPELINE_END
 
@@ -485,6 +491,21 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  |    | name_short   | indicador   |   valor |
 #  |---:|:-------------|:------------|--------:|
 #  |  0 | Colombia     | IDH         |      75 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'name_short': 'categoria'})
+#  RangeIndex: 20 entries, 0 to 19
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  20 non-null     object 
+#   1   indicador  20 non-null     object 
+#   2   valor      20 non-null     float64
+#  
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Colombia    | IDH         |      75 |
 #  
 #  ------------------------------
 #  
