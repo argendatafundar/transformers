@@ -25,13 +25,19 @@ def media_doce_meses_indicador(df: DataFrame, indicador_col = 'indicador', anio_
 
     result = DataFrame(result)
     return result
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
-	media_doce_meses_indicador(indicador_col='indicador', anio_col='anio', value_col='valor')
+	media_doce_meses_indicador(indicador_col='indicador', anio_col='anio', value_col='valor'),
+	query(condition="indicador not in ('oro', 'litio', 'plata', 'cobre')")
 )
 #  PIPELINE_END
 
@@ -39,15 +45,15 @@ rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 #  start()
 #  RangeIndex: 4736 entries, 0 to 4735
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype         
-#  ---  ------     --------------  -----         
-#   0   anio       4736 non-null   datetime64[ns]
-#   1   indicador  4736 non-null   object        
-#   2   valor      4736 non-null   float64       
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   fecha     4736 non-null   object 
+#   1   variable  4736 non-null   object 
+#   2   valor     4736 non-null   float64
 #  
-#  |    | anio                | indicador   |   valor |
-#  |---:|:--------------------|:------------|--------:|
-#  |  0 | 1960-01-01 00:00:00 | oro         |   35.27 |
+#  |    | fecha      | variable   |   valor |
+#  |---:|:-----------|:-----------|--------:|
+#  |  0 | 1960-01-01 | oro        |   35.27 |
 #  
 #  ------------------------------
 #  
@@ -78,6 +84,21 @@ rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 #  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1960 | cobre       | 678.756 |
+#  
+#  ------------------------------
+#  
+#  query(condition="indicador not in ('oro', 'litio', 'plata', 'cobre')")
+#  Index: 201 entries, 65 to 265
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       201 non-null    int64  
+#   1   indicador  201 non-null    object 
+#   2   valor      201 non-null    float64
+#  
+#  |    |   anio | indicador    |   valor |
+#  |---:|-------:|:-------------|--------:|
+#  | 65 |   1960 | indice_cobre | 10.9549 |
 #  
 #  ------------------------------
 #  
