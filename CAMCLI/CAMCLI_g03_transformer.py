@@ -19,6 +19,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
@@ -32,6 +37,7 @@ pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'valor_en_ton': 'valor'}),
 	replace_value(col='geocodigo', curr_value='OWID_KOS', new_value='XKX'),
 	replace_value(col='geocodigo', curr_value='OWID_WRL', new_value='WLD'),
+	drop_na(col='valor'),
 	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
@@ -83,6 +89,21 @@ rename_cols(map={'iso3': 'geocodigo', 'valor_en_ton': 'valor'}),
 #  ------------------------------
 #  
 #  replace_value(col='geocodigo', curr_value='OWID_WRL', new_value='WLD')
+#  RangeIndex: 23046 entries, 0 to 23045
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  23046 non-null  object 
+#   1   anio       23046 non-null  int64  
+#   2   valor      23046 non-null  float64
+#  
+#  |    | geocodigo   |   anio |      valor |
+#  |---:|:------------|-------:|-----------:|
+#  |  0 | AFG         |   1949 | 0.00199215 |
+#  
+#  ------------------------------
+#  
+#  drop_na(col='valor')
 #  RangeIndex: 23046 entries, 0 to 23045
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
