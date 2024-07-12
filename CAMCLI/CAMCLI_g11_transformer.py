@@ -34,7 +34,7 @@ rename_cols(map={'subsector': 'indicador', 'valor_en_mtco2e': 'valor'}),
 #  
 #  |    |   anio | sector   | subsector                        |   valor_en_mtco2e |
 #  |---:|-------:|:---------|:---------------------------------|------------------:|
-#  |  0 |   1990 | AGSyOUT  | Emisiones de la quema de biomasa |           9.03216 |
+#  |  0 |   1990 | AGSyOUT  | Emisiones de la quema de biomasa |              9.03 |
 #  
 #  ------------------------------
 #  
@@ -50,7 +50,7 @@ rename_cols(map={'subsector': 'indicador', 'valor_en_mtco2e': 'valor'}),
 #  
 #  |    |   anio | sector   | indicador                        |   valor |
 #  |---:|-------:|:---------|:---------------------------------|--------:|
-#  |  0 |   1990 | AGSyOUT  | Emisiones de la quema de biomasa | 9.03216 |
+#  |  0 |   1990 | AGSyOUT  | Emisiones de la quema de biomasa |    9.03 |
 #  
 #  ------------------------------
 #  
@@ -65,7 +65,7 @@ rename_cols(map={'subsector': 'indicador', 'valor_en_mtco2e': 'valor'}),
 #  
 #  |    |   anio | indicador                        |   valor |
 #  |---:|-------:|:---------------------------------|--------:|
-#  |  0 |   1990 | Emisiones de la quema de biomasa | 9.03216 |
+#  |  0 |   1990 | Emisiones de la quema de biomasa |    9.03 |
 #  
 #  ------------------------------
 #  
