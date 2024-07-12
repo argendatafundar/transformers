@@ -137,6 +137,20 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def calculate_relative_percentages(df):
+    from pandas import merge
+    yearly_totals = df.groupby('anio')['valor'].sum().reset_index()
+    yearly_totals = yearly_totals.rename(columns={'valor': 'total_valor'})
+    
+    df = merge(df, yearly_totals, on='anio')
+    
+    # Calculate relative percentage
+    df['valor'] = (df['valor'] / df['total_valor']) * 100
+    
+    # Select relevant columns and return new dataframe
+    return df[['indicador', 'anio', 'valor']]
 #  DEFINITIONS_END
 
 
@@ -168,7 +182,8 @@ rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 	replace_value(col='indicador', curr_value='AR-G', new_value='Santiago del Estero'),
 	replace_value(col='indicador', curr_value='AR-T', new_value='Tucumán'),
 	replace_value(col='indicador', curr_value='AR-V', new_value='Tierra del Fuego'),
-	replace_value(col='indicador', curr_value='MINERI_NO-DIST', new_value='No distribuído')
+	replace_value(col='indicador', curr_value='MINERI_NO-DIST', new_value='No distribuído'),
+	calculate_relative_percentages()
 )
 #  PIPELINE_END
 
@@ -590,6 +605,21 @@ rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 #  |    | indicador                       |   anio |   valor |
 #  |---:|:--------------------------------|-------:|--------:|
 #  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  
+#  ------------------------------
+#  
+#  calculate_relative_percentages()
+#  RangeIndex: 475 entries, 0 to 474
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  475 non-null    object 
+#   1   anio       475 non-null    int64  
+#   2   valor      475 non-null    float64
+#  
+#  |    | indicador                       |   anio |   valor |
+#  |---:|:--------------------------------|-------:|--------:|
+#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 3.79645 |
 #  
 #  ------------------------------
 #  
