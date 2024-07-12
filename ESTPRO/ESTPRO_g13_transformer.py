@@ -21,6 +21,13 @@ def drop_col(df: DataFrame, col, axis=1):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -28,8 +35,9 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 query(condition='anio == 2022'),
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'gran_region_desc': 'categoria', 'share_vab_sectorial': 'valor'}),
-	drop_col(col=['letra', 'anio', 'gran_region_id'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	drop_col(col=['anio', 'gran_region_id'], axis=1),
+	mutiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='ascending', by=['categoria', 'letra'])
 )
 #  PIPELINE_END
 
@@ -88,33 +96,51 @@ query(condition='anio == 2022'),
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['letra', 'anio', 'gran_region_id'], axis=1)
+#  drop_col(col=['anio', 'gran_region_id'], axis=1)
 #  Index: 48 entries, 18 to 911
-#  Data columns (total 3 columns):
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  48 non-null     object 
-#   1   categoria  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   letra      48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   categoria  48 non-null     object 
+#   3   valor      48 non-null     float64
 #  
-#  |    | indicador              | categoria   |   valor |
-#  |---:|:-----------------------|:------------|--------:|
-#  | 18 | Adm. pública y defensa | Centro      | 5.04198 |
+#  |    | letra   | indicador              | categoria   |   valor |
+#  |---:|:--------|:-----------------------|:------------|--------:|
+#  | 18 | L       | Adm. pública y defensa | Centro      | 5.04198 |
 #  
 #  ------------------------------
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
 #  Index: 48 entries, 18 to 911
-#  Data columns (total 3 columns):
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  48 non-null     object 
-#   1   categoria  48 non-null     object 
-#   2   valor      48 non-null     float64
+#   0   letra      48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   categoria  48 non-null     object 
+#   3   valor      48 non-null     float64
 #  
-#  |    | indicador              | categoria   |   valor |
-#  |---:|:-----------------------|:------------|--------:|
-#  | 18 | Adm. pública y defensa | Centro      | 5.04198 |
+#  |    | letra   | indicador              | categoria   |   valor |
+#  |---:|:--------|:-----------------------|:------------|--------:|
+#  | 18 | L       | Adm. pública y defensa | Centro      | 5.04198 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['categoria', 'letra'])
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   letra      48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   categoria  48 non-null     object 
+#   3   valor      48 non-null     float64
+#  
+#  |    | letra   | indicador   | categoria   |   valor |
+#  |---:|:--------|:------------|:------------|--------:|
+#  |  0 | A       | Agro        | Centro      | 8.00383 |
 #  
 #  ------------------------------
 #  
