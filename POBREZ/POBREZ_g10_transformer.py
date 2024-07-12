@@ -30,6 +30,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -40,7 +45,8 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 	drop_col(col='poverty_line', axis=1),
 	drop_col(col='region_code', axis=1),
 	replace_value(col='region_name', curr_value='Latin America and Caribbean', new_value='América Latina y el Caribe (excluidos Países de Altos Ingresos)'),
-	rename_cols(map={'region_name': 'categoria', 'poverty_rate': 'valor', 'year': 'anio'})
+	rename_cols(map={'region_name': 'categoria', 'poverty_rate': 'valor', 'year': 'anio'}),
+	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -151,9 +157,24 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 #   1   anio       74 non-null     int64  
 #   2   valor      74 non-null     float64
 #  
-#  |     | categoria   |   anio |     valor |
-#  |----:|:------------|-------:|----------:|
-#  | 826 | Argentina   |   1980 | 0.0552647 |
+#  |     | categoria   |   anio |   valor |
+#  |----:|:------------|-------:|--------:|
+#  | 826 | Argentina   |   1980 | 5.52647 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 74 entries, 826 to 970
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  74 non-null     object 
+#   1   anio       74 non-null     int64  
+#   2   valor      74 non-null     float64
+#  
+#  |     | categoria   |   anio |   valor |
+#  |----:|:------------|-------:|--------:|
+#  | 826 | Argentina   |   1980 | 5.52647 |
 #  
 #  ------------------------------
 #  
