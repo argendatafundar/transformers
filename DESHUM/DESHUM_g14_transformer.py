@@ -134,7 +134,7 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 	long_to_wide(index=['name_short'], columns='tipo_idh', values='ranking_2022'),
 	rank_col(col='IDH', rank_col='rank', ascending=False),
 	wide_to_long(primary_keys=['name_short', 'rank'], value_name='valor', var_name='indicador'),
-	sort_values(how='ascending', by=['rank', 'indicador']),
+	sort_values(how='descending', by=['rank', 'indicador']),
 	drop_col(col=['rank'], axis=1),
 	rename_cols(map={'name_short': 'categoria'})
 )
@@ -463,7 +463,7 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['rank', 'indicador'])
+#  sort_values(how='descending', by=['rank', 'indicador'])
 #  RangeIndex: 20 entries, 0 to 19
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
@@ -475,7 +475,7 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  
 #  |    | name_short   |   rank | indicador   |   valor |
 #  |---:|:-------------|-------:|:------------|--------:|
-#  |  0 | Colombia     |      1 | IDH         |      75 |
+#  |  0 | Noruega      |     10 | IDH-P       |      14 |
 #  
 #  ------------------------------
 #  
@@ -490,7 +490,7 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  
 #  |    | name_short   | indicador   |   valor |
 #  |---:|:-------------|:------------|--------:|
-#  |  0 | Colombia     | IDH         |      75 |
+#  |  0 | Noruega      | IDH-P       |      14 |
 #  
 #  ------------------------------
 #  
@@ -505,7 +505,7 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  
 #  |    | categoria   | indicador   |   valor |
 #  |---:|:------------|:------------|--------:|
-#  |  0 | Colombia    | IDH         |      75 |
+#  |  0 | Noruega     | IDH-P       |      14 |
 #  
 #  ------------------------------
 #  
