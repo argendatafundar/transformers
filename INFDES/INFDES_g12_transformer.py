@@ -22,8 +22,23 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -33,7 +48,10 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='pais_desc', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'tasa_desempleo': 'valor'}),
 	query(condition="sexo == 'Total'"),
-	drop_col(col='sexo', axis=1)
+	query(condition='anio == 2023'),
+	drop_col(col='sexo', axis=1),
+	mutiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='valor', curr_value=nan, new_value=0)
 )
 #  PIPELINE_END
 
@@ -121,18 +139,64 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  ------------------------------
 #  
+#  query(condition='anio == 2023')
+#  Index: 217 entries, 0 to 21384
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  217 non-null    object 
+#   1   anio       217 non-null    int64  
+#   2   sexo       217 non-null    object 
+#   3   valor      185 non-null    float64
+#  
+#  |    | geocodigo   |   anio | sexo   |   valor |
+#  |---:|:------------|-------:|:-------|--------:|
+#  |  0 | AFG         |   2023 | Total  | 0.15378 |
+#  
+#  ------------------------------
+#  
 #  drop_col(col='sexo', axis=1)
-#  Index: 7161 entries, 0 to 21480
+#  Index: 217 entries, 0 to 21384
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7161 non-null   object 
-#   1   anio       7161 non-null   int64  
-#   2   valor      6168 non-null   float64
+#   0   geocodigo  217 non-null    object 
+#   1   anio       217 non-null    int64  
+#   2   valor      185 non-null    float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AFG         |   2023 | 0.15378 |
+#  |  0 | AFG         |   2023 |  15.378 |
+#  
+#  ------------------------------
+#  
+#  mutiplicar_por_escalar(col='valor', k=100)
+#  Index: 217 entries, 0 to 21384
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  217 non-null    object 
+#   1   anio       217 non-null    int64  
+#   2   valor      185 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   2023 |  15.378 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='valor', curr_value=nan, new_value=0)
+#  Index: 217 entries, 0 to 21384
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  217 non-null    object 
+#   1   anio       217 non-null    int64  
+#   2   valor      217 non-null    float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   2023 |  15.378 |
 #  
 #  ------------------------------
 #  
