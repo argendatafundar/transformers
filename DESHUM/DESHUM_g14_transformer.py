@@ -103,13 +103,13 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def ad_hoc(df: DataFrame, col_result:str, col_a:str, col_b:str, string:str):
-    df[col_result] = df[col_a] + ' (' +df[col_b].astype('int').astype('str') + '°)'
-    return df
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -135,8 +135,8 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 	rank_col(col='IDH', rank_col='rank', ascending=True),
 	wide_to_long(primary_keys=['name_short', 'rank'], value_name='valor', var_name='indicador'),
 	sort_values(how='ascending', by=['rank', 'indicador']),
-	ad_hoc(col_result='categoria', col_a='name_short', col_b='rank', string='° '),
-	drop_col(col=['rank', 'name_short'], axis=1)
+	drop_col(col=['rank'], axis=1),
+	rename_cols(map={'name_short': 'categoria'})
 )
 #  PIPELINE_END
 
@@ -465,50 +465,47 @@ query(condition="iso3.isin(['NOR', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'UR
 #  
 #  sort_values(how='ascending', by=['rank', 'indicador'])
 #  RangeIndex: 20 entries, 0 to 19
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
 #   0   name_short  20 non-null     object 
 #   1   rank        20 non-null     float64
 #   2   indicador   20 non-null     object 
 #   3   valor       20 non-null     float64
-#   4   categoria   20 non-null     object 
 #  
-#  |    | name_short   |   rank | indicador   |   valor | categoria    |
-#  |---:|:-------------|-------:|:------------|--------:|:-------------|
-#  |  0 | Noruega      |      1 | IDH         |       2 | Noruega (1°) |
+#  |    | name_short   |   rank | indicador   |   valor |
+#  |---:|:-------------|-------:|:------------|--------:|
+#  |  0 | Noruega      |      1 | IDH         |       2 |
 #  
 #  ------------------------------
 #  
-#  ad_hoc(col_result='categoria', col_a='name_short', col_b='rank', string='° ')
+#  drop_col(col=['rank'], axis=1)
 #  RangeIndex: 20 entries, 0 to 19
-#  Data columns (total 5 columns):
+#  Data columns (total 3 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
 #   0   name_short  20 non-null     object 
-#   1   rank        20 non-null     float64
-#   2   indicador   20 non-null     object 
-#   3   valor       20 non-null     float64
-#   4   categoria   20 non-null     object 
+#   1   indicador   20 non-null     object 
+#   2   valor       20 non-null     float64
 #  
-#  |    | name_short   |   rank | indicador   |   valor | categoria    |
-#  |---:|:-------------|-------:|:------------|--------:|:-------------|
-#  |  0 | Noruega      |      1 | IDH         |       2 | Noruega (1°) |
+#  |    | name_short   | indicador   |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  0 | Noruega      | IDH         |       2 |
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['rank', 'name_short'], axis=1)
+#  rename_cols(map={'name_short': 'categoria'})
 #  RangeIndex: 20 entries, 0 to 19
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  20 non-null     object 
-#   1   valor      20 non-null     float64
-#   2   categoria  20 non-null     object 
+#   0   categoria  20 non-null     object 
+#   1   indicador  20 non-null     object 
+#   2   valor      20 non-null     float64
 #  
-#  |    | indicador   |   valor | categoria    |
-#  |---:|:------------|--------:|:-------------|
-#  |  0 | IDH         |       2 | Noruega (1°) |
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Noruega     | IDH         |       2 |
 #  
 #  ------------------------------
 #  
