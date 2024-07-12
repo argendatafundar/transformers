@@ -22,7 +22,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'ano': 'anio', 'variable': 'geocodigo'}),
+rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 	replace_value(col='categoria', curr_value='argentina ', new_value='Argentina'),
 	replace_value(col='categoria', curr_value='americalatina', new_value='América Latina')
 )
@@ -44,16 +44,16 @@ rename_cols(map={'ano': 'anio', 'variable': 'geocodigo'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'ano': 'anio', 'variable': 'geocodigo'})
+#  rename_cols(map={'ano': 'anio', 'variable': 'categoria'})
 #  RangeIndex: 16 entries, 0 to 15
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  16 non-null     object 
+#   0   categoria  16 non-null     object 
 #   1   anio       16 non-null     int64  
 #   2   valor      16 non-null     float64
 #  
-#  |    | geocodigo     |   anio |   valor |
+#  |    | categoria     |   anio |   valor |
 #  |---:|:--------------|-------:|--------:|
 #  |  0 | americalatina |   1980 |   48.92 |
 #  
@@ -64,11 +64,11 @@ rename_cols(map={'ano': 'anio', 'variable': 'geocodigo'}),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  16 non-null     object 
+#   0   categoria  16 non-null     object 
 #   1   anio       16 non-null     int64  
 #   2   valor      16 non-null     float64
 #  
-#  |    | geocodigo     |   anio |   valor |
+#  |    | categoria     |   anio |   valor |
 #  |---:|:--------------|-------:|--------:|
 #  |  0 | americalatina |   1980 |   48.92 |
 #  
@@ -79,13 +79,13 @@ rename_cols(map={'ano': 'anio', 'variable': 'geocodigo'}),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  16 non-null     object 
+#   0   categoria  16 non-null     object 
 #   1   anio       16 non-null     int64  
 #   2   valor      16 non-null     float64
 #  
-#  |    | geocodigo     |   anio |   valor |
-#  |---:|:--------------|-------:|--------:|
-#  |  0 | americalatina |   1980 |   48.92 |
+#  |    | categoria      |   anio |   valor |
+#  |---:|:---------------|-------:|--------:|
+#  |  0 | América Latina |   1980 |   48.92 |
 #  
 #  ------------------------------
 #  
