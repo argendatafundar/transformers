@@ -59,7 +59,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	drop_col(col='semester', axis=1),
 	query(condition="indicador != 'Total'"),
 	replace_value(col='indicador', curr_value='Jefe_Varon', new_value='Jefe Varón'),
-	replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefe Mujer')
+	replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefa Mujer')
 )
 #  PIPELINE_END
 
@@ -210,7 +210,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefe Mujer')
+#  replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefa Mujer')
 #  Index: 4 entries, 118 to 239
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
