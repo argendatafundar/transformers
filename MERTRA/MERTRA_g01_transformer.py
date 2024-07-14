@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sexo': 'categoria', 'tasa_participacion': 'valor'})
+rename_cols(map={'sexo': 'categoria', 'tasa_participacion': 'valor'}),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -41,9 +47,24 @@ rename_cols(map={'sexo': 'categoria', 'tasa_participacion': 'valor'})
 #   1   categoria  33 non-null     object 
 #   2   valor      33 non-null     float64
 #  
-#  |    |   anio | categoria   |    valor |
-#  |---:|-------:|:------------|---------:|
-#  |  0 |   1869 | Varones     | 0.906793 |
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1869 | Varones     | 90.6793 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 33 entries, 0 to 32
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       33 non-null     int64  
+#   1   categoria  33 non-null     object 
+#   2   valor      33 non-null     float64
+#  
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1869 | Varones     | 90.6793 |
 #  
 #  ------------------------------
 #  
