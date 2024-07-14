@@ -24,6 +24,13 @@ def drop_col(df: DataFrame, col, axis=1):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict):
+    mapcol = colname+'_map'
+    df.loc[:, mapcol] = df[colname].map(precedence)
+    df = df.sort_values(by=['geocodigo', mapcol])
+    return df.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -33,7 +40,8 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 	drop_col(col='formal_def_productiva', axis=1),
 	drop_col(col='cat_ocup_cod', axis=1),
 	drop_col(col='pais', axis=1),
-	query(condition='indicador != "Total formal"')
+	query(condition='indicador != "Total formal"'),
+	sort_values_by_comparison(colname='indicador', precedence={'Empleadores': 0, 'Asalariados en pequeñas y grandes empresas': 1, 'Asalariados públicos': 2, 'Cuentapropistas profesionales': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6})
 )
 #  PIPELINE_END
 
@@ -128,6 +136,23 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 #  ------------------------------
 #  
 #  query(condition='indicador != "Total formal"')
+#  Index: 105 entries, 0 to 104
+#  Data columns (total 5 columns):
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   geocodigo      105 non-null    object 
+#   1   anio           105 non-null    int64  
+#   2   indicador      105 non-null    object 
+#   3   valor          105 non-null    float64
+#   4   indicador_map  105 non-null    int64  
+#  
+#  |    | geocodigo   |   anio | indicador   |   valor |   indicador_map |
+#  |---:|:------------|-------:|:------------|--------:|----------------:|
+#  |  0 | ARG         |   2022 | Empleadores |     3.7 |               0 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Empleadores': 0, 'Asalariados en pequeñas y grandes empresas': 1, 'Asalariados públicos': 2, 'Cuentapropistas profesionales': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6})
 #  Index: 105 entries, 0 to 104
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
