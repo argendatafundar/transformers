@@ -33,7 +33,7 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 	drop_col(col='formal_def_productiva', axis=1),
 	drop_col(col='cat_ocup_cod', axis=1),
 	drop_col(col='pais', axis=1),
-	query(condition='anio == anio.max() & indicador != "Total formal"')
+	query(condition='indicador != "Total formal"')
 )
 #  PIPELINE_END
 
@@ -127,15 +127,15 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  query(condition='anio == anio.max() & indicador != "Total formal"')
-#  Index: 70 entries, 0 to 104
+#  query(condition='indicador != "Total formal"')
+#  Index: 105 entries, 0 to 104
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  70 non-null     object 
-#   1   anio       70 non-null     int64  
-#   2   indicador  70 non-null     object 
-#   3   valor      70 non-null     float64
+#   0   geocodigo  105 non-null    object 
+#   1   anio       105 non-null    int64  
+#   2   indicador  105 non-null    object 
+#   3   valor      105 non-null    float64
 #  
 #  |    | geocodigo   |   anio | indicador   |   valor |
 #  |---:|:------------|-------:|:------------|--------:|
