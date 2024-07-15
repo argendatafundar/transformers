@@ -13,12 +13,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def add_total(df: DataFrame, col_sum: str, col_etiqueta: str, etiqueta: str):
-    total = df[col_sum].sum()
-    df.loc[df.index.max()+1] = {col_etiqueta: etiqueta, col_sum: total}
-    return df
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -32,11 +26,6 @@ def replace_values(df: DataFrame, col: str, values: dict):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
-
-@transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
 #  DEFINITIONS_END
 
 
@@ -44,11 +33,9 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 query(condition='anio == anio.max()'),
 	drop_col(col=['anio'], axis=1),
-	add_total(col_sum='vab_min_vab_total_prov', col_etiqueta='provincia', etiqueta='ARG'),
 	rename_cols(map={'vab_min_vab_total_prov': 'valor', 'provincia': 'geocodigo'}),
 	replace_values(col='geocodigo', values={'Ciudad_de_Buenos_Aires': 'AR-C', 'Buenos_Aires': 'AR-B', 'Catamarca': 'AR-K', 'Cordoba': 'AR-X', 'Corrientes': 'AR-W', 'Chaco': 'AR-H', 'Chubut': 'AR-U', 'Entre_Rios': 'AR-E', 'Formosa': 'AR-P', 'Jujuy': 'AR-Y', 'La_Pampa': 'AR-L', 'La_Rioja': 'AR-F', 'Mendoza': 'AR-M', 'Misiones': 'AR-N', 'Neuquen': 'AR-Q', 'Rio_Negro': 'AR-R', 'Salta': 'AR-A', 'San_Juan': 'AR-J', 'San_Luis': 'AR-D', 'Santa_Cruz': 'AR-Z', 'Santa_Fe': 'AR-S', 'Santiago_del_Estero': 'AR-G', 'Tucuman': 'AR-T', 'Tierra_del_Fuego': 'AR-V', 'No_distribuido': 'MINERI_NO-DIST'}),
-	query(condition='geocodigo != "MINERI_NO-DIST"'),
-	multiplicar_por_escalar(col='valor', k=100)
+	query(condition='geocodigo != "MINERI_NO-DIST"')
 )
 #  PIPELINE_END
 
@@ -84,26 +71,12 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  drop_col(col=['anio'], axis=1)
-#  Index: 26 entries, 18 to 475
+#  Index: 25 entries, 18 to 474
 #  Data columns (total 2 columns):
 #   #   Column                  Non-Null Count  Dtype  
 #  ---  ------                  --------------  -----  
-#   0   provincia               26 non-null     object 
-#   1   vab_min_vab_total_prov  26 non-null     float64
-#  
-#  |    | provincia    |   vab_min_vab_total_prov |
-#  |---:|:-------------|-------------------------:|
-#  | 18 | Buenos_Aires |                 0.259416 |
-#  
-#  ------------------------------
-#  
-#  add_total(col_sum='vab_min_vab_total_prov', col_etiqueta='provincia', etiqueta='ARG')
-#  Index: 26 entries, 18 to 475
-#  Data columns (total 2 columns):
-#   #   Column                  Non-Null Count  Dtype  
-#  ---  ------                  --------------  -----  
-#   0   provincia               26 non-null     object 
-#   1   vab_min_vab_total_prov  26 non-null     float64
+#   0   provincia               25 non-null     object 
+#   1   vab_min_vab_total_prov  25 non-null     float64
 #  
 #  |    | provincia    |   vab_min_vab_total_prov |
 #  |---:|:-------------|-------------------------:|
@@ -112,12 +85,12 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  rename_cols(map={'vab_min_vab_total_prov': 'valor', 'provincia': 'geocodigo'})
-#  Index: 26 entries, 18 to 475
+#  Index: 25 entries, 18 to 474
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  26 non-null     object 
-#   1   valor      26 non-null     float64
+#   0   geocodigo  25 non-null     object 
+#   1   valor      25 non-null     float64
 #  
 #  |    | geocodigo    |    valor |
 #  |---:|:-------------|---------:|
@@ -126,12 +99,12 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  replace_values(col='geocodigo', values={'Ciudad_de_Buenos_Aires': 'AR-C', 'Buenos_Aires': 'AR-B', 'Catamarca': 'AR-K', 'Cordoba': 'AR-X', 'Corrientes': 'AR-W', 'Chaco': 'AR-H', 'Chubut': 'AR-U', 'Entre_Rios': 'AR-E', 'Formosa': 'AR-P', 'Jujuy': 'AR-Y', 'La_Pampa': 'AR-L', 'La_Rioja': 'AR-F', 'Mendoza': 'AR-M', 'Misiones': 'AR-N', 'Neuquen': 'AR-Q', 'Rio_Negro': 'AR-R', 'Salta': 'AR-A', 'San_Juan': 'AR-J', 'San_Luis': 'AR-D', 'Santa_Cruz': 'AR-Z', 'Santa_Fe': 'AR-S', 'Santiago_del_Estero': 'AR-G', 'Tucuman': 'AR-T', 'Tierra_del_Fuego': 'AR-V', 'No_distribuido': 'MINERI_NO-DIST'})
-#  Index: 26 entries, 18 to 475
+#  Index: 25 entries, 18 to 474
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  26 non-null     object 
-#   1   valor      26 non-null     float64
+#   0   geocodigo  25 non-null     object 
+#   1   valor      25 non-null     float64
 #  
 #  |    | geocodigo   |    valor |
 #  |---:|:------------|---------:|
@@ -140,30 +113,16 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  query(condition='geocodigo != "MINERI_NO-DIST"')
-#  Index: 25 entries, 18 to 475
+#  Index: 24 entries, 18 to 474
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  25 non-null     object 
-#   1   valor      25 non-null     float64
+#   0   geocodigo  24 non-null     object 
+#   1   valor      24 non-null     float64
 #  
-#  |    | geocodigo   |   valor |
-#  |---:|:------------|--------:|
-#  | 18 | AR-B        | 25.9416 |
-#  
-#  ------------------------------
-#  
-#  multiplicar_por_escalar(col='valor', k=100)
-#  Index: 25 entries, 18 to 475
-#  Data columns (total 2 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  25 non-null     object 
-#   1   valor      25 non-null     float64
-#  
-#  |    | geocodigo   |   valor |
-#  |---:|:------------|--------:|
-#  | 18 | AR-B        | 25.9416 |
+#  |    | geocodigo   |    valor |
+#  |---:|:------------|---------:|
+#  | 18 | AR-B        | 0.259416 |
 #  
 #  ------------------------------
 #  
