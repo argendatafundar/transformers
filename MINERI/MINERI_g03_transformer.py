@@ -27,6 +27,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -36,7 +41,8 @@ rename_cols(map={'sector': 'indicador', 'exportaciones_sector_perc': 'valor'}),
 	query(condition="indicador != 'otros'"),
 	replace_value(col='indicador', curr_value='no_metaliferos', new_value='No metalíferos'),
 	replace_value(col='indicador', curr_value='metaliferos', new_value='Metalíferos'),
-	replace_value(col='indicador', curr_value='piedras_preciosas_semipreciosas', new_value='Piedras preciosas y semipreciosas')
+	replace_value(col='indicador', curr_value='piedras_preciosas_semipreciosas', new_value='Piedras preciosas y semipreciosas'),
+	replace_value(col='indicador', curr_value='rocas_de_aplicacion', new_value='Rocas de aplicación')
 )
 #  PIPELINE_END
 
@@ -117,6 +123,21 @@ rename_cols(map={'sector': 'indicador', 'exportaciones_sector_perc': 'valor'}),
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='piedras_preciosas_semipreciosas', new_value='Piedras preciosas y semipreciosas')
+#  Index: 116 entries, 0 to 115
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       116 non-null    int64  
+#   1   indicador  116 non-null    object 
+#   2   valor      116 non-null    float64
+#  
+#  |    |   anio | indicador   |    valor |
+#  |---:|-------:|:------------|---------:|
+#  |  0 |   1994 | Metalíferos | 0.170485 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='rocas_de_aplicacion', new_value='Rocas de aplicación')
 #  Index: 116 entries, 0 to 115
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
