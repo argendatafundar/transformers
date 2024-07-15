@@ -44,7 +44,7 @@ pipeline = chain(
 long_to_wide(index='rama_actividad', columns='categoria_ocupacional', values='porcentaje_sobre_total_rama'),
 	rank_col(col='asalariados_registrados', rank_col='rank', ascending=False),
 	wide_to_long(primary_keys=['rama_actividad', 'rank'], value_name='valor', var_name='indicador'),
-	sort_values(how='ascending', by='rank'),
+	sort_values(how='ascending', by=['rank', 'indicador']),
 	rename_cols(map={'rama_actividad': 'categoria'}),
 	replace_values(col='indicador', values={'asalariados_registrados': 'Asalariados registrados', 'asalariados_no_registrados': 'Asalariados no registrados', 'no_asalariados': 'No asalariados'}),
 	drop_col(col='rank', axis=1)
@@ -117,7 +117,7 @@ long_to_wide(index='rama_actividad', columns='categoria_ocupacional', values='po
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='rank')
+#  sort_values(how='ascending', by=['rank', 'indicador'])
 #  RangeIndex: 69 entries, 0 to 68
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
