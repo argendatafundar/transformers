@@ -4,11 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -81,8 +76,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
-	query(condition="iso3.isin( ['USA','GBR','ARG','AUS','WRL_MDP','WEU_MPD'])"),
+query(condition="iso3.isin( ['USA','GBR','ARG','AUS','WRL_MPD','WEU_MPD'])"),
 	drop_col(col='continente_fundar', axis=1),
 	drop_col(col='es_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
@@ -118,35 +112,17 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD')
-#  RangeIndex: 21618 entries, 0 to 21617
+#  query(condition="iso3.isin( ['USA','GBR','ARG','AUS','WRL_MPD','WEU_MPD'])")
+#  Index: 1410 entries, 296 to 20949
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3               21618 non-null  object 
-#   1   pais_nombre        21618 non-null  object 
-#   2   continente_fundar  21366 non-null  object 
-#   3   es_agregacion      21618 non-null  int64  
-#   4   anio               21618 non-null  int64  
-#   5   pib_per_capita     21586 non-null  float64
-#  
-#  |    | iso3   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   pib_per_capita |
-#  |---:|:-------|:--------------|:--------------------|----------------:|-------:|-----------------:|
-#  |  0 | AFG    | Afganistán    | Asia                |               0 |   1950 |             1156 |
-#  
-#  ------------------------------
-#  
-#  query(condition="iso3.isin( ['USA','GBR','ARG','AUS','WRL_MDP','WEU_MPD'])")
-#  Index: 1382 entries, 296 to 20893
-#  Data columns (total 6 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   iso3               1382 non-null   object 
-#   1   pais_nombre        1382 non-null   object 
+#   0   iso3               1410 non-null   object 
+#   1   pais_nombre        1410 non-null   object 
 #   2   continente_fundar  1354 non-null   object 
-#   3   es_agregacion      1382 non-null   int64  
-#   4   anio               1382 non-null   int64  
-#   5   pib_per_capita     1382 non-null   float64
+#   3   es_agregacion      1410 non-null   int64  
+#   4   anio               1410 non-null   int64  
+#   5   pib_per_capita     1403 non-null   float64
 #  
 #  |     | iso3   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   pib_per_capita |
 #  |----:|:-------|:--------------|:--------------------|----------------:|-------:|-----------------:|
@@ -155,15 +131,15 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_col(col='continente_fundar', axis=1)
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1410 entries, 296 to 20949
 #  Data columns (total 5 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            1382 non-null   object 
-#   1   pais_nombre     1382 non-null   object 
-#   2   es_agregacion   1382 non-null   int64  
-#   3   anio            1382 non-null   int64  
-#   4   pib_per_capita  1382 non-null   float64
+#   0   iso3            1410 non-null   object 
+#   1   pais_nombre     1410 non-null   object 
+#   2   es_agregacion   1410 non-null   int64  
+#   3   anio            1410 non-null   int64  
+#   4   pib_per_capita  1403 non-null   float64
 #  
 #  |     | iso3   | pais_nombre   |   es_agregacion |   anio |   pib_per_capita |
 #  |----:|:-------|:--------------|----------------:|-------:|-----------------:|
@@ -172,14 +148,14 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_col(col='es_agregacion', axis=1)
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1410 entries, 296 to 20949
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            1382 non-null   object 
-#   1   pais_nombre     1382 non-null   object 
-#   2   anio            1382 non-null   int64  
-#   3   pib_per_capita  1382 non-null   float64
+#   0   iso3            1410 non-null   object 
+#   1   pais_nombre     1410 non-null   object 
+#   2   anio            1410 non-null   int64  
+#   3   pib_per_capita  1403 non-null   float64
 #  
 #  |     | iso3   | pais_nombre   |   anio |   pib_per_capita |
 #  |----:|:-------|:--------------|-------:|-----------------:|
@@ -188,13 +164,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_col(col='pais_nombre', axis=1)
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1410 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   iso3            1382 non-null   object 
-#   1   anio            1382 non-null   int64  
-#   2   pib_per_capita  1382 non-null   float64
+#   0   iso3            1410 non-null   object 
+#   1   anio            1410 non-null   int64  
+#   2   pib_per_capita  1403 non-null   float64
 #  
 #  |     | iso3   |   anio |   pib_per_capita |
 #  |----:|:-------|-------:|-----------------:|
@@ -203,13 +179,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'categoria', 'pib_per_capita': 'valor'})
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1410 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1410 non-null   object 
+#   1   anio       1410 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -218,13 +194,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  drop_na(col=['valor'])
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -233,13 +209,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='WRL_MPD', new_value='Mundo')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -248,13 +224,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='ARG', new_value='Argentina')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -263,13 +239,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='AUS', new_value='Australia')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -278,13 +254,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='GBR', new_value='Reino Unido')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -293,13 +269,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='USA', new_value='Estados Unidos')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -308,13 +284,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='WEU_MPD', new_value='Europa Occidental')
-#  Index: 1382 entries, 296 to 20893
+#  Index: 1403 entries, 296 to 20949
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
@@ -323,13 +299,13 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'categoria'])
-#  RangeIndex: 1382 entries, 0 to 1381
+#  RangeIndex: 1403 entries, 0 to 1402
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  1382 non-null   object 
-#   1   anio       1382 non-null   int64  
-#   2   valor      1382 non-null   float64
+#   0   categoria  1403 non-null   object 
+#   1   anio       1403 non-null   int64  
+#   2   valor      1403 non-null   float64
 #  
 #  |    | categoria   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -338,17 +314,17 @@ replace_value(col='iso3', curr_value='WRL_MPD', new_value='WLD'),
 #  ------------------------------
 #  
 #  query(condition='anio >= 1900')
-#  Index: 512 entries, 870 to 1381
+#  Index: 530 entries, 873 to 1402
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  512 non-null    object 
-#   1   anio       512 non-null    int64  
-#   2   valor      512 non-null    float64
+#   0   categoria  530 non-null    object 
+#   1   anio       530 non-null    int64  
+#   2   valor      530 non-null    float64
 #  
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
-#  | 870 | Argentina   |   1900 |    4583 |
+#  | 873 | Argentina   |   1900 |    4583 |
 #  
 #  ------------------------------
 #  
