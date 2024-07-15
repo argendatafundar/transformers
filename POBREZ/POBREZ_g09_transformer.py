@@ -97,6 +97,16 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -127,6 +137,8 @@ query(condition='poverty_line == 6.85'),
 	replace_value(col='categoria', curr_value='SLV', new_value='El Salvador'),
 	replace_value(col='categoria', curr_value='URY', new_value='Uruguay'),
 	replace_value(col='categoria', curr_value='CHL', new_value='Chile'),
+	replace_value(col='catgegoria', curr_value='HND', new_value='Honduras'),
+	replace_value(col='catgegoria', curr_value='MEX', new_value='México'),
 	mutiplicar_por_escalar(col='valor', k=100),
 	concatenar_anio_a_pais(col_pais='categoria', col_anio='year')
 )
@@ -393,6 +405,36 @@ query(condition='poverty_line == 6.85'),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='CHL', new_value='Chile')
+#  Index: 15 entries, 932 to 1336
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  15 non-null     object 
+#   1   year       15 non-null     int64  
+#   2   valor      15 non-null     float64
+#  
+#  |     | categoria   |   year |    valor |
+#  |----:|:------------|-------:|---------:|
+#  | 932 | Argentina   |   2021 | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='catgegoria', curr_value='HND', new_value='Honduras')
+#  Index: 15 entries, 932 to 1336
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  15 non-null     object 
+#   1   year       15 non-null     int64  
+#   2   valor      15 non-null     float64
+#  
+#  |     | categoria   |   year |    valor |
+#  |----:|:------------|-------:|---------:|
+#  | 932 | Argentina   |   2021 | 0.106201 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='catgegoria', curr_value='MEX', new_value='México')
 #  Index: 15 entries, 932 to 1336
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
