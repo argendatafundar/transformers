@@ -9,8 +9,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def str_to_title(df: DataFrame, col:str):
+    df[col] = df[col].str.title()
     return df
 #  DEFINITIONS_END
 
@@ -18,7 +23,8 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=1e-06)
+	multiplicar_por_escalar(col='valor', k=1e-06),
+	str_to_title(col='indicador')
 )
 #  PIPELINE_END
 
@@ -49,11 +55,11 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | cobre       |   1994 | 3.63523 |
+#  |  0 | Cobre       |   1994 | 3.63523 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=1e-06)
+#  multiplicar_por_escalar(col='valor', k=1e-06)
 #  RangeIndex: 139 entries, 0 to 138
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -64,7 +70,22 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | cobre       |   1994 | 3.63523 |
+#  |  0 | Cobre       |   1994 | 3.63523 |
+#  
+#  ------------------------------
+#  
+#  str_to_title(col='indicador')
+#  RangeIndex: 139 entries, 0 to 138
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  139 non-null    object 
+#   1   anio       139 non-null    int64  
+#   2   valor      139 non-null    float64
+#  
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | Cobre       |   1994 | 3.63523 |
 #  
 #  ------------------------------
 #  
