@@ -21,6 +21,14 @@ def drop_col(df: DataFrame, col, axis=1):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -29,7 +37,8 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	rename_cols(map={'calificacion': 'indicador', 'letra_desc_abrev': 'categoria', 'particip_calif': 'valor'}),
 	drop_col(col=['letra', 'calificacion_cod'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	sort_values_by_comparison(colname='indicador', precedence={'Calificado': 0, 'Semicalificado': 1, 'No calificado': 2}, prefix=[], suffix=[])
 )
 #  PIPELINE_END
 
@@ -106,6 +115,22 @@ query(condition='anio == anio.max()'),
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
 #  Index: 65 entries, 7 to 513
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       65 non-null     int64  
+#   1   categoria  65 non-null     object 
+#   2   indicador  65 non-null     object 
+#   3   valor      65 non-null     float64
+#  
+#  |    |   anio | categoria                   | indicador   |   valor |
+#  |---:|-------:|:----------------------------|:------------|--------:|
+#  |  7 |   2023 | Actividades administrativas | Calificado  | 10.4882 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Calificado': 0, 'Semicalificado': 1, 'No calificado': 2}, prefix=[], suffix=[])
+#  Index: 65 entries, 7 to 385
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
