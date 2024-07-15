@@ -39,6 +39,11 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -51,7 +56,8 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	rename_cols(map={'region': 'categoria', 'poverty_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	drop_col(col='poverty_line', axis=1)
+	drop_col(col='poverty_line', axis=1),
+	replace_value(col='categoria', curr_value='Partidos', new_value='Partidos del GBA')
 )
 #  PIPELINE_END
 
@@ -196,6 +202,21 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='poverty_line', axis=1)
+#  Index: 320 entries, 320 to 639
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  320 non-null    object 
+#   1   valor      304 non-null    float64
+#   2   aniosem    320 non-null    object 
+#  
+#  |     | categoria   |   valor | aniosem   |
+#  |----:|:------------|--------:|:----------|
+#  | 320 | Total       | 59.9279 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Partidos', new_value='Partidos del GBA')
 #  Index: 320 entries, 320 to 639
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
