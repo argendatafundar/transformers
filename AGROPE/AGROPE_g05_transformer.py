@@ -28,21 +28,15 @@ def drop_col(df: DataFrame, col, axis=1):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Países de ingreso medio", "Uruguay", "Colombia", "Brasil", "Argentina", "Mundo", "Chile"])'),
+query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Países de ingreso medio", "Uruguay", "Colombia", "Brasil", "Argentina", "Mundo", "Chile", "Países de ingreso alto"])'),
 	rename_cols(map={'pais': 'categoria', 'va_agro_sobre_pbi': 'valor'}),
 	sort_values(how='descending', by='valor'),
 	drop_col(col=['iso3c', 'anio'], axis=1),
-	replace_value(col='categoria', curr_value='Países de ingreso medio', new_value='Ingreso mediano'),
 	replace_value(col='categoria', curr_value='Mundo', new_value='Media mundial')
 )
 #  PIPELINE_END
@@ -64,47 +58,47 @@ query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Pa
 #  
 #  ------------------------------
 #  
-#  query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Países de ingreso medio", "Uruguay", "Colombia", "Brasil", "Argentina", "Mundo", "Chile"])')
-#  Index: 10 entries, 127 to 694
+#  query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Países de ingreso medio", "Uruguay", "Colombia", "Brasil", "Argentina", "Mundo", "Chile", "Países de ingreso alto"])')
+#  Index: 11 entries, 1 to 694
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3c              10 non-null     object 
-#   1   anio               10 non-null     int64  
-#   2   va_agro_sobre_pbi  10 non-null     float64
-#   3   pais               10 non-null     object 
+#   0   iso3c              11 non-null     object 
+#   1   anio               11 non-null     int64  
+#   2   va_agro_sobre_pbi  11 non-null     float64
+#   3   pais               11 non-null     object 
 #  
-#  |     | iso3c   |   anio |   va_agro_sobre_pbi | pais                    |
-#  |----:|:--------|-------:|--------------------:|:------------------------|
-#  | 127 | MIC     |   2021 |             8.78569 | Países de ingreso medio |
+#  |    | iso3c   |   anio |   va_agro_sobre_pbi | pais                   |
+#  |---:|:--------|-------:|--------------------:|:-----------------------|
+#  |  1 | HIC     |   2021 |             1.27667 | Países de ingreso alto |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'pais': 'categoria', 'va_agro_sobre_pbi': 'valor'})
-#  Index: 10 entries, 127 to 694
+#  Index: 11 entries, 1 to 694
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3c      10 non-null     object 
-#   1   anio       10 non-null     int64  
-#   2   valor      10 non-null     float64
-#   3   categoria  10 non-null     object 
+#   0   iso3c      11 non-null     object 
+#   1   anio       11 non-null     int64  
+#   2   valor      11 non-null     float64
+#   3   categoria  11 non-null     object 
 #  
-#  |     | iso3c   |   anio |   valor | categoria               |
-#  |----:|:--------|-------:|--------:|:------------------------|
-#  | 127 | MIC     |   2021 | 8.78569 | Países de ingreso medio |
+#  |    | iso3c   |   anio |   valor | categoria              |
+#  |---:|:--------|-------:|--------:|:-----------------------|
+#  |  1 | HIC     |   2021 | 1.27667 | Países de ingreso alto |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='descending', by='valor')
-#  RangeIndex: 10 entries, 0 to 9
+#  RangeIndex: 11 entries, 0 to 10
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3c      10 non-null     object 
-#   1   anio       10 non-null     int64  
-#   2   valor      10 non-null     float64
-#   3   categoria  10 non-null     object 
+#   0   iso3c      11 non-null     object 
+#   1   anio       11 non-null     int64  
+#   2   valor      11 non-null     float64
+#   3   categoria  11 non-null     object 
 #  
 #  |    | iso3c   |   anio |   valor | categoria   |
 #  |---:|:--------|-------:|--------:|:------------|
@@ -113,26 +107,12 @@ query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Pa
 #  ------------------------------
 #  
 #  drop_col(col=['iso3c', 'anio'], axis=1)
-#  RangeIndex: 10 entries, 0 to 9
+#  RangeIndex: 11 entries, 0 to 10
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   valor      10 non-null     float64
-#   1   categoria  10 non-null     object 
-#  
-#  |    |   valor | categoria   |
-#  |---:|--------:|:------------|
-#  |  0 | 12.9229 | Bolivia     |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='Países de ingreso medio', new_value='Ingreso mediano')
-#  RangeIndex: 10 entries, 0 to 9
-#  Data columns (total 2 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   valor      10 non-null     float64
-#   1   categoria  10 non-null     object 
+#   0   valor      11 non-null     float64
+#   1   categoria  11 non-null     object 
 #  
 #  |    |   valor | categoria   |
 #  |---:|--------:|:------------|
@@ -141,12 +121,12 @@ query(condition='anio == 2021 & pais.isin(["Bolivia", "Paraguay", "Ecuador", "Pa
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Mundo', new_value='Media mundial')
-#  RangeIndex: 10 entries, 0 to 9
+#  RangeIndex: 11 entries, 0 to 10
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   valor      10 non-null     float64
-#   1   categoria  10 non-null     object 
+#   0   valor      11 non-null     float64
+#   1   categoria  11 non-null     object 
 #  
 #  |    |   valor | categoria   |
 #  |---:|--------:|:------------|
