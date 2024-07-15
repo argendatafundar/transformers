@@ -24,11 +24,6 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
 #  DEFINITIONS_END
 
 
@@ -37,8 +32,7 @@ pipeline = chain(
 rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=1e-06),
 	str_to_title(col='indicador'),
-	sort_values(how='ascending', by=['anio', 'indicador']),
-	query(condition='valor != 0')
+	sort_values(how='ascending', by=['anio', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -105,21 +99,6 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
 #  
 #  sort_values(how='ascending', by=['anio', 'indicador'])
 #  RangeIndex: 139 entries, 0 to 138
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  139 non-null    object 
-#   1   anio       139 non-null    int64  
-#   2   valor      139 non-null    float64
-#  
-#  |    | indicador   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Cobre       |   1994 | 3.63523 |
-#  
-#  ------------------------------
-#  
-#  query(condition='valor != 0')
-#  Index: 139 entries, 0 to 138
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
