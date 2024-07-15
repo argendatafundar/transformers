@@ -153,6 +153,11 @@ def rename_cols(df: DataFrame, map):
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -187,7 +192,8 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 	replace_value(col='provincia', curr_value='Tucumán', new_value='AR-T'),
 	replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V'),
 	rename_cols(map={'provincia': 'geocodigo'}),
-	multiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='geocodigo != "Total"')
 )
 #  PIPELINE_END
 
@@ -652,6 +658,21 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #   0   geocodigo  50 non-null     object 
 #   1   indicador  50 non-null     object 
 #   2   valor      50 non-null     float64
+#  
+#  |     | geocodigo   | indicador      |   valor |
+#  |----:|:------------|:---------------|--------:|
+#  | 172 | AR-B        | Tasa de empleo | 45.0225 |
+#  
+#  ------------------------------
+#  
+#  query(condition='geocodigo != "Total"')
+#  Index: 48 entries, 172 to 393
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
 #  
 #  |     | geocodigo   | indicador      |   valor |
 #  |----:|:------------|:---------------|--------:|
