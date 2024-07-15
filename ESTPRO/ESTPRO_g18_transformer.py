@@ -39,7 +39,7 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 query(condition='anio == 2019'),
-	query(condition='iso3.isin(["AUS", "NZL", "AUT", "NOR", "BEL", "POL", "CAN", "PRT", "CHL", "SVK", "CZE", "SVN", "DNK", "ESP", "EST", "SWE", "FIN", "CHE", "FRA", "TUR", "DEU", "GBR", "GRC", "USA", "HUN", "ISL", "IRL", "ISR", "ITA", "JPN", "KOR", "LUX", "MEX",  "NLD"])'),
+	query(condition='iso3.isin(["OECD"])'),
 	rename_cols(map={'letra_desc_abrev': 'categoria', 'valor_relativo_arg': 'valor', 'iso3': 'geocodigo'}),
 	drop_col(col='es_agregacion', axis=1),
 	drop_col(col='anio', axis=1),
@@ -87,107 +87,107 @@ query(condition='anio == 2019'),
 #  
 #  ------------------------------
 #  
-#  query(condition='iso3.isin(["AUS", "NZL", "AUT", "NOR", "BEL", "POL", "CAN", "PRT", "CHL", "SVK", "CZE", "SVN", "DNK", "ESP", "EST", "SWE", "FIN", "CHE", "FRA", "TUR", "DEU", "GBR", "GRC", "USA", "HUN", "ISL", "IRL", "ISR", "ITA", "JPN", "KOR", "LUX", "MEX",  "NLD"])')
-#  Index: 680 entries, 33600 to 34994
+#  query(condition='iso3.isin(["OECD"])')
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 7 columns):
 #   #   Column              Non-Null Count  Dtype  
 #  ---  ------              --------------  -----  
-#   0   anio                680 non-null    int64  
-#   1   letra               680 non-null    object 
-#   2   iso3                680 non-null    object 
-#   3   iso3_desc_fundar    680 non-null    object 
-#   4   es_agregacion       680 non-null    int64  
-#   5   letra_desc_abrev    680 non-null    object 
-#   6   valor_relativo_arg  680 non-null    float64
+#   0   anio                20 non-null     int64  
+#   1   letra               20 non-null     object 
+#   2   iso3                20 non-null     object 
+#   3   iso3_desc_fundar    20 non-null     object 
+#   4   es_agregacion       20 non-null     int64  
+#   5   letra_desc_abrev    20 non-null     object 
+#   6   valor_relativo_arg  20 non-null     float64
 #  
-#  |       |   anio | letra   | iso3   | iso3_desc_fundar   |   es_agregacion | letra_desc_abrev   |   valor_relativo_arg |
-#  |------:|-------:|:--------|:-------|:-------------------|----------------:|:-------------------|---------------------:|
-#  | 33600 |   2019 | A       | AUS    | Australia          |               0 | Agro y pesca       |              555.496 |
+#  |       |   anio | letra   | iso3   | iso3_desc_fundar        |   es_agregacion | letra_desc_abrev   |   valor_relativo_arg |
+#  |------:|-------:|:--------|:-------|:------------------------|----------------:|:-------------------|---------------------:|
+#  | 33648 |   2019 | A       | OECD   | Países miembros de OCDE |               1 | Agro y pesca       |              174.053 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'letra_desc_abrev': 'categoria', 'valor_relativo_arg': 'valor', 'iso3': 'geocodigo'})
-#  Index: 680 entries, 33600 to 34994
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 7 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              680 non-null    int64  
-#   1   letra             680 non-null    object 
-#   2   geocodigo         680 non-null    object 
-#   3   iso3_desc_fundar  680 non-null    object 
-#   4   es_agregacion     680 non-null    int64  
-#   5   categoria         680 non-null    object 
-#   6   valor             680 non-null    float64
+#   0   anio              20 non-null     int64  
+#   1   letra             20 non-null     object 
+#   2   geocodigo         20 non-null     object 
+#   3   iso3_desc_fundar  20 non-null     object 
+#   4   es_agregacion     20 non-null     int64  
+#   5   categoria         20 non-null     object 
+#   6   valor             20 non-null     float64
 #  
-#  |       |   anio | letra   | geocodigo   | iso3_desc_fundar   |   es_agregacion | categoria    |   valor |
-#  |------:|-------:|:--------|:------------|:-------------------|----------------:|:-------------|--------:|
-#  | 33600 |   2019 | A       | AUS         | Australia          |               0 | Agro y pesca | 555.496 |
+#  |       |   anio | letra   | geocodigo   | iso3_desc_fundar        |   es_agregacion | categoria    |   valor |
+#  |------:|-------:|:--------|:------------|:------------------------|----------------:|:-------------|--------:|
+#  | 33648 |   2019 | A       | OECD        | Países miembros de OCDE |               1 | Agro y pesca | 174.053 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='es_agregacion', axis=1)
-#  Index: 680 entries, 33600 to 34994
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 6 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              680 non-null    int64  
-#   1   letra             680 non-null    object 
-#   2   geocodigo         680 non-null    object 
-#   3   iso3_desc_fundar  680 non-null    object 
-#   4   categoria         680 non-null    object 
-#   5   valor             680 non-null    float64
+#   0   anio              20 non-null     int64  
+#   1   letra             20 non-null     object 
+#   2   geocodigo         20 non-null     object 
+#   3   iso3_desc_fundar  20 non-null     object 
+#   4   categoria         20 non-null     object 
+#   5   valor             20 non-null     float64
 #  
-#  |       |   anio | letra   | geocodigo   | iso3_desc_fundar   | categoria    |   valor |
-#  |------:|-------:|:--------|:------------|:-------------------|:-------------|--------:|
-#  | 33600 |   2019 | A       | AUS         | Australia          | Agro y pesca | 555.496 |
+#  |       |   anio | letra   | geocodigo   | iso3_desc_fundar        | categoria    |   valor |
+#  |------:|-------:|:--------|:------------|:------------------------|:-------------|--------:|
+#  | 33648 |   2019 | A       | OECD        | Países miembros de OCDE | Agro y pesca | 174.053 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='anio', axis=1)
-#  Index: 680 entries, 33600 to 34994
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   letra             680 non-null    object 
-#   1   geocodigo         680 non-null    object 
-#   2   iso3_desc_fundar  680 non-null    object 
-#   3   categoria         680 non-null    object 
-#   4   valor             680 non-null    float64
+#   0   letra             20 non-null     object 
+#   1   geocodigo         20 non-null     object 
+#   2   iso3_desc_fundar  20 non-null     object 
+#   3   categoria         20 non-null     object 
+#   4   valor             20 non-null     float64
 #  
-#  |       | letra   | geocodigo   | iso3_desc_fundar   | categoria    |   valor |
-#  |------:|:--------|:------------|:-------------------|:-------------|--------:|
-#  | 33600 | A       | AUS         | Australia          | Agro y pesca | 555.496 |
+#  |       | letra   | geocodigo   | iso3_desc_fundar        | categoria    |   valor |
+#  |------:|:--------|:------------|:------------------------|:-------------|--------:|
+#  | 33648 | A       | OECD        | Países miembros de OCDE | Agro y pesca | 174.053 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='letra', axis=1)
-#  Index: 680 entries, 33600 to 34994
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   geocodigo         680 non-null    object 
-#   1   iso3_desc_fundar  680 non-null    object 
-#   2   categoria         680 non-null    object 
-#   3   valor             680 non-null    float64
+#   0   geocodigo         20 non-null     object 
+#   1   iso3_desc_fundar  20 non-null     object 
+#   2   categoria         20 non-null     object 
+#   3   valor             20 non-null     float64
 #  
-#  |       | geocodigo   | iso3_desc_fundar   | categoria    |   valor |
-#  |------:|:------------|:-------------------|:-------------|--------:|
-#  | 33600 | AUS         | Australia          | Agro y pesca | 555.496 |
+#  |       | geocodigo   | iso3_desc_fundar        | categoria    |   valor |
+#  |------:|:------------|:------------------------|:-------------|--------:|
+#  | 33648 | OECD        | Países miembros de OCDE | Agro y pesca | 174.053 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3_desc_fundar', axis=1)
-#  Index: 680 entries, 33600 to 34994
+#  Index: 20 entries, 33648 to 34978
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  680 non-null    object 
-#   1   categoria  680 non-null    object 
-#   2   valor      680 non-null    float64
+#   0   geocodigo  20 non-null     object 
+#   1   categoria  20 non-null     object 
+#   2   valor      20 non-null     float64
 #  
 #  |       | geocodigo   | categoria    |   valor |
 #  |------:|:------------|:-------------|--------:|
-#  | 33600 | AUS         | Agro y pesca | 555.496 |
+#  | 33648 | OECD        | Agro y pesca | 174.053 |
 #  
 #  ------------------------------
 #  
