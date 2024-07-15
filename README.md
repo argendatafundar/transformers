@@ -1,9 +1,17 @@
 ![transformers-w](https://github.com/user-attachments/assets/1644e28e-63a8-4b51-b6a1-fa68a30fa9c2)
 
+Un _transformer_ es un _script_ en Python ejecutable, auto-contenido y auto-reproducible. Esencialmente son "recetas" fácilmente aplicables a un dataset,
+compuesto por una serie de instrucciones (funciones) para mutarlo, junto con las definiciones exactas de cada una de ellas. De esta manera, cada archivo
+describe en sí mismo su comportamiento, siendo así expresivo respecto de su funcionalidad, pero también fácilmente ejecutable en un proceso de automatización.
 
-El trabajo en este repositorio esta definido por un sistema de archivos que se estructura alrededor de cada uno de los tópocios de **Argendata**:
+[(Ver _data-transformers_)](https://github.com/argendatafundar/data-transformers)
+
+Cada uno de estos archivos tiene como objetivo generar CSVs listos para ser graficados por el [sitio web de ArgenData](https://argendata.fund.ar), por lo que
+implica un proceso de normalización más fuerte que la armonización previa. Junto con la modificación estructural del dataset, se deja sólo lo imprescindible para
+que el gráfico pueda ser visualizado, generando así archivos mucho más livianos.
 
 ## Esquema del sistema de archivos
+El trabajo en este repositorio esta definido por un sistema de archivos que se estructura alrededor de cada uno de los tópicos de **Argendata**
 ```
 ├── TOPICO
 ├── ...
