@@ -29,10 +29,10 @@ def str_replace(df: DataFrame, col: str, pattern, replace: str, reg: bool = True
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'nivel': 'categoria', 'sector': 'indicador', 'prop_educ': 'valor'}),
+rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'}),
 	sort_values(how='ascending', by=['categoria', 'indicador']),
 	mutiplicar_por_escalar(col='valor', k=100),
-	str_replace(col='categoria', pattern='^[a-z]\\. ', replace='', reg=True)
+	str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True)
 )
 #  PIPELINE_END
 
@@ -52,16 +52,16 @@ rename_cols(map={'nivel': 'categoria', 'sector': 'indicador', 'prop_educ': 'valo
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'nivel': 'categoria', 'sector': 'indicador', 'prop_educ': 'valor'})
+#  rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'})
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  21 non-null     object 
-#   1   indicador  21 non-null     object 
+#   0   indicador  21 non-null     object 
+#   1   categoria  21 non-null     object 
 #   2   valor      21 non-null     float64
 #  
-#  |    | categoria              | indicador   |      valor |
+#  |    | indicador              | categoria   |      valor |
 #  |---:|:-----------------------|:------------|-----------:|
 #  |  0 | a. Primario incompleto | SBC         | 0.00194999 |
 #  
@@ -72,11 +72,11 @@ rename_cols(map={'nivel': 'categoria', 'sector': 'indicador', 'prop_educ': 'valo
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  21 non-null     object 
-#   1   indicador  21 non-null     object 
+#   0   indicador  21 non-null     object 
+#   1   categoria  21 non-null     object 
 #   2   valor      21 non-null     float64
 #  
-#  |    | categoria           | indicador   |    valor |
+#  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
 #  |  0 | Primario incompleto | SBC         | 0.194999 |
 #  
@@ -87,26 +87,26 @@ rename_cols(map={'nivel': 'categoria', 'sector': 'indicador', 'prop_educ': 'valo
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  21 non-null     object 
-#   1   indicador  21 non-null     object 
+#   0   indicador  21 non-null     object 
+#   1   categoria  21 non-null     object 
 #   2   valor      21 non-null     float64
 #  
-#  |    | categoria           | indicador   |    valor |
+#  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
 #  |  0 | Primario incompleto | SBC         | 0.194999 |
 #  
 #  ------------------------------
 #  
-#  str_replace(col='categoria', pattern='^[a-z]\\. ', replace='', reg=True)
+#  str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True)
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  21 non-null     object 
-#   1   indicador  21 non-null     object 
+#   0   indicador  21 non-null     object 
+#   1   categoria  21 non-null     object 
 #   2   valor      21 non-null     float64
 #  
-#  |    | categoria           | indicador   |    valor |
+#  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
 #  |  0 | Primario incompleto | SBC         | 0.194999 |
 #  
