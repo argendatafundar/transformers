@@ -23,11 +23,12 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -37,7 +38,7 @@ query(condition='anio == 2022'),
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'gran_region_desc': 'categoria', 'share_vab_sectorial': 'valor'}),
 	drop_col(col=['anio', 'gran_region_id'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(how='ascending', by=['categoria', 'letra'])
+	sort_values_by_comparison(colname='letra', precedence={'O': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -128,8 +129,8 @@ query(condition='anio == 2022'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['categoria', 'letra'])
-#  RangeIndex: 48 entries, 0 to 47
+#  sort_values_by_comparison(colname='letra', precedence={'O': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
+#  Index: 48 entries, 56 to 645
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -138,9 +139,9 @@ query(condition='anio == 2022'),
 #   2   categoria  48 non-null     object 
 #   3   valor      48 non-null     float64
 #  
-#  |    | letra   | indicador   | categoria   |   valor |
-#  |---:|:--------|:------------|:------------|--------:|
-#  |  0 | A       | Agro        | Centro      | 8.00383 |
+#  |    | letra   | indicador                                 | categoria   |   valor |
+#  |---:|:--------|:------------------------------------------|:------------|--------:|
+#  | 56 | O       | Serv. comunitarios, sociales y personales | Centro      | 2.88437 |
 #  
 #  ------------------------------
 #  
