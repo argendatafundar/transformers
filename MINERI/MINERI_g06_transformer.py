@@ -9,8 +9,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_values(df: DataFrame, col: str, values: dict):
+    df = df.replace({col: values})
     return df
 #  DEFINITIONS_END
 
@@ -18,7 +23,8 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'grupo_nuevo': 'categoria', 'impo_grupo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=1e-06)
+	multiplicar_por_escalar(col='valor', k=1e-06),
+	replace_values(col='categoria', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'})
 )
 #  PIPELINE_END
 
@@ -53,7 +59,7 @@ rename_cols(map={'grupo_nuevo': 'categoria', 'impo_grupo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=1e-06)
+#  multiplicar_por_escalar(col='valor', k=1e-06)
 #  RangeIndex: 145 entries, 0 to 144
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -65,6 +71,21 @@ rename_cols(map={'grupo_nuevo': 'categoria', 'impo_grupo': 'valor'}),
 #  |    | categoria   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | aluminio    |   1994 | 8.39544 |
+#  
+#  ------------------------------
+#  
+#  replace_values(col='categoria', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'})
+#  RangeIndex: 145 entries, 0 to 144
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  145 non-null    object 
+#   1   anio       145 non-null    int64  
+#   2   valor      145 non-null    float64
+#  
+#  |    | categoria   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | Aluminio    |   1994 | 8.39544 |
 #  
 #  ------------------------------
 #  
