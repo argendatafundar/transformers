@@ -26,11 +26,17 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def sort_values_by_comparison(df, colname: str, precedence: dict):
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
     mapcol = colname+'_map'
-    df.loc[:, mapcol] = df[colname].map(precedence)
-    df = df.sort_values(by=['geocodigo', mapcol])
-    return df.drop(mapcol, axis=1)
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -41,7 +47,8 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 	drop_col(col='cat_ocup_cod', axis=1),
 	drop_col(col='pais', axis=1),
 	query(condition='indicador != "Total formal"'),
-	sort_values_by_comparison(colname='indicador', precedence={'Empleadores': 0, 'Asalariados en pequeñas y grandes empresas': 1, 'Asalariados públicos': 2, 'Cuentapropistas profesionales': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6})
+	query(condition="indicador in ('Empleadores', 'Asalariados en pequeñas y grandes empresas', 'Asalariados públicos', 'Cuentapropistas profesionales', 'Asalariados en microempresas', 'Cuentapropistas sin calificación')"),
+	sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Asalariados en microempresas': 3, 'Cuentapropistas sin calificación': 4, 'Trabajadores sin ingresos': 5, 'Empleadores': 6}, prefix=[], suffix=[])
 )
 #  PIPELINE_END
 
@@ -137,23 +144,6 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 #  
 #  query(condition='indicador != "Total formal"')
 #  Index: 105 entries, 0 to 104
-#  Data columns (total 5 columns):
-#   #   Column         Non-Null Count  Dtype  
-#  ---  ------         --------------  -----  
-#   0   geocodigo      105 non-null    object 
-#   1   anio           105 non-null    int64  
-#   2   indicador      105 non-null    object 
-#   3   valor          105 non-null    float64
-#   4   indicador_map  105 non-null    int64  
-#  
-#  |    | geocodigo   |   anio | indicador   |   valor |   indicador_map |
-#  |---:|:------------|-------:|:------------|--------:|----------------:|
-#  |  0 | ARG         |   2022 | Empleadores |     3.7 |               0 |
-#  
-#  ------------------------------
-#  
-#  sort_values_by_comparison(colname='indicador', precedence={'Empleadores': 0, 'Asalariados en pequeñas y grandes empresas': 1, 'Asalariados públicos': 2, 'Cuentapropistas profesionales': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6})
-#  Index: 105 entries, 0 to 104
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -165,6 +155,38 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 #  |    | geocodigo   |   anio | indicador   |   valor |
 #  |---:|:------------|-------:|:------------|--------:|
 #  |  0 | ARG         |   2022 | Empleadores |     3.7 |
+#  
+#  ------------------------------
+#  
+#  query(condition="indicador in ('Empleadores', 'Asalariados en pequeñas y grandes empresas', 'Asalariados públicos', 'Cuentapropistas profesionales', 'Asalariados en microempresas', 'Cuentapropistas sin calificación')")
+#  Index: 90 entries, 0 to 103
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  90 non-null     object 
+#   1   anio       90 non-null     int64  
+#   2   indicador  90 non-null     object 
+#   3   valor      90 non-null     float64
+#  
+#  |    | geocodigo   |   anio | indicador   |   valor |
+#  |---:|:------------|-------:|:------------|--------:|
+#  |  0 | ARG         |   2022 | Empleadores |     3.7 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Asalariados en microempresas': 3, 'Cuentapropistas sin calificación': 4, 'Trabajadores sin ingresos': 5, 'Empleadores': 6}, prefix=[], suffix=[])
+#  Index: 90 entries, 36 to 0
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  90 non-null     object 
+#   1   anio       90 non-null     int64  
+#   2   indicador  90 non-null     object 
+#   3   valor      90 non-null     float64
+#  
+#  |    | geocodigo   |   anio | indicador                                  |   valor |
+#  |---:|:------------|-------:|:-------------------------------------------|--------:|
+#  | 36 | CRI         |   2022 | Asalariados en pequeñas y grandes empresas | 46.8145 |
 #  
 #  ------------------------------
 #  
