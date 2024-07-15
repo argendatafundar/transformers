@@ -3,44 +3,35 @@
 
 El trabajo en este repositorio esta definido por un sistema de archivos que se estructura alrededor de cada uno de los tópocios de **Argendata**:
 
-
+## Esquema del sistema de archivos
 ```
+├── TOPICO
+├── ...
 ├── AGROPE
-├── CAMCLI
-├── COMEXT
-├── CRECIM
-├── DESHUM
-├── DESIGU
-├── ESTPRO
-├── INFDES
-├── MERTRA
-├── MINERI
-├── POBREZ
-├── PRECIO
-├── SALING
-├── SEBACO
-├── TRANEN
 │   ├── mappings.json
-│   ├── TRANEN_g01_transformer.py
-│   ├── TRANEN_g02_transformer.py
-│   ├── TRANEN_g03_transformer.py
-│   ├── TRANEN_g04_transformer.py
-│   ├── TRANEN_g05_transformer.py
-│   ├── TRANEN_g06_transformer.py
-│   ├── TRANEN_g07_transformer.py
-│   ├── TRANEN_g08_transformer.py
-│   ├── TRANEN_g09_transformer.py
-│   ├── TRANEN_g10_transformer.py
-│   ├── TRANEN_g11_transformer.py
-│   ├── TRANEN_g12_transformer.py
-│   ├── TRANEN_g13_transformer.py
-│   ├── TRANEN_g14_transformer.py
-│   ├── TRANEN_g15_transformer.py
-│   ├── TRANEN_g16_transformer.py
-│   ├── TRANEN_g17_transformer.py
-│   ├── TRANEN_g18_transformer.py
-│   └── TRANEN_g19_transformer.py
-
+│   ├── TOPICO_gXX_transformer.py
+│   └── ...
+└── TRANEN
+    ├── mappings.json
+    ├── TRANEN_g01_transformer.py
+    ├── TRANEN_g02_transformer.py
+    ├── TRANEN_g03_transformer.py
+    ├── TRANEN_g04_transformer.py
+    ├── TRANEN_g05_transformer.py
+    ├── TRANEN_g06_transformer.py
+    ├── TRANEN_g07_transformer.py
+    ├── TRANEN_g08_transformer.py
+    ├── TRANEN_g09_transformer.py
+    ├── TRANEN_g10_transformer.py
+    ├── TRANEN_g11_transformer.py
+    ├── TRANEN_g12_transformer.py
+    ├── TRANEN_g13_transformer.py
+    ├── TRANEN_g14_transformer.py
+    ├── TRANEN_g15_transformer.py
+    ├── TRANEN_g16_transformer.py
+    ├── TRANEN_g17_transformer.py
+    ├── TRANEN_g18_transformer.py
+    └── TRANEN_g19_transformer.py
 ```
 Cada dataset de Argendata tiene un nombre sustantivo y uno simplificado que funciona como _id_, que sigue un formato del tipo `TOPICO_g01.csv`. 
 
