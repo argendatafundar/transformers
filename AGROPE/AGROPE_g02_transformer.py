@@ -9,16 +9,18 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'pbi_agro_pcons': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	sort_values(how='ascending', by='anio')
 )
 #  PIPELINE_END
 
@@ -47,11 +49,11 @@ rename_cols(map={'pbi_agro_pcons': 'valor'}),
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  |  0 |   1875 |   97100 |
+#  |  0 |   1875 |     971 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  sort_values(how='ascending', by='anio')
 #  RangeIndex: 148 entries, 0 to 147
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype
@@ -61,7 +63,7 @@ rename_cols(map={'pbi_agro_pcons': 'valor'}),
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  |  0 |   1875 |   97100 |
+#  |  0 |   1875 |     971 |
 #  
 #  ------------------------------
 #  
