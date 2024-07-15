@@ -154,6 +154,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -188,7 +193,8 @@ latest_year(by='anio'),
 	query(condition="indicador in ('Edad, entre 18 y 65', 'Edad, total')"),
 	replace_value(col='indicador', curr_value='Edad, entre 18 y 65', new_value='Población entre 18 y 65 años'),
 	replace_value(col='indicador', curr_value='Edad, total', new_value='Población total'),
-	multiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='geocodigo != "Total"')
 )
 #  PIPELINE_END
 
@@ -652,6 +658,21 @@ latest_year(by='anio'),
 #   0   geocodigo  50 non-null     object 
 #   1   indicador  50 non-null     object 
 #   2   valor      50 non-null     float64
+#  
+#  |     | geocodigo   | indicador                    |   valor |
+#  |----:|:------------|:-----------------------------|--------:|
+#  | 688 | AR-B        | Población entre 18 y 65 años | 71.4799 |
+#  
+#  ------------------------------
+#  
+#  query(condition='geocodigo != "Total"')
+#  Index: 48 entries, 688 to 787
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
 #  
 #  |     | geocodigo   | indicador                    |   valor |
 #  |----:|:------------|:-----------------------------|--------:|
