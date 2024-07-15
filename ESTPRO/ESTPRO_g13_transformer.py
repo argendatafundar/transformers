@@ -38,7 +38,7 @@ query(condition='anio == 2022'),
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'gran_region_desc': 'categoria', 'share_vab_sectorial': 'valor'}),
 	drop_col(col=['anio', 'gran_region_id'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values_by_comparison(colname='letra', precedence={'O': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
+	sort_values_by_comparison(colname='letra', precedence={'B': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'J': 8, 'K': 9, 'L': 10, 'M': 11, 'N': 12, 'O': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -129,8 +129,8 @@ query(condition='anio == 2022'),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='letra', precedence={'O': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
-#  Index: 48 entries, 56 to 645
+#  sort_values_by_comparison(colname='letra', precedence={'B': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'J': 8, 'K': 9, 'L': 10, 'M': 11, 'N': 12, 'O': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
+#  Index: 48 entries, 246 to 645
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -139,9 +139,9 @@ query(condition='anio == 2022'),
 #   2   categoria  48 non-null     object 
 #   3   valor      48 non-null     float64
 #  
-#  |    | letra   | indicador                                 | categoria   |   valor |
-#  |---:|:--------|:------------------------------------------|:------------|--------:|
-#  | 56 | O       | Serv. comunitarios, sociales y personales | Centro      | 2.88437 |
+#  |     | letra   | indicador   | categoria   |    valor |
+#  |----:|:--------|:------------|:------------|---------:|
+#  | 246 | B       | Pesca       | Centro      | 0.182441 |
 #  
 #  ------------------------------
 #  
