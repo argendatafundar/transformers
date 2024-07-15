@@ -14,6 +14,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -52,6 +59,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 query(condition='anio == anio.max()'),
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'share_vab_sectorial': 'valor'}),
+	sort_values(how='ascending', by=['tipo_sector', 'letra']),
 	drop_col(col=['provincia', 'anio', 'gran_region_id', 'gran_region_desc', 'letra', 'tipo_sector'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
 	convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
@@ -123,8 +131,29 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
+#  sort_values(how='ascending', by=['tipo_sector', 'letra'])
+#  RangeIndex: 384 entries, 0 to 383
+#  Data columns (total 9 columns):
+#   #   Column            Non-Null Count  Dtype  
+#  ---  ------            --------------  -----  
+#   0   anio              384 non-null    int64  
+#   1   provincia_id      384 non-null    int64  
+#   2   provincia         384 non-null    object 
+#   3   gran_region_id    384 non-null    int64  
+#   4   gran_region_desc  384 non-null    object 
+#   5   letra             384 non-null    object 
+#   6   indicador         384 non-null    object 
+#   7   tipo_sector       384 non-null    object 
+#   8   valor             384 non-null    float64
+#  
+#  |    |   anio |   provincia_id | provincia    |   gran_region_id | gran_region_desc   | letra   | indicador   | tipo_sector   |     valor |
+#  |---:|-------:|---------------:|:-------------|-----------------:|:-------------------|:--------|:------------|:--------------|----------:|
+#  |  0 |   2022 |              6 | Buenos Aires |                2 | Centro             | A       | Agro        | Bienes        | 0.0746805 |
+#  
+#  ------------------------------
+#  
 #  drop_col(col=['provincia', 'anio', 'gran_region_id', 'gran_region_desc', 'letra', 'tipo_sector'], axis=1)
-#  Index: 384 entries, 18 to 7295
+#  RangeIndex: 384 entries, 0 to 383
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -132,14 +161,14 @@ query(condition='anio == anio.max()'),
 #   1   indicador     384 non-null    object 
 #   2   valor         384 non-null    float64
 #  
-#  |    | provincia_id   | indicador              |   valor |
-#  |---:|:---------------|:-----------------------|--------:|
-#  | 18 | AR-B           | Adm. pública y defensa | 4.45885 |
+#  |    | provincia_id   | indicador   |   valor |
+#  |---:|:---------------|:------------|--------:|
+#  |  0 | AR-B           | Agro        | 7.46805 |
 #  
 #  ------------------------------
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
-#  Index: 384 entries, 18 to 7295
+#  RangeIndex: 384 entries, 0 to 383
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -147,14 +176,14 @@ query(condition='anio == anio.max()'),
 #   1   indicador     384 non-null    object 
 #   2   valor         384 non-null    float64
 #  
-#  |    | provincia_id   | indicador              |   valor |
-#  |---:|:---------------|:-----------------------|--------:|
-#  | 18 | AR-B           | Adm. pública y defensa | 4.45885 |
+#  |    | provincia_id   | indicador   |   valor |
+#  |---:|:---------------|:------------|--------:|
+#  |  0 | AR-B           | Agro        | 7.46805 |
 #  
 #  ------------------------------
 #  
 #  convert_indec_codes_to_isoprov(df_cod_col='provincia_id')
-#  Index: 384 entries, 18 to 7295
+#  RangeIndex: 384 entries, 0 to 383
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -162,14 +191,14 @@ query(condition='anio == anio.max()'),
 #   1   indicador     384 non-null    object 
 #   2   valor         384 non-null    float64
 #  
-#  |    | provincia_id   | indicador              |   valor |
-#  |---:|:---------------|:-----------------------|--------:|
-#  | 18 | AR-B           | Adm. pública y defensa | 4.45885 |
+#  |    | provincia_id   | indicador   |   valor |
+#  |---:|:---------------|:------------|--------:|
+#  |  0 | AR-B           | Agro        | 7.46805 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'provincia_id': 'geocodigo'})
-#  Index: 384 entries, 18 to 7295
+#  RangeIndex: 384 entries, 0 to 383
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -177,9 +206,9 @@ query(condition='anio == anio.max()'),
 #   1   indicador  384 non-null    object 
 #   2   valor      384 non-null    float64
 #  
-#  |    | geocodigo   | indicador              |   valor |
-#  |---:|:------------|:-----------------------|--------:|
-#  | 18 | AR-B        | Adm. pública y defensa | 4.45885 |
+#  |    | geocodigo   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | AR-B        | Agro        | 7.46805 |
 #  
 #  ------------------------------
 #  
