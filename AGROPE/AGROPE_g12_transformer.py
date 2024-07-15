@@ -52,6 +52,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -66,7 +71,8 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 	drop_col(col='rindes', axis=1),
 	query(condition='anio >= 1965'),
 	drop_na(col=['valor']),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values(how='ascending', by=['anio', 'geocodigo']),
+	query(condition="geocodigo != 'F351'")
 )
 #  PIPELINE_END
 
@@ -242,6 +248,21 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 #   0   geocodigo  4576 non-null   object
 #   1   anio       4576 non-null   int64 
 #   2   valor      4576 non-null   object
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ARG         |   1965 | 1.06008 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigo != 'F351'")
+#  Index: 4544 entries, 0 to 4575
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   geocodigo  4544 non-null   object
+#   1   anio       4544 non-null   int64 
+#   2   valor      4544 non-null   object
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
