@@ -15,6 +15,21 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -22,7 +37,10 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 drop_col(col='year', axis=1),
 	drop_col(col='semestre', axis=1),
-	rename_cols(map={'deflactor': 'indicador', 'region': 'categoria', 'indice': 'valor'})
+	rename_cols(map={'deflactor': 'indicador', 'region': 'categoria', 'indice': 'valor'}),
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='indicador', curr_value='ipc', new_value='Ingreso per cápita'),
+	replace_value(col='indicador', curr_value='linea de pobrez', new_value='Ingreso per cápita deflactado por línea de pobreza')
 )
 #  PIPELINE_END
 
@@ -84,9 +102,54 @@ drop_col(col='year', axis=1),
 #   1   indicador  14 non-null     object 
 #   2   valor      14 non-null     float64
 #  
-#  |    | categoria        | indicador   |    valor |
-#  |---:|:-----------------|:------------|---------:|
-#  |  0 | Partidos del GBA | ipc         | 0.940684 |
+#  |    | categoria        | indicador   |   valor |
+#  |---:|:-----------------|:------------|--------:|
+#  |  0 | Partidos del GBA | ipc         | 94.0684 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 14 entries, 0 to 13
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  14 non-null     object 
+#   1   indicador  14 non-null     object 
+#   2   valor      14 non-null     float64
+#  
+#  |    | categoria        | indicador   |   valor |
+#  |---:|:-----------------|:------------|--------:|
+#  |  0 | Partidos del GBA | ipc         | 94.0684 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='ipc', new_value='Ingreso per cápita')
+#  RangeIndex: 14 entries, 0 to 13
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  14 non-null     object 
+#   1   indicador  14 non-null     object 
+#   2   valor      14 non-null     float64
+#  
+#  |    | categoria        | indicador          |   valor |
+#  |---:|:-----------------|:-------------------|--------:|
+#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0684 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='linea de pobrez', new_value='Ingreso per cápita deflactado por línea de pobreza')
+#  RangeIndex: 14 entries, 0 to 13
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  14 non-null     object 
+#   1   indicador  14 non-null     object 
+#   2   valor      14 non-null     float64
+#  
+#  |    | categoria        | indicador          |   valor |
+#  |---:|:-----------------|:-------------------|--------:|
+#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0684 |
 #  
 #  ------------------------------
 #  
