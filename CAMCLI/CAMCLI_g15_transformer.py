@@ -34,7 +34,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 	rename_cols(map={'provincia': 'geocodigo'}),
 	drop_col(col='anio', axis=1),
 	replace_value(col='indicador', curr_value='valor_en_mtco2e_per_cap', new_value='Emisiones per cápita'),
-	replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='VAB per cápita (precios 2004)')
+	replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='PIB per cápita (precios 2004)')
 )
 #  PIPELINE_END
 
@@ -51,7 +51,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    |   anio | provincia    |   valor_en_mtco2e_per_cap |   vab_precios_basicos_2004_per_cap |
 #  |---:|-------:|:-------------|--------------------------:|-----------------------------------:|
-#  |  0 |   2018 | Buenos Aires |                   5.45417 |                              11034 |
+#  |  0 |   2018 | Buenos Aires |                      5.45 |                              11034 |
 #  
 #  ------------------------------
 #  
@@ -67,7 +67,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    |   anio | provincia    | indicador               |   valor |
 #  |---:|-------:|:-------------|:------------------------|--------:|
-#  |  0 |   2018 | Buenos Aires | valor_en_mtco2e_per_cap | 5.45417 |
+#  |  0 |   2018 | Buenos Aires | valor_en_mtco2e_per_cap |    5.45 |
 #  
 #  ------------------------------
 #  
@@ -83,7 +83,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    |   anio | geocodigo    | indicador               |   valor |
 #  |---:|-------:|:-------------|:------------------------|--------:|
-#  |  0 |   2018 | Buenos Aires | valor_en_mtco2e_per_cap | 5.45417 |
+#  |  0 |   2018 | Buenos Aires | valor_en_mtco2e_per_cap |    5.45 |
 #  
 #  ------------------------------
 #  
@@ -98,7 +98,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    | geocodigo    | indicador               |   valor |
 #  |---:|:-------------|:------------------------|--------:|
-#  |  0 | Buenos Aires | valor_en_mtco2e_per_cap | 5.45417 |
+#  |  0 | Buenos Aires | valor_en_mtco2e_per_cap |    5.45 |
 #  
 #  ------------------------------
 #  
@@ -113,11 +113,11 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    | geocodigo    | indicador            |   valor |
 #  |---:|:-------------|:---------------------|--------:|
-#  |  0 | Buenos Aires | Emisiones per cápita | 5.45417 |
+#  |  0 | Buenos Aires | Emisiones per cápita |    5.45 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='VAB per cápita (precios 2004)')
+#  replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='PIB per cápita (precios 2004)')
 #  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -128,7 +128,7 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  |    | geocodigo    | indicador            |   valor |
 #  |---:|:-------------|:---------------------|--------:|
-#  |  0 | Buenos Aires | Emisiones per cápita | 5.45417 |
+#  |  0 | Buenos Aires | Emisiones per cápita |    5.45 |
 #  
 #  ------------------------------
 #  
