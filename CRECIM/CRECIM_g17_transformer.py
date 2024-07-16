@@ -24,6 +24,11 @@ def rename_cols(df: DataFrame, map):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -33,7 +38,8 @@ drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='pais_nombre', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	query(condition="geocodigo not in ('LAC', 'TLA', 'DESHUM_ZZH.LAC', 'DESHUM_AHDI.LAC')")
 )
 #  PIPELINE_END
 
@@ -127,6 +133,21 @@ drop_col(col='continente_fundar', axis=1),
 #   0   geocodigo  3012 non-null   object 
 #   1   anio       3012 non-null   int64  
 #   2   valor      3012 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ABW         |   2011 |       0 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigo not in ('LAC', 'TLA', 'DESHUM_ZZH.LAC', 'DESHUM_AHDI.LAC')")
+#  Index: 2988 entries, 0 to 3011
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  2988 non-null   object 
+#   1   anio       2988 non-null   int64  
+#   2   valor      2988 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
