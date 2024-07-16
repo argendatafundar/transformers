@@ -108,7 +108,7 @@ rename_cols(map={'pais': 'categoria', 'salariohorario': 'valor'}),
 	replace_value(col='categoria', curr_value='NIC', new_value='Nicaragua'),
 	replace_value(col='categoria', curr_value='PAR', new_value='Paraguay'),
 	replace_value(col='categoria', curr_value='BOL', new_value='Bolivia'),
-	replace_value(col='categoria', curr_value='DOM', new_value='Dominicana'),
+	replace_value(col='categoria', curr_value='DOM', new_value='Rep. Dominicana'),
 	replace_value(col='categoria', curr_value='BRA', new_value='Brasil'),
 	replace_value(col='categoria', curr_value='ARG', new_value='Argentina'),
 	replace_value(col='categoria', curr_value='URY', new_value='Uruguay'),
@@ -287,7 +287,7 @@ rename_cols(map={'pais': 'categoria', 'salariohorario': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='DOM', new_value='Dominicana')
+#  replace_value(col='categoria', curr_value='DOM', new_value='Rep. Dominicana')
 #  RangeIndex: 17 entries, 0 to 16
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
