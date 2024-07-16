@@ -17,7 +17,7 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tipo_prima': 'indicador', 'prima': 'valor'}),
+rename_cols(map={'tipo_prima': 'categoria', 'prima': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -38,16 +38,16 @@ rename_cols(map={'tipo_prima': 'indicador', 'prima': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tipo_prima': 'indicador', 'prima': 'valor'})
+#  rename_cols(map={'tipo_prima': 'categoria', 'prima': 'valor'})
 #  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       42 non-null     int64  
 #   1   valor      42 non-null     float64
-#   2   indicador  42 non-null     object 
+#   2   categoria  42 non-null     object 
 #  
-#  |    |   anio |   valor | indicador                                   |
+#  |    |   anio |   valor | categoria                                   |
 #  |---:|-------:|--------:|:--------------------------------------------|
 #  |  0 |   2003 | 43.8929 | Controlando por variables sociodemográficas |
 #  
@@ -60,9 +60,9 @@ rename_cols(map={'tipo_prima': 'indicador', 'prima': 'valor'}),
 #  ---  ------     --------------  -----  
 #   0   anio       42 non-null     int64  
 #   1   valor      42 non-null     float64
-#   2   indicador  42 non-null     object 
+#   2   categoria  42 non-null     object 
 #  
-#  |    |   anio |   valor | indicador                                   |
+#  |    |   anio |   valor | categoria                                   |
 #  |---:|-------:|--------:|:--------------------------------------------|
 #  |  0 |   2003 | 43.8929 | Controlando por variables sociodemográficas |
 #  
