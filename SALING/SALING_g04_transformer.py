@@ -40,7 +40,7 @@ drop_col(col='year', axis=1),
 	rename_cols(map={'deflactor': 'indicador', 'region': 'categoria', 'indice': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
 	replace_value(col='indicador', curr_value='ipc', new_value='Ingreso per cápita'),
-	replace_value(col='indicador', curr_value='linea de pobrez', new_value='Ingreso per cápita deflactado por línea de pobreza')
+	replace_value(col='indicador', curr_value='linea de pobreza', new_value='Ingreso per cápita deflactado por línea de pobreza')
 )
 #  PIPELINE_END
 
@@ -138,7 +138,7 @@ drop_col(col='year', axis=1),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='linea de pobrez', new_value='Ingreso per cápita deflactado por línea de pobreza')
+#  replace_value(col='indicador', curr_value='linea de pobreza', new_value='Ingreso per cápita deflactado por línea de pobreza')
 #  RangeIndex: 14 entries, 0 to 13
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
