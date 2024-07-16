@@ -74,7 +74,7 @@ rename_cols(map={'tipo_energia': 'categoria', 'mineral_critico': 'indicador', 'm
 	replace_value(col='indicador', curr_value='cobalto', new_value='Cobalto'),
 	replace_value(col='indicador', curr_value='cromo', new_value='Cromo'),
 	replace_value(col='indicador', curr_value='molibdeno', new_value='Molibdeno'),
-	replace_value(col='indicador', curr_value='cinc', new_value='Cinc'),
+	replace_value(col='indicador', curr_value='cinc', new_value='Zinc'),
 	replace_value(col='indicador', curr_value='tierras_raras', new_value='Tierras raras'),
 	replace_value(col='indicador', curr_value='silicio', new_value='Silicio'),
 	replace_value(col='indicador', curr_value='otros', new_value='Otros'),
@@ -203,7 +203,7 @@ rename_cols(map={'tipo_energia': 'categoria', 'mineral_critico': 'indicador', 'm
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='cinc', new_value='Cinc')
+#  replace_value(col='indicador', curr_value='cinc', new_value='Zinc')
 #  RangeIndex: 60 entries, 0 to 59
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
