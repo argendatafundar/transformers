@@ -25,7 +25,7 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='cultimo', curr_value='Cebada total', new_value='Cebada'),
+replace_value(col='cultivo', curr_value='Cebada total', new_value='Cebada'),
 	rename_cols(map={'cultivo   ': 'categoria', 'share': 'valor'}),
 	drop_col(col='q_total', axis=1),
 	drop_col(col='campania', axis=1)
@@ -49,7 +49,7 @@ replace_value(col='cultimo', curr_value='Cebada total', new_value='Cebada'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='cultimo', curr_value='Cebada total', new_value='Cebada')
+#  replace_value(col='cultivo', curr_value='Cebada total', new_value='Cebada')
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 4 columns):
 #   #   Column    Non-Null Count  Dtype  
