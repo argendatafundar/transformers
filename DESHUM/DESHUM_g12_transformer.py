@@ -53,7 +53,7 @@ query(condition='anio == anio.max()'),
 	df_merge_geonomenclador(left='iso3', right='geocodigo', how='left'),
 	drop_col(col=['geocodigo', 'iso3', 'country', 'name_short', 'iso_2', 'anio'], axis=1),
 	rename_cols(map={'name_long': 'categoria', 'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="categoria in ('Yemen', 'Noruega', 'Suiza', 'Burundi', 'Brasil', 'Mundo')")
+	query(condition="categoria in ('Argentina','Liechtenstein','Noruega','Suiza','Somalia','Burundi','Níger')")
 )
 #  PIPELINE_END
 
@@ -153,9 +153,9 @@ query(condition='anio == anio.max()'),
 #   2   anio        412 non-null    int64  
 #   3   sexo        412 non-null    object 
 #   4   idh         386 non-null    float64
-#   5   geocodigo   392 non-null    object 
-#   6   name_long   392 non-null    object 
-#   7   name_short  392 non-null    object 
+#   5   geocodigo   396 non-null    object 
+#   6   name_long   396 non-null    object 
+#   7   name_short  396 non-null    object 
 #   8   iso_2       388 non-null    object 
 #  
 #  |    | iso3   | country     |   anio | sexo    |      idh | geocodigo   | name_long   | name_short   | iso_2   |
@@ -171,7 +171,7 @@ query(condition='anio == anio.max()'),
 #  ---  ------     --------------  -----  
 #   0   sexo       412 non-null    object 
 #   1   idh        386 non-null    float64
-#   2   name_long  392 non-null    object 
+#   2   name_long  396 non-null    object 
 #  
 #  |    | sexo    |      idh | name_long   |
 #  |---:|:--------|---------:|:------------|
@@ -186,7 +186,7 @@ query(condition='anio == anio.max()'),
 #  ---  ------     --------------  -----  
 #   0   indicador  412 non-null    object 
 #   1   valor      386 non-null    float64
-#   2   categoria  392 non-null    object 
+#   2   categoria  396 non-null    object 
 #  
 #  |    | indicador   |    valor | categoria   |
 #  |---:|:------------|---------:|:------------|
@@ -194,18 +194,18 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  query(condition="categoria in ('Yemen', 'Noruega', 'Suiza', 'Burundi', 'Brasil', 'Mundo')")
-#  Index: 12 entries, 11 to 411
+#  query(condition="categoria in ('Argentina','Liechtenstein','Noruega','Suiza','Somalia','Burundi','Níger')")
+#  Index: 14 entries, 5 to 364
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   valor      12 non-null     float64
-#   2   categoria  12 non-null     object 
+#   0   indicador  14 non-null     object 
+#   1   valor      14 non-null     float64
+#   2   categoria  14 non-null     object 
 #  
 #  |    | indicador   |    valor | categoria   |
 #  |---:|:------------|---------:|:------------|
-#  | 11 | Varones     | 0.436317 | Burundi     |
+#  |  5 | Varones     | 0.845473 | Argentina   |
 #  
 #  ------------------------------
 #  
