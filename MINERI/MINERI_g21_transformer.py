@@ -4,8 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_columns(df: DataFrame, **kwargs):
-    df = df.rename(columns=kwargs)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -56,13 +56,18 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 @transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_values(df: DataFrame, col: str, values: dict):
+    df = df.replace({col: values})
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_utilizado='valor'),
+rename_cols(map={'tipo_energia': 'categoria', 'mineral_critico': 'indicador', 'mineral_utilizado': 'valor'}),
 	replace_value(col='indicador', curr_value='cobre', new_value='Cobre'),
 	replace_value(col='indicador', curr_value='niquel', new_value='Níquel'),
 	replace_value(col='indicador', curr_value='manganeso', new_value='Manganeso'),
@@ -72,7 +77,8 @@ rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_ut
 	replace_value(col='indicador', curr_value='cinc', new_value='Cinc'),
 	replace_value(col='indicador', curr_value='tierras_raras', new_value='Tierras raras'),
 	replace_value(col='indicador', curr_value='silicio', new_value='Silicio'),
-	replace_value(col='indicador', curr_value='otros', new_value='Otros')
+	replace_value(col='indicador', curr_value='otros', new_value='Otros'),
+	replace_values(col='categoria', values={'eolica_offshore': 'Eólica offshore', 'eolica_onshore': 'Eólica onshore', 'solar_fotovoltaica': 'Solar fotovoltaica', 'nuclear': 'Nuclear', 'carbon': 'Carbon', 'gas_natural': 'Gas natural'})
 )
 #  PIPELINE_END
 
@@ -92,7 +98,7 @@ rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_ut
 #  
 #  ------------------------------
 #  
-#  rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_utilizado='valor')
+#  rename_cols(map={'tipo_energia': 'categoria', 'mineral_critico': 'indicador', 'mineral_utilizado': 'valor'})
 #  RangeIndex: 60 entries, 0 to 59
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -254,6 +260,21 @@ rename_columns(tipo_energia='categoria', mineral_critico='indicador', mineral_ut
 #  |    | categoria       | indicador   |   valor |
 #  |---:|:----------------|:------------|--------:|
 #  |  0 | eolica_offshore | Cobre       |    8000 |
+#  
+#  ------------------------------
+#  
+#  replace_values(col='categoria', values={'eolica_offshore': 'Eólica offshore', 'eolica_onshore': 'Eólica onshore', 'solar_fotovoltaica': 'Solar fotovoltaica', 'nuclear': 'Nuclear', 'carbon': 'Carbon', 'gas_natural': 'Gas natural'})
+#  RangeIndex: 60 entries, 0 to 59
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  60 non-null     object 
+#   1   indicador  60 non-null     object 
+#   2   valor      60 non-null     float64
+#  
+#  |    | categoria       | indicador   |   valor |
+#  |---:|:----------------|:------------|--------:|
+#  |  0 | Eólica offshore | Cobre       |    8000 |
 #  
 #  ------------------------------
 #  
