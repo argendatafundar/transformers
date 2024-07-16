@@ -92,7 +92,7 @@
     "tasa_de_inflacion_anual_argentina_1935_2022_escala_lineal.csv": [
         {
             "private": "PRECIO_2-1-6_16",
-            "public": "PRECIO_g16"
+            "public": ["PRECIO_g16", "PRECIO_g18"]
         }
     ],
     "tasa_de_inflacion_anual_argentina_1935_2022_valores_positivos.csv": [
