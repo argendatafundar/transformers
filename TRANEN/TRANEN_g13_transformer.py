@@ -57,10 +57,12 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -77,7 +79,7 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 	query(condition='indicador != "Total"'),
 	drop_na(cols=['valor']),
 	drop_col(col=['valor_en_twh'], axis=1),
-	sort_values(how='ascending', by=['anio', 'geocodigo', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['anio', 'geocodigo'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -285,8 +287,8 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'geocodigo', 'indicador'])
-#  Index: 73710 entries, 15132 to 20045
+#  sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['anio', 'geocodigo'], suffix=[])
+#  Index: 73710 entries, 6942 to 11855
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -295,9 +297,9 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #   2   indicador  73710 non-null  object 
 #   3   valor      73710 non-null  float64
 #  
-#  |       |   anio | geocodigo   | indicador   |   valor |
-#  |------:|-------:|:------------|:------------|--------:|
-#  | 15132 |   1985 | ABW         | Bioenergía  |       0 |
+#  |      |   anio | geocodigo   | indicador        |   valor |
+#  |-----:|-------:|:------------|:-----------------|--------:|
+#  | 6942 |   1985 | ABW         | Otras renovables |       0 |
 #  
 #  ------------------------------
 #  
