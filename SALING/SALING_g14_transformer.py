@@ -113,7 +113,7 @@ rename_cols(map={'pais': 'categoria', 'salariohorario': 'valor'}),
 	replace_value(col='categoria', curr_value='ARG', new_value='Argentina'),
 	replace_value(col='categoria', curr_value='URY', new_value='Uruguay'),
 	replace_value(col='categoria', curr_value='CRI', new_value='Costa Rica'),
-	replace_value(col='categoria', curr_value='CHI', new_value='Islas Del Canal'),
+	replace_value(col='categoria', curr_value='CHI', new_value='Chile'),
 	replace_value(col='categoria', curr_value='PAN', new_value='Panamá')
 )
 #  PIPELINE_END
@@ -357,7 +357,7 @@ rename_cols(map={'pais': 'categoria', 'salariohorario': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='CHI', new_value='Islas Del Canal')
+#  replace_value(col='categoria', curr_value='CHI', new_value='Chile')
 #  RangeIndex: 17 entries, 0 to 16
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
