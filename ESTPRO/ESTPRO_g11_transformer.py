@@ -45,8 +45,8 @@ query(condition='anio == anio.max()'),
 	drop_col(col=['letra', 'anio'], axis=1),
 	wide_to_long(primary_keys=['categoria'], value_name='valor', var_name='indicador'),
 	mutiplicar_por_escalar(col='valor', k=100),
-	replace_value(col='indicador', curr_value='porc_mujeres', new_value='Porcentaje de mujeres'),
-	replace_value(col='indicador', curr_value='porc_varones', new_value='Porcentaje de varones')
+	replace_value(col='indicador', curr_value='porc_mujeres', new_value='Mujeres'),
+	replace_value(col='indicador', curr_value='porc_varones', new_value='Varones')
 )
 #  PIPELINE_END
 
@@ -147,7 +147,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='porc_mujeres', new_value='Porcentaje de mujeres')
+#  replace_value(col='indicador', curr_value='porc_mujeres', new_value='Mujeres')
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -156,13 +156,13 @@ query(condition='anio == anio.max()'),
 #   1   indicador  32 non-null     object 
 #   2   valor      32 non-null     float64
 #  
-#  |    | categoria    | indicador             |   valor |
-#  |---:|:-------------|:----------------------|--------:|
-#  |  0 | Agro y pesca | Porcentaje de mujeres | 14.0203 |
+#  |    | categoria    | indicador   |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  0 | Agro y pesca | Mujeres     | 14.0203 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='porc_varones', new_value='Porcentaje de varones')
+#  replace_value(col='indicador', curr_value='porc_varones', new_value='Varones')
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -171,9 +171,9 @@ query(condition='anio == anio.max()'),
 #   1   indicador  32 non-null     object 
 #   2   valor      32 non-null     float64
 #  
-#  |    | categoria    | indicador             |   valor |
-#  |---:|:-------------|:----------------------|--------:|
-#  |  0 | Agro y pesca | Porcentaje de mujeres | 14.0203 |
+#  |    | categoria    | indicador   |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  0 | Agro y pesca | Mujeres     | 14.0203 |
 #  
 #  ------------------------------
 #  
