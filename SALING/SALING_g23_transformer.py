@@ -22,6 +22,11 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -30,7 +35,8 @@ pipeline = chain(
 rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
 	replace_value(col='categoria', curr_value='(15-24)', new_value='15 a 24 años'),
 	replace_value(col='categoria', curr_value='(25-64)', new_value='25 a 64 años'),
-	replace_value(col='categoria', curr_value='(65-)', new_value='65 años y más')
+	replace_value(col='categoria', curr_value='(65-)', new_value='65 años y más'),
+	replace_value(col='categoria', curr_value='Hombres', new_value='Varón')
 )
 #  PIPELINE_END
 
@@ -96,6 +102,21 @@ rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='(65-)', new_value='65 años y más')
+#  RangeIndex: 160 entries, 0 to 159
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   anio       160 non-null    int64 
+#   1   categoria  160 non-null    object
+#   2   valor      160 non-null    int64 
+#  
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1992 | Mujeres     |   11178 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Hombres', new_value='Varón')
 #  RangeIndex: 160 entries, 0 to 159
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
