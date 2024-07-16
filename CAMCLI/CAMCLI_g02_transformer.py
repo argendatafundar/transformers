@@ -17,7 +17,7 @@ def agrupar_y_sumar(df: DataFrame, col_indicador, col_anio):
     return df.groupby([col_indicador, col_anio]).sum().reset_index()
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
@@ -28,84 +28,84 @@ pipeline = chain(
 drop_col(col='iso3', axis=1),
 	rename_cols(map={'continente_fundar': 'indicador', 'valor_en_ton': 'valor'}),
 	agrupar_y_sumar(col_indicador='indicador', col_anio='anio'),
-	mutiplicar_por_escalar(col='valor', k=1e-06)
+	multiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 24157 entries, 0 to 24156
+#  RangeIndex: 67977 entries, 0 to 67976
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3               24157 non-null  object 
-#   1   continente_fundar  23863 non-null  object 
-#   2   anio               24157 non-null  int64  
-#   3   valor_en_ton       24157 non-null  float64
+#   0   iso3               59514 non-null  object 
+#   1   continente_fundar  58968 non-null  object 
+#   2   anio               67977 non-null  int64  
+#   3   valor_en_ton       67977 non-null  float64
 #  
 #  |    | iso3   | continente_fundar   |   anio |   valor_en_ton |
 #  |---:|:-------|:--------------------|-------:|---------------:|
-#  |  0 | AFG    | Asia                |   1949 |          14656 |
+#  |  0 | AFG    | Asia                |   1750 |              0 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3', axis=1)
-#  RangeIndex: 24157 entries, 0 to 24156
+#  RangeIndex: 67977 entries, 0 to 67976
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   continente_fundar  23863 non-null  object 
-#   1   anio               24157 non-null  int64  
-#   2   valor_en_ton       24157 non-null  float64
+#   0   continente_fundar  58968 non-null  object 
+#   1   anio               67977 non-null  int64  
+#   2   valor_en_ton       67977 non-null  float64
 #  
 #  |    | continente_fundar   |   anio |   valor_en_ton |
 #  |---:|:--------------------|-------:|---------------:|
-#  |  0 | Asia                |   1949 |          14656 |
+#  |  0 | Asia                |   1750 |              0 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'continente_fundar': 'indicador', 'valor_en_ton': 'valor'})
-#  RangeIndex: 24157 entries, 0 to 24156
+#  RangeIndex: 67977 entries, 0 to 67976
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  23863 non-null  object 
-#   1   anio       24157 non-null  int64  
-#   2   valor      24157 non-null  float64
+#   0   indicador  58968 non-null  object 
+#   1   anio       67977 non-null  int64  
+#   2   valor      67977 non-null  float64
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | Asia        |   1949 |   14656 |
+#  |  0 | Asia        |   1750 |       0 |
 #  
 #  ------------------------------
 #  
 #  agrupar_y_sumar(col_indicador='indicador', col_anio='anio')
-#  RangeIndex: 1469 entries, 0 to 1468
+#  RangeIndex: 1911 entries, 0 to 1910
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  1469 non-null   object 
-#   1   anio       1469 non-null   int64  
-#   2   valor      1469 non-null   float64
+#   0   indicador  1911 non-null   object 
+#   1   anio       1911 non-null   int64  
+#   2   valor      1911 non-null   float64
 #  
-#  |    | indicador                              |   anio |    valor |
-#  |---:|:---------------------------------------|-------:|---------:|
-#  |  0 | América del Norte, Central y el Caribe |   1785 | 0.003664 |
+#  |    | indicador                              |   anio |   valor |
+#  |---:|:---------------------------------------|-------:|--------:|
+#  |  0 | América del Norte, Central y el Caribe |   1750 |       0 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=1e-06)
-#  RangeIndex: 1469 entries, 0 to 1468
+#  multiplicar_por_escalar(col='valor', k=1e-06)
+#  RangeIndex: 1911 entries, 0 to 1910
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  1469 non-null   object 
-#   1   anio       1469 non-null   int64  
-#   2   valor      1469 non-null   float64
+#   0   indicador  1911 non-null   object 
+#   1   anio       1911 non-null   int64  
+#   2   valor      1911 non-null   float64
 #  
-#  |    | indicador                              |   anio |    valor |
-#  |---:|:---------------------------------------|-------:|---------:|
-#  |  0 | América del Norte, Central y el Caribe |   1785 | 0.003664 |
+#  |    | indicador                              |   anio |   valor |
+#  |---:|:---------------------------------------|-------:|--------:|
+#  |  0 | América del Norte, Central y el Caribe |   1750 |       0 |
 #  
 #  ------------------------------
 #  
