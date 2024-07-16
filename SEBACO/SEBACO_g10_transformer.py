@@ -11,13 +11,19 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'rama': 'categoria', 'total_perc': 'valor'}),
-	drop_col(col=['empleo', 'sbc_perc'], axis=1)
+	drop_col(col=['empleo', 'sbc_perc'], axis=1),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -65,9 +71,24 @@ rename_cols(map={'rama': 'categoria', 'total_perc': 'valor'}),
 #   1   anio       162 non-null    int64  
 #   2   valor      162 non-null    float64
 #  
-#  |    | categoria                  |   anio |       valor |
-#  |---:|:---------------------------|-------:|------------:|
-#  |  0 | Investigación y desarrollo |   1996 | 0.000725962 |
+#  |    | categoria                  |   anio |     valor |
+#  |---:|:---------------------------|-------:|----------:|
+#  |  0 | Investigación y desarrollo |   1996 | 0.0725962 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | categoria                  |   anio |     valor |
+#  |---:|:---------------------------|-------:|----------:|
+#  |  0 | Investigación y desarrollo |   1996 | 0.0725962 |
 #  
 #  ------------------------------
 #  
