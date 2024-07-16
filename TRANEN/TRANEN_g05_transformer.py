@@ -42,10 +42,12 @@ def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -59,7 +61,7 @@ query(condition='tipo_energia != "Total"'),
 	rename_cols(map={'fuente_energia': 'indicador', 'porcentaje': 'valor', 'iso3': 'geocodigo'}),
 	drop_col(col=['valor_en_twh', 'tipo_energia'], axis=1),
 	drop_na(cols=['valor']),
-	sort_values(how='ascending', by=['anio', 'geocodigo', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio', 'geocodigo'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -222,7 +224,7 @@ query(condition='tipo_energia != "Total"'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'geocodigo', 'indicador'])
+#  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio', 'geocodigo'], suffix=[])
 #  Index: 46433 entries, 0 to 52863
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
