@@ -180,7 +180,7 @@ latest_year(by='anio'),
 	replace_value(col='provincia', curr_value='Santiago del Estero', new_value='AR-G'),
 	replace_value(col='provincia', curr_value='Tucumán', new_value='AR-T'),
 	replace_value(col='provincia', curr_value='Tierra del Fuego', new_value='AR-V'),
-	replace_value(col='provincia', curr_value='Total país', new_value='MERTRA_TOTAL'),
+	replace_value(col='provincia', curr_value='Total país', new_value='ARG'),
 	rename_cols(map={'provincia': 'geocodigo'}),
 	multiplicar_por_escalar(col='valor', k=100)
 )
@@ -566,7 +566,7 @@ latest_year(by='anio'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='provincia', curr_value='Total país', new_value='MERTRA_TOTAL')
+#  replace_value(col='provincia', curr_value='Total país', new_value='ARG')
 #  Index: 25 entries, 165 to 196
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
