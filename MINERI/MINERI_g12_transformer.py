@@ -12,13 +12,19 @@ def rename_cols(df: DataFrame, map):
 def replace_values(df: DataFrame, col: str, values: dict):
     df = df.replace({col: values})
     return df
+
+@transformer.convert
+def str_to_title(df: DataFrame, col:str):
+    df[col] = df[col].str.title()
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'exportaciones': 'indicador', 'provincia': 'geocodigo', 'fob': 'valor'}),
-	replace_values(col='geocodigo', values={'catamarca': 'AR-K', 'jujuy': 'AR-Y', 'salta': 'AR-A', 'san_juan': 'AR-J', 'santa_cruz': 'AR-Z'})
+	replace_values(col='geocodigo', values={'catamarca': 'AR-K', 'jujuy': 'AR-Y', 'salta': 'AR-A', 'san_juan': 'AR-J', 'santa_cruz': 'AR-Z'}),
+	str_to_title(col='indicador')
 )
 #  PIPELINE_END
 
@@ -67,7 +73,23 @@ rename_cols(map={'exportaciones': 'indicador', 'provincia': 'geocodigo', 'fob': 
 #  
 #  |    |   anio | geocodigo   | indicador   |     valor |
 #  |---:|-------:|:------------|:------------|----------:|
-#  |  0 |   1998 | AR-K        | mineras     | 438881324 |
+#  |  0 |   1998 | AR-K        | Mineras     | 438881324 |
+#  
+#  ------------------------------
+#  
+#  str_to_title(col='indicador')
+#  RangeIndex: 250 entries, 0 to 249
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   anio       250 non-null    int64 
+#   1   geocodigo  250 non-null    object
+#   2   indicador  250 non-null    object
+#   3   valor      250 non-null    int64 
+#  
+#  |    |   anio | geocodigo   | indicador   |     valor |
+#  |---:|-------:|:------------|:------------|----------:|
+#  |  0 |   1998 | AR-K        | Mineras     | 438881324 |
 #  
 #  ------------------------------
 #  
