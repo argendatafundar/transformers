@@ -41,7 +41,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 	replace_value(col='categoria', curr_value='mujeresbaja', new_value='Mujeres con calificación baja'),
 	replace_value(col='categoria', curr_value='mujeresmedia', new_value='Mujeres con calificación media'),
 	replace_value(col='categoria', curr_value='mujeresalta', new_value='Mujeres con calificación alta'),
-	replace_value(col='categoria', curr_value='hombres', new_value='Hombres'),
+	replace_value(col='categoria', curr_value='hombres', new_value='Varones'),
 	replace_value(col='categoria', curr_value='mujeres', new_value='Mujeres')
 )
 #  PIPELINE_END
@@ -122,7 +122,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='hombres', new_value='Hombres')
+#  replace_value(col='categoria', curr_value='hombres', new_value='Varones')
 #  RangeIndex: 105 entries, 0 to 104
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
