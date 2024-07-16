@@ -4,17 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
-def convert_indec_codes_to_isoprov(df: DataFrame, df_cod_col:str):
+def convert_indec_codes_to_isoprov2(df: DataFrame, cod_col:str, new_col:str = None):
    
    from io import StringIO
    from pandas.api.types import is_string_dtype, is_numeric_dtype
@@ -24,17 +21,34 @@ def convert_indec_codes_to_isoprov(df: DataFrame, df_cod_col:str):
    diccionario : DataFrame = pd.read_json(StringIO(json_str), dtype={'codprov_str':str, 'codprov_iso':str, 'codprov_int':int})
 
    col_used = 'codprov_str'
-   if is_numeric_dtype(df[df_cod_col]):
+   if is_numeric_dtype(df[cod_col]):
       col_used = 'codprov_int'
       
    replace_mapper = diccionario.set_index(col_used)['codprov_iso'].to_dict()
-   df[df_cod_col] = df[df_cod_col].replace(replace_mapper)
+   col_name = cod_col
+   
+   if new_col: 
+       col_name = new_col
+   df[col_name] = df[cod_col].replace(replace_mapper)
 
    return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def cod_depto_CABA_to_indec(df:DataFrame, col_depto:str = 'id_depto'): 
+    new_df = df.copy()
+    def get_last_elements(s, n = 3):
+        return str(s)[-n:]
+    serie = new_df[col_depto].astype(str).str.zfill(5).copy()
+    bool_filter = serie.str.startswith("02")
+    
+    new_df.loc[bool_filter, col_depto] = 2000 + (serie[bool_filter].apply(get_last_elements).astype('int') / 7)
+    return new_df
+
+@transformer.convert
+def concatenar_id_depto_con_isoprov(df:DataFrame, col_depto:str = 'id_depto', col_isoprov:str = 'iso_prov', new_col:str = 'geocodigo'): 
+    def get_last_elements(s, n = 3):
+        return str(s)[-n:]
+    df[new_col] = df[col_isoprov] + df[col_depto].apply(get_last_elements)
     return df
 
 @transformer.convert
@@ -42,38 +56,32 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
 def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio != 2020'),
-	query(condition='anio == anio.max()'),
-	convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
-	rename_cols(map={'region': 'grupo', 'provincia_id': 'geocodigo'}),
-	drop_col(col=['anio', 'id_depto', 'departamento', 'provincia'], axis=1),
-	wide_to_long(primary_keys=['grupo', 'geocodigo'], value_name='valor', var_name='indicador'),
-	replace_value(col='indicador', curr_value='densidad_emp', new_value='Densidad empresarial'),
-	replace_value(col='indicador', curr_value='share_pb_nbi', new_value='% población NBI')
+latest_year(by='anio'),
+	convert_indec_codes_to_isoprov2(cod_col='provincia_id', new_col='iso_prov'),
+	cod_depto_CABA_to_indec(col_depto='id_depto'),
+	concatenar_id_depto_con_isoprov(col_depto='id_depto', col_isoprov='iso_prov', new_col='geocodigo'),
+	drop_col(col=['departamento', 'id_depto', 'provincia', 'iso_prov', 'provincia_id'], axis=1),
+	rename_cols(map={'region': 'grupo', 'densidad_emp': 'Densidad empresarial', 'share_pb_nbi': '% población NBI'}),
+	wide_to_long(primary_keys=['grupo', 'geocodigo'], value_name='valor', var_name='indicador')
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 525 entries, 0 to 524
-#  Data columns (total 8 columns):
+#  Data columns (total 9 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
 #   0   anio          525 non-null    int64  
@@ -84,106 +92,125 @@ query(condition='anio != 2020'),
 #   5   region        525 non-null    object 
 #   6   densidad_emp  525 non-null    float64
 #   7   share_pb_nbi  525 non-null    float64
+#   8   iso_prov      525 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi |
-#  |---:|-------:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|
-#  |  0 |   2022 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 |
+#  |    |   anio |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
+#  |---:|-------:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
+#  |  0 |   2022 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
 #  
 #  ------------------------------
 #  
-#  query(condition='anio != 2020')
+#  latest_year(by='anio')
 #  Index: 525 entries, 0 to 524
 #  Data columns (total 8 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          525 non-null    int64  
-#   1   id_depto      525 non-null    int64  
-#   2   departamento  525 non-null    object 
-#   3   provincia_id  525 non-null    int64  
-#   4   provincia     525 non-null    object 
-#   5   region        525 non-null    object 
-#   6   densidad_emp  525 non-null    float64
-#   7   share_pb_nbi  525 non-null    float64
+#   0   id_depto      525 non-null    int64  
+#   1   departamento  525 non-null    object 
+#   2   provincia_id  525 non-null    int64  
+#   3   provincia     525 non-null    object 
+#   4   region        525 non-null    object 
+#   5   densidad_emp  525 non-null    float64
+#   6   share_pb_nbi  525 non-null    float64
+#   7   iso_prov      525 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi |
-#  |---:|-------:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|
-#  |  0 |   2022 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 |
+#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
+#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
+#  |  0 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
 #  
 #  ------------------------------
 #  
-#  query(condition='anio == anio.max()')
+#  convert_indec_codes_to_isoprov2(cod_col='provincia_id', new_col='iso_prov')
 #  Index: 525 entries, 0 to 524
 #  Data columns (total 8 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          525 non-null    int64  
-#   1   id_depto      525 non-null    int64  
-#   2   departamento  525 non-null    object 
-#   3   provincia_id  525 non-null    object 
-#   4   provincia     525 non-null    object 
-#   5   region        525 non-null    object 
-#   6   densidad_emp  525 non-null    float64
-#   7   share_pb_nbi  525 non-null    float64
+#   0   id_depto      525 non-null    int64  
+#   1   departamento  525 non-null    object 
+#   2   provincia_id  525 non-null    int64  
+#   3   provincia     525 non-null    object 
+#   4   region        525 non-null    object 
+#   5   densidad_emp  525 non-null    float64
+#   6   share_pb_nbi  525 non-null    float64
+#   7   iso_prov      525 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   | provincia_id   | provincia   | region   |   densidad_emp |   share_pb_nbi |
-#  |---:|-------:|-----------:|:---------------|:---------------|:------------|:---------|---------------:|---------------:|
-#  |  0 |   2022 |       2007 | Comuna 1       | AR-C           | CABA        | Centro   |        209.837 |        18.1215 |
+#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
+#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
+#  |  0 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
 #  
 #  ------------------------------
 #  
-#  convert_indec_codes_to_isoprov(df_cod_col='provincia_id')
+#  cod_depto_CABA_to_indec(col_depto='id_depto')
 #  Index: 525 entries, 0 to 524
-#  Data columns (total 8 columns):
+#  Data columns (total 9 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          525 non-null    int64  
-#   1   id_depto      525 non-null    int64  
-#   2   departamento  525 non-null    object 
-#   3   provincia_id  525 non-null    object 
-#   4   provincia     525 non-null    object 
-#   5   region        525 non-null    object 
-#   6   densidad_emp  525 non-null    float64
-#   7   share_pb_nbi  525 non-null    float64
+#   0   id_depto      525 non-null    int64  
+#   1   departamento  525 non-null    object 
+#   2   provincia_id  525 non-null    int64  
+#   3   provincia     525 non-null    object 
+#   4   region        525 non-null    object 
+#   5   densidad_emp  525 non-null    float64
+#   6   share_pb_nbi  525 non-null    float64
+#   7   iso_prov      525 non-null    object 
+#   8   geocodigo     525 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   | provincia_id   | provincia   | region   |   densidad_emp |   share_pb_nbi |
-#  |---:|-------:|-----------:|:---------------|:---------------|:------------|:---------|---------------:|---------------:|
-#  |  0 |   2022 |       2007 | Comuna 1       | AR-C           | CABA        | Centro   |        209.837 |        18.1215 |
+#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   | geocodigo   |
+#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|:------------|
+#  |  0 |       2001 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       | AR-C001     |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'region': 'grupo', 'provincia_id': 'geocodigo'})
+#  concatenar_id_depto_con_isoprov(col_depto='id_depto', col_isoprov='iso_prov', new_col='geocodigo')
 #  Index: 525 entries, 0 to 524
-#  Data columns (total 8 columns):
+#  Data columns (total 9 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          525 non-null    int64  
-#   1   id_depto      525 non-null    int64  
-#   2   departamento  525 non-null    object 
-#   3   geocodigo     525 non-null    object 
-#   4   provincia     525 non-null    object 
-#   5   grupo         525 non-null    object 
-#   6   densidad_emp  525 non-null    float64
-#   7   share_pb_nbi  525 non-null    float64
+#   0   id_depto      525 non-null    int64  
+#   1   departamento  525 non-null    object 
+#   2   provincia_id  525 non-null    int64  
+#   3   provincia     525 non-null    object 
+#   4   region        525 non-null    object 
+#   5   densidad_emp  525 non-null    float64
+#   6   share_pb_nbi  525 non-null    float64
+#   7   iso_prov      525 non-null    object 
+#   8   geocodigo     525 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   | geocodigo   | provincia   | grupo   |   densidad_emp |   share_pb_nbi |
-#  |---:|-------:|-----------:|:---------------|:------------|:------------|:--------|---------------:|---------------:|
-#  |  0 |   2022 |       2007 | Comuna 1       | AR-C        | CABA        | Centro  |        209.837 |        18.1215 |
+#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   | geocodigo   |
+#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|:------------|
+#  |  0 |       2001 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       | AR-C001     |
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['anio', 'id_depto', 'departamento', 'provincia'], axis=1)
+#  drop_col(col=['departamento', 'id_depto', 'provincia', 'iso_prov', 'provincia_id'], axis=1)
 #  Index: 525 entries, 0 to 524
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geocodigo     525 non-null    object 
-#   1   grupo         525 non-null    object 
-#   2   densidad_emp  525 non-null    float64
-#   3   share_pb_nbi  525 non-null    float64
+#   0   region        525 non-null    object 
+#   1   densidad_emp  525 non-null    float64
+#   2   share_pb_nbi  525 non-null    float64
+#   3   geocodigo     525 non-null    object 
 #  
-#  |    | geocodigo   | grupo   |   densidad_emp |   share_pb_nbi |
-#  |---:|:------------|:--------|---------------:|---------------:|
-#  |  0 | AR-C        | Centro  |        209.837 |        18.1215 |
+#  |    | region   |   densidad_emp |   share_pb_nbi | geocodigo   |
+#  |---:|:---------|---------------:|---------------:|:------------|
+#  |  0 | Centro   |        209.837 |        18.1215 | AR-C001     |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'region': 'grupo', 'densidad_emp': 'Densidad empresarial', 'share_pb_nbi': '% población NBI'})
+#  Index: 525 entries, 0 to 524
+#  Data columns (total 4 columns):
+#   #   Column                Non-Null Count  Dtype  
+#  ---  ------                --------------  -----  
+#   0   grupo                 525 non-null    object 
+#   1   Densidad empresarial  525 non-null    float64
+#   2   % población NBI       525 non-null    float64
+#   3   geocodigo             525 non-null    object 
+#  
+#  |    | grupo   |   Densidad empresarial |   % población NBI | geocodigo   |
+#  |---:|:--------|-----------------------:|------------------:|:------------|
+#  |  0 | Centro  |                209.837 |           18.1215 | AR-C001     |
 #  
 #  ------------------------------
 #  
@@ -197,41 +224,9 @@ query(condition='anio != 2020'),
 #   2   indicador  1050 non-null   object 
 #   3   valor      1050 non-null   float64
 #  
-#  |    | grupo   | geocodigo   | indicador    |   valor |
-#  |---:|:--------|:------------|:-------------|--------:|
-#  |  0 | Centro  | AR-C        | densidad_emp | 209.837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='densidad_emp', new_value='Densidad empresarial')
-#  RangeIndex: 1050 entries, 0 to 1049
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   grupo      1050 non-null   object 
-#   1   geocodigo  1050 non-null   object 
-#   2   indicador  1050 non-null   object 
-#   3   valor      1050 non-null   float64
-#  
 #  |    | grupo   | geocodigo   | indicador            |   valor |
 #  |---:|:--------|:------------|:---------------------|--------:|
-#  |  0 | Centro  | AR-C        | Densidad empresarial | 209.837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='share_pb_nbi', new_value='% población NBI')
-#  RangeIndex: 1050 entries, 0 to 1049
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   grupo      1050 non-null   object 
-#   1   geocodigo  1050 non-null   object 
-#   2   indicador  1050 non-null   object 
-#   3   valor      1050 non-null   float64
-#  
-#  |    | grupo   | geocodigo   | indicador            |   valor |
-#  |---:|:--------|:------------|:---------------------|--------:|
-#  |  0 | Centro  | AR-C        | Densidad empresarial | 209.837 |
+#  |  0 | Centro  | AR-C001     | Densidad empresarial | 209.837 |
 #  
 #  ------------------------------
 #  
