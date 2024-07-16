@@ -14,10 +14,12 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -25,7 +27,7 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 query(condition='tipo_energia != "Total"'),
 	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'}),
-	sort_values(how='ascending', by=['anio', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -78,8 +80,8 @@ query(condition='tipo_energia != "Total"'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'indicador'])
-#  Index: 760 entries, 76 to 227
+#  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio'], suffix=[])
+#  Index: 760 entries, 0 to 759
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
@@ -88,9 +90,9 @@ query(condition='tipo_energia != "Total"'),
 #   2   valor       760 non-null    float64
 #   3   porcentaje  760 non-null    float64
 #  
-#  |    |   anio | indicador       |   valor |   porcentaje |
-#  |---:|-------:|:----------------|--------:|-------------:|
-#  | 76 |   1800 | Biocombustibles |       0 |            0 |
+#  |    |   anio | indicador        |   valor |   porcentaje |
+#  |---:|-------:|:-----------------|--------:|-------------:|
+#  |  0 |   1800 | Otras renovables |       0 |            0 |
 #  
 #  ------------------------------
 #  
