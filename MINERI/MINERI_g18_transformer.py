@@ -12,7 +12,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'rama_vendedora': 'serie', 'porcentaje_compra_sector_minero': 'valor'})
+rename_cols(map={'rama_vendedora': 'categoria', 'porcentaje_compra_sector_minero': 'valor'})
 )
 #  PIPELINE_END
 
@@ -31,17 +31,17 @@ rename_cols(map={'rama_vendedora': 'serie', 'porcentaje_compra_sector_minero': '
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'rama_vendedora': 'serie', 'porcentaje_compra_sector_minero': 'valor'})
+#  rename_cols(map={'rama_vendedora': 'categoria', 'porcentaje_compra_sector_minero': 'valor'})
 #  RangeIndex: 15 entries, 0 to 14
 #  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   serie   15 non-null     object 
-#   1   valor   15 non-null     float64
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  15 non-null     object 
+#   1   valor      15 non-null     float64
 #  
-#  |    | serie     |   valor |
-#  |---:|:----------|--------:|
-#  |  0 | Industria |      24 |
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | Industria   |      24 |
 #  
 #  ------------------------------
 #  
