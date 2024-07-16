@@ -52,10 +52,12 @@ def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -71,7 +73,7 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'}),
 	drop_col(col=['iso3', 'porcentaje'], axis=1),
 	drop_na(cols=['valor']),
-	sort_values(how='ascending', by=['anio', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -259,8 +261,8 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'indicador'])
-#  Index: 351 entries, 9399 to 17627
+#  sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['anio'], suffix=[])
+#  Index: 351 entries, 1209 to 9437
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -268,9 +270,9 @@ replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
 #   1   indicador  351 non-null    object 
 #   2   valor      351 non-null    float64
 #  
-#  |      |   anio | indicador   |   valor |
-#  |-----:|-------:|:------------|--------:|
-#  | 9399 |   1985 | Bioenergía  |       0 |
+#  |      |   anio | indicador        |   valor |
+#  |-----:|-------:|:-----------------|--------:|
+#  | 1209 |   1985 | Otras renovables |       0 |
 #  
 #  ------------------------------
 #  
