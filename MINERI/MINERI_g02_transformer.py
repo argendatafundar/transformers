@@ -9,6 +9,11 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
@@ -56,6 +61,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
+	multiplicar_por_escalar(col='share', k=100),
 	wide_to_long(primary_keys=['codigo_pais', 'pais', 'mineral'], value_name='valor', var_name='indicador'),
 	drop_col(col='pais', axis=1),
 	rename_cols(map={'codigo_pais': 'grupo', 'mineral': 'categoria'}),
@@ -82,7 +88,7 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #  
 #  |    | codigo_pais   | mineral           | pais      |    share |   tamanio_mercado |
 #  |---:|:--------------|:------------------|:----------|---------:|------------------:|
-#  |  0 | AUS           | Mineral de Hierro | Australia | 0.338462 |        3.1383e-07 |
+#  |  0 | AUS           | Mineral de Hierro | Australia | 0.338462 |        3.1383e-13 |
 #  
 #  ------------------------------
 #  
@@ -97,9 +103,26 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   3   share            13 non-null     float64
 #   4   tamanio_mercado  13 non-null     float64
 #  
-#  |    | codigo_pais   | mineral           | pais      |    share |   tamanio_mercado |
-#  |---:|:--------------|:------------------|:----------|---------:|------------------:|
-#  |  0 | AUS           | Mineral de Hierro | Australia | 0.338462 |        3.1383e-13 |
+#  |    | codigo_pais   | mineral           | pais      |   share |   tamanio_mercado |
+#  |---:|:--------------|:------------------|:----------|--------:|------------------:|
+#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |        3.1383e-19 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='share', k=100)
+#  RangeIndex: 13 entries, 0 to 12
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   codigo_pais      13 non-null     object 
+#   1   mineral          13 non-null     object 
+#   2   pais             13 non-null     object 
+#   3   share            13 non-null     float64
+#   4   tamanio_mercado  13 non-null     float64
+#  
+#  |    | codigo_pais   | mineral           | pais      |   share |   tamanio_mercado |
+#  |---:|:--------------|:------------------|:----------|--------:|------------------:|
+#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |        3.1383e-19 |
 #  
 #  ------------------------------
 #  
@@ -114,9 +137,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   3   indicador    26 non-null     object 
 #   4   valor        26 non-null     float64
 #  
-#  |    | codigo_pais   | pais      | mineral           | indicador   |    valor |
-#  |---:|:--------------|:----------|:------------------|:------------|---------:|
-#  |  0 | AUS           | Australia | Mineral de Hierro | share       | 0.338462 |
+#  |    | codigo_pais   | pais      | mineral           | indicador   |   valor |
+#  |---:|:--------------|:----------|:------------------|:------------|--------:|
+#  |  0 | AUS           | Australia | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -130,9 +153,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador    26 non-null     object 
 #   3   valor        26 non-null     float64
 #  
-#  |    | codigo_pais   | mineral           | indicador   |    valor |
-#  |---:|:--------------|:------------------|:------------|---------:|
-#  |  0 | AUS           | Mineral de Hierro | share       | 0.338462 |
+#  |    | codigo_pais   | mineral           | indicador   |   valor |
+#  |---:|:--------------|:------------------|:------------|--------:|
+#  |  0 | AUS           | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -146,9 +169,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo   | categoria         | indicador   |    valor |
-#  |---:|:--------|:------------------|:------------|---------:|
-#  |  0 | AUS     | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo   | categoria         | indicador   |   valor |
+#  |---:|:--------|:------------------|:------------|--------:|
+#  |  0 | AUS     | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -162,9 +185,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo   | categoria         | indicador   |    valor |
-#  |---:|:--------|:------------------|:------------|---------:|
-#  |  0 | AUS     | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo   | categoria         | indicador   |   valor |
+#  |---:|:--------|:------------------|:------------|--------:|
+#  |  0 | AUS     | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -178,9 +201,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo   | categoria         | indicador   |    valor |
-#  |---:|:--------|:------------------|:------------|---------:|
-#  |  0 | AUS     | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo   | categoria         | indicador   |   valor |
+#  |---:|:--------|:------------------|:------------|--------:|
+#  |  0 | AUS     | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -194,9 +217,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo     | categoria         | indicador   |    valor |
-#  |---:|:----------|:------------------|:------------|---------:|
-#  |  0 | Australia | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo     | categoria         | indicador   |   valor |
+#  |---:|:----------|:------------------|:------------|--------:|
+#  |  0 | Australia | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -210,9 +233,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo     | categoria         | indicador   |    valor |
-#  |---:|:----------|:------------------|:------------|---------:|
-#  |  0 | Australia | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo     | categoria         | indicador   |   valor |
+#  |---:|:----------|:------------------|:------------|--------:|
+#  |  0 | Australia | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -226,9 +249,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo     | categoria         | indicador   |    valor |
-#  |---:|:----------|:------------------|:------------|---------:|
-#  |  0 | Australia | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo     | categoria         | indicador   |   valor |
+#  |---:|:----------|:------------------|:------------|--------:|
+#  |  0 | Australia | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
@@ -242,9 +265,9 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 #   2   indicador  26 non-null     object 
 #   3   valor      26 non-null     float64
 #  
-#  |    | grupo     | categoria         | indicador   |    valor |
-#  |---:|:----------|:------------------|:------------|---------:|
-#  |  0 | Australia | Mineral de Hierro | share       | 0.338462 |
+#  |    | grupo     | categoria         | indicador   |   valor |
+#  |---:|:----------|:------------------|:------------|--------:|
+#  |  0 | Australia | Mineral de Hierro | share       | 33.8462 |
 #  
 #  ------------------------------
 #  
