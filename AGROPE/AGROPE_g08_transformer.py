@@ -45,7 +45,7 @@ regreplace_text(col='campania', pattern='\\d{4}/', replacement=''),
 #  ---  ------    --------------  -----  
 #   0   cultivo   162 non-null    object 
 #   1   campania  162 non-null    object 
-#   2   q_total   161 non-null    float64
+#   2   q_total   162 non-null    float64
 #  
 #  |    | cultivo   | campania   |     q_total |
 #  |---:|:----------|:-----------|------------:|
@@ -60,7 +60,7 @@ regreplace_text(col='campania', pattern='\\d{4}/', replacement=''),
 #  ---  ------    --------------  -----  
 #   0   cultivo   162 non-null    object 
 #   1   campania  162 non-null    object 
-#   2   q_total   161 non-null    float64
+#   2   q_total   162 non-null    float64
 #  
 #  |    | cultivo   |   campania |     q_total |
 #  |---:|:----------|-----------:|------------:|
@@ -75,7 +75,7 @@ regreplace_text(col='campania', pattern='\\d{4}/', replacement=''),
 #  ---  ------    --------------  -----  
 #   0   cultivo   162 non-null    object 
 #   1   campania  162 non-null    object 
-#   2   q_total   161 non-null    float64
+#   2   q_total   162 non-null    float64
 #  
 #  |    | cultivo   |   campania |     q_total |
 #  |---:|:----------|-----------:|------------:|
@@ -90,7 +90,7 @@ regreplace_text(col='campania', pattern='\\d{4}/', replacement=''),
 #  ---  ------    --------------  -----  
 #   0   cultivo   162 non-null    object 
 #   1   campania  162 non-null    object 
-#   2   q_total   161 non-null    float64
+#   2   q_total   162 non-null    float64
 #  
 #  |    | cultivo   |   campania |     q_total |
 #  |---:|:----------|-----------:|------------:|
@@ -105,7 +105,7 @@ regreplace_text(col='campania', pattern='\\d{4}/', replacement=''),
 #  ---  ------     --------------  -----  
 #   0   categoria  162 non-null    object 
 #   1   anio       162 non-null    object 
-#   2   valor      161 non-null    float64
+#   2   valor      162 non-null    float64
 #  
 #  |    | categoria   |   anio |       valor |
 #  |---:|:------------|-------:|------------:|
