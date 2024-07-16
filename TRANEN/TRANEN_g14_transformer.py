@@ -18,10 +18,12 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -30,7 +32,7 @@ pipeline = chain(
 rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 'categoria'}),
 	drop_col(col='porcentaje', axis=1),
 	query(condition='categoria != "Total" & valor != 0'),
-	sort_values(how='ascending', by=['categoria', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Carbón': 1, 'Petróleo': 2, 'Gas natural': 3, 'Hidro': 4, 'Nuclear': 5, 'Eólica': 6, 'Fotovoltaica': 7, 'Biocombustibles': 8, 'Otras renovables': 9}, prefix=['categoria'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -97,8 +99,8 @@ rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['categoria', 'indicador'])
-#  Index: 21 entries, 0 to 31
+#  sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Carbón': 1, 'Petróleo': 2, 'Gas natural': 3, 'Hidro': 4, 'Nuclear': 5, 'Eólica': 6, 'Fotovoltaica': 7, 'Biocombustibles': 8, 'Otras renovables': 9}, prefix=['categoria'], suffix=[])
+#  Index: 21 entries, 1 to 29
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
 #  ---  ------     --------------  ----- 
@@ -108,7 +110,7 @@ rename_cols(map={'tipo_energia': 'indicador', 'valor_en_mw': 'valor', 'region': 
 #  
 #  |    | categoria                        | indicador   |   valor |
 #  |---:|:---------------------------------|:------------|--------:|
-#  |  0 | CABA y Provincia de Buenos Aires | Bioenergía  |      48 |
+#  |  1 | CABA y Provincia de Buenos Aires | Eólica      |    1443 |
 #  
 #  ------------------------------
 #  
