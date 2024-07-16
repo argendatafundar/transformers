@@ -31,7 +31,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='indicador'),
-	rename_cols(map={'provincia': 'geocodigo'}),
+	rename_cols(map={'provincia': 'categoria'}),
 	drop_col(col='anio', axis=1),
 	replace_value(col='indicador', curr_value='valor_en_mtco2e_per_cap', new_value='Emisiones per cápita'),
 	replace_value(col='indicador', curr_value='vab_precios_basicos_2004_per_cap', new_value='PIB per cápita (precios 2004)')
@@ -71,17 +71,17 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'provincia': 'geocodigo'})
+#  rename_cols(map={'provincia': 'categoria'})
 #  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   anio       48 non-null     int64  
-#   1   geocodigo  48 non-null     object 
+#   1   categoria  48 non-null     object 
 #   2   indicador  48 non-null     object 
 #   3   valor      48 non-null     float64
 #  
-#  |    |   anio | geocodigo    | indicador               |   valor |
+#  |    |   anio | categoria    | indicador               |   valor |
 #  |---:|-------:|:-------------|:------------------------|--------:|
 #  |  0 |   2018 | Buenos Aires | valor_en_mtco2e_per_cap |    5.45 |
 #  
@@ -92,11 +92,11 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  48 non-null     object 
+#   0   categoria  48 non-null     object 
 #   1   indicador  48 non-null     object 
 #   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo    | indicador               |   valor |
+#  |    | categoria    | indicador               |   valor |
 #  |---:|:-------------|:------------------------|--------:|
 #  |  0 | Buenos Aires | valor_en_mtco2e_per_cap |    5.45 |
 #  
@@ -107,11 +107,11 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  48 non-null     object 
+#   0   categoria  48 non-null     object 
 #   1   indicador  48 non-null     object 
 #   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo    | indicador            |   valor |
+#  |    | categoria    | indicador            |   valor |
 #  |---:|:-------------|:---------------------|--------:|
 #  |  0 | Buenos Aires | Emisiones per cápita |    5.45 |
 #  
@@ -122,11 +122,11 @@ wide_to_long(primary_keys=['anio', 'provincia'], value_name='valor', var_name='i
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  48 non-null     object 
+#   0   categoria  48 non-null     object 
 #   1   indicador  48 non-null     object 
 #   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo    | indicador            |   valor |
+#  |    | categoria    | indicador            |   valor |
 #  |---:|:-------------|:---------------------|--------:|
 #  |  0 | Buenos Aires | Emisiones per cápita |    5.45 |
 #  
