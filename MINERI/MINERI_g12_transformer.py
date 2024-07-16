@@ -17,6 +17,13 @@ def replace_values(df: DataFrame, col: str, values: dict):
 def str_to_title(df: DataFrame, col:str):
     df[col] = df[col].str.title()
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -24,7 +31,8 @@ def str_to_title(df: DataFrame, col:str):
 pipeline = chain(
 rename_cols(map={'exportaciones': 'indicador', 'provincia': 'geocodigo', 'fob': 'valor'}),
 	replace_values(col='geocodigo', values={'catamarca': 'AR-K', 'jujuy': 'AR-Y', 'salta': 'AR-A', 'san_juan': 'AR-J', 'santa_cruz': 'AR-Z'}),
-	str_to_title(col='indicador')
+	str_to_title(col='indicador'),
+	sort_values(how='ascending', by=['geocodigo', 'anio', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -90,6 +98,22 @@ rename_cols(map={'exportaciones': 'indicador', 'provincia': 'geocodigo', 'fob': 
 #  |    |   anio | geocodigo   | indicador   |     valor |
 #  |---:|-------:|:------------|:------------|----------:|
 #  |  0 |   1998 | AR-K        | Mineras     | 438881324 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['geocodigo', 'anio', 'indicador'])
+#  RangeIndex: 250 entries, 0 to 249
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   anio       250 non-null    int64 
+#   1   geocodigo  250 non-null    object
+#   2   indicador  250 non-null    object
+#   3   valor      250 non-null    int64 
+#  
+#  |    |   anio | geocodigo   | indicador   |    valor |
+#  |---:|-------:|:------------|:------------|---------:|
+#  |  0 |   1998 | AR-A        | Mineras     | 35395200 |
 #  
 #  ------------------------------
 #  
