@@ -45,6 +45,11 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
 def to_upper(df: DataFrame, col:str):
     df[col] = df[col].str.upper()
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -58,7 +63,8 @@ query(condition="anio == anio.max() & iso3.isin(['NOR', 'ISL', 'DNK', 'USA', 'HU
 	drop_col(col=['geocodigo', 'iso3', 'country', 'name_short', 'iso_2', 'anio'], axis=1),
 	rename_cols(map={'name_long': 'categoria'}),
 	wide_to_long(primary_keys=['categoria'], value_name='valor', var_name='indicador'),
-	to_upper(col='indicador')
+	to_upper(col='indicador'),
+	replace_value(col='indicador', curr_value='IDH_D', new_value='IDH-D')
 )
 #  PIPELINE_END
 
@@ -215,6 +221,21 @@ query(condition="anio == anio.max() & iso3.isin(['NOR', 'ISL', 'DNK', 'USA', 'HU
 #  ------------------------------
 #  
 #  to_upper(col='indicador')
+#  RangeIndex: 30 entries, 0 to 29
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  30 non-null     object 
+#   1   indicador  30 non-null     object 
+#   2   valor      30 non-null     float64
+#  
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Argentina   | IDH         |   0.849 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='IDH_D', new_value='IDH-D')
 #  RangeIndex: 30 entries, 0 to 29
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
