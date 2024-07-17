@@ -14,8 +14,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
@@ -24,7 +29,8 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 	rename_cols(map={'region_pbg': 'indicador', 'participacion_vab': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
 )
 #  PIPELINE_END
 
@@ -77,7 +83,7 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 140 entries, 0 to 139
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -85,6 +91,21 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #   0   indicador  140 non-null    object 
 #   1   anio       140 non-null    int64  
 #   2   valor      140 non-null    float64
+#  
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | Cuyo        |   1895 |     7.2 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
+#  Index: 55 entries, 0 to 139
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  55 non-null     object 
+#   1   anio       55 non-null     int64  
+#   2   valor      55 non-null     float64
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
