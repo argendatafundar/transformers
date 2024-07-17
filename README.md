@@ -1,5 +1,13 @@
 ![transformers-w](https://github.com/user-attachments/assets/1644e28e-63a8-4b51-b6a1-fa68a30fa9c2)
 
+<a href="https://fund.ar">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/1644e28e-63a8-4b51-b6a1-fa68a30fa9c2">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/1d1d2193-8680-4a71-9b71-4832caefadd8">
+    <img src="fund.ar" width="400"></img>
+  </picture>
+</a>
+
 Un _transformer_ es un _script_ en Python ejecutable, auto-contenido y auto-reproducible. Esencialmente son "recetas" fácilmente aplicables a un dataset,
 compuesto por una serie de instrucciones (funciones) para mutarlo, junto con las definiciones exactas de cada una de ellas. De esta manera, cada archivo
 describe en sí mismo su comportamiento, siendo así expresivo respecto de su funcionalidad, pero también fácilmente ejecutable en un proceso de automatización.
