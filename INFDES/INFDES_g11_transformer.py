@@ -22,7 +22,7 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
@@ -41,7 +41,7 @@ query(condition="iso3 == 'ARG'"),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='pais_desc', axis=1),
 	rename_cols(map={'tasa_desempleo': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100),
+	multiplicar_por_escalar(col='valor', k=100),
 	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
@@ -75,7 +75,7 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    | iso3   |   anio |   tasa_desempleo | pais_desc   |
 #  |---:|:-------|-------:|-----------------:|:------------|
-#  | 33 | ARG    |   2023 |          0.06841 | Argentina   |
+#  | 33 | ARG    |   2023 |          0.06184 | Argentina   |
 #  
 #  ------------------------------
 #  
@@ -90,7 +90,7 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    |   anio |   tasa_desempleo | pais_desc   |
 #  |---:|-------:|-----------------:|:------------|
-#  | 33 |   2023 |          0.06841 | Argentina   |
+#  | 33 |   2023 |          0.06184 | Argentina   |
 #  
 #  ------------------------------
 #  
@@ -104,7 +104,7 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    |   anio |   tasa_desempleo |
 #  |---:|-------:|-----------------:|
-#  | 33 |   2023 |          0.06841 |
+#  | 33 |   2023 |          0.06184 |
 #  
 #  ------------------------------
 #  
@@ -118,11 +118,11 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  | 33 |   2023 |   6.841 |
+#  | 33 |   2023 |   6.184 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 33 entries, 33 to 65
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
@@ -132,7 +132,7 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  | 33 |   2023 |   6.841 |
+#  | 33 |   2023 |   6.184 |
 #  
 #  ------------------------------
 #  
