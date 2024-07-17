@@ -60,8 +60,8 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-multiplicar_por_escalar(col='tamanio_mercado', k=1e-05),
-	multiplicar_por_escalar(col='share', k=100),
+multiplicar_por_escalar(col='share', k=100),
+	multiplicar_por_escalar(col='tamanio_mercado', k=1e-06),
 	wide_to_long(primary_keys=['codigo_pais', 'pais', 'mineral'], value_name='valor', var_name='indicador'),
 	drop_col(col='pais', axis=1),
 	rename_cols(map={'codigo_pais': 'grupo', 'mineral': 'categoria'}),
@@ -92,23 +92,6 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-05),
 #  
 #  ------------------------------
 #  
-#  multiplicar_por_escalar(col='tamanio_mercado', k=1e-05)
-#  RangeIndex: 13 entries, 0 to 12
-#  Data columns (total 5 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   codigo_pais      13 non-null     object 
-#   1   mineral          13 non-null     object 
-#   2   pais             13 non-null     object 
-#   3   share            13 non-null     float64
-#   4   tamanio_mercado  13 non-null     float64
-#  
-#  |    | codigo_pais   | mineral           | pais      |   share |   tamanio_mercado |
-#  |---:|:--------------|:------------------|:----------|--------:|------------------:|
-#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |        3.1383e+06 |
-#  
-#  ------------------------------
-#  
 #  multiplicar_por_escalar(col='share', k=100)
 #  RangeIndex: 13 entries, 0 to 12
 #  Data columns (total 5 columns):
@@ -122,7 +105,24 @@ multiplicar_por_escalar(col='tamanio_mercado', k=1e-05),
 #  
 #  |    | codigo_pais   | mineral           | pais      |   share |   tamanio_mercado |
 #  |---:|:--------------|:------------------|:----------|--------:|------------------:|
-#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |        3.1383e+06 |
+#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |            313830 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='tamanio_mercado', k=1e-06)
+#  RangeIndex: 13 entries, 0 to 12
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   codigo_pais      13 non-null     object 
+#   1   mineral          13 non-null     object 
+#   2   pais             13 non-null     object 
+#   3   share            13 non-null     float64
+#   4   tamanio_mercado  13 non-null     float64
+#  
+#  |    | codigo_pais   | mineral           | pais      |   share |   tamanio_mercado |
+#  |---:|:--------------|:------------------|:----------|--------:|------------------:|
+#  |  0 | AUS           | Mineral de Hierro | Australia | 33.8462 |            313830 |
 #  
 #  ------------------------------
 #  
