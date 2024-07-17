@@ -26,7 +26,7 @@ def drop_na(df:DataFrame, col:str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
+rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor', 'iso3': 'geocodigo'}),
 	drop_col(col=['gran_sector', 'sector_codigo', 'empleo_miles'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
 	drop_na(col='valor')
@@ -53,12 +53,12 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'})
+#  rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor', 'iso3': 'geocodigo'})
 #  RangeIndex: 42228 entries, 0 to 42227
 #  Data columns (total 7 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   iso3           42228 non-null  object 
+#   0   geocodigo      42228 non-null  object 
 #   1   anio           42228 non-null  int64  
 #   2   gran_sector    42228 non-null  object 
 #   3   sector_codigo  42228 non-null  object 
@@ -66,9 +66,9 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #   5   empleo_miles   30958 non-null  float64
 #   6   valor          30953 non-null  float64
 #  
-#  |    | iso3   |   anio | gran_sector   | sector_codigo   | indicador    |   empleo_miles |    valor |
-#  |---:|:-------|-------:|:--------------|:----------------|:-------------|---------------:|---------:|
-#  |  0 | ARG    |   1950 | Bienes        | A               | Agro y pesca |        1676.85 | 0.258262 |
+#  |    | geocodigo   |   anio | gran_sector   | sector_codigo   | indicador    |   empleo_miles |    valor |
+#  |---:|:------------|-------:|:--------------|:----------------|:-------------|---------------:|---------:|
+#  |  0 | ARG         |   1950 | Bienes        | A               | Agro y pesca |        1676.85 | 0.258262 |
 #  
 #  ------------------------------
 #  
@@ -77,14 +77,14 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3       42228 non-null  object 
+#   0   geocodigo  42228 non-null  object 
 #   1   anio       42228 non-null  int64  
 #   2   indicador  42228 non-null  object 
 #   3   valor      30953 non-null  float64
 #  
-#  |    | iso3   |   anio | indicador    |   valor |
-#  |---:|:-------|-------:|:-------------|--------:|
-#  |  0 | ARG    |   1950 | Agro y pesca | 25.8262 |
+#  |    | geocodigo   |   anio | indicador    |   valor |
+#  |---:|:------------|-------:|:-------------|--------:|
+#  |  0 | ARG         |   1950 | Agro y pesca | 25.8262 |
 #  
 #  ------------------------------
 #  
@@ -93,14 +93,14 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3       42228 non-null  object 
+#   0   geocodigo  42228 non-null  object 
 #   1   anio       42228 non-null  int64  
 #   2   indicador  42228 non-null  object 
 #   3   valor      30953 non-null  float64
 #  
-#  |    | iso3   |   anio | indicador    |   valor |
-#  |---:|:-------|-------:|:-------------|--------:|
-#  |  0 | ARG    |   1950 | Agro y pesca | 25.8262 |
+#  |    | geocodigo   |   anio | indicador    |   valor |
+#  |---:|:------------|-------:|:-------------|--------:|
+#  |  0 | ARG         |   1950 | Agro y pesca | 25.8262 |
 #  
 #  ------------------------------
 #  
@@ -109,14 +109,14 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   iso3       30953 non-null  object 
+#   0   geocodigo  30953 non-null  object 
 #   1   anio       30953 non-null  int64  
 #   2   indicador  30953 non-null  object 
 #   3   valor      30953 non-null  float64
 #  
-#  |    | iso3   |   anio | indicador    |   valor |
-#  |---:|:-------|-------:|:-------------|--------:|
-#  |  0 | ARG    |   1950 | Agro y pesca | 25.8262 |
+#  |    | geocodigo   |   anio | indicador    |   valor |
+#  |---:|:------------|-------:|:-------------|--------:|
+#  |  0 | ARG         |   1950 | Agro y pesca | 25.8262 |
 #  
 #  ------------------------------
 #  
