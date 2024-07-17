@@ -42,7 +42,7 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 	drop_col(col='cat_ocup_cod', axis=1),
 	drop_col(col='pais', axis=1),
 	query(condition='indicador != "Total formal"'),
-	sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Asalariados en microempresas': 3, 'Cuentapropistas sin calificación': 4, 'Trabajadores sin ingresos': 5, 'Empleadores': 6}, prefix=[], suffix=[])
+	sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Empleadores': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6}, prefix=[], suffix=[])
 )
 #  PIPELINE_END
 
@@ -152,8 +152,8 @@ rename_cols(map={'iso3': 'geocodigo', 'cat_ocup_detalle': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Asalariados en microempresas': 3, 'Cuentapropistas sin calificación': 4, 'Trabajadores sin ingresos': 5, 'Empleadores': 6}, prefix=[], suffix=[])
-#  Index: 105 entries, 1 to 98
+#  sort_values_by_comparison(colname='indicador', precedence={'Asalariados en pequeñas y grandes empresas': 0, 'Asalariados públicos': 1, 'Cuentapropistas profesionales': 2, 'Empleadores': 3, 'Asalariados en microempresas': 4, 'Cuentapropistas sin calificación': 5, 'Trabajadores sin ingresos': 6}, prefix=[], suffix=[])
+#  Index: 105 entries, 1 to 104
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
