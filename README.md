@@ -1,5 +1,3 @@
-![transformers-w](https://github.com/user-attachments/assets/1644e28e-63a8-4b51-b6a1-fa68a30fa9c2)
-
 <a href="https://fund.ar">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/1644e28e-63a8-4b51-b6a1-fa68a30fa9c2">
