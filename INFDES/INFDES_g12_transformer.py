@@ -31,8 +31,8 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def replace_na(df: DataFrame, col: str, new_value: str):
+    df.loc[df[col].isna(), col] = new_value
     return df
 
 @transformer.convert
@@ -52,7 +52,7 @@ drop_col(col='continente_fundar', axis=1),
 	query(condition="sexo == 'Total'"),
 	drop_col(col='sexo', axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	replace_value(col='valor', curr_value=nan, new_value=0),
+	replace_na(col='valor', new_value=0),
 	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
@@ -72,7 +72,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | iso3   |   anio | sexo   |   tasa_desempleo | pais_desc   | continente_fundar   |
 #  |---:|:-------|-------:|:-------|-----------------:|:------------|:--------------------|
-#  |  0 | AFG    |   2023 | Total  |          0.15378 | Afganistán  | Asia                |
+#  |  0 | AFG    |   2023 | Total  |          0.14386 | Afganistán  | Asia                |
 #  
 #  ------------------------------
 #  
@@ -89,7 +89,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | iso3   |   anio | sexo   |   tasa_desempleo | pais_desc   |
 #  |---:|:-------|-------:|:-------|-----------------:|:------------|
-#  |  0 | AFG    |   2023 | Total  |          0.15378 | Afganistán  |
+#  |  0 | AFG    |   2023 | Total  |          0.14386 | Afganistán  |
 #  
 #  ------------------------------
 #  
@@ -105,7 +105,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | iso3   |   anio | sexo   |   tasa_desempleo |
 #  |---:|:-------|-------:|:-------|-----------------:|
-#  |  0 | AFG    |   2023 | Total  |          0.15378 |
+#  |  0 | AFG    |   2023 | Total  |          0.14386 |
 #  
 #  ------------------------------
 #  
@@ -121,7 +121,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | geocodigo   |   anio | sexo   |   valor |
 #  |---:|:------------|-------:|:-------|--------:|
-#  |  0 | AFG         |   2023 | Total  | 0.15378 |
+#  |  0 | AFG         |   2023 | Total  | 0.14386 |
 #  
 #  ------------------------------
 #  
@@ -137,7 +137,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | geocodigo   |   anio | sexo   |   valor |
 #  |---:|:------------|-------:|:-------|--------:|
-#  |  0 | AFG         |   2023 | Total  | 0.15378 |
+#  |  0 | AFG         |   2023 | Total  | 0.14386 |
 #  
 #  ------------------------------
 #  
@@ -148,11 +148,11 @@ drop_col(col='continente_fundar', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  7161 non-null   object 
 #   1   anio       7161 non-null   int64  
-#   2   valor      6168 non-null   float64
+#   2   valor      7161 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AFG         |   2023 |  15.378 |
+#  |  0 | AFG         |   2023 |  14.386 |
 #  
 #  ------------------------------
 #  
@@ -163,15 +163,15 @@ drop_col(col='continente_fundar', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  7161 non-null   object 
 #   1   anio       7161 non-null   int64  
-#   2   valor      6168 non-null   float64
+#   2   valor      7161 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AFG         |   2023 |  15.378 |
+#  |  0 | AFG         |   2023 |  14.386 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='valor', curr_value=nan, new_value=0)
+#  replace_na(col='valor', new_value=0)
 #  Index: 7161 entries, 0 to 21480
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -182,7 +182,7 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | AFG         |   2023 |  15.378 |
+#  |  0 | AFG         |   2023 |  14.386 |
 #  
 #  ------------------------------
 #  
