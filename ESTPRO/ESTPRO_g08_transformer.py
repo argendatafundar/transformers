@@ -16,6 +16,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 	drop_col(col=['gran_sector', 'sector_codigo', 'empleo_miles'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	mutiplicar_por_escalar(col='valor', k=100),
+	drop_na(col='valor')
 )
 #  PIPELINE_END
 
@@ -90,6 +96,22 @@ rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 #   0   iso3       42228 non-null  object 
 #   1   anio       42228 non-null  int64  
 #   2   indicador  42228 non-null  object 
+#   3   valor      30953 non-null  float64
+#  
+#  |    | iso3   |   anio | indicador    |   valor |
+#  |---:|:-------|-------:|:-------------|--------:|
+#  |  0 | ARG    |   1950 | Agro y pesca | 25.8262 |
+#  
+#  ------------------------------
+#  
+#  drop_na(col='valor')
+#  Index: 30953 entries, 0 to 42227
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   iso3       30953 non-null  object 
+#   1   anio       30953 non-null  int64  
+#   2   indicador  30953 non-null  object 
 #   3   valor      30953 non-null  float64
 #  
 #  |    | iso3   |   anio | indicador    |   valor |
