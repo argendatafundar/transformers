@@ -1,0 +1,104 @@
+{
+    "1_pib_pibpc_pob_arg_esp.csv": [
+        {
+            "private": "ACECON_2-1-1_1",
+            "public": "ACECON_g01"
+        }
+    ],
+    "2_pibpc_salud_edu.csv": [
+        {
+            "private": "ACECON_2-1-1_2",
+            "public": "ACECON_g02"
+        }
+    ],
+    "3_pibpc_prec_cons.csv": [
+        {
+            "private": "ACECON_2-1-1_3",
+            "public": "ACECON_g03"
+        }
+    ],
+    "4_pibpc_prop_eeuu.csv": [
+        {
+            "private": "ACECON_2-1-1_4",
+            "public": "ACECON_g04"
+        }
+    ],
+    "5_pibpc_prop_arg.csv": [
+        {
+            "private": "ACECON_2-1-1_5",
+            "public": "ACECON_g05"
+        }
+    ],
+    "6_pib_comp_dem_ag.csv": [
+        {
+            "private": "ACECON_2-1-1_6",
+            "public": "ACECON_g06"
+        }
+    ],
+    "7_pib_comp_va.csv": [
+        {
+            "private": "ACECON_2-1-1_7",
+            "public": "ACECON_g07"
+        }
+    ],
+    "8_pib_dist.csv": [
+        {
+            "private": "ACECON_2-1-1_8",
+            "public": "ACECON_g08"
+        }
+    ],
+    "9_pibpc_ppa_log_1950.csv": [
+        {
+            "private": "ACECON_2-1-1_9",
+            "public": "ACECON_g09"
+        }
+    ],
+    "A1_inb_pib.csv": [
+        {
+            "private": "ACECON_2-1-1_A1",
+            "public": "ACECON_g10"
+        }
+    ],
+    "A2_pib_prec_corr_prec_cons.csv": [
+        {
+            "private": "ACECON_2-1-1_A2",
+            "public": "ACECON_g11"
+        }
+    ],
+    "A3_ipc_ipi.csv": [
+        {
+            "private": "ACECON_2-1-1_A3",
+            "public": "ACECON_g12"
+        }
+    ],
+    "A4_efecto_bs.csv": [
+        {
+            "private": "ACECON_2-1-1_A4",
+            "public": "ACECON_g13"
+        }
+    ],
+    "A5_pibpc_propeeuu_ppa_usd.csv": [
+        {
+            "private": "ACECON_2-1-1_A5",
+            "public": "ACECON_g14"
+        }
+    ],
+    "A6_uci.csv": [
+        {
+            "private": "ACECON_2-1-1_A6",
+            "public": "ACECON_g15"
+        }
+    ],
+    "A7_pib_tendencia_ciclo.csv": [
+        {
+            "private": "ACECON_2-1-1_A7",
+            "public": "ACECON_g16"
+        }
+    ],
+    "A8_pib_desestacionalizado.csv": [
+        {
+            "private": "ACECON_2-1-1_A8",
+            "public": "ACECON_g17"
+        }
+    ]
+}
