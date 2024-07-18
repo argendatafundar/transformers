@@ -21,6 +21,10 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -33,6 +37,7 @@ query(condition='anio == 2021'),
 	drop_col(col='pais_nombre', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	drop_col(col='promedio', axis=1),
+	drop_col(col='anio', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'continente_fundar': 'grupo', 'medida_bienestar': 'indicador', 'pib_percapita_ppp_2017': 'valor'})
 )
 #  PIPELINE_END
@@ -132,20 +137,35 @@ query(condition='anio == 2021'),
 #  
 #  ------------------------------
 #  
+#  drop_col(col='anio', axis=1)
+#  Index: 17 entries, 39 to 1948
+#  Data columns (total 4 columns):
+#   #   Column                  Non-Null Count  Dtype  
+#  ---  ------                  --------------  -----  
+#   0   iso3                    17 non-null     object 
+#   1   continente_fundar       17 non-null     object 
+#   2   pib_percapita_ppp_2017  17 non-null     float64
+#   3   medida_bienestar        17 non-null     object 
+#  
+#  |    | iso3   | continente_fundar   |   pib_percapita_ppp_2017 | medida_bienestar   |
+#  |---:|:-------|:--------------------|-------------------------:|:-------------------|
+#  | 39 | ARM    | Asia                |                  4522.32 | consumo            |
+#  
+#  ------------------------------
+#  
 #  rename_cols(map={'iso3': 'geocodigo', 'continente_fundar': 'grupo', 'medida_bienestar': 'indicador', 'pib_percapita_ppp_2017': 'valor'})
 #  Index: 17 entries, 39 to 1948
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   geocodigo  17 non-null     object 
 #   1   grupo      17 non-null     object 
-#   2   anio       17 non-null     int64  
-#   3   valor      17 non-null     float64
-#   4   indicador  17 non-null     object 
+#   2   valor      17 non-null     float64
+#   3   indicador  17 non-null     object 
 #  
-#  |    | geocodigo   | grupo   |   anio |   valor | indicador   |
-#  |---:|:------------|:--------|-------:|--------:|:------------|
-#  | 39 | ARM         | Asia    |   2021 | 4522.32 | consumo     |
+#  |    | geocodigo   | grupo   |   valor | indicador   |
+#  |---:|:------------|:--------|--------:|:------------|
+#  | 39 | ARM         | Asia    | 4522.32 | consumo     |
 #  
 #  ------------------------------
 #  
