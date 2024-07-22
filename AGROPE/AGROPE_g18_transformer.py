@@ -48,7 +48,7 @@ rename_cols(map={'grupo_carne': 'indicador'}),
 	replace_value(col='indicador', curr_value='caprina_ovina', new_value='Caprina y ovina'),
 	replace_value(col='indicador', curr_value='porcina', new_value='Porcina'),
 	replace_value(col='indicador', curr_value='otras_carnes', new_value='Otras carnes'),
-	replace_value(col='indicador', curr_value='pescado_mariscos', new_value='Pescado y mariscos')
+	replace_value(col='indicador', curr_value='pescado_mariscos', new_value='Pescados y mariscos')
 )
 #  PIPELINE_END
 
@@ -158,7 +158,7 @@ rename_cols(map={'grupo_carne': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='pescado_mariscos', new_value='Pescado y mariscos')
+#  replace_value(col='indicador', curr_value='pescado_mariscos', new_value='Pescados y mariscos')
 #  RangeIndex: 360 entries, 0 to 359
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
