@@ -39,8 +39,9 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -52,7 +53,7 @@ drop_col(col='nivel_agregacion', axis=1),
 	get_lastest_year_by(col='anio', by='iso3'),
 	rename_cols(map={'iso3': 'geocodigo', 'continente_fundar': 'grupo'}),
 	wide_to_long(primary_keys=['geocodigo', 'grupo', 'anio'], value_name='valor', var_name='indicador'),
-	drop_col(col='anio', axis=1)
+	query(condition='anio >= 2015')
 )
 #  PIPELINE_END
 
@@ -182,19 +183,20 @@ drop_col(col='nivel_agregacion', axis=1),
 #  
 #  ------------------------------
 #  
-#  drop_col(col='anio', axis=1)
-#  RangeIndex: 332 entries, 0 to 331
-#  Data columns (total 4 columns):
+#  query(condition='anio >= 2015')
+#  Index: 254 entries, 0 to 331
+#  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  332 non-null    object 
-#   1   grupo      332 non-null    object 
-#   2   indicador  332 non-null    object 
-#   3   valor      332 non-null    float64
+#   0   geocodigo  254 non-null    object 
+#   1   grupo      254 non-null    object 
+#   2   anio       254 non-null    int64  
+#   3   indicador  254 non-null    object 
+#   4   valor      254 non-null    float64
 #  
-#  |    | geocodigo   | grupo   | indicador              |   valor |
-#  |---:|:------------|:--------|:-----------------------|--------:|
-#  |  0 | AGO         | África  | pib_percapita_ppp_2017 | 2677.18 |
+#  |    | geocodigo   | grupo   |   anio | indicador              |   valor |
+#  |---:|:------------|:--------|-------:|:-----------------------|--------:|
+#  |  0 | AGO         | África  |   2018 | pib_percapita_ppp_2017 | 2677.18 |
 #  
 #  ------------------------------
 #  
