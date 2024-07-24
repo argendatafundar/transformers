@@ -29,8 +29,18 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
-def dividir_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]/k
+def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -43,7 +53,9 @@ query(condition="iso3 == 'ARG'"),
 	drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	wide_to_long(primary_keys=['anio'], value_name='valor', var_name='categoria'),
-	dividir_por_escalar(col='valor', k=1000000)
+	mutiplicar_por_escalar(col='valor', k=1e-06),
+	replace_value(col='categoria', curr_value='pib_corriente', new_value='PIB corriente'),
+	replace_value(col='categoria', curr_value='pib_constante', new_value='PIB constante')
 )
 #  PIPELINE_END
 
@@ -167,7 +179,7 @@ query(condition="iso3 == 'ARG'"),
 #  
 #  ------------------------------
 #  
-#  dividir_por_escalar(col='valor', k=1000000)
+#  mutiplicar_por_escalar(col='valor', k=1e-06)
 #  RangeIndex: 122 entries, 0 to 121
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -179,6 +191,36 @@ query(condition="iso3 == 'ARG'"),
 #  |    |   anio | categoria     |   valor |
 #  |---:|-------:|:--------------|--------:|
 #  |  0 |   1962 | pib_corriente |   24450 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='pib_corriente', new_value='PIB corriente')
+#  RangeIndex: 122 entries, 0 to 121
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       122 non-null    int64  
+#   1   categoria  122 non-null    object 
+#   2   valor      122 non-null    float64
+#  
+#  |    |   anio | categoria     |   valor |
+#  |---:|-------:|:--------------|--------:|
+#  |  0 |   1962 | PIB corriente |   24450 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='pib_constante', new_value='PIB constante')
+#  RangeIndex: 122 entries, 0 to 121
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       122 non-null    int64  
+#   1   categoria  122 non-null    object 
+#   2   valor      122 non-null    float64
+#  
+#  |    |   anio | categoria     |   valor |
+#  |---:|-------:|:--------------|--------:|
+#  |  0 |   1962 | PIB corriente |   24450 |
 #  
 #  ------------------------------
 #  
