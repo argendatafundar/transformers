@@ -28,11 +28,6 @@ def query(df: DataFrame, condition: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
-
-@transformer.convert
-def replace_values(df: DataFrame, col: str, values: dict):
-    df = df.replace({col: values})
-    return df
 #  DEFINITIONS_END
 
 
@@ -43,8 +38,7 @@ drop_col(col='nivel_agregacion', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'continente_fundar': 'grupo'}),
 	wide_to_long(primary_keys=['geocodigo', 'grupo', 'anio'], value_name='valor', var_name='indicador'),
 	query(condition='anio == anio.max()'),
-	drop_col(col='anio', axis=1),
-	replace_values(col='indicador', values={'expectativa_al_nacer': 'Esperanza de vido', 'pib_pc': 'PIB per cápita'})
+	drop_col(col='anio', axis=1)
 )
 #  PIPELINE_END
 
@@ -167,22 +161,6 @@ drop_col(col='nivel_agregacion', axis=1),
 #  |    | geocodigo   | grupo                                  | indicador            |   valor |
 #  |---:|:------------|:---------------------------------------|:---------------------|--------:|
 #  | 31 | ABW         | América del Norte, Central y el Caribe | expectativa_al_nacer |   74.63 |
-#  
-#  ------------------------------
-#  
-#  replace_values(col='indicador', values={'expectativa_al_nacer': 'Esperanza de vido', 'pib_pc': 'PIB per cápita'})
-#  Index: 386 entries, 31 to 11821
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  386 non-null    object 
-#   1   grupo      386 non-null    object 
-#   2   indicador  386 non-null    object 
-#   3   valor      386 non-null    float64
-#  
-#  |    | geocodigo   | grupo                                  | indicador         |   valor |
-#  |---:|:------------|:---------------------------------------|:------------------|--------:|
-#  | 31 | ABW         | América del Norte, Central y el Caribe | Esperanza de vido |   74.63 |
 #  
 #  ------------------------------
 #  
