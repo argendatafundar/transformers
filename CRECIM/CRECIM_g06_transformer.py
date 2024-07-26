@@ -24,6 +24,13 @@ def rename_cols(df: DataFrame, map):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -33,7 +40,8 @@ drop_col(col='pais_nombre', axis=1),
 	drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
 	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'}),
-	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
+	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])"),
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -121,6 +129,21 @@ drop_col(col='pais_nombre', axis=1),
 #  
 #  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
 #  Index: 7299 entries, 0 to 7661
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7299 non-null   object 
+#   1   anio       7299 non-null   int64  
+#   2   valor      7299 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ABW         |   1990 | 30823.5 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  RangeIndex: 7299 entries, 0 to 7298
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
