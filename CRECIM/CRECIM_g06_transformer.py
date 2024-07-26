@@ -19,6 +19,11 @@ def drop_col(df: DataFrame, col, axis=1):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -27,7 +32,8 @@ pipeline = chain(
 drop_col(col='pais_nombre', axis=1),
 	drop_col(col='continente_fundar', axis=1),
 	drop_col(col='nivel_agregacion', axis=1),
-	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'})
+	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'}),
+	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
 )
 #  PIPELINE_END
 
@@ -106,6 +112,21 @@ drop_col(col='pais_nombre', axis=1),
 #   0   geocodigo  7662 non-null   object 
 #   1   anio       7662 non-null   int64  
 #   2   valor      7662 non-null   float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ABW         |   1990 | 30823.5 |
+#  
+#  ------------------------------
+#  
+#  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
+#  Index: 7299 entries, 0 to 7661
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  7299 non-null   object 
+#   1   anio       7299 non-null   int64  
+#   2   valor      7299 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
