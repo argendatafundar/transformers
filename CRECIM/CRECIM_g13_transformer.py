@@ -4,16 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
+    return df
 
 @transformer.convert
 def rename_cols(df: DataFrame, map):
@@ -21,19 +16,16 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-drop_col(col='continente_fundar', axis=1),
-	drop_col(col='nivel_agregacion', axis=1),
-	drop_col(col='pais_nombre', axis=1),
+latest_year(by='anio'),
 	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'}),
-	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
+	drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1)
 )
 #  PIPELINE_END
 
@@ -56,81 +48,51 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  ------------------------------
 #  
-#  drop_col(col='continente_fundar', axis=1)
-#  RangeIndex: 7662 entries, 0 to 7661
+#  latest_year(by='anio')
+#  Index: 232 entries, 64 to 7661
 #  Data columns (total 5 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   iso3              7662 non-null   object 
-#   1   pais_nombre       7662 non-null   object 
-#   2   anio              7662 non-null   int64  
-#   3   pib_pc            7662 non-null   float64
-#   4   nivel_agregacion  7662 non-null   object 
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   iso3               232 non-null    object 
+#   1   pais_nombre        232 non-null    object 
+#   2   continente_fundar  184 non-null    object 
+#   3   pib_pc             232 non-null    float64
+#   4   nivel_agregacion   232 non-null    object 
 #  
-#  |    | iso3   | pais_nombre   |   anio |   pib_pc | nivel_agregacion   |
-#  |---:|:-------|:--------------|-------:|---------:|:-------------------|
-#  |  0 | ABW    | Aruba         |   1990 |  30823.5 | pais               |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='nivel_agregacion', axis=1)
-#  RangeIndex: 7662 entries, 0 to 7661
-#  Data columns (total 4 columns):
-#   #   Column       Non-Null Count  Dtype  
-#  ---  ------       --------------  -----  
-#   0   iso3         7662 non-null   object 
-#   1   pais_nombre  7662 non-null   object 
-#   2   anio         7662 non-null   int64  
-#   3   pib_pc       7662 non-null   float64
-#  
-#  |    | iso3   | pais_nombre   |   anio |   pib_pc |
-#  |---:|:-------|:--------------|-------:|---------:|
-#  |  0 | ABW    | Aruba         |   1990 |  30823.5 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='pais_nombre', axis=1)
-#  RangeIndex: 7662 entries, 0 to 7661
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   iso3    7662 non-null   object 
-#   1   anio    7662 non-null   int64  
-#   2   pib_pc  7662 non-null   float64
-#  
-#  |    | iso3   |   anio |   pib_pc |
-#  |---:|:-------|-------:|---------:|
-#  |  0 | ABW    |   1990 |  30823.5 |
+#  |    | iso3   | pais_nombre                  |   continente_fundar |   pib_pc | nivel_agregacion   |
+#  |---:|:-------|:-----------------------------|--------------------:|---------:|:-------------------|
+#  | 64 | AFE    | África Oriental y Meridional |                 nan |  3553.91 | agregacion         |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'})
-#  RangeIndex: 7662 entries, 0 to 7661
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  7662 non-null   object 
-#   1   anio       7662 non-null   int64  
-#   2   valor      7662 non-null   float64
+#  Index: 232 entries, 64 to 7661
+#  Data columns (total 5 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   geocodigo          232 non-null    object 
+#   1   pais_nombre        232 non-null    object 
+#   2   continente_fundar  184 non-null    object 
+#   3   valor              232 non-null    float64
+#   4   nivel_agregacion   232 non-null    object 
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | ABW         |   1990 | 30823.5 |
+#  |    | geocodigo   | pais_nombre                  |   continente_fundar |   valor | nivel_agregacion   |
+#  |---:|:------------|:-----------------------------|--------------------:|--------:|:-------------------|
+#  | 64 | AFE         | África Oriental y Meridional |                 nan | 3553.91 | agregacion         |
 #  
 #  ------------------------------
 #  
-#  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
-#  Index: 7299 entries, 0 to 7661
-#  Data columns (total 3 columns):
+#  drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1)
+#  Index: 232 entries, 64 to 7661
+#  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7299 non-null   object 
-#   1   anio       7299 non-null   int64  
-#   2   valor      7299 non-null   float64
+#   0   geocodigo  232 non-null    object 
+#   1   valor      232 non-null    float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | ABW         |   1990 | 30823.5 |
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 64 | AFE         | 3553.91 |
 #  
 #  ------------------------------
 #  
