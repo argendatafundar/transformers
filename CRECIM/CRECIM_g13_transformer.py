@@ -18,6 +18,11 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -25,7 +30,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 latest_year(by='anio'),
 	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'}),
-	drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1)
+	drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1),
+	query(condition="geocodigo not in ['LAC','TLA','SSA','TSS', 'EAP','ECA','MNA','TSA','TSS', 'TEC','TEA']")
 )
 #  PIPELINE_END
 
@@ -89,6 +95,20 @@ latest_year(by='anio'),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  232 non-null    object 
 #   1   valor      232 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 64 | AFE         | 3553.91 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigo not in ['LAC','TLA','SSA','TSS', 'EAP','ECA','MNA','TSA','TSS', 'TEC','TEA']")
+#  Index: 222 entries, 64 to 7661
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  222 non-null    object 
+#   1   valor      222 non-null    float64
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
