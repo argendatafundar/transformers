@@ -11,13 +11,19 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo'}),
-	drop_col(col='iso3_desc_fundar', axis=1)
+	drop_col(col='iso3_desc_fundar', axis=1),
+	query(condition="geocodigo != 'F351'")
 )
 #  PIPELINE_END
 
@@ -59,6 +65,20 @@ rename_cols(map={'iso3': 'geocodigo'}),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  195 non-null    object 
 #   1   valor      195 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | AFG         |   28480 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigo != 'F351'")
+#  Index: 194 entries, 0 to 194
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  194 non-null    object 
+#   1   valor      194 non-null    float64
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
