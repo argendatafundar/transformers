@@ -20,6 +20,14 @@ def agrupar_y_sumar(df: DataFrame, col_indicador, col_anio):
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -28,7 +36,8 @@ pipeline = chain(
 drop_col(col='iso3', axis=1),
 	rename_cols(map={'continente_fundar': 'indicador', 'valor_en_ton': 'valor'}),
 	agrupar_y_sumar(col_indicador='indicador', col_anio='anio'),
-	multiplicar_por_escalar(col='valor', k=1e-06)
+	multiplicar_por_escalar(col='valor', k=1e-06),
+	sort_values_by_comparison(colname='indicador', precedence={'Asia': 0, 'América del Norte, Central y el Caribe': 1, 'Europa': 2, 'África': 3, 'América del Sur': 4, 'Transporte Internacional': 6, 'Oceanía': 5}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -106,6 +115,21 @@ drop_col(col='iso3', axis=1),
 #  |    | indicador                              |   anio |   valor |
 #  |---:|:---------------------------------------|-------:|--------:|
 #  |  0 | América del Norte, Central y el Caribe |   1750 |       0 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Asia': 0, 'América del Norte, Central y el Caribe': 1, 'Europa': 2, 'África': 3, 'América del Sur': 4, 'Transporte Internacional': 6, 'Oceanía': 5}, prefix=['anio'], suffix=[])
+#  Index: 1911 entries, 546 to 1637
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  1911 non-null   object 
+#   1   anio       1911 non-null   int64  
+#   2   valor      1911 non-null   float64
+#  
+#  |     | indicador   |   anio |   valor |
+#  |----:|:------------|-------:|--------:|
+#  | 546 | Asia        |   1750 |       0 |
 #  
 #  ------------------------------
 #  
