@@ -27,7 +27,7 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
 pipeline = chain(
 rename_cols(map={'sector': 'indicador', 'valor_en_ggco2e': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=0.001),
-	sort_values_by_comparison(colname='indicador', precedence={'Otros': 0, 'Residuos': 1, 'PIUP': 2, 'AGSyOUT': 3, 'Energía': 4}, prefix=['anio'], suffix=[])
+	sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'PIUP': 2, 'Residuos': 3, 'Otros': 4}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -77,8 +77,8 @@ rename_cols(map={'sector': 'indicador', 'valor_en_ggco2e': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Otros': 0, 'Residuos': 1, 'PIUP': 2, 'AGSyOUT': 3, 'Energía': 4}, prefix=['anio'], suffix=[])
-#  Index: 825 entries, 2 to 821
+#  sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'PIUP': 2, 'Residuos': 3, 'Otros': 4}, prefix=['anio'], suffix=[])
+#  Index: 825 entries, 1 to 822
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -88,7 +88,7 @@ rename_cols(map={'sector': 'indicador', 'valor_en_ggco2e': 'valor'}),
 #  
 #  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  2 |   1850 | Otros       |   14.37 |
+#  |  1 |   1850 | Energía     |     508 |
 #  
 #  ------------------------------
 #  
