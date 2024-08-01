@@ -9,6 +9,11 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
     mapcol = colname+'_map'
     df_ = df.copy()
@@ -21,7 +26,8 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'valor_en_mtco2e': 'valor', 'sector': 'indicador'}),
-	sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'Procesos industriales y uso de productos': 2, 'Residuos': 3}, prefix=['anio'], suffix=[])
+	replace_value(col='indicador', curr_value='Procesos industriales y uso de productos', new_value='PIUP'),
+	sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'PIUP': 2, 'Residuos': 3}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -56,7 +62,22 @@ rename_cols(map={'valor_en_mtco2e': 'valor', 'sector': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'Procesos industriales y uso de productos': 2, 'Residuos': 3}, prefix=['anio'], suffix=[])
+#  replace_value(col='indicador', curr_value='Procesos industriales y uso de productos', new_value='PIUP')
+#  RangeIndex: 116 entries, 0 to 115
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       116 non-null    int64  
+#   1   indicador  116 non-null    object 
+#   2   valor      116 non-null    float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1990 | AGSyOUT     |  151.97 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Energía': 0, 'AGSyOUT': 1, 'PIUP': 2, 'Residuos': 3}, prefix=['anio'], suffix=[])
 #  Index: 116 entries, 1 to 115
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
