@@ -12,13 +12,22 @@ def rename_cols(df: DataFrame, map):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'sector': 'indicador', 'valor_en_ggco2e': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=0.001)
+	mutiplicar_por_escalar(col='valor', k=0.001),
+	sort_values_by_comparison(colname='indicador', precedence={'Otros': 0, 'Residuos': 1, 'PIUP': 2, 'AGSyOUT': 3, 'Energía': 4}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -65,6 +74,21 @@ rename_cols(map={'sector': 'indicador', 'valor_en_ggco2e': 'valor'}),
 #  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  0 |   1850 | AGSyOUT     |    4896 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Otros': 0, 'Residuos': 1, 'PIUP': 2, 'AGSyOUT': 3, 'Energía': 4}, prefix=['anio'], suffix=[])
+#  Index: 825 entries, 2 to 821
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       825 non-null    int64  
+#   1   indicador  825 non-null    object 
+#   2   valor      825 non-null    float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  2 |   1850 | Otros       |   14.37 |
 #  
 #  ------------------------------
 #  
