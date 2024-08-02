@@ -60,6 +60,10 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
+
+@transformer.convert
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
 #  DEFINITIONS_END
 
 
@@ -75,7 +79,8 @@ latest_year(by='anio'),
 	rename_cols(map={'iso3': 'geocodigo', 'particip_va_pib': 'valor', 'gran_sector': 'indicador'}),
 	drop_col(col=['iso3_desc_fundar', 'es_agregacion', 'letra', 'id_tipo_sector', 'tipo_sector'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	ordenar_dos_columnas(col1='indicador', order1=['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios'], col2='geocodigo', order2=['SER', 'SOM', 'TUV', 'CPV', 'CSK', 'ETF', 'ANT', 'MHL', 'YMD', 'YM1', 'COK', 'SUV', 'SDN', 'LBR', 'GUY', 'TCD', 'BRN', 'COD', 'SLE', 'PRK', 'AZE', 'IRQ', 'SSD', 'KHM', 'TLS', 'QAT', 'ETH', 'TZA', 'GAB', 'NER', 'MMR', 'MLI', 'GIN', 'PNG', 'AGO', 'SAU', 'UZB', 'SYR', 'BFA', 'IDN', 'TKM', 'GNQ', 'BDI', 'NGA', 'UGA', 'CAF', 'VEN', 'GHA', 'MOZ', 'VNM', 'TJK', 'NOR', 'SUR', 'MNG', 'MRT', 'LAO', 'ZWE', 'COG', 'AFG', 'ARE', 'DZA', 'SLB', 'TTO', 'HTI', 'ZPM', 'OMN', 'RWA', 'MYS', 'ERI', 'BEN', 'MDG', 'NIC', 'PRY', 'CHN', 'BTN', 'COM', 'LBY', 'MWI', 'PRI', 'IRN', 'BGD', 'KWT', 'IND', 'GNB', 'EGY', 'BLR', 'ALB', 'PER', 'CMR', 'PAK', 'IRL', 'BHR', 'THA', 'BOL', 'SWZ', 'SEN', 'XKX', 'LIE', 'KAZ', 'TGO', 'ECU', 'TUR', 'CIV', 'LSO', 'DOM', 'GMB', 'KEN', 'BWA', 'LKA', 'KGZ', 'ZMB', 'HND', 'YEM', 'RUS', 'TON', 'NAM', 'MAR', 'CHL', 'SMR', 'MEX', 'ARM', 'COL', 'NRU', 'PHL', 'NPL', 'SRB', 'ARG', 'ROU', 'KOR', 'GRL', 'TUN', 'BIH', 'CZE', 'POL', 'KIR', 'SVK', 'MKD', 'VUT', 'SVN', 'GTM', 'DMA', 'FJI', 'SLV', 'BGR', 'HUN', 'LTU', 'MDA', 'JAM', 'JOR', 'FIN', 'BRA', 'AUS', 'GEO', 'UKR', 'DEU', 'AUT', 'ZAF', 'LVA', 'JPN', 'EST', 'PAN', 'FSM', 'PSE', 'SWE', 'URY', 'ISL', 'ITA', 'NZL', 'BLZ', 'HRV', 'CAN', 'CRI', 'STP', 'CHE', 'SGP', 'ESP', 'ATG', 'NCL', 'MUS', 'KNA', 'WSM', 'GRD', 'DNK', 'MNE', 'PRT', 'NLD', 'GRC', 'VCT', 'BEL', 'ISR', 'FRA', 'CUB', 'USA', 'GBR', 'LBN', 'MDV', 'SYC', 'BRB', 'MSR', 'TCA', 'PLW', 'CYP', 'PYF', 'MLT', 'CUW', 'LCA', 'DJI', 'AIA', 'AND', 'ABW', 'MCO', 'LUX', 'MAC', 'BHS', 'CYM', 'SXM', 'VGB', 'HKG', 'BMU'])
+	ordenar_dos_columnas(col1='indicador', order1=['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios'], col2='geocodigo', order2=['SER', 'SOM', 'TUV', 'CPV', 'CSK', 'ETF', 'ANT', 'MHL', 'YMD', 'YM1', 'COK', 'SUV', 'SDN', 'LBR', 'GUY', 'TCD', 'BRN', 'COD', 'SLE', 'PRK', 'AZE', 'IRQ', 'SSD', 'KHM', 'TLS', 'QAT', 'ETH', 'TZA', 'GAB', 'NER', 'MMR', 'MLI', 'GIN', 'PNG', 'AGO', 'SAU', 'UZB', 'SYR', 'BFA', 'IDN', 'TKM', 'GNQ', 'BDI', 'NGA', 'UGA', 'CAF', 'VEN', 'GHA', 'MOZ', 'VNM', 'TJK', 'NOR', 'SUR', 'MNG', 'MRT', 'LAO', 'ZWE', 'COG', 'AFG', 'ARE', 'DZA', 'SLB', 'TTO', 'HTI', 'ZPM', 'OMN', 'RWA', 'MYS', 'ERI', 'BEN', 'MDG', 'NIC', 'PRY', 'CHN', 'BTN', 'COM', 'LBY', 'MWI', 'PRI', 'IRN', 'BGD', 'KWT', 'IND', 'GNB', 'EGY', 'BLR', 'ALB', 'PER', 'CMR', 'PAK', 'IRL', 'BHR', 'THA', 'BOL', 'SWZ', 'SEN', 'XKX', 'LIE', 'KAZ', 'TGO', 'ECU', 'TUR', 'CIV', 'LSO', 'DOM', 'GMB', 'KEN', 'BWA', 'LKA', 'KGZ', 'ZMB', 'HND', 'YEM', 'RUS', 'TON', 'NAM', 'MAR', 'CHL', 'SMR', 'MEX', 'ARM', 'COL', 'NRU', 'PHL', 'NPL', 'SRB', 'ARG', 'ROU', 'KOR', 'GRL', 'TUN', 'BIH', 'CZE', 'POL', 'KIR', 'SVK', 'MKD', 'VUT', 'SVN', 'GTM', 'DMA', 'FJI', 'SLV', 'BGR', 'HUN', 'LTU', 'MDA', 'JAM', 'JOR', 'FIN', 'BRA', 'AUS', 'GEO', 'UKR', 'DEU', 'AUT', 'ZAF', 'LVA', 'JPN', 'EST', 'PAN', 'FSM', 'PSE', 'SWE', 'URY', 'ISL', 'ITA', 'NZL', 'BLZ', 'HRV', 'CAN', 'CRI', 'STP', 'CHE', 'SGP', 'ESP', 'ATG', 'NCL', 'MUS', 'KNA', 'WSM', 'GRD', 'DNK', 'MNE', 'PRT', 'NLD', 'GRC', 'VCT', 'BEL', 'ISR', 'FRA', 'CUB', 'USA', 'GBR', 'LBN', 'MDV', 'SYC', 'BRB', 'MSR', 'TCA', 'PLW', 'CYP', 'PYF', 'MLT', 'CUW', 'LCA', 'DJI', 'AIA', 'AND', 'ABW', 'MCO', 'LUX', 'MAC', 'BHS', 'CYM', 'SXM', 'VGB', 'HKG', 'BMU']),
+	drop_na(subset='valor')
 )
 #  PIPELINE_END
 
@@ -303,6 +308,21 @@ latest_year(by='anio'),
 #  |       | geocodigo   | indicador    |   valor |
 #  |------:|:------------|:-------------|--------:|
 #  | 81447 | SER         | Agro y pesca |     nan |
+#  
+#  ------------------------------
+#  
+#  drop_na(subset='valor')
+#  Index: 1439 entries, 80673 to 80040
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   geocodigo  1439 non-null   category
+#   1   indicador  1439 non-null   category
+#   2   valor      1439 non-null   float64 
+#  
+#  |       | geocodigo   | indicador    |   valor |
+#  |------:|:------------|:-------------|--------:|
+#  | 80673 | LBR         | Agro y pesca | 73.9551 |
 #  
 #  ------------------------------
 #  
