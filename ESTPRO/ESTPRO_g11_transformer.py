@@ -4,8 +4,10 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
     return df
 
 @transformer.convert
@@ -22,7 +24,7 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
     return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
@@ -35,18 +37,26 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio == anio.max()'),
+latest_year(by='anio'),
 	rename_cols(map={'letra_desc_abrev': 'categoria'}),
-	drop_col(col=['letra', 'anio'], axis=1),
+	drop_col(col=['letra'], axis=1),
 	wide_to_long(primary_keys=['categoria'], value_name='valor', var_name='indicador'),
-	mutiplicar_por_escalar(col='valor', k=100),
+	multiplicar_por_escalar(col='valor', k=100),
 	replace_value(col='indicador', curr_value='porc_mujeres', new_value='Mujeres'),
-	replace_value(col='indicador', curr_value='porc_varones', new_value='Varones')
+	replace_value(col='indicador', curr_value='porc_varones', new_value='Varones'),
+	ordenar_dos_columnas(col1='indicador', order1=['Mujeres', 'Varones'], col2='categoria', order2=['Construcción', 'Petróleo y minería', 'Agro y pesca', 'Transporte y comunicaciones', 'Electricidad, gas y agua', 'Industria manufacturera', 'Serv. inmobiliarios y profesionales', 'Comercio', 'Total', 'Hotelería y restaurantes', 'Finanzas', 'Serv. comunitarios, sociales y personales', 'Adm. pública y defensa', 'Salud', 'Enseñanza', 'Servicio doméstico'])
 )
 #  PIPELINE_END
 
@@ -68,41 +78,39 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  query(condition='anio == anio.max()')
+#  latest_year(by='anio')
 #  Index: 16 entries, 6 to 111
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              16 non-null     int64  
-#   1   letra             16 non-null     object 
-#   2   letra_desc_abrev  16 non-null     object 
-#   3   porc_mujeres      16 non-null     float64
-#   4   porc_varones      16 non-null     float64
+#   0   letra             16 non-null     object 
+#   1   letra_desc_abrev  16 non-null     object 
+#   2   porc_mujeres      16 non-null     float64
+#   3   porc_varones      16 non-null     float64
 #  
-#  |    |   anio | letra   | letra_desc_abrev   |   porc_mujeres |   porc_varones |
-#  |---:|-------:|:--------|:-------------------|---------------:|---------------:|
-#  |  6 |   2022 | AB      | Agro y pesca       |       0.140203 |       0.859797 |
+#  |    | letra   | letra_desc_abrev   |   porc_mujeres |   porc_varones |
+#  |---:|:--------|:-------------------|---------------:|---------------:|
+#  |  6 | AB      | Agro y pesca       |       0.140203 |       0.859797 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'letra_desc_abrev': 'categoria'})
 #  Index: 16 entries, 6 to 111
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          16 non-null     int64  
-#   1   letra         16 non-null     object 
-#   2   categoria     16 non-null     object 
-#   3   porc_mujeres  16 non-null     float64
-#   4   porc_varones  16 non-null     float64
+#   0   letra         16 non-null     object 
+#   1   categoria     16 non-null     object 
+#   2   porc_mujeres  16 non-null     float64
+#   3   porc_varones  16 non-null     float64
 #  
-#  |    |   anio | letra   | categoria    |   porc_mujeres |   porc_varones |
-#  |---:|-------:|:--------|:-------------|---------------:|---------------:|
-#  |  6 |   2022 | AB      | Agro y pesca |       0.140203 |       0.859797 |
+#  |    | letra   | categoria    |   porc_mujeres |   porc_varones |
+#  |---:|:--------|:-------------|---------------:|---------------:|
+#  |  6 | AB      | Agro y pesca |       0.140203 |       0.859797 |
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['letra', 'anio'], axis=1)
+#  drop_col(col=['letra'], axis=1)
 #  Index: 16 entries, 6 to 111
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
@@ -132,7 +140,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -165,15 +173,30 @@ query(condition='anio == anio.max()'),
 #  replace_value(col='indicador', curr_value='porc_varones', new_value='Varones')
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  32 non-null     object 
-#   1   indicador  32 non-null     object 
-#   2   valor      32 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  32 non-null     category
+#   1   indicador  32 non-null     category
+#   2   valor      32 non-null     float64 
 #  
 #  |    | categoria    | indicador   |   valor |
 #  |---:|:-------------|:------------|--------:|
 #  |  0 | Agro y pesca | Mujeres     | 14.0203 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='indicador', order1=['Mujeres', 'Varones'], col2='categoria', order2=['Construcción', 'Petróleo y minería', 'Agro y pesca', 'Transporte y comunicaciones', 'Electricidad, gas y agua', 'Industria manufacturera', 'Serv. inmobiliarios y profesionales', 'Comercio', 'Total', 'Hotelería y restaurantes', 'Finanzas', 'Serv. comunitarios, sociales y personales', 'Adm. pública y defensa', 'Salud', 'Enseñanza', 'Servicio doméstico'])
+#  Index: 32 entries, 4 to 30
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  32 non-null     category
+#   1   indicador  32 non-null     category
+#   2   valor      32 non-null     float64 
+#  
+#  |    | categoria    | indicador   |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  4 | Construcción | Mujeres     | 4.93933 |
 #  
 #  ------------------------------
 #  
