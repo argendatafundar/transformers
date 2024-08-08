@@ -35,6 +35,20 @@ def rename_cols(df: DataFrame, map):
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
+    return df
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -43,7 +57,9 @@ pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 	drop_col(col='provincia_nombre', axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo'}),
-	rename_cols(map={'pbg_pc_relativo': 'valor'})
+	rename_cols(map={'pbg_pc_relativo': 'valor'}),
+	latest_year(by='anio'),
+	sort_values(how='ascending', by='valor')
 )
 #  PIPELINE_END
 
@@ -53,14 +69,14 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   provincia_id      432 non-null    int64  
+#   0   provincia_id      432 non-null    object 
 #   1   provincia_nombre  432 non-null    object 
 #   2   anio              432 non-null    int64  
 #   3   pbg_pc_relativo   432 non-null    float64
 #  
-#  |    |   provincia_id | provincia_nombre                |   anio |   pbg_pc_relativo |
-#  |---:|---------------:|:--------------------------------|-------:|------------------:|
-#  |  0 |              2 | Ciudad Autónoma de Buenos Aires |   2004 |             274.4 |
+#  |    | provincia_id   | provincia_nombre                |   anio |   pbg_pc_relativo |
+#  |---:|:---------------|:--------------------------------|-------:|------------------:|
+#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires |   2004 |             274.4 |
 #  
 #  ------------------------------
 #  
@@ -122,6 +138,34 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | AR-C        |   2004 |   274.4 |
+#  
+#  ------------------------------
+#  
+#  latest_year(by='anio')
+#  Index: 24 entries, 17 to 431
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  24 non-null     object 
+#   1   valor      24 non-null     float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 17 | AR-C        |   293.3 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by='valor')
+#  RangeIndex: 24 entries, 0 to 23
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  24 non-null     object 
+#   1   valor      24 non-null     float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | AR-P        |    46.5 |
 #  
 #  ------------------------------
 #  
