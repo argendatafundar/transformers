@@ -49,6 +49,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -59,7 +64,8 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 	rename_cols(map={'provincia_id': 'geocodigo'}),
 	rename_cols(map={'pbg_pc_relativo': 'valor'}),
 	latest_year(by='anio'),
-	sort_values(how='ascending', by='valor')
+	sort_values(how='descending', by='valor'),
+	multiplicar_por_escalar(col='valor', k=0.01)
 )
 #  PIPELINE_END
 
@@ -155,7 +161,7 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='valor')
+#  sort_values(how='descending', by='valor')
 #  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -165,7 +171,21 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
-#  |  0 | AR-P        |    46.5 |
+#  |  0 | AR-C        |   2.933 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=0.01)
+#  RangeIndex: 24 entries, 0 to 23
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  24 non-null     object 
+#   1   valor      24 non-null     float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | AR-C        |   2.933 |
 #  
 #  ------------------------------
 #  
