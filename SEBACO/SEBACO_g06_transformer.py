@@ -18,7 +18,7 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
@@ -26,7 +26,13 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -35,8 +41,9 @@ pipeline = chain(
 query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
 	rename_cols(map={'prop': 'valor', 'provincia': 'categoria'}),
-	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(how='ascending', by=['valor'])
+	multiplicar_por_escalar(col='valor', k=100),
+	sort_values(how='ascending', by=['valor']),
+	replace_value(col='categoria', curr_value='GBA', new_value='Partidos del GBA')
 )
 #  PIPELINE_END
 
@@ -99,7 +106,7 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 25 entries, 26 to 674
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -114,16 +121,30 @@ query(condition='anio == anio.max()'),
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['valor'])
-#  Index: 25 entries, 215 to 26
+#  RangeIndex: 25 entries, 0 to 24
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   categoria  25 non-null     object 
 #   1   valor      25 non-null     float64
 #  
-#  |     | categoria   |   valor |
-#  |----:|:------------|--------:|
-#  | 215 | Formosa     | 0.10317 |
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | Formosa     | 0.10317 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='GBA', new_value='Partidos del GBA')
+#  RangeIndex: 25 entries, 0 to 24
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  25 non-null     object 
+#   1   valor      25 non-null     float64
+#  
+#  |    | categoria   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | Formosa     | 0.10317 |
 #  
 #  ------------------------------
 #  
