@@ -31,9 +31,8 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def replace_na(df: DataFrame, col: str, new_value: str):
-    df.loc[df[col].isna(), col] = new_value
-    return df
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
 
 @transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
@@ -52,7 +51,7 @@ drop_col(col='continente_fundar', axis=1),
 	query(condition="sexo == 'Total'"),
 	drop_col(col='sexo', axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	replace_na(col='valor', new_value=0),
+	drop_na(subset='valor'),
 	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
@@ -148,7 +147,7 @@ drop_col(col='continente_fundar', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  7161 non-null   object 
 #   1   anio       7161 non-null   int64  
-#   2   valor      7161 non-null   float64
+#   2   valor      6168 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -163,7 +162,7 @@ drop_col(col='continente_fundar', axis=1),
 #  ---  ------     --------------  -----  
 #   0   geocodigo  7161 non-null   object 
 #   1   anio       7161 non-null   int64  
-#   2   valor      7161 non-null   float64
+#   2   valor      6168 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -171,14 +170,14 @@ drop_col(col='continente_fundar', axis=1),
 #  
 #  ------------------------------
 #  
-#  replace_na(col='valor', new_value=0)
-#  Index: 7161 entries, 0 to 21480
+#  drop_na(subset='valor')
+#  Index: 6168 entries, 0 to 21480
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7161 non-null   object 
-#   1   anio       7161 non-null   int64  
-#   2   valor      7161 non-null   float64
+#   0   geocodigo  6168 non-null   object 
+#   1   anio       6168 non-null   int64  
+#   2   valor      6168 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -187,17 +186,17 @@ drop_col(col='continente_fundar', axis=1),
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 7161 entries, 0 to 7160
+#  RangeIndex: 6168 entries, 0 to 6167
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  7161 non-null   object 
-#   1   anio       7161 non-null   int64  
-#   2   valor      7161 non-null   float64
+#   0   geocodigo  6168 non-null   object 
+#   1   anio       6168 non-null   int64  
+#   2   valor      6168 non-null   float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | ABW         |   1991 |       0 |
+#  |  0 | AFG         |   1991 |   7.946 |
 #  
 #  ------------------------------
 #  
