@@ -36,7 +36,7 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 	drop_col(col='pais', axis=1),
 	drop_na(cols=['valor']),
 	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
+	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP', 'XT', 'XN', 'XM', 'XD'])")
 )
 #  PIPELINE_END
 
@@ -118,14 +118,14 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP'])")
-#  Index: 10290 entries, 0 to 10771
+#  query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP', 'XT', 'XN', 'XM', 'XD'])")
+#  Index: 10096 entries, 0 to 10771
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  10290 non-null  object 
-#   1   anio       10290 non-null  float64
-#   2   valor      10290 non-null  float64
+#   0   geocodigo  10096 non-null  object 
+#   1   anio       10096 non-null  float64
+#   2   valor      10096 non-null  float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
