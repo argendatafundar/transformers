@@ -36,75 +36,75 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 
 
 #  start()
-#  RangeIndex: 4214 entries, 0 to 4213
+#  RangeIndex: 16994 entries, 0 to 16993
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3c              4214 non-null   object 
-#   1   anio               4214 non-null   int64  
-#   2   va_agro_sobre_pbi  4214 non-null   float64
-#   3   pais               4214 non-null   object 
+#   0   iso3c              16994 non-null  object 
+#   1   anio               16960 non-null  float64
+#   2   va_agro_sobre_pbi  10772 non-null  float64
+#   3   pais               16738 non-null  object 
 #  
 #  |    | iso3c   |   anio |   va_agro_sobre_pbi | pais   |
 #  |---:|:--------|-------:|--------------------:|:-------|
-#  |  0 | ABW     |   2008 |           0.0169974 | Aruba  |
+#  |  0 | ABW     |   1965 |                 nan | Aruba  |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'})
-#  RangeIndex: 4214 entries, 0 to 4213
+#  RangeIndex: 16994 entries, 0 to 16993
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4214 non-null   object 
-#   1   anio       4214 non-null   int64  
-#   2   valor      4214 non-null   float64
-#   3   pais       4214 non-null   object 
+#   0   geocodigo  16994 non-null  object 
+#   1   anio       16960 non-null  float64
+#   2   valor      10772 non-null  float64
+#   3   pais       16738 non-null  object 
 #  
-#  |    | geocodigo   |   anio |     valor | pais   |
-#  |---:|:------------|-------:|----------:|:-------|
-#  |  0 | ABW         |   2008 | 0.0169974 | Aruba  |
+#  |    | geocodigo   |   anio |   valor | pais   |
+#  |---:|:------------|-------:|--------:|:-------|
+#  |  0 | ABW         |   1965 |     nan | Aruba  |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='pais', axis=1)
-#  RangeIndex: 4214 entries, 0 to 4213
+#  RangeIndex: 16994 entries, 0 to 16993
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4214 non-null   object 
-#   1   anio       4214 non-null   int64  
-#   2   valor      4214 non-null   float64
+#   0   geocodigo  16994 non-null  object 
+#   1   anio       16960 non-null  float64
+#   2   valor      10772 non-null  float64
 #  
-#  |    | geocodigo   |   anio |     valor |
-#  |---:|:------------|-------:|----------:|
-#  |  0 | ABW         |   2008 | 0.0169974 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | ABW         |   1965 |     nan |
 #  
 #  ------------------------------
 #  
 #  drop_na(cols=['valor'])
-#  RangeIndex: 4214 entries, 0 to 4213
+#  Index: 10772 entries, 8 to 16988
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4214 non-null   object 
-#   1   anio       4214 non-null   int64  
-#   2   valor      4214 non-null   float64
+#   0   geocodigo  10772 non-null  object 
+#   1   anio       10772 non-null  float64
+#   2   valor      10772 non-null  float64
 #  
 #  |    | geocodigo   |   anio |     valor |
 #  |---:|:------------|-------:|----------:|
-#  |  0 | ABW         |   2008 | 0.0169974 |
+#  |  8 | ABW         |   2008 | 0.0169974 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 4214 entries, 0 to 4213
+#  RangeIndex: 10772 entries, 0 to 10771
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  4214 non-null   object 
-#   1   anio       4214 non-null   int64  
-#   2   valor      4214 non-null   float64
+#   0   geocodigo  10772 non-null  object 
+#   1   anio       10772 non-null  float64
+#   2   valor      10772 non-null  float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
