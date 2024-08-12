@@ -33,11 +33,6 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
 #  DEFINITIONS_END
 
 
@@ -48,8 +43,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='iso3', curr_value='OWID_YGS', new_value='SER'),
 	rename_cols(map={'valor_en_kwh_por_dolar': 'valor', 'iso3': 'geocodigo'}),
 	drop_na(cols='valor'),
-	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	query(condition='anio >= 2000')
+	sort_values(how='ascending', by=['anio', 'geocodigo'])
 )
 #  PIPELINE_END
 
@@ -156,21 +150,6 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  |    |   anio | geocodigo   |    valor |
 #  |---:|-------:|:------------|---------:|
 #  |  0 |   1965 | ARE         | 0.142491 |
-#  
-#  ------------------------------
-#  
-#  query(condition='anio >= 2000')
-#  Index: 3706 entries, 4083 to 7788
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       3706 non-null   int64  
-#   1   geocodigo  3706 non-null   object 
-#   2   valor      3706 non-null   float64
-#  
-#  |      |   anio | geocodigo   |   valor |
-#  |-----:|-------:|:------------|--------:|
-#  | 4083 |   2000 | AFG         | 0.52408 |
 #  
 #  ------------------------------
 #  
