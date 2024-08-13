@@ -9,8 +9,17 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -18,7 +27,9 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	drop_col(col=['year', 'semestre'], axis=1),
+	replace_value(col='categoria', curr_value='65 o mas', new_value='65 o más')
 )
 #  PIPELINE_END
 
@@ -57,7 +68,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 30 entries, 0 to 29
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -71,6 +82,36 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  |    |   year |   semestre | categoria   | indicador       |   valor |
 #  |---:|-------:|-----------:|:------------|:----------------|--------:|
 #  |  0 |   2023 |          1 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col=['year', 'semestre'], axis=1)
+#  RangeIndex: 30 entries, 0 to 29
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  30 non-null     object 
+#   1   indicador  30 non-null     object 
+#   2   valor      30 non-null     float64
+#  
+#  |    | categoria   | indicador       |   valor |
+#  |---:|:------------|:----------------|--------:|
+#  |  0 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='65 o mas', new_value='65 o más')
+#  RangeIndex: 30 entries, 0 to 29
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  30 non-null     object 
+#   1   indicador  30 non-null     object 
+#   2   valor      30 non-null     float64
+#  
+#  |    | categoria   | indicador       |   valor |
+#  |---:|:------------|:----------------|--------:|
+#  |  0 | 24 o menos  | Ingreso laboral | 71.4832 |
 #  
 #  ------------------------------
 #  
