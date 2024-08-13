@@ -24,7 +24,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 pipeline = chain(
 rename_cols(map={'country_code': 'categoria', 'year': 'anio', 'ipcf_promedio': 'valor'}),
 	replace_value(col='categoria', curr_value='ARG', new_value='Argentina'),
-	replace_value(col='categoria', curr_value='LAC', new_value='América Latina y el Caribe (excluidos Países de Altos Ingresos)')
+	replace_value(col='categoria', curr_value='LAC', new_value='América Latina y el Caribe')
 )
 #  PIPELINE_END
 
@@ -74,7 +74,7 @@ rename_cols(map={'country_code': 'categoria', 'year': 'anio', 'ipcf_promedio': '
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='LAC', new_value='América Latina y el Caribe (excluidos Países de Altos Ingresos)')
+#  replace_value(col='categoria', curr_value='LAC', new_value='América Latina y el Caribe')
 #  RangeIndex: 60 entries, 0 to 59
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
