@@ -19,9 +19,29 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def completar_datos_faltantes(df, col_anio, cols_cat, col_valor, anio_min, anio_max):
+    
+    import pandas as pd
+    # Filtrar el dataframe según el rango de años dado
+    df_filtrado = df[(df[col_anio] >= anio_min) & (df[col_anio] <= anio_max)]
+    
+    # Establecer el multiíndice
+    df_multi = df_filtrado.set_index(cols_cat + [col_anio])
+    
+    # Crear un índice completo para los años dentro del rango
+    idx_completo = pd.MultiIndex.from_product([df[col].unique() for col in cols_cat] + [range(anio_min, anio_max + 1)], 
+                                              names=cols_cat + [col_anio])
+    
+    # Reindexar el dataframe con el multiíndice completo
+    df_completo = df_multi.reindex(idx_completo)
+    
+    # Rellenar valores nulos con el valor previo no nulo en la columna 'col_valor'
+    df_completo[col_valor] = df_completo[col_valor].ffill()
+    
+    # Resetear el índice si se desea regresar a un dataframe plano
+    df_completo = df_completo.reset_index()
+    
+    return df_completo
 #  DEFINITIONS_END
 
 
@@ -30,7 +50,7 @@ pipeline = chain(
 agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 	rename_cols(map={'region_pbg': 'indicador', 'participacion_vab': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
-	query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
+	completar_datos_faltantes(col_anio='anio', cols_cat=['indicador'], col_valor='valor', anio_min=1895, anio_max=2022)
 )
 #  PIPELINE_END
 
@@ -98,14 +118,14 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  ------------------------------
 #  
-#  query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
-#  Index: 55 entries, 0 to 139
+#  completar_datos_faltantes(col_anio='anio', cols_cat=['indicador'], col_valor='valor', anio_min=1895, anio_max=2022)
+#  RangeIndex: 640 entries, 0 to 639
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  55 non-null     object 
-#   1   anio       55 non-null     int64  
-#   2   valor      55 non-null     float64
+#   0   indicador  640 non-null    object 
+#   1   anio       640 non-null    int64  
+#   2   valor      640 non-null    float64
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
