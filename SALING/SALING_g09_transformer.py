@@ -18,8 +18,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -29,7 +34,8 @@ pipeline = chain(
 concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'),
 	drop_col(col=['year', 'semestre'], axis=1),
 	rename_cols(map={'genero': 'categoria', 'proporcion': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='categoria', curr_value='Varon', new_value='Varón')
 )
 #  PIPELINE_END
 
@@ -98,7 +104,22 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 80 entries, 0 to 79
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  80 non-null     object 
+#   1   valor      76 non-null     float64
+#   2   aniosem    80 non-null     object 
+#  
+#  |    | categoria   |   valor | aniosem   |
+#  |---:|:------------|--------:|:----------|
+#  |  0 | Mujer       | 72.7663 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Varon', new_value='Varón')
 #  RangeIndex: 80 entries, 0 to 79
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
