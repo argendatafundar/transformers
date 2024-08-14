@@ -48,100 +48,100 @@ multiplicar_por_escalar(col='valor', k=100),
 
 
 #  start()
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |   0.111 |
+#  |  0 | Miel          |   0.855 |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |    11.1 |
+#  |  0 | Miel          |    85.5 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='tipo_cadena', curr_value='Bovino', new_value='Bovina')
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |    11.1 |
+#  |  0 | Miel          |    85.5 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='tipo_cadena', curr_value='Porcinos', new_value='Porcina')
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |    11.1 |
+#  |  0 | Miel          |    85.5 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='tipo_cadena', curr_value='Caprino', new_value='Caprina')
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |    11.1 |
+#  |  0 | Miel          |    85.5 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='tipo_cadena', curr_value='Ovinos', new_value='Ovina')
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   tipo_cadena  31 non-null     object 
-#   1   valor        31 non-null     float64
+#   0   tipo_cadena  32 non-null     object 
+#   1   valor        32 non-null     float64
 #  
 #  |    | tipo_cadena   |   valor |
 #  |---:|:--------------|--------:|
-#  |  0 | Ajo           |    11.1 |
+#  |  0 | Miel          |    85.5 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'tipo_cadena': 'categoria'})
-#  RangeIndex: 31 entries, 0 to 30
+#  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  31 non-null     object 
-#   1   valor      31 non-null     float64
+#   0   categoria  32 non-null     object 
+#   1   valor      32 non-null     float64
 #  
 #  |    | categoria   |   valor |
 #  |---:|:------------|--------:|
-#  |  0 | Ajo         |    11.1 |
+#  |  0 | Miel        |    85.5 |
 #  
 #  ------------------------------
 #  
