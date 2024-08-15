@@ -50,8 +50,8 @@ rename_cols(map={'rama': 'indicador'}),
 	multiplicar_por_escalar(col='valor', k=100),
 	replace_value(col='indicador', curr_value='Ss. publicidad', new_value='Publicidad'),
 	replace_value(col='indicador', curr_value='Ss. Arquitectura', new_value='Arquitectura'),
-	replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad\t', new_value='Jurídicos y contables'),
-	sort_values_by_comparison(colname='indicador', precedence={0: 'Investigación y desarrollo', 1: 'Publicidad', 5: 'Otras', 2: 'Arquitectura', 3: 'Ss. Jurídicos y de contabilidad', 4: 'SSI'}, prefix=['anio'], suffix=[])
+	replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad', new_value='Jurídicos y contables'),
+	sort_values_by_comparison(colname='indicador', precedence={'Investigación y desarrollo': 0, 'Publicidad': 1, 'Otras': 5, 'Arquitectura': 2, 'Jurídicos y contables': 3, 'SSI': 4}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -146,7 +146,7 @@ rename_cols(map={'rama': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad\t', new_value='Jurídicos y contables')
+#  replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad', new_value='Jurídicos y contables')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -161,8 +161,8 @@ rename_cols(map={'rama': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={0: 'Investigación y desarrollo', 1: 'Publicidad', 5: 'Otras', 2: 'Arquitectura', 3: 'Ss. Jurídicos y de contabilidad', 4: 'SSI'}, prefix=['anio'], suffix=[])
-#  Index: 162 entries, 0 to 161
+#  sort_values_by_comparison(colname='indicador', precedence={'Investigación y desarrollo': 0, 'Publicidad': 1, 'Otras': 5, 'Arquitectura': 2, 'Jurídicos y contables': 3, 'SSI': 4}, prefix=['anio'], suffix=[])
+#  Index: 162 entries, 0 to 53
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
