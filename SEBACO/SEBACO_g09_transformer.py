@@ -14,16 +14,32 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -31,8 +47,11 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 rename_cols(map={'rama': 'indicador'}),
 	rename_cols(map={'prop_rama': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values(how='ascending', by=['anio', 'indicador'])
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='indicador', curr_value='Ss. publicidad', new_value='Publicidad'),
+	replace_value(col='indicador', curr_value='Ss. Arquitectura', new_value='Arquitectura'),
+	replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad\t', new_value='Jurídicos y contables'),
+	sort_values_by_comparison(colname='indicador', precedence={0: 'Investigación y desarrollo', 1: 'Publicidad', 5: 'Otras', 2: 'Arquitectura', 3: 'Ss. Jurídicos y de contabilidad', 4: 'SSI'}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -82,7 +101,7 @@ rename_cols(map={'rama': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -97,8 +116,53 @@ rename_cols(map={'rama': 'indicador'}),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'indicador'])
+#  replace_value(col='indicador', curr_value='Ss. publicidad', new_value='Publicidad')
 #  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | indicador                  |   anio |   valor |
+#  |---:|:---------------------------|-------:|--------:|
+#  |  0 | Investigación y desarrollo |   1996 | 1.81982 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Ss. Arquitectura', new_value='Arquitectura')
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | indicador                  |   anio |   valor |
+#  |---:|:---------------------------|-------:|--------:|
+#  |  0 | Investigación y desarrollo |   1996 | 1.81982 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Ss. Jurídicos y de contabilidad\t', new_value='Jurídicos y contables')
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | indicador                  |   anio |   valor |
+#  |---:|:---------------------------|-------:|--------:|
+#  |  0 | Investigación y desarrollo |   1996 | 1.81982 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={0: 'Investigación y desarrollo', 1: 'Publicidad', 5: 'Otras', 2: 'Arquitectura', 3: 'Ss. Jurídicos y de contabilidad', 4: 'SSI'}, prefix=['anio'], suffix=[])
+#  Index: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
