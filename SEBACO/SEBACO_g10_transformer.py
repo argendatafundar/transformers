@@ -16,6 +16,21 @@ def drop_col(df: DataFrame, col, axis=1):
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +38,10 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 rename_cols(map={'rama': 'categoria', 'total_perc': 'valor'}),
 	drop_col(col=['empleo', 'sbc_perc'], axis=1),
-	multiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='categoria', curr_value='Ss. publicidad', new_value='Publicidad'),
+	replace_value(col='categoria', curr_value='Ss. Arquitectura', new_value='Arquitectura'),
+	replace_value(col='categoria', curr_value='Ss. Jurídicos y de contabilidad', new_value='Jurídicos y contables')
 )
 #  PIPELINE_END
 
@@ -78,6 +96,51 @@ rename_cols(map={'rama': 'categoria', 'total_perc': 'valor'}),
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | categoria                  |   anio |     valor |
+#  |---:|:---------------------------|-------:|----------:|
+#  |  0 | Investigación y desarrollo |   1996 | 0.0725962 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Ss. publicidad', new_value='Publicidad')
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | categoria                  |   anio |     valor |
+#  |---:|:---------------------------|-------:|----------:|
+#  |  0 | Investigación y desarrollo |   1996 | 0.0725962 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Ss. Arquitectura', new_value='Arquitectura')
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | categoria                  |   anio |     valor |
+#  |---:|:---------------------------|-------:|----------:|
+#  |  0 | Investigación y desarrollo |   1996 | 0.0725962 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Ss. Jurídicos y de contabilidad', new_value='Jurídicos y contables')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
