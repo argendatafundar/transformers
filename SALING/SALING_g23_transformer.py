@@ -35,8 +35,8 @@ pipeline = chain(
 rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
 	replace_value(col='categoria', curr_value='(15-24)', new_value='15 a 24 años'),
 	replace_value(col='categoria', curr_value='(25-64)', new_value='25 a 64 años'),
-	replace_value(col='categoria', curr_value='(65-)', new_value='65 años y más'),
-	replace_value(col='categoria', curr_value='Hombres', new_value='Varón')
+	replace_value(col='categoria', curr_value='(65 +)', new_value='65 años y más'),
+	replace_value(col='categoria', curr_value='Hombres', new_value='Varones')
 )
 #  PIPELINE_END
 
@@ -101,7 +101,7 @@ rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='(65-)', new_value='65 años y más')
+#  replace_value(col='categoria', curr_value='(65 +)', new_value='65 años y más')
 #  RangeIndex: 160 entries, 0 to 159
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
@@ -116,7 +116,7 @@ rename_cols(map={'variable': 'categoria', 'ano': 'anio'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Hombres', new_value='Varón')
+#  replace_value(col='categoria', curr_value='Hombres', new_value='Varones')
 #  RangeIndex: 160 entries, 0 to 159
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
