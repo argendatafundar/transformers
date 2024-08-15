@@ -16,7 +16,7 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
@@ -24,6 +24,13 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def str_replace(df: DataFrame, col: str, pattern, replace: str, reg: bool = True):
     df[col] = df[col].str.replace(pattern, replace, regex=reg)
     return df
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
@@ -31,8 +38,9 @@ def str_replace(df: DataFrame, col: str, pattern, replace: str, reg: bool = True
 pipeline = chain(
 rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'}),
 	sort_values(how='ascending', by=['categoria', 'indicador']),
-	mutiplicar_por_escalar(col='valor', k=100),
-	str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True)
+	multiplicar_por_escalar(col='valor', k=100),
+	str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True),
+	ordenar_dos_columnas(col1='indicador', order1=['Sin instrucción', 'Primario incompleto', 'Primario completo', 'Secundario incompleto', 'Secundario completo', 'Superior incompleto', 'Superior completo'], col2='categoria', order2=['SBC', 'Sector privado', 'Total economía'])
 )
 #  PIPELINE_END
 
@@ -70,11 +78,11 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #  sort_values(how='ascending', by=['categoria', 'indicador'])
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  21 non-null     object 
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  21 non-null     category
+#   1   categoria  21 non-null     category
+#   2   valor      21 non-null     float64 
 #  
 #  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
@@ -82,14 +90,14 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  21 non-null     object 
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  21 non-null     category
+#   1   categoria  21 non-null     category
+#   2   valor      21 non-null     float64 
 #  
 #  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
@@ -100,15 +108,30 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #  str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True)
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  21 non-null     object 
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  21 non-null     category
+#   1   categoria  21 non-null     category
+#   2   valor      21 non-null     float64 
 #  
 #  |    | indicador           | categoria   |    valor |
 #  |---:|:--------------------|:------------|---------:|
 #  |  0 | Primario incompleto | SBC         | 0.194999 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='indicador', order1=['Sin instrucción', 'Primario incompleto', 'Primario completo', 'Secundario incompleto', 'Secundario completo', 'Superior incompleto', 'Superior completo'], col2='categoria', order2=['SBC', 'Sector privado', 'Total economía'])
+#  Index: 21 entries, 6 to 19
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  21 non-null     category
+#   1   categoria  21 non-null     category
+#   2   valor      21 non-null     float64 
+#  
+#  |    | indicador       | categoria   |    valor |
+#  |---:|:----------------|:------------|---------:|
+#  |  6 | Sin instrucción | SBC         | 0.109376 |
 #  
 #  ------------------------------
 #  
