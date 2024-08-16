@@ -34,11 +34,6 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -55,8 +50,8 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
     return df_.drop(mapcol, axis=1)
 
 @transformer.convert
-def drop_na(df:DataFrame, cols:list):
-    return df.dropna(subset=cols)
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
 #  DEFINITIONS_END
 
 
@@ -68,11 +63,10 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='indicador', curr_value='Carbon', new_value='Carbón'),
 	replace_value(col='indicador', curr_value='Petroleo', new_value='Petróleo'),
 	replace_value(col='indicador', curr_value='Eolica', new_value='Eólica'),
-	replace_value(col='indicador', curr_value='Biomasa tradicional ', new_value='Biomasa tradicional'),
 	drop_col(col='porcentaje', axis=1),
 	drop_col(col='tipo_energia', axis=1),
-	sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[]),
-	drop_na(cols=['valor'])
+	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[]),
+	drop_na(subset=['valor'])
 )
 #  PIPELINE_END
 
@@ -203,24 +197,6 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Biomasa tradicional ', new_value='Biomasa tradicional')
-#  Index: 46433 entries, 0 to 52863
-#  Data columns (total 6 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   geocodigo     46433 non-null  object 
-#   1   anio          46433 non-null  int64  
-#   2   indicador     46433 non-null  object 
-#   3   tipo_energia  46433 non-null  object 
-#   4   valor         35292 non-null  float64
-#   5   porcentaje    46433 non-null  float64
-#  
-#  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor |   porcentaje |
-#  |---:|:------------|-------:|:----------------|:---------------|--------:|-------------:|
-#  |  0 | AGO         |   1965 | Biocombustibles | Limpias        |     nan |            0 |
-#  
-#  ------------------------------
-#  
 #  drop_col(col='porcentaje', axis=1)
 #  Index: 46433 entries, 0 to 52863
 #  Data columns (total 5 columns):
@@ -254,7 +230,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Bioenergía': 10, 'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[])
+#  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[])
 #  Index: 46433 entries, 0 to 52863
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -270,7 +246,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  drop_na(cols=['valor'])
+#  drop_na(subset=['valor'])
 #  Index: 35292 entries, 59 to 52863
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
