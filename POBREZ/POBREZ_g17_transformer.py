@@ -67,7 +67,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 	rename_cols(map={'educ_level': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria Completa o menos'),
+	replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria completa o menos'),
 	replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Secundaria incompleta'),
 	replace_value(col='indicador', curr_value='Secu_completa', new_value='Secundaria completa'),
 	replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Superior incompleta'),
@@ -192,7 +192,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria Completa o menos')
+#  replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria completa o menos')
 #  Index: 12 entries, 234 to 479
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
