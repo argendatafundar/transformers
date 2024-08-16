@@ -16,6 +16,11 @@ def query(df: DataFrame, condition: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 rename_cols(map={'genero_desc': 'categoria', 'hs_trabajadas_sem': 'valor'}),
 	query(condition='genero_cod!=0'),
-	drop_col(col='genero_cod', axis=1)
+	drop_col(col='genero_cod', axis=1),
+	replace_value(col='categoria', curr_value='Hombres', new_value='Varones')
 )
 #  PIPELINE_END
 
@@ -88,6 +94,21 @@ rename_cols(map={'genero_desc': 'categoria', 'hs_trabajadas_sem': 'valor'}),
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  |  1 |   2003 | Hombres     | 42.6659 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Hombres', new_value='Varones')
+#  Index: 42 entries, 1 to 42
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       42 non-null     int64  
+#   1   categoria  42 non-null     object 
+#   2   valor      42 non-null     float64
+#  
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  1 |   2003 | Varones     | 42.6659 |
 #  
 #  ------------------------------
 #  
