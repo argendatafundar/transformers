@@ -32,8 +32,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
@@ -44,9 +49,10 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 	query(condition='poverty_line == 6.85'),
 	drop_col(col='poverty_line', axis=1),
 	drop_col(col='region_code', axis=1),
-	replace_value(col='region_name', curr_value='Latin America and Caribbean', new_value='América Latina y el Caribe (excluidos Países de Altos Ingresos)'),
+	replace_value(col='region_name', curr_value='Latin America and Caribbean', new_value='América Latina y el Caribe'),
 	rename_cols(map={'region_name': 'categoria', 'poverty_rate': 'valor', 'year': 'anio'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='anio >= 2003')
 )
 #  PIPELINE_END
 
@@ -133,7 +139,7 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 #  
 #  ------------------------------
 #  
-#  replace_value(col='region_name', curr_value='Latin America and Caribbean', new_value='América Latina y el Caribe (excluidos Países de Altos Ingresos)')
+#  replace_value(col='region_name', curr_value='Latin America and Caribbean', new_value='América Latina y el Caribe')
 #  Index: 74 entries, 826 to 970
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
@@ -163,7 +169,7 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 74 entries, 826 to 970
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -175,6 +181,21 @@ query(condition="(region_name == 'Argentina') | (region_name == 'Latin America a
 #  |     | categoria   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
 #  | 826 | Argentina   |   1980 | 5.52647 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 2003')
+#  Index: 37 entries, 841 to 970
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  37 non-null     object 
+#   1   anio       37 non-null     int64  
+#   2   valor      37 non-null     float64
+#  
+#  |     | categoria   |   anio |   valor |
+#  |----:|:------------|-------:|--------:|
+#  | 841 | Argentina   |   2003 | 29.5568 |
 #  
 #  ------------------------------
 #  
