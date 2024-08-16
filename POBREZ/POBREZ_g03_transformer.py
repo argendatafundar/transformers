@@ -41,8 +41,18 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
@@ -57,7 +67,9 @@ query(condition="region == 'Total'"),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
 	drop_col(col='region', axis=1),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	replace_value(col='categoria', curr_value=0.25, new_value='k=0.25'),
+	replace_value(col='categoria', curr_value=0.35, new_value='k=0.35')
 )
 #  PIPELINE_END
 
@@ -215,7 +227,7 @@ query(condition="region == 'Total'"),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 80 entries, 0 to 632
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -227,6 +239,36 @@ query(condition="region == 'Total'"),
 #  |    |   categoria |   valor | aniosem   |
 #  |---:|------------:|--------:|:----------|
 #  |  0 |        0.25 | 25.6201 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value=0.25, new_value='k=0.25')
+#  Index: 80 entries, 0 to 632
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  80 non-null     object 
+#   1   valor      76 non-null     float64
+#   2   aniosem    80 non-null     object 
+#  
+#  |    | categoria   |   valor | aniosem   |
+#  |---:|:------------|--------:|:----------|
+#  |  0 | k=0.25      | 25.6201 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value=0.35, new_value='k=0.35')
+#  Index: 80 entries, 0 to 632
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  80 non-null     object 
+#   1   valor      76 non-null     float64
+#   2   aniosem    80 non-null     object 
+#  
+#  |    | categoria   |   valor | aniosem   |
+#  |---:|:------------|--------:|:----------|
+#  |  0 | k=0.25      | 25.6201 | 2003-2    |
 #  
 #  ------------------------------
 #  
