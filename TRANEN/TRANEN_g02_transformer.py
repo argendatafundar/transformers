@@ -65,7 +65,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 	replace_value(col='indicador', curr_value='Eolica', new_value='Eólica'),
 	drop_col(col='porcentaje', axis=1),
 	drop_col(col='tipo_energia', axis=1),
-	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[]),
+	sort_values_by_comparison(colname='indicador', precedence={'Gas natural': 1, 'Petróleo': 2, 'Carbón': 3, 'Otras renovables': 4, 'Biocombustibles': 5, 'Solar': 6, 'Eólica': 7, 'Nuclear': 8, 'Hidro': 9}, prefix=['geocodigo', 'anio'], suffix=[]),
 	drop_na(subset=['valor'])
 )
 #  PIPELINE_END
@@ -230,7 +230,7 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 1, 'Biocombustibles': 2, 'Solar': 3, 'Eólica': 4, 'Nuclear': 5, 'Hidro': 6, 'Gas natural': 7, 'Petróleo': 8, 'Carbón': 9}, prefix=['geocodigo', 'anio'], suffix=[])
+#  sort_values_by_comparison(colname='indicador', precedence={'Gas natural': 1, 'Petróleo': 2, 'Carbón': 3, 'Otras renovables': 4, 'Biocombustibles': 5, 'Solar': 6, 'Eólica': 7, 'Nuclear': 8, 'Hidro': 9}, prefix=['geocodigo', 'anio'], suffix=[])
 #  Index: 46433 entries, 0 to 52863
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
