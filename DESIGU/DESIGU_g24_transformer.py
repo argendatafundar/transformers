@@ -29,7 +29,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 pipeline = chain(
 rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 	replace_value(col='categoria', curr_value='agua', new_value='Agua'),
-	replace_value(col='categoria', curr_value='sanidad', new_value='Sanidad'),
+	replace_value(col='categoria', curr_value='sanidad', new_value='Saneamiento baño'),
 	replace_value(col='categoria', curr_value='cloacas', new_value='Cloacas')
 )
 #  PIPELINE_END
@@ -80,7 +80,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='sanidad', new_value='Sanidad')
+#  replace_value(col='categoria', curr_value='sanidad', new_value='Saneamiento baño')
 #  RangeIndex: 90 entries, 0 to 89
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
