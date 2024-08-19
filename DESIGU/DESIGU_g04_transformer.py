@@ -13,9 +13,15 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_na(df:DataFrame, col:str):
-    df = df.dropna(subset=col, axis=0)
-    return df
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -23,7 +29,8 @@ def drop_na(df:DataFrame, col:str):
 pipeline = chain(
 rename_cols(map={'gini': 'valor', 'code': 'geocodigo'}),
 	drop_col(col='pais', axis=1),
-	drop_na(col='valor')
+	drop_na(cols='valor'),
+	sort_values(how='ascending', by=['valor'])
 )
 #  PIPELINE_END
 
@@ -72,8 +79,22 @@ rename_cols(map={'gini': 'valor', 'code': 'geocodigo'}),
 #  
 #  ------------------------------
 #  
-#  drop_na(col='valor')
+#  drop_na(cols='valor')
 #  Index: 153 entries, 0 to 161
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  153 non-null    object 
+#   1   valor      153 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  |  0 | ISL         |    24.3 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['valor'])
+#  RangeIndex: 153 entries, 0 to 152
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
