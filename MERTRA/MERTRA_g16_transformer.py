@@ -9,8 +9,15 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
     return df
 #  DEFINITIONS_END
 
@@ -18,7 +25,8 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'provincia': 'categoria', 'nivel_ed_fundar': 'indicador', 'ocupado': 'valor'}),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	latest_year(by='anio')
 )
 #  PIPELINE_END
 
@@ -55,7 +63,7 @@ rename_cols(map={'provincia': 'categoria', 'nivel_ed_fundar': 'indicador', 'ocup
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 756 entries, 0 to 755
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -68,6 +76,21 @@ rename_cols(map={'provincia': 'categoria', 'nivel_ed_fundar': 'indicador', 'ocup
 #  |    |   anio | categoria    | indicador                   |   valor |
 #  |---:|-------:|:-------------|:----------------------------|--------:|
 #  |  0 |   2016 | Buenos Aires | Hasta secundario incompleto | 64.7369 |
+#  
+#  ------------------------------
+#  
+#  latest_year(by='anio')
+#  Index: 96 entries, 495 to 755
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  96 non-null     object 
+#   1   indicador  96 non-null     object 
+#   2   valor      96 non-null     float64
+#  
+#  |     | categoria    | indicador                   |   valor |
+#  |----:|:-------------|:----------------------------|--------:|
+#  | 495 | Buenos Aires | Hasta secundario incompleto | 69.1307 |
 #  
 #  ------------------------------
 #  
