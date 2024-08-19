@@ -19,6 +19,11 @@ def latest_year(df, by='anio'):
     df = df.query(f'{by} == {latest_year}')
     df = df.drop(columns = by)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -26,7 +31,8 @@ def latest_year(df, by='anio'):
 pipeline = chain(
 rename_cols(map={'provincia': 'categoria', 'nivel_ed_fundar': 'indicador', 'ocupado': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
-	latest_year(by='anio')
+	latest_year(by='anio'),
+	replace_value(col='categoria', curr_value='Ciudad de Buenos Aires', new_value='CABA')
 )
 #  PIPELINE_END
 
@@ -80,6 +86,21 @@ rename_cols(map={'provincia': 'categoria', 'nivel_ed_fundar': 'indicador', 'ocup
 #  ------------------------------
 #  
 #  latest_year(by='anio')
+#  Index: 96 entries, 495 to 755
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  96 non-null     object 
+#   1   indicador  96 non-null     object 
+#   2   valor      96 non-null     float64
+#  
+#  |     | categoria    | indicador                   |   valor |
+#  |----:|:-------------|:----------------------------|--------:|
+#  | 495 | Buenos Aires | Hasta secundario incompleto | 69.1307 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Ciudad de Buenos Aires', new_value='CABA')
 #  Index: 96 entries, 495 to 755
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
