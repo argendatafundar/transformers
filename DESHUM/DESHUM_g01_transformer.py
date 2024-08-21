@@ -4,8 +4,10 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
     return df
 
 @transformer.convert
@@ -16,14 +18,80 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition="anio == anio.max() & ~ iso3.isin(['ZZA.VHHD', 'ZZB.HHD', 'ZZC.MHD', 'ZZD.LHD', 'ZZE.AS', 'ZZF.EAP', 'ZZG.ECA', 'ZZH.LAC', 'ZZI.SA', 'ZZJ.SSA', 'ZZK.WORLD'])"),
+latest_year(by='anio'),
 	rename_cols(map={'iso3': 'geocodigo', 'idh': 'valor'}),
-	drop_col(col=['pais_nombre', 'continente_fundar', 'es_agregacion'], axis=1)
+	drop_col(col=['pais_nombre', 'continente_fundar', 'es_agregacion'], axis=1),
+	replace_value(col='geocodigo', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD'),
+	replace_value(col='geocodigo', curr_value='ZZB.HHD', new_value='DESHUM_ZZB.HHD'),
+	replace_value(col='geocodigo', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD'),
+	replace_value(col='geocodigo', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD'),
+	replace_value(col='geocodigo', curr_value='ZZE.AS', new_value='DESHUM_ZZE.AS'),
+	replace_value(col='geocodigo', curr_value='ZZF.EAP', new_value='DESHUM_ZZF.EAP'),
+	replace_value(col='geocodigo', curr_value='ZZG.ECA', new_value='DESHUM_ZZG.ECA'),
+	replace_value(col='geocodigo', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC'),
+	replace_value(col='geocodigo', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA'),
+	replace_value(col='geocodigo', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
+	replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='DESHUM_ZZK.WORLD')
 )
 #  PIPELINE_END
 
@@ -46,54 +114,205 @@ query(condition="anio == anio.max() & ~ iso3.isin(['ZZA.VHHD', 'ZZB.HHD', 'ZZC.M
 #  
 #  ------------------------------
 #  
-#  query(condition="anio == anio.max() & ~ iso3.isin(['ZZA.VHHD', 'ZZB.HHD', 'ZZC.MHD', 'ZZD.LHD', 'ZZE.AS', 'ZZF.EAP', 'ZZG.ECA', 'ZZH.LAC', 'ZZI.SA', 'ZZJ.SSA', 'ZZK.WORLD'])")
-#  Index: 193 entries, 32 to 5807
-#  Data columns (total 6 columns):
+#  latest_year(by='anio')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3               193 non-null    object 
-#   1   pais_nombre        193 non-null    object 
+#   0   iso3               204 non-null    object 
+#   1   pais_nombre        204 non-null    object 
 #   2   continente_fundar  193 non-null    object 
 #   3   es_agregacion      193 non-null    float64
-#   4   anio               193 non-null    int64  
-#   5   idh                193 non-null    float64
+#   4   idh                204 non-null    float64
 #  
-#  |    | iso3   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   idh |
-#  |---:|:-------|:--------------|:--------------------|----------------:|-------:|------:|
-#  | 32 | AFG    | Afganistán    | Asia                |               0 |   2022 | 0.462 |
+#  |    | iso3   | pais_nombre   | continente_fundar   |   es_agregacion |   idh |
+#  |---:|:-------|:--------------|:--------------------|----------------:|------:|
+#  | 32 | AFG    | Afganistán    | Asia                |               0 | 0.462 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'idh': 'valor'})
-#  Index: 193 entries, 32 to 5807
-#  Data columns (total 6 columns):
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   geocodigo          193 non-null    object 
-#   1   pais_nombre        193 non-null    object 
+#   0   geocodigo          204 non-null    object 
+#   1   pais_nombre        204 non-null    object 
 #   2   continente_fundar  193 non-null    object 
 #   3   es_agregacion      193 non-null    float64
-#   4   anio               193 non-null    int64  
-#   5   valor              193 non-null    float64
+#   4   valor              204 non-null    float64
 #  
-#  |    | geocodigo   | pais_nombre   | continente_fundar   |   es_agregacion |   anio |   valor |
-#  |---:|:------------|:--------------|:--------------------|----------------:|-------:|--------:|
-#  | 32 | AFG         | Afganistán    | Asia                |               0 |   2022 |   0.462 |
+#  |    | geocodigo   | pais_nombre   | continente_fundar   |   es_agregacion |   valor |
+#  |---:|:------------|:--------------|:--------------------|----------------:|--------:|
+#  | 32 | AFG         | Afganistán    | Asia                |               0 |   0.462 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['pais_nombre', 'continente_fundar', 'es_agregacion'], axis=1)
-#  Index: 193 entries, 32 to 5807
-#  Data columns (total 3 columns):
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  193 non-null    object 
-#   1   anio       193 non-null    int64  
-#   2   valor      193 non-null    float64
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  | 32 | AFG         |   2022 |   0.462 |
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZB.HHD', new_value='DESHUM_ZZB.HHD')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZE.AS', new_value='DESHUM_ZZE.AS')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZF.EAP', new_value='DESHUM_ZZF.EAP')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZG.ECA', new_value='DESHUM_ZZG.ECA')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='DESHUM_ZZK.WORLD')
+#  Index: 204 entries, 32 to 6170
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  204 non-null    object 
+#   1   valor      204 non-null    float64
+#  
+#  |    | geocodigo   |   valor |
+#  |---:|:------------|--------:|
+#  | 32 | AFG         |   0.462 |
 #  
 #  ------------------------------
 #  
