@@ -91,7 +91,7 @@ latest_year(by='anio'),
 	replace_value(col='geocodigo', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC'),
 	replace_value(col='geocodigo', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA'),
 	replace_value(col='geocodigo', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
-	replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='DESHUM_ZZK.WORLD')
+	replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='WLD')
 )
 #  PIPELINE_END
 
@@ -302,7 +302,7 @@ latest_year(by='anio'),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='DESHUM_ZZK.WORLD')
+#  replace_value(col='geocodigo', curr_value='ZZK.WORLD', new_value='WLD')
 #  Index: 204 entries, 32 to 6170
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
