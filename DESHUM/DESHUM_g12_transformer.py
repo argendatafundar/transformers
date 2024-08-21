@@ -53,7 +53,7 @@ query(condition='anio == anio.max()'),
 	df_merge_geonomenclador(left='iso3', right='geocodigo', how='left'),
 	drop_col(col=['geocodigo', 'iso3', 'country', 'name_short', 'iso_2', 'anio'], axis=1),
 	rename_cols(map={'name_long': 'categoria', 'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="categoria in ('Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')")
+	query(condition="categoria in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')")
 )
 #  PIPELINE_END
 
@@ -194,18 +194,18 @@ query(condition='anio == anio.max()'),
 #  
 #  ------------------------------
 #  
-#  query(condition="categoria in ('Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')")
-#  Index: 12 entries, 11 to 411
+#  query(condition="categoria in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')")
+#  Index: 14 entries, 5 to 411
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   valor      12 non-null     float64
-#   2   categoria  12 non-null     object 
+#   0   indicador  14 non-null     object 
+#   1   valor      14 non-null     float64
+#   2   categoria  14 non-null     object 
 #  
 #  |    | indicador   |    valor | categoria   |
 #  |---:|:------------|---------:|:------------|
-#  | 11 | Varones     | 0.436317 | Burundi     |
+#  |  5 | Varones     | 0.845473 | Argentina   |
 #  
 #  ------------------------------
 #  
