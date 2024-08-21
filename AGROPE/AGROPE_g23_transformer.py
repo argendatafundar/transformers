@@ -43,94 +43,94 @@ rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 
 
 #  start()
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   anio        240 non-null    int64  
-#   1   share_expo  240 non-null    float64
-#   2   iso3        240 non-null    object 
-#   3   pais        240 non-null    object 
+#   0   anio        6747 non-null   int64  
+#   1   share_expo  6747 non-null   float64
+#   2   iso3        6747 non-null   object 
+#   3   pais        6747 non-null   object 
 #  
-#  |    |   anio |   share_expo | iso3   | pais      |
-#  |---:|-------:|-------------:|:-------|:----------|
-#  |  0 |   1962 |       0.2181 | ARG    | Argentina |
+#  |    |   anio |   share_expo | iso3   | pais   |
+#  |---:|-------:|-------------:|:-------|:-------|
+#  |  0 |   2014 |            0 | ABW    | Aruba  |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'})
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       240 non-null    int64  
-#   1   valor      240 non-null    float64
-#   2   geocodigo  240 non-null    object 
-#   3   pais       240 non-null    object 
+#   0   anio       6747 non-null   int64  
+#   1   valor      6747 non-null   float64
+#   2   geocodigo  6747 non-null   object 
+#   3   pais       6747 non-null   object 
 #  
-#  |    |   anio |   valor | geocodigo   | pais      |
-#  |---:|-------:|--------:|:------------|:----------|
-#  |  0 |   1962 |  0.2181 | ARG         | Argentina |
+#  |    |   anio |   valor | geocodigo   | pais   |
+#  |---:|-------:|--------:|:------------|:-------|
+#  |  0 |   2014 |       0 | ABW         | Aruba  |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='pais', axis=1)
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       240 non-null    int64  
-#   1   valor      240 non-null    float64
-#   2   geocodigo  240 non-null    object 
+#   0   anio       6747 non-null   int64  
+#   1   valor      6747 non-null   float64
+#   2   geocodigo  6747 non-null   object 
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |  0.2181 | ARG         |
+#  |  0 |   2014 |       0 | ABW         |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       240 non-null    int64  
-#   1   valor      240 non-null    float64
-#   2   geocodigo  240 non-null    object 
+#   0   anio       6747 non-null   int64  
+#   1   valor      6747 non-null   float64
+#   2   geocodigo  6747 non-null   object 
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |  0.2181 | ARG         |
+#  |  0 |   1962 |  0.0009 | AGO         |
 #  
 #  ------------------------------
 #  
 #  drop_na(col='valor')
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       240 non-null    int64  
-#   1   valor      240 non-null    float64
-#   2   geocodigo  240 non-null    object 
+#   0   anio       6747 non-null   int64  
+#   1   valor      6747 non-null   float64
+#   2   geocodigo  6747 non-null   object 
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |   21.81 | ARG         |
+#  |  0 |   1962 |    0.09 | AGO         |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       240 non-null    int64  
-#   1   valor      240 non-null    float64
-#   2   geocodigo  240 non-null    object 
+#   0   anio       6747 non-null   int64  
+#   1   valor      6747 non-null   float64
+#   2   geocodigo  6747 non-null   object 
 #  
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |   21.81 | ARG         |
+#  |  0 |   1962 |    0.09 | AGO         |
 #  
 #  ------------------------------
 #  
