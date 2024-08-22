@@ -20,9 +20,8 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def drop_na(df:DataFrame, col:str):
-    df = df.dropna(subset=col, axis=0)
-    return df
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
 
 @transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
@@ -36,7 +35,7 @@ pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 	drop_col(col='pais', axis=1),
 	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	drop_na(col='valor'),
+	drop_na(subset='valor'),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -104,7 +103,7 @@ rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  drop_na(col='valor')
+#  drop_na(subset='valor')
 #  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
