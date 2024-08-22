@@ -27,6 +27,11 @@ def sort_values(df: DataFrame, how: str, by: list):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -36,7 +41,8 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 	drop_col(col='pais', axis=1),
 	drop_na(subset=['valor']),
 	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP', 'XT', 'XN', 'XM', 'XD'])")
+	query(condition="~ geocodigo.isin(['SSA', 'TMN','MNA', 'TSS', 'LAC', 'TLA', 'TEC', 'ECA', 'TSA','TEA', 'EAP', 'XT', 'XN', 'XM', 'XD'])"),
+	query(condition='anio <= 2022')
 )
 #  PIPELINE_END
 
@@ -126,6 +132,21 @@ rename_cols(map={'iso3c': 'geocodigo', 'va_agro_sobre_pbi': 'valor'}),
 #   0   geocodigo  10290 non-null  object 
 #   1   anio       10290 non-null  int64  
 #   2   valor      10290 non-null  float64
+#  
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | BEN         |   1960 | 46.1577 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio <= 2022')
+#  Index: 10106 entries, 0 to 10576
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  10106 non-null  object 
+#   1   anio       10106 non-null  int64  
+#   2   valor      10106 non-null  float64
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
