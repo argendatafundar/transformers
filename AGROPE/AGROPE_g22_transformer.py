@@ -67,158 +67,158 @@ replace_value(col='iso3', curr_value='F15', new_value='BLX'),
 
 
 #  start()
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   iso3              11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   iso3              11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | iso3   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:-------|:-------------------|--------:|
-#  |  0 |   1961 | AFG    | Afganistán         |  360000 |
+#  |    | iso3   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:-------|:-------------------|-------:|--------:|
+#  |  0 | AFG    | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='F15', new_value='BLX')
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   iso3              11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   iso3              11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | iso3   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:-------|:-------------------|--------:|
-#  |  0 |   1961 | AFG    | Afganistán         |  360000 |
+#  |    | iso3   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:-------|:-------------------|-------:|--------:|
+#  |  0 | AFG    | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='F228', new_value='SVU')
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   iso3              11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   iso3              11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | iso3   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:-------|:-------------------|--------:|
-#  |  0 |   1961 | AFG    | Afganistán         |  360000 |
+#  |    | iso3   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:-------|:-------------------|-------:|--------:|
+#  |  0 | AFG    | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='F248', new_value='SER')
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   iso3              11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   iso3              11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | iso3   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:-------|:-------------------|--------:|
-#  |  0 |   1961 | AFG    | Afganistán         |  360000 |
+#  |    | iso3   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:-------|:-------------------|-------:|--------:|
+#  |  0 | AFG    | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='F51', new_value='CSK')
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   iso3              11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   iso3              11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | iso3   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:-------|:-------------------|--------:|
-#  |  0 |   1961 | AFG    | Afganistán         |  360000 |
+#  |    | iso3   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:-------|:-------------------|-------:|--------:|
+#  |  0 | AFG    | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo'})
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              11393 non-null  int64  
-#   1   geocodigo         11393 non-null  object 
-#   2   iso3_desc_fundar  11393 non-null  object 
-#   3   valor             11393 non-null  float64
+#   0   geocodigo         11363 non-null  object 
+#   1   iso3_desc_fundar  11363 non-null  object 
+#   2   anio              11363 non-null  int64  
+#   3   valor             11363 non-null  float64
 #  
-#  |    |   anio | geocodigo   | iso3_desc_fundar   |   valor |
-#  |---:|-------:|:------------|:-------------------|--------:|
-#  |  0 |   1961 | AFG         | Afganistán         |  360000 |
+#  |    | geocodigo   | iso3_desc_fundar   |   anio |   valor |
+#  |---:|:------------|:-------------------|-------:|--------:|
+#  |  0 | AFG         | Afganistán         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3_desc_fundar', axis=1)
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       11393 non-null  int64  
-#   1   geocodigo  11393 non-null  object 
-#   2   valor      11393 non-null  float64
+#   0   geocodigo  11363 non-null  object 
+#   1   anio       11363 non-null  int64  
+#   2   valor      11363 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | AFG         |  360000 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  RangeIndex: 11393 entries, 0 to 11392
+#  RangeIndex: 11363 entries, 0 to 11362
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       11393 non-null  int64  
-#   1   geocodigo  11393 non-null  object 
-#   2   valor      11393 non-null  float64
+#   0   geocodigo  11363 non-null  object 
+#   1   anio       11363 non-null  int64  
+#   2   valor      11363 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | AFG         |  360000 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1961 |   43000 |
 #  
 #  ------------------------------
 #  
 #  query(condition="geocodigo != 'F351'")
-#  Index: 11331 entries, 0 to 11392
+#  Index: 11363 entries, 0 to 11362
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       11331 non-null  int64  
-#   1   geocodigo  11331 non-null  object 
-#   2   valor      11331 non-null  float64
+#   0   geocodigo  11363 non-null  object 
+#   1   anio       11363 non-null  int64  
+#   2   valor      11363 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | AFG         |    0.36 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1961 |   0.043 |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=1e-06)
-#  Index: 11331 entries, 0 to 11392
+#  Index: 11363 entries, 0 to 11362
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       11331 non-null  int64  
-#   1   geocodigo  11331 non-null  object 
-#   2   valor      11331 non-null  float64
+#   0   geocodigo  11363 non-null  object 
+#   1   anio       11363 non-null  int64  
+#   2   valor      11363 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | AFG         |    0.36 |
+#  |    | geocodigo   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | AFG         |   1961 |   0.043 |
 #  
 #  ------------------------------
 #  
