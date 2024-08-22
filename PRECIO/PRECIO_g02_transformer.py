@@ -42,6 +42,31 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -54,7 +79,12 @@ rename_cols(map={'region': 'geocodigo', 'sector': 'indicador'}),
 	replace_value(col='geocodigo', curr_value='NEA', new_value='AR-NEA'),
 	replace_value(col='geocodigo', curr_value='Pampeana', new_value='AR-PAM'),
 	replace_value(col='geocodigo', curr_value='Cuyo', new_value='AR-CUY'),
-	replace_value(col='geocodigo', curr_value='Patagonia', new_value='AR-PAT')
+	replace_value(col='geocodigo', curr_value='Patagonia', new_value='AR-PAT'),
+	replace_value(col='indicador', curr_value='Alimentos y bebidas no alcoholicas', new_value='Alimentos y bebidas no alcohólicas'),
+	replace_value(col='indicador', curr_value='Bebidas alcoholicas y tabaco', new_value='Bebidas alcohólicas y tabaco'),
+	replace_value(col='indicador', curr_value='Recreacion y cultura', new_value='Recreación y cultura'),
+	replace_value(col='indicador', curr_value='Educacion', new_value='Educación'),
+	replace_value(col='indicador', curr_value='Vivienda agua electricidad gas y otros combustibles', new_value='Vivienda, agua, electricidad, gas y otros combustibles')
 )
 #  PIPELINE_END
 
@@ -191,6 +221,81 @@ rename_cols(map={'region': 'geocodigo', 'sector': 'indicador'}),
 #  |    | geocodigo   | indicador                          |   valor |
 #  |---:|:------------|:-----------------------------------|--------:|
 #  |  0 | AR-GBA      | Alimentos y bebidas no alcoholicas |    23.4 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Alimentos y bebidas no alcoholicas', new_value='Alimentos y bebidas no alcohólicas')
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  84 non-null     object 
+#   1   indicador  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    | geocodigo   | indicador                          |   valor |
+#  |---:|:------------|:-----------------------------------|--------:|
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcohólicas |    23.4 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Bebidas alcoholicas y tabaco', new_value='Bebidas alcohólicas y tabaco')
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  84 non-null     object 
+#   1   indicador  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    | geocodigo   | indicador                          |   valor |
+#  |---:|:------------|:-----------------------------------|--------:|
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcohólicas |    23.4 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Recreacion y cultura', new_value='Recreación y cultura')
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  84 non-null     object 
+#   1   indicador  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    | geocodigo   | indicador                          |   valor |
+#  |---:|:------------|:-----------------------------------|--------:|
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcohólicas |    23.4 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Educacion', new_value='Educación')
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  84 non-null     object 
+#   1   indicador  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    | geocodigo   | indicador                          |   valor |
+#  |---:|:------------|:-----------------------------------|--------:|
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcohólicas |    23.4 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='Vivienda agua electricidad gas y otros combustibles', new_value='Vivienda, agua, electricidad, gas y otros combustibles')
+#  RangeIndex: 84 entries, 0 to 83
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  84 non-null     object 
+#   1   indicador  84 non-null     object 
+#   2   valor      84 non-null     float64
+#  
+#  |    | geocodigo   | indicador                          |   valor |
+#  |---:|:------------|:-----------------------------------|--------:|
+#  |  0 | AR-GBA      | Alimentos y bebidas no alcohólicas |    23.4 |
 #  
 #  ------------------------------
 #  
