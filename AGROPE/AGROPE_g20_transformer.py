@@ -73,12 +73,12 @@ rename_cols(map={'iso3': 'geocodigo'}),
 #  ------------------------------
 #  
 #  query(condition='geocodigo != "F351" ')
-#  Index: 192 entries, 0 to 192
+#  Index: 193 entries, 0 to 192
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  192 non-null    object 
-#   1   valor      192 non-null    float64
+#   0   geocodigo  193 non-null    object 
+#   1   valor      193 non-null    float64
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
