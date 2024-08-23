@@ -26,7 +26,7 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 pipeline = chain(
 rename_cols(map={'rama_actividad': 'categoria', 'categoria_ocupacional': 'indicador', 'porcentaje_sobre_total_rama': 'valor'}),
 	replace_values(col='indicador', values={'asalariados_registrados': 'Asalariados registrados', 'asalariados_no_registrados': 'Asalariados no registrados', 'no_asalariados': 'No asalariados'}),
-	ordenar_dos_columnas(col1='categoria', order1=['Minería metalífera', 'Extracción de petróleo y gas', 'Electricidad y gas', 'Administración pública y defensa', 'Enseñanza', 'Finanzas', 'Otras minas y canteras', 'Reciclamiento de desperdicios, agua y saneamiento', 'Información y comunicación', 'Salud', 'Act. Administrativas', 'Industria', 'Promedio ocupados', 'Transporte', 'Recreación', 'Hoteles y restaurantes', 'Inmobiliarias', 'Agro', 'Comercio', 'Act. profesionales, científicas y técnicas', 'Otros servicios', 'Serv. Doméstico', 'Construcción'], col2='indicador', order2=['Asalariados registrados', 'Asalariados no registrados', 'No asalariados'])
+	ordenar_dos_columnas(col1='categoria', order1=['Construcción', 'Serv. Doméstico', 'Otros servicios', 'Act. profesionales, científicas y técnicas', 'Comercio', 'Agro', 'Inmobiliarias', 'Hoteles y restaurantes', 'Recreación', 'Transporte', 'Promedio ocupados', 'Industria', 'Act. Administrativas', 'Salud', 'Información y comunicación', 'Reciclamiento de desperdicios, agua y saneamiento', 'Otras minas y canteras', 'Finanzas', 'Enseñanza', 'Administración pública y defensa', 'Electricidad y gas', 'Extracción de petróleo y gas', 'Minería metalífera'], col2='indicador', order2=['Asalariados registrados', 'Asalariados no registrados', 'No asalariados'])
 )
 #  PIPELINE_END
 
@@ -76,8 +76,8 @@ rename_cols(map={'rama_actividad': 'categoria', 'categoria_ocupacional': 'indica
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='categoria', order1=['Minería metalífera', 'Extracción de petróleo y gas', 'Electricidad y gas', 'Administración pública y defensa', 'Enseñanza', 'Finanzas', 'Otras minas y canteras', 'Reciclamiento de desperdicios, agua y saneamiento', 'Información y comunicación', 'Salud', 'Act. Administrativas', 'Industria', 'Promedio ocupados', 'Transporte', 'Recreación', 'Hoteles y restaurantes', 'Inmobiliarias', 'Agro', 'Comercio', 'Act. profesionales, científicas y técnicas', 'Otros servicios', 'Serv. Doméstico', 'Construcción'], col2='indicador', order2=['Asalariados registrados', 'Asalariados no registrados', 'No asalariados'])
-#  Index: 69 entries, 66 to 2
+#  ordenar_dos_columnas(col1='categoria', order1=['Construcción', 'Serv. Doméstico', 'Otros servicios', 'Act. profesionales, científicas y técnicas', 'Comercio', 'Agro', 'Inmobiliarias', 'Hoteles y restaurantes', 'Recreación', 'Transporte', 'Promedio ocupados', 'Industria', 'Act. Administrativas', 'Salud', 'Información y comunicación', 'Reciclamiento de desperdicios, agua y saneamiento', 'Otras minas y canteras', 'Finanzas', 'Enseñanza', 'Administración pública y defensa', 'Electricidad y gas', 'Extracción de petróleo y gas', 'Minería metalífera'], col2='indicador', order2=['Asalariados registrados', 'Asalariados no registrados', 'No asalariados'])
+#  RangeIndex: 69 entries, 0 to 68
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -85,9 +85,9 @@ rename_cols(map={'rama_actividad': 'categoria', 'categoria_ocupacional': 'indica
 #   1   indicador  69 non-null     category
 #   2   valor      69 non-null     float64 
 #  
-#  |    | categoria          | indicador               |   valor |
-#  |---:|:-------------------|:------------------------|--------:|
-#  | 66 | Minería metalífera | Asalariados registrados |   94.72 |
+#  |    | categoria    | indicador               |   valor |
+#  |---:|:-------------|:------------------------|--------:|
+#  |  0 | Construcción | Asalariados registrados |   15.91 |
 #  
 #  ------------------------------
 #  
