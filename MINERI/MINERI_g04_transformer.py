@@ -6,6 +6,7 @@ from data_transformers import chain, transformer
 @transformer.convert
 def complete_rows(df: DataFrame, col1:str, col2:str):
     import itertools as it
+    import pandas as pd
     new_df = pd.DataFrame(list(it.product(df[col1].unique(), df[col2].unique())), columns=[col1, col2])
     df = pd.merge(new_df, df, how='left',on=[col1, col2])
     return df
@@ -16,9 +17,8 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def replace_values(df: DataFrame, col: str, values: dict):
-    import numpy as np
-    df = df.replace({col: values})
+def replace_na(df:DataFrame, col:str, replace_with:int):
+    df = df.fillna(value={col : replace_with})
     return df
 
 @transformer.convert
@@ -32,11 +32,12 @@ def str_to_title(df: DataFrame, col:str):
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -44,10 +45,10 @@ def sort_values(df: DataFrame, how: str, by: list):
 pipeline = chain(
 complete_rows(col1='anio', col2='grupo_nuevo'),
 	rename_cols(map={'grupo_nuevo': 'indicador', 'expo_grupo': 'valor'}),
-	replace_values(col='valor', values={nan: 0}),
+	replace_na(col='valor', replace_with=0),
 	multiplicar_por_escalar(col='valor', k=1e-06),
 	str_to_title(col='indicador'),
-	sort_values(how='ascending', by=['anio', 'indicador'])
+	sort_values_by_comparison(colname='indicador', precedence={'Oro': 1, 'Plata': 2, 'Litio': 3, 'Cobre': 4, 'Otro': 5}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -97,7 +98,7 @@ complete_rows(col1='anio', col2='grupo_nuevo'),
 #  
 #  ------------------------------
 #  
-#  replace_values(col='valor', values={nan: 0})
+#  replace_na(col='valor', replace_with=0)
 #  RangeIndex: 145 entries, 0 to 144
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -142,8 +143,8 @@ complete_rows(col1='anio', col2='grupo_nuevo'),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'indicador'])
-#  RangeIndex: 145 entries, 0 to 144
+#  sort_values_by_comparison(colname='indicador', precedence={'Oro': 1, 'Plata': 2, 'Litio': 3, 'Cobre': 4, 'Otro': 5}, prefix=['anio'], suffix=[])
+#  Index: 145 entries, 2 to 143
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -153,7 +154,7 @@ complete_rows(col1='anio', col2='grupo_nuevo'),
 #  
 #  |    |   anio | indicador   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  0 |   1994 | Cobre       | 3.63523 |
+#  |  2 |   1994 | Oro         | 7.09784 |
 #  
 #  ------------------------------
 #  
