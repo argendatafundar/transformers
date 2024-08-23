@@ -17,6 +17,14 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def replace_values(df: DataFrame, col: str, values: dict):
     df = df.replace({col: values})
     return df
+
+@transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
@@ -24,7 +32,8 @@ def replace_values(df: DataFrame, col: str, values: dict):
 pipeline = chain(
 rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=1e-06),
-	replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'})
+	replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'}),
+	sort_values_by_comparison(colname='indicador', precedence={'Otros': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -86,6 +95,21 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
 #  |  0 | Aluminio    |   1994 | 8.39544 |
+#  
+#  ------------------------------
+#  
+#  sort_values_by_comparison(colname='indicador', precedence={'Otros': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
+#  Index: 145 entries, 116 to 57
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  145 non-null    object 
+#   1   anio       145 non-null    int64  
+#   2   valor      145 non-null    float64
+#  
+#  |     | indicador   |   anio |   valor |
+#  |----:|:------------|-------:|--------:|
+#  | 116 | Otros       |   1994 | 212.459 |
 #  
 #  ------------------------------
 #  
