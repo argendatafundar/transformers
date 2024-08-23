@@ -30,6 +30,11 @@ def media_doce_meses_indicador(df: DataFrame, indicador_col = 'indicador', anio_
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def replace_values(df: DataFrame, col: str, values: dict):
+    df = df.replace({col: values})
+    return df
 #  DEFINITIONS_END
 
 
@@ -37,7 +42,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 	media_doce_meses_indicador(indicador_col='indicador', anio_col='anio', value_col='valor'),
-	query(condition="indicador not in ('oro', 'litio', 'plata', 'cobre')")
+	query(condition="indicador not in ('oro', 'litio', 'plata', 'cobre')"),
+	replace_values(col='indicador', values={'indice_cobre': 'Cobre', 'indice_litio': 'Litio', 'indice_oro': 'Oro', 'indice_plata': 'Plata'})
 )
 #  PIPELINE_END
 
@@ -99,6 +105,21 @@ rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 #  |    |   anio | indicador    |   valor |
 #  |---:|-------:|:-------------|--------:|
 #  | 65 |   1960 | indice_cobre | 10.9549 |
+#  
+#  ------------------------------
+#  
+#  replace_values(col='indicador', values={'indice_cobre': 'Cobre', 'indice_litio': 'Litio', 'indice_oro': 'Oro', 'indice_plata': 'Plata'})
+#  Index: 201 entries, 65 to 265
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       201 non-null    int64  
+#   1   indicador  201 non-null    object 
+#   2   valor      201 non-null    float64
+#  
+#  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 65 |   1960 | Cobre       | 10.9549 |
 #  
 #  ------------------------------
 #  
