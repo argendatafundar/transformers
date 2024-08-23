@@ -40,6 +40,11 @@ def replace_values(df: DataFrame, col: str, values: dict):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -49,7 +54,8 @@ rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 	media_doce_meses_indicador(indicador_col='indicador', anio_col='anio', value_col='valor'),
 	query(condition="indicador not in ('oro', 'litio', 'plata', 'cobre')"),
 	replace_values(col='indicador', values={'indice_cobre': 'Cobre', 'indice_litio': 'Litio', 'indice_oro': 'Oro', 'indice_plata': 'Plata'}),
-	query(condition='anio < 2024')
+	query(condition='anio < 2024'),
+	rename_cols(map={'indicador': 'categoria'})
 )
 #  PIPELINE_END
 
@@ -139,6 +145,21 @@ rename_cols(map={'variable': 'indicador', 'fecha': 'anio'}),
 #   2   valor      198 non-null    float64
 #  
 #  |    |   anio | indicador   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  | 65 |   1960 | Cobre       | 10.9549 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'indicador': 'categoria'})
+#  Index: 198 entries, 65 to 264
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       198 non-null    int64  
+#   1   categoria  198 non-null    object 
+#   2   valor      198 non-null    float64
+#  
+#  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
 #  | 65 |   1960 | Cobre       | 10.9549 |
 #  
