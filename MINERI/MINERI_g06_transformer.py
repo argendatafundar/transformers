@@ -32,8 +32,8 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
 pipeline = chain(
 rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=1e-06),
-	replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'}),
-	sort_values_by_comparison(colname='indicador', precedence={'Otros': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
+	replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otro'}),
+	sort_values_by_comparison(colname='indicador', precedence={'Otro': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
 )
 #  PIPELINE_END
 
@@ -83,7 +83,7 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otros'})
+#  replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otro'})
 #  RangeIndex: 145 entries, 0 to 144
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -98,7 +98,7 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Otros': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
+#  sort_values_by_comparison(colname='indicador', precedence={'Otro': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
 #  Index: 145 entries, 116 to 57
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -109,7 +109,7 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  
 #  |     | indicador   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
-#  | 116 | Otros       |   1994 | 212.459 |
+#  | 116 | Otro        |   1994 | 212.459 |
 #  
 #  ------------------------------
 #  
