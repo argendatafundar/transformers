@@ -27,6 +27,18 @@ def str_to_title(df: DataFrame, col:str):
 def replace_values(df: DataFrame, col: str, values: dict):
     df = df.replace({col: values})
     return df
+
+@transformer.convert
+def wraping_labels(df:DataFrame, lab_col:str, textwidth:int):
+    from textwrap import wrap
+    df[lab_col] = df[lab_col].apply(lambda text: "\n".join(wrap(text, width=textwidth)))
+    return df
+
+@transformer.convert
+def wraping_labels(df:DataFrame, lab_col:str, textwidth:int):
+    from textwrap import wrap
+    df[lab_col] = df[lab_col].apply(lambda text: "\n".join(wrap(text, width=textwidth)))
+    return df
 #  DEFINITIONS_END
 
 
@@ -36,7 +48,9 @@ query(condition='concepto != "total"'),
 	rename_cols(map={'destino': 'nivel1', 'concepto': 'nivel2', 'porcentaje_total': 'valor'}),
 	replace_values(col='nivel1', values={'local': 'Gastos locales', 'gastos a no residentes': 'Gastos a no residentes'}),
 	str_to_title(col='nivel2'),
-	replace_values(col='nivel2', values={'Consumo Intermedio Nacional (Neto De Importaciones Indirectas)': 'Consumo intermedio nacional', 'Contribuciones A La Seguridad Social': 'Contribuciones a la seguridad social', 'Impuesto A Las Ganancias': 'Impuesto a las ganancias', 'Amortizaciones Nacionales (Neto De Importaciones Indirectas)': 'Amortizaciones nacionales', 'Regalías Y Fideicomisos': 'Regalías y fideicomisos', 'Impuestos A La Producción (Netos De Subsidios)': 'Impuestos a la producción', 'Consumo Intermedio Importado': 'Consumo intermedio importado', 'Contenido Importado En Consumo Intermedio Nacional': 'Contenido importado en consumo intermedio nacional', 'Amortizaciones Importadas': 'Amortizaciones importadas', 'Contenido Importado En Amortizaciones Nacionales': 'Contenido importado en amortizaciones nacionales', 'Ingreso Neto Disponible': 'Ingreso neto disponible'})
+	replace_values(col='nivel2', values={'Consumo Intermedio Nacional (Neto De Importaciones Indirectas)': 'Consumo intermedio nacional', 'Contribuciones A La Seguridad Social': 'Contribuciones a la seguridad social', 'Impuesto A Las Ganancias': 'Impuesto a las ganancias', 'Amortizaciones Nacionales (Neto De Importaciones Indirectas)': 'Amortizaciones nacionales', 'Regalías Y Fideicomisos': 'Regalías y fideicomisos', 'Impuestos A La Producción (Netos De Subsidios)': 'Impuestos a la producción', 'Consumo Intermedio Importado': 'Consumo intermedio importado', 'Contenido Importado En Consumo Intermedio Nacional': 'Contenido importado en consumo intermedio nacional', 'Amortizaciones Importadas': 'Amortizaciones importadas', 'Contenido Importado En Amortizaciones Nacionales': 'Contenido importado en amortizaciones nacionales', 'Ingreso Neto Disponible': 'Ingreso neto disponible'}),
+	wraping_labels(lab_col='nivel1', textwidth=15),
+	wraping_labels(lab_col='nivel2', textwidth=15)
 )
 #  PIPELINE_END
 
@@ -125,9 +139,45 @@ query(condition='concepto != "total"'),
 #   1   nivel2  14 non-null     object 
 #   2   valor   14 non-null     float64
 #  
-#  |    | nivel1         | nivel2                      |   valor |
-#  |---:|:---------------|:----------------------------|--------:|
-#  |  0 | Gastos locales | Consumo intermedio nacional |    29.8 |
+#  |    | nivel1         | nivel2     |   valor |
+#  |---:|:---------------|:-----------|--------:|
+#  |  0 | Gastos locales | Consumo    |    29.8 |
+#  |    |                | intermedio |         |
+#  |    |                | nacional   |         |
+#  
+#  ------------------------------
+#  
+#  wraping_labels(lab_col='nivel1', textwidth=15)
+#  Index: 14 entries, 0 to 15
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  14 non-null     object 
+#   1   nivel2  14 non-null     object 
+#   2   valor   14 non-null     float64
+#  
+#  |    | nivel1         | nivel2     |   valor |
+#  |---:|:---------------|:-----------|--------:|
+#  |  0 | Gastos locales | Consumo    |    29.8 |
+#  |    |                | intermedio |         |
+#  |    |                | nacional   |         |
+#  
+#  ------------------------------
+#  
+#  wraping_labels(lab_col='nivel2', textwidth=15)
+#  Index: 14 entries, 0 to 15
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  14 non-null     object 
+#   1   nivel2  14 non-null     object 
+#   2   valor   14 non-null     float64
+#  
+#  |    | nivel1         | nivel2     |   valor |
+#  |---:|:---------------|:-----------|--------:|
+#  |  0 | Gastos locales | Consumo    |    29.8 |
+#  |    |                | intermedio |         |
+#  |    |                | nacional   |         |
 #  
 #  ------------------------------
 #  
