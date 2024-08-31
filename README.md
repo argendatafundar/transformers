@@ -13,7 +13,7 @@ describe en sí mismo su comportamiento, siendo así expresivo respecto de su fu
 [(Ver _data-transformers_)](https://github.com/argendatafundar/data-transformers)
 
 Cada uno de estos archivos tiene como objetivo generar `CSVs` listos para ser graficados por el [sitio web de ArgenData](https://argendata.fund.ar), por lo que
-implica un proceso de normalización más fuerte que la armonización previa [_etl_](https://github.com/argendatafundar/etl). Junto con la modificación estructural del _dataset_, se deja sólo lo imprescindible para
+implica un proceso de normalización más fuerte que la armonización previa (Ver [_etl_](https://github.com/argendatafundar/etl)). Junto con la modificación estructural del _dataset_, se deja sólo lo imprescindible para
 que el gráfico pueda ser visualizado, generando así archivos mucho más livianos.
 
 ## Esquema del sistema de archivos
