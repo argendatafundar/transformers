@@ -6,14 +6,14 @@
   </picture>
 </a>
 
-Un _transformer_ es un _script_ en Python ejecutable, auto-contenido y auto-reproducible. Esencialmente son "recetas" fácilmente aplicables a un dataset,
+Un _transformer_ es un _script_ en `Python` ejecutable, auto-contenido y auto-reproducible. Esencialmente son "recetas" fácilmente aplicables a un dataset,
 compuesto por una serie de instrucciones (funciones) para mutarlo, junto con las definiciones exactas de cada una de ellas. De esta manera, cada archivo
 describe en sí mismo su comportamiento, siendo así expresivo respecto de su funcionalidad, pero también fácilmente ejecutable en un proceso de automatización.
 
 [(Ver _data-transformers_)](https://github.com/argendatafundar/data-transformers)
 
-Cada uno de estos archivos tiene como objetivo generar CSVs listos para ser graficados por el [sitio web de ArgenData](https://argendata.fund.ar), por lo que
-implica un proceso de normalización más fuerte que la armonización previa. Junto con la modificación estructural del dataset, se deja sólo lo imprescindible para
+Cada uno de estos archivos tiene como objetivo generar `CSVs` listos para ser graficados por el [sitio web de ArgenData](https://argendata.fund.ar), por lo que
+implica un proceso de normalización más fuerte que la armonización previa [_etl_](https://github.com/argendatafundar/etl). Junto con la modificación estructural del _dataset_, se deja sólo lo imprescindible para
 que el gráfico pueda ser visualizado, generando así archivos mucho más livianos.
 
 ## Esquema del sistema de archivos
