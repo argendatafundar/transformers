@@ -12,18 +12,18 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'brecha': 'valor', 'trimestre': 'anio'})
+rename_cols(map={'brecha': 'valor', 'trimestre': 'aniotrim'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 80 entries, 0 to 79
+#  RangeIndex: 82 entries, 0 to 81
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   trimestre  80 non-null     object 
-#   1   brecha     75 non-null     float64
+#   0   trimestre  82 non-null     object 
+#   1   brecha     77 non-null     float64
 #  
 #  |    | trimestre   |   brecha |
 #  |---:|:------------|---------:|
@@ -31,17 +31,17 @@ rename_cols(map={'brecha': 'valor', 'trimestre': 'anio'})
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'brecha': 'valor', 'trimestre': 'anio'})
-#  RangeIndex: 80 entries, 0 to 79
+#  rename_cols(map={'brecha': 'valor', 'trimestre': 'aniotrim'})
+#  RangeIndex: 82 entries, 0 to 81
 #  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    80 non-null     object 
-#   1   valor   75 non-null     float64
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   aniotrim  82 non-null     object 
+#   1   valor     77 non-null     float64
 #  
-#  |    | anio   |   valor |
-#  |---:|:-------|--------:|
-#  |  0 | 2003-3 |    53.9 |
+#  |    | aniotrim   |   valor |
+#  |---:|:-----------|--------:|
+#  |  0 | 2003-3     |    53.9 |
 #  
 #  ------------------------------
 #  
