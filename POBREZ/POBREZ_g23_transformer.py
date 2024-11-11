@@ -67,7 +67,7 @@ replace_value(col='date', curr_value=5, new_value=1),
 	replace_value(col='date', curr_value='I', new_value=1),
 	replace_value(col='date', curr_value='II', new_value=2),
 	concatenar_columnas(cols=['year', 'date'], nueva_col='aniosem', separtor='-'),
-	query(condition="poverty_line == 'pobreza'"),
+	query(condition="poverty_line == 'pobreza' & fgt_parameter == 0"),
 	rename_cols(map={'poverty_rate': 'valor'}),
 	drop_col(col='fgt_parameter', axis=1),
 	drop_col(col='year', axis=1),
@@ -188,18 +188,18 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  
 #  ------------------------------
 #  
-#  query(condition="poverty_line == 'pobreza'")
-#  Index: 189 entries, 3 to 377
+#  query(condition="poverty_line == 'pobreza' & fgt_parameter == 0")
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 7 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   year           189 non-null    int64  
-#   1   period_type    189 non-null    object 
-#   2   date           189 non-null    int64  
-#   3   poverty_line   189 non-null    object 
-#   4   fgt_parameter  189 non-null    int64  
-#   5   poverty_rate   183 non-null    float64
-#   6   aniosem        189 non-null    object 
+#   0   year           63 non-null     int64  
+#   1   period_type    63 non-null     object 
+#   2   date           63 non-null     int64  
+#   3   poverty_line   63 non-null     object 
+#   4   fgt_parameter  63 non-null     int64  
+#   5   poverty_rate   61 non-null     float64
+#   6   aniosem        63 non-null     object 
 #  
 #  |    |   year | period_type   |   date | poverty_line   |   fgt_parameter |   poverty_rate | aniosem   |
 #  |---:|-------:|:--------------|-------:|:---------------|----------------:|---------------:|:----------|
@@ -208,17 +208,17 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  rename_cols(map={'poverty_rate': 'valor'})
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 7 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   year           189 non-null    int64  
-#   1   period_type    189 non-null    object 
-#   2   date           189 non-null    int64  
-#   3   poverty_line   189 non-null    object 
-#   4   fgt_parameter  189 non-null    int64  
-#   5   valor          183 non-null    float64
-#   6   aniosem        189 non-null    object 
+#   0   year           63 non-null     int64  
+#   1   period_type    63 non-null     object 
+#   2   date           63 non-null     int64  
+#   3   poverty_line   63 non-null     object 
+#   4   fgt_parameter  63 non-null     int64  
+#   5   valor          61 non-null     float64
+#   6   aniosem        63 non-null     object 
 #  
 #  |    |   year | period_type   |   date | poverty_line   |   fgt_parameter |   valor | aniosem   |
 #  |---:|-------:|:--------------|-------:|:---------------|----------------:|--------:|:----------|
@@ -227,16 +227,16 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='fgt_parameter', axis=1)
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          189 non-null    int64  
-#   1   period_type   189 non-null    object 
-#   2   date          189 non-null    int64  
-#   3   poverty_line  189 non-null    object 
-#   4   valor         183 non-null    float64
-#   5   aniosem       189 non-null    object 
+#   0   year          63 non-null     int64  
+#   1   period_type   63 non-null     object 
+#   2   date          63 non-null     int64  
+#   3   poverty_line  63 non-null     object 
+#   4   valor         61 non-null     float64
+#   5   aniosem       63 non-null     object 
 #  
 #  |    |   year | period_type   |   date | poverty_line   |   valor | aniosem   |
 #  |---:|-------:|:--------------|-------:|:---------------|--------:|:----------|
@@ -245,15 +245,15 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='year', axis=1)
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   period_type   189 non-null    object 
-#   1   date          189 non-null    int64  
-#   2   poverty_line  189 non-null    object 
-#   3   valor         183 non-null    float64
-#   4   aniosem       189 non-null    object 
+#   0   period_type   63 non-null     object 
+#   1   date          63 non-null     int64  
+#   2   poverty_line  63 non-null     object 
+#   3   valor         61 non-null     float64
+#   4   aniosem       63 non-null     object 
 #  
 #  |    | period_type   |   date | poverty_line   |   valor | aniosem   |
 #  |---:|:--------------|-------:|:---------------|--------:|:----------|
@@ -262,14 +262,14 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='period_type', axis=1)
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   date          189 non-null    int64  
-#   1   poverty_line  189 non-null    object 
-#   2   valor         183 non-null    float64
-#   3   aniosem       189 non-null    object 
+#   0   date          63 non-null     int64  
+#   1   poverty_line  63 non-null     object 
+#   2   valor         61 non-null     float64
+#   3   aniosem       63 non-null     object 
 #  
 #  |    |   date | poverty_line   |   valor | aniosem   |
 #  |---:|-------:|:---------------|--------:|:----------|
@@ -278,13 +278,13 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='date', axis=1)
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   poverty_line  189 non-null    object 
-#   1   valor         183 non-null    float64
-#   2   aniosem       189 non-null    object 
+#   0   poverty_line  63 non-null     object 
+#   1   valor         61 non-null     float64
+#   2   aniosem       63 non-null     object 
 #  
 #  |    | poverty_line   |   valor | aniosem   |
 #  |---:|:---------------|--------:|:----------|
@@ -293,12 +293,12 @@ replace_value(col='date', curr_value=5, new_value=1),
 #  ------------------------------
 #  
 #  drop_col(col='poverty_line', axis=1)
-#  Index: 189 entries, 3 to 377
+#  Index: 63 entries, 3 to 375
 #  Data columns (total 2 columns):
 #   #   Column   Non-Null Count  Dtype  
 #  ---  ------   --------------  -----  
-#   0   valor    183 non-null    float64
-#   1   aniosem  189 non-null    object 
+#   0   valor    61 non-null     float64
+#   1   aniosem  63 non-null     object 
 #  
 #  |    |   valor | aniosem   |
 #  |---:|--------:|:----------|
