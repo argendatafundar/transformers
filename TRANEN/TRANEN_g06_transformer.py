@@ -4,6 +4,21 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
@@ -19,115 +34,209 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def drop_na(df:DataFrame, cols:list):
     return df.dropna(subset=cols)
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX'),
+query(condition='tipo_energia == "Limpias"'),
+	replace_value(col='fuente_energia', curr_value='Eolica', new_value='Eólica'),
+	replace_value(col='fuente_energia', curr_value='Carbon', new_value='Carbón'),
+	replace_value(col='fuente_energia', curr_value='Petroleo', new_value='Petróleo'),
 	replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
-	rename_cols(map={'valor_en_twh': 'valor', 'iso3': 'geocodigo'}),
+	rename_cols(map={'fuente_energia': 'indicador', 'porcentaje': 'valor', 'iso3': 'geocodigo'}),
+	drop_col(col=['valor_en_twh', 'tipo_energia'], axis=1),
 	drop_na(cols=['valor']),
-	sort_values(how='ascending', by=['anio', 'geocodigo'])
+	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio', 'geocodigo'], suffix=[])
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 12744 entries, 0 to 12743
-#  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   anio          12744 non-null  int64  
-#   1   iso3          12744 non-null  object 
-#   2   valor_en_twh  7438 non-null   float64
+#  RangeIndex: 52923 entries, 0 to 52922
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            52923 non-null  object 
+#   1   anio            52923 non-null  int64  
+#   2   fuente_energia  52923 non-null  object 
+#   3   tipo_energia    52923 non-null  object 
+#   4   valor_en_twh    41782 non-null  float64
+#   5   porcentaje      52923 non-null  float64
 #  
-#  |    |   anio | iso3   |   valor_en_twh |
-#  |---:|-------:|:-------|---------------:|
-#  |  0 |   1965 | GBR    |          4.612 |
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='iso3', curr_value='OWID_KOS', new_value='XKX')
-#  RangeIndex: 12744 entries, 0 to 12743
-#  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   anio          12744 non-null  int64  
-#   1   iso3          12744 non-null  object 
-#   2   valor_en_twh  7438 non-null   float64
+#  query(condition='tipo_energia == "Limpias"')
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            32096 non-null  object 
+#   1   anio            32096 non-null  int64  
+#   2   fuente_energia  32096 non-null  object 
+#   3   tipo_energia    32096 non-null  object 
+#   4   valor_en_twh    22710 non-null  float64
+#   5   porcentaje      32096 non-null  float64
 #  
-#  |    |   anio | iso3   |   valor_en_twh |
-#  |---:|-------:|:-------|---------------:|
-#  |  0 |   1965 | GBR    |          4.612 |
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='fuente_energia', curr_value='Eolica', new_value='Eólica')
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            32096 non-null  object 
+#   1   anio            32096 non-null  int64  
+#   2   fuente_energia  32096 non-null  object 
+#   3   tipo_energia    32096 non-null  object 
+#   4   valor_en_twh    22710 non-null  float64
+#   5   porcentaje      32096 non-null  float64
+#  
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='fuente_energia', curr_value='Carbon', new_value='Carbón')
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            32096 non-null  object 
+#   1   anio            32096 non-null  int64  
+#   2   fuente_energia  32096 non-null  object 
+#   3   tipo_energia    32096 non-null  object 
+#   4   valor_en_twh    22710 non-null  float64
+#   5   porcentaje      32096 non-null  float64
+#  
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='fuente_energia', curr_value='Petroleo', new_value='Petróleo')
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            32096 non-null  object 
+#   1   anio            32096 non-null  int64  
+#   2   fuente_energia  32096 non-null  object 
+#   3   tipo_energia    32096 non-null  object 
+#   4   valor_en_twh    22710 non-null  float64
+#   5   porcentaje      32096 non-null  float64
+#  
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD')
-#  RangeIndex: 12744 entries, 0 to 12743
-#  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   anio          12744 non-null  int64  
-#   1   iso3          12744 non-null  object 
-#   2   valor_en_twh  7438 non-null   float64
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   iso3            32096 non-null  object 
+#   1   anio            32096 non-null  int64  
+#   2   fuente_energia  32096 non-null  object 
+#   3   tipo_energia    32096 non-null  object 
+#   4   valor_en_twh    22710 non-null  float64
+#   5   porcentaje      32096 non-null  float64
 #  
-#  |    |   anio | iso3   |   valor_en_twh |
-#  |---:|-------:|:-------|---------------:|
-#  |  0 |   1965 | GBR    |          4.612 |
+#  |    | iso3   |   anio | fuente_energia   | tipo_energia   |   valor_en_twh |   porcentaje |
+#  |---:|:-------|-------:|:-----------------|:---------------|---------------:|-------------:|
+#  |  0 | AGO    |   1965 | Biocombustibles  | Limpias        |            nan |            0 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'valor_en_twh': 'valor', 'iso3': 'geocodigo'})
-#  RangeIndex: 12744 entries, 0 to 12743
-#  Data columns (total 3 columns):
+#  rename_cols(map={'fuente_energia': 'indicador', 'porcentaje': 'valor', 'iso3': 'geocodigo'})
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 6 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   geocodigo     32096 non-null  object 
+#   1   anio          32096 non-null  int64  
+#   2   indicador     32096 non-null  object 
+#   3   tipo_energia  32096 non-null  object 
+#   4   valor_en_twh  22710 non-null  float64
+#   5   valor         32096 non-null  float64
+#  
+#  |    | geocodigo   |   anio | indicador       | tipo_energia   |   valor_en_twh |   valor |
+#  |---:|:------------|-------:|:----------------|:---------------|---------------:|--------:|
+#  |  0 | AGO         |   1965 | Biocombustibles | Limpias        |            nan |       0 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col=['valor_en_twh', 'tipo_energia'], axis=1)
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       12744 non-null  int64  
-#   1   geocodigo  12744 non-null  object 
-#   2   valor      7438 non-null   float64
+#   0   geocodigo  32096 non-null  object 
+#   1   anio       32096 non-null  int64  
+#   2   indicador  32096 non-null  object 
+#   3   valor      32096 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1965 | GBR         |   4.612 |
+#  |    | geocodigo   |   anio | indicador       |   valor |
+#  |---:|:------------|-------:|:----------------|--------:|
+#  |  0 | AGO         |   1965 | Biocombustibles |       0 |
 #  
 #  ------------------------------
 #  
 #  drop_na(cols=['valor'])
-#  Index: 7438 entries, 0 to 12742
-#  Data columns (total 3 columns):
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       7438 non-null   int64  
-#   1   geocodigo  7438 non-null   object 
-#   2   valor      7438 non-null   float64
+#   0   geocodigo  32096 non-null  object 
+#   1   anio       32096 non-null  int64  
+#   2   indicador  32096 non-null  object 
+#   3   valor      32096 non-null  float64
 #  
-#  |    |   anio | geocodigo   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1965 | GBR         |   4.612 |
+#  |    | geocodigo   |   anio | indicador       |   valor |
+#  |---:|:------------|-------:|:----------------|--------:|
+#  |  0 | AGO         |   1965 | Biocombustibles |       0 |
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'geocodigo'])
-#  Index: 7438 entries, 1298 to 1474
-#  Data columns (total 3 columns):
+#  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio', 'geocodigo'], suffix=[])
+#  Index: 32096 entries, 0 to 52863
+#  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       7438 non-null   int64  
-#   1   geocodigo  7438 non-null   object 
-#   2   valor      7438 non-null   float64
+#   0   geocodigo  32096 non-null  object 
+#   1   anio       32096 non-null  int64  
+#   2   indicador  32096 non-null  object 
+#   3   valor      32096 non-null  float64
 #  
-#  |      |   anio | geocodigo   |   valor |
-#  |-----:|-------:|:------------|--------:|
-#  | 1298 |   1965 | ARE         |       0 |
+#  |    | geocodigo   |   anio | indicador       |   valor |
+#  |---:|:------------|-------:|:----------------|--------:|
+#  |  0 | AGO         |   1965 | Biocombustibles |       0 |
 #  
 #  ------------------------------
 #  
