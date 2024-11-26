@@ -17,6 +17,22 @@
         {
             "private": "TRANEN_1-1-2_5",
             "public": "TRANEN_g05"
+        },
+        {
+            "private": "TRANEN_1-1-2_6",
+            "public": "TRANEN_g06"
+        },
+        {
+            "private": "TRANEN_1-1-2_8",
+            "public": "TRANEN_g08"
+        },
+        {
+            "private": "TRANEN_1-1-2_9",
+            "public": "TRANEN_g09"
+        },
+        {
+            "private": "TRANEN_1-1-2_10",
+            "public": "TRANEN_g10"
         }
     ],
     "energia_baja_carbono.csv": [
@@ -26,10 +42,7 @@
         }
     ],
     "generacion_hidro_twh.csv": [
-        {
-            "private": "TRANEN_1-1-2_6",
-            "public": "TRANEN_g06"
-        }
+
     ],
     "generacion_nuclear_twh.csv": [
         {
@@ -38,22 +51,13 @@
         }
     ],
     "capacidad_instalada_fv_gw.csv": [
-        {
-            "private": "TRANEN_1-1-2_8",
-            "public": "TRANEN_g08"
-        }
+
     ],
     "capacidad_instalada_eolica_gw.csv": [
-        {
-            "private": "TRANEN_1-1-2_9",
-            "public": "TRANEN_g09"
-        }
+
     ],
     "produccion_biocomb.csv": [
-        {
-            "private": "TRANEN_1-1-2_10",
-            "public": "TRANEN_g10"
-        }
+
     ],
     "produc_electricidad_fuente_mundo_twh.csv": [
         {
