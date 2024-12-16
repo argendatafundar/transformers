@@ -100,7 +100,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    |   decil | variable   |   valor |
 #  |---:|--------:|:-----------|--------:|
-#  |  0 |       1 | EPH        |   1.904 |
+#  |  0 |       1 | EPH        | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -115,7 +115,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    |   decil | variable   |   valor |
 #  |---:|--------:|:-----------|--------:|
-#  |  0 |       1 | Datos EPH  |   1.904 |
+#  |  0 |       1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -130,7 +130,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    |   decil | variable   |   valor |
 #  |---:|--------:|:-----------|--------:|
-#  |  0 |       1 | Datos EPH  |   1.904 |
+#  |  0 |       1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -145,7 +145,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -160,7 +160,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -175,7 +175,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -190,7 +190,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -205,7 +205,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -220,7 +220,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -235,7 +235,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -250,7 +250,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -265,7 +265,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -280,7 +280,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | decil   | variable   |   valor |
 #  |---:|:--------|:-----------|--------:|
-#  |  0 | Decil 1 | Datos EPH  |   1.904 |
+#  |  0 | Decil 1 | Datos EPH  | 1.77787 |
 #  
 #  ------------------------------
 #  
@@ -295,7 +295,7 @@ replace_value(col='variable', curr_value='EPH', new_value='Datos EPH'),
 #  
 #  |    | categoria   | indicador   |   valor |
 #  |---:|:------------|:------------|--------:|
-#  |  0 | Decil 1     | Datos EPH   |   1.904 |
+#  |  0 | Decil 1     | Datos EPH   | 1.77787 |
 #  
 #  ------------------------------
 #  
