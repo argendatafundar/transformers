@@ -18,12 +18,12 @@ rename_cols(map={'ano': 'anio', 'gini': 'valor'})
 
 
 #  start()
-#  RangeIndex: 50 entries, 0 to 49
+#  RangeIndex: 51 entries, 0 to 50
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   ano     50 non-null     int64  
-#   1   gini    50 non-null     float64
+#   0   ano     51 non-null     int64  
+#   1   gini    51 non-null     float64
 #  
 #  |    |   ano |   gini |
 #  |---:|------:|-------:|
@@ -32,12 +32,12 @@ rename_cols(map={'ano': 'anio', 'gini': 'valor'})
 #  ------------------------------
 #  
 #  rename_cols(map={'ano': 'anio', 'gini': 'valor'})
-#  RangeIndex: 50 entries, 0 to 49
+#  RangeIndex: 51 entries, 0 to 50
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   anio    50 non-null     int64  
-#   1   valor   50 non-null     float64
+#   0   anio    51 non-null     int64  
+#   1   valor   51 non-null     float64
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
