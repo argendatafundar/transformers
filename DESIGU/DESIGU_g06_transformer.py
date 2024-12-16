@@ -30,7 +30,7 @@ def sort_values(df: DataFrame, how: str, by: list):
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
-	replace_value(col='categoria', curr_value='argentina ', new_value='Argentina'),
+	replace_value(col='categoria', curr_value='argentina', new_value='Argentina'),
 	replace_value(col='categoria', curr_value='americalatina', new_value='América Latina'),
 	sort_values(how='ascending', by=['anio', 'categoria'])
 )
@@ -67,7 +67,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='argentina ', new_value='Argentina')
+#  replace_value(col='categoria', curr_value='argentina', new_value='Argentina')
 #  RangeIndex: 16 entries, 0 to 15
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
