@@ -48,7 +48,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  |    | variable      |   ano |   valor |
 #  |---:|:--------------|------:|--------:|
-#  |  0 | americalatina |  1980 |   48.92 |
+#  |  0 | americalatina |  1980 | 48.9168 |
 #  
 #  ------------------------------
 #  
@@ -63,7 +63,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  |    | categoria     |   anio |   valor |
 #  |---:|:--------------|-------:|--------:|
-#  |  0 | americalatina |   1980 |   48.92 |
+#  |  0 | americalatina |   1980 | 48.9168 |
 #  
 #  ------------------------------
 #  
@@ -78,7 +78,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  |    | categoria     |   anio |   valor |
 #  |---:|:--------------|-------:|--------:|
-#  |  0 | americalatina |   1980 |   48.92 |
+#  |  0 | americalatina |   1980 | 48.9168 |
 #  
 #  ------------------------------
 #  
@@ -93,7 +93,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  |    | categoria      |   anio |   valor |
 #  |---:|:---------------|-------:|--------:|
-#  |  0 | América Latina |   1980 |   48.92 |
+#  |  0 | América Latina |   1980 | 48.9168 |
 #  
 #  ------------------------------
 #  
@@ -108,7 +108,7 @@ rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 #  
 #  |    | categoria      |   anio |   valor |
 #  |---:|:---------------|-------:|--------:|
-#  |  0 | América Latina |   1980 |   48.92 |
+#  |  0 | América Latina |   1980 | 48.9168 |
 #  
 #  ------------------------------
 #  
