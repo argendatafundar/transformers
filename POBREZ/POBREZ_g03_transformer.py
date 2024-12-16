@@ -75,15 +75,15 @@ query(condition="region == 'Total'"),
 
 
 #  start()
-#  RangeIndex: 640 entries, 0 to 639
+#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      640 non-null    int64  
-#   1   semester  640 non-null    object 
-#   2   region    640 non-null    object 
-#   3   k_value   640 non-null    float64
-#   4   pov_rate  608 non-null    float64
+#   0   year      672 non-null    int64  
+#   1   semester  672 non-null    object 
+#   2   region    672 non-null    object 
+#   3   k_value   672 non-null    float64
+#   4   pov_rate  640 non-null    float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -92,15 +92,15 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  query(condition="region == 'Total'")
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      80 non-null     int64  
-#   1   semester  80 non-null     object 
-#   2   region    80 non-null     object 
-#   3   k_value   80 non-null     float64
-#   4   pov_rate  76 non-null     float64
+#   0   year      84 non-null     int64  
+#   1   semester  84 non-null     object 
+#   2   region    84 non-null     object 
+#   3   k_value   84 non-null     float64
+#   4   pov_rate  80 non-null     float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -109,15 +109,15 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='I', new_value=1)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      80 non-null     int64  
-#   1   semester  80 non-null     object 
-#   2   region    80 non-null     object 
-#   3   k_value   80 non-null     float64
-#   4   pov_rate  76 non-null     float64
+#   0   year      84 non-null     int64  
+#   1   semester  84 non-null     object 
+#   2   region    84 non-null     object 
+#   3   k_value   84 non-null     float64
+#   4   pov_rate  80 non-null     float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -126,16 +126,16 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='II', new_value=2)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 6 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      80 non-null     int64  
-#   1   semester  80 non-null     int64  
-#   2   region    80 non-null     object 
-#   3   k_value   80 non-null     float64
-#   4   pov_rate  76 non-null     float64
-#   5   aniosem   80 non-null     object 
+#   0   year      84 non-null     int64  
+#   1   semester  84 non-null     int64  
+#   2   region    84 non-null     object 
+#   3   k_value   84 non-null     float64
+#   4   pov_rate  80 non-null     float64
+#   5   aniosem   84 non-null     object 
 #  
 #  |    |   year |   semester | region   |   k_value |   pov_rate | aniosem   |
 #  |---:|-------:|-----------:|:---------|----------:|-----------:|:----------|
@@ -144,16 +144,16 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 6 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      80 non-null     int64  
-#   1   semester  80 non-null     int64  
-#   2   region    80 non-null     object 
-#   3   k_value   80 non-null     float64
-#   4   pov_rate  76 non-null     float64
-#   5   aniosem   80 non-null     object 
+#   0   year      84 non-null     int64  
+#   1   semester  84 non-null     int64  
+#   2   region    84 non-null     object 
+#   3   k_value   84 non-null     float64
+#   4   pov_rate  80 non-null     float64
+#   5   aniosem   84 non-null     object 
 #  
 #  |    |   year |   semester | region   |   k_value |   pov_rate | aniosem   |
 #  |---:|-------:|-----------:|:---------|----------:|-----------:|:----------|
@@ -162,16 +162,16 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  rename_cols(map={'k_value': 'categoria', 'pov_rate': 'valor'})
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 6 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   year       80 non-null     int64  
-#   1   semester   80 non-null     int64  
-#   2   region     80 non-null     object 
-#   3   categoria  80 non-null     float64
-#   4   valor      76 non-null     float64
-#   5   aniosem    80 non-null     object 
+#   0   year       84 non-null     int64  
+#   1   semester   84 non-null     int64  
+#   2   region     84 non-null     object 
+#   3   categoria  84 non-null     float64
+#   4   valor      80 non-null     float64
+#   5   aniosem    84 non-null     object 
 #  
 #  |    |   year |   semester | region   |   categoria |    valor | aniosem   |
 #  |---:|-------:|-----------:|:---------|------------:|---------:|:----------|
@@ -180,15 +180,15 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  drop_col(col='year', axis=1)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   semester   80 non-null     int64  
-#   1   region     80 non-null     object 
-#   2   categoria  80 non-null     float64
-#   3   valor      76 non-null     float64
-#   4   aniosem    80 non-null     object 
+#   0   semester   84 non-null     int64  
+#   1   region     84 non-null     object 
+#   2   categoria  84 non-null     float64
+#   3   valor      80 non-null     float64
+#   4   aniosem    84 non-null     object 
 #  
 #  |    |   semester | region   |   categoria |    valor | aniosem   |
 #  |---:|-----------:|:---------|------------:|---------:|:----------|
@@ -197,14 +197,14 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  drop_col(col='semester', axis=1)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   region     80 non-null     object 
-#   1   categoria  80 non-null     float64
-#   2   valor      76 non-null     float64
-#   3   aniosem    80 non-null     object 
+#   0   region     84 non-null     object 
+#   1   categoria  84 non-null     float64
+#   2   valor      80 non-null     float64
+#   3   aniosem    84 non-null     object 
 #  
 #  |    | region   |   categoria |    valor | aniosem   |
 #  |---:|:---------|------------:|---------:|:----------|
@@ -213,13 +213,13 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  drop_col(col='region', axis=1)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  80 non-null     float64
-#   1   valor      76 non-null     float64
-#   2   aniosem    80 non-null     object 
+#   0   categoria  84 non-null     float64
+#   1   valor      80 non-null     float64
+#   2   aniosem    84 non-null     object 
 #  
 #  |    |   categoria |   valor | aniosem   |
 #  |---:|------------:|--------:|:----------|
@@ -228,13 +228,13 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  80 non-null     float64
-#   1   valor      76 non-null     float64
-#   2   aniosem    80 non-null     object 
+#   0   categoria  84 non-null     float64
+#   1   valor      80 non-null     float64
+#   2   aniosem    84 non-null     object 
 #  
 #  |    |   categoria |   valor | aniosem   |
 #  |---:|------------:|--------:|:----------|
@@ -243,13 +243,13 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value=0.25, new_value='k=0.25')
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  80 non-null     object 
-#   1   valor      76 non-null     float64
-#   2   aniosem    80 non-null     object 
+#   0   categoria  84 non-null     object 
+#   1   valor      80 non-null     float64
+#   2   aniosem    84 non-null     object 
 #  
 #  |    | categoria   |   valor | aniosem   |
 #  |---:|:------------|--------:|:----------|
@@ -258,13 +258,13 @@ query(condition="region == 'Total'"),
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value=0.35, new_value='k=0.35')
-#  Index: 80 entries, 0 to 632
+#  Index: 84 entries, 0 to 664
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  80 non-null     object 
-#   1   valor      76 non-null     float64
-#   2   aniosem    80 non-null     object 
+#   0   categoria  84 non-null     object 
+#   1   valor      80 non-null     float64
+#   2   aniosem    84 non-null     object 
 #  
 #  |    | categoria   |   valor | aniosem   |
 #  |---:|:------------|--------:|:----------|
