@@ -18,12 +18,12 @@ rename_cols(map={'brecha': 'valor', 'trimestre': 'aniotrim'})
 
 
 #  start()
-#  RangeIndex: 82 entries, 0 to 81
+#  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   trimestre  82 non-null     object 
-#   1   brecha     77 non-null     float64
+#   0   trimestre  84 non-null     object 
+#   1   brecha     79 non-null     float64
 #  
 #  |    | trimestre   |   brecha |
 #  |---:|:------------|---------:|
@@ -32,12 +32,12 @@ rename_cols(map={'brecha': 'valor', 'trimestre': 'aniotrim'})
 #  ------------------------------
 #  
 #  rename_cols(map={'brecha': 'valor', 'trimestre': 'aniotrim'})
-#  RangeIndex: 82 entries, 0 to 81
+#  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 2 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   aniotrim  82 non-null     object 
-#   1   valor     77 non-null     float64
+#   0   aniotrim  84 non-null     object 
+#   1   valor     79 non-null     float64
 #  
 #  |    | aniotrim   |   valor |
 #  |---:|:-----------|--------:|
