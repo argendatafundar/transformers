@@ -47,15 +47,15 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 
 
 #  start()
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 252 entries, 0 to 251
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   poverty_line  240 non-null    object 
-#   3   pov_type      240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
+#   0   year          252 non-null    int64  
+#   1   semester      252 non-null    object 
+#   2   poverty_line  252 non-null    object 
+#   3   pov_type      252 non-null    object 
+#   4   poverty_rate  240 non-null    float64
 #  
 #  |    |   year | semester   | poverty_line   | pov_type       |   poverty_rate |
 #  |---:|-------:|:-----------|:---------------|:---------------|---------------:|
@@ -64,15 +64,15 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='II', new_value='2')
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 252 entries, 0 to 251
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   poverty_line  240 non-null    object 
-#   3   pov_type      240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
+#   0   year          252 non-null    int64  
+#   1   semester      252 non-null    object 
+#   2   poverty_line  252 non-null    object 
+#   3   pov_type      252 non-null    object 
+#   4   poverty_rate  240 non-null    float64
 #  
 #  |    |   year |   semester | poverty_line   | pov_type       |   poverty_rate |
 #  |---:|-------:|-----------:|:---------------|:---------------|---------------:|
@@ -81,16 +81,16 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='I', new_value='1')
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 252 entries, 0 to 251
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   poverty_line  240 non-null    object 
-#   3   pov_type      240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
-#   5   aniosem       240 non-null    object 
+#   0   year          252 non-null    int64  
+#   1   semester      252 non-null    object 
+#   2   poverty_line  252 non-null    object 
+#   3   pov_type      252 non-null    object 
+#   4   poverty_rate  240 non-null    float64
+#   5   aniosem       252 non-null    object 
 #  
 #  |    |   year |   semester | poverty_line   | pov_type       |   poverty_rate | aniosem   |
 #  |---:|-------:|-----------:|:---------------|:---------------|---------------:|:----------|
@@ -99,16 +99,16 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 240 entries, 0 to 239
+#  RangeIndex: 252 entries, 0 to 251
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   poverty_line  240 non-null    object 
-#   3   pov_type      240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
-#   5   aniosem       240 non-null    object 
+#   0   year          252 non-null    int64  
+#   1   semester      252 non-null    object 
+#   2   poverty_line  252 non-null    object 
+#   3   pov_type      252 non-null    object 
+#   4   poverty_rate  240 non-null    float64
+#   5   aniosem       252 non-null    object 
 #  
 #  |    |   year |   semester | poverty_line   | pov_type       |   poverty_rate | aniosem   |
 #  |---:|-------:|-----------:|:---------------|:---------------|---------------:|:----------|
@@ -117,16 +117,16 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  query(condition="pov_type == 'difference' ")
-#  Index: 80 entries, 2 to 239
+#  Index: 84 entries, 2 to 251
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          80 non-null     int64  
-#   1   semester      80 non-null     object 
-#   2   poverty_line  80 non-null     object 
-#   3   pov_type      80 non-null     object 
-#   4   poverty_rate  76 non-null     float64
-#   5   aniosem       80 non-null     object 
+#   0   year          84 non-null     int64  
+#   1   semester      84 non-null     object 
+#   2   poverty_line  84 non-null     object 
+#   3   pov_type      84 non-null     object 
+#   4   poverty_rate  80 non-null     float64
+#   5   aniosem       84 non-null     object 
 #  
 #  |    |   year |   semester | poverty_line   | pov_type   |   poverty_rate | aniosem   |
 #  |---:|-------:|-----------:|:---------------|:-----------|---------------:|:----------|
@@ -135,13 +135,13 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  drop_col(col=['year', 'semester', 'pov_type'], axis=1)
-#  Index: 80 entries, 2 to 239
+#  Index: 84 entries, 2 to 251
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   poverty_line  80 non-null     object 
-#   1   poverty_rate  76 non-null     float64
-#   2   aniosem       80 non-null     object 
+#   0   poverty_line  84 non-null     object 
+#   1   poverty_rate  80 non-null     float64
+#   2   aniosem       84 non-null     object 
 #  
 #  |    | poverty_line   |   poverty_rate | aniosem   |
 #  |---:|:---------------|---------------:|:----------|
@@ -150,13 +150,13 @@ replace_value(col='semester', curr_value='II', new_value='2'),
 #  ------------------------------
 #  
 #  rename_cols(map={'poverty_line': 'categoria', 'poverty_rate': 'valor'})
-#  Index: 80 entries, 2 to 239
+#  Index: 84 entries, 2 to 251
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  80 non-null     object 
-#   1   valor      76 non-null     float64
-#   2   aniosem    80 non-null     object 
+#   0   categoria  84 non-null     object 
+#   1   valor      80 non-null     float64
+#   2   aniosem    84 non-null     object 
 #  
 #  |    | categoria   |   valor | aniosem   |
 #  |---:|:------------|--------:|:----------|
