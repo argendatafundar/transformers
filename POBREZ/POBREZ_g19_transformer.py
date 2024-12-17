@@ -4,6 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_na(df:DataFrame, cols:list):
+    return df.dropna(subset=cols)
+
+@transformer.convert
+def astype_col(df:DataFrame, dict:dict):
+    return df.astype(dict)
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
@@ -64,7 +72,9 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='semester', curr_value='I', new_value=1),
+drop_na(cols=['year']),
+	astype_col(dict={'year': 'int'}),
+	replace_value(col='semester', curr_value='I', new_value=1),
 	replace_value(col='semester', curr_value='II', new_value=2),
 	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	query(condition="poverty_line == 'Pobreza'"),
@@ -81,15 +91,49 @@ replace_value(col='semester', curr_value='I', new_value=1),
 
 
 #  start()
-#  RangeIndex: 400 entries, 0 to 399
+#  RangeIndex: 420 entries, 0 to 419
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          400 non-null    int64  
-#   1   semester      400 non-null    object 
+#   0   year          410 non-null    float64
+#   1   semester      410 non-null    object 
 #   2   age_group     400 non-null    object 
-#   3   poverty_line  400 non-null    object 
-#   4   poverty_rate  380 non-null    float64
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
+#  
+#  |    |   year | semester   | age_group   | poverty_line   |   poverty_rate |
+#  |---:|-------:|:-----------|:------------|:---------------|---------------:|
+#  |  0 |   2003 | II         | Total       | Indigencia     |        22.1105 |
+#  
+#  ------------------------------
+#  
+#  drop_na(cols=['year'])
+#  Index: 410 entries, 0 to 419
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   year          410 non-null    float64
+#   1   semester      410 non-null    object 
+#   2   age_group     400 non-null    object 
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
+#  
+#  |    |   year | semester   | age_group   | poverty_line   |   poverty_rate |
+#  |---:|-------:|:-----------|:------------|:---------------|---------------:|
+#  |  0 |   2003 | II         | Total       | Indigencia     |        22.1105 |
+#  
+#  ------------------------------
+#  
+#  astype_col(dict={'year': 'int'})
+#  Index: 410 entries, 0 to 419
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   year          410 non-null    int32  
+#   1   semester      410 non-null    object 
+#   2   age_group     400 non-null    object 
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
 #  
 #  |    |   year | semester   | age_group   | poverty_line   |   poverty_rate |
 #  |---:|-------:|:-----------|:------------|:---------------|---------------:|
@@ -98,15 +142,15 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='I', new_value=1)
-#  RangeIndex: 400 entries, 0 to 399
+#  Index: 410 entries, 0 to 419
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          400 non-null    int64  
-#   1   semester      400 non-null    object 
+#   0   year          410 non-null    int32  
+#   1   semester      410 non-null    object 
 #   2   age_group     400 non-null    object 
-#   3   poverty_line  400 non-null    object 
-#   4   poverty_rate  380 non-null    float64
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
 #  
 #  |    |   year | semester   | age_group   | poverty_line   |   poverty_rate |
 #  |---:|-------:|:-----------|:------------|:---------------|---------------:|
@@ -115,16 +159,16 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='II', new_value=2)
-#  RangeIndex: 400 entries, 0 to 399
+#  Index: 410 entries, 0 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          400 non-null    int64  
-#   1   semester      400 non-null    int64  
+#   0   year          410 non-null    int32  
+#   1   semester      410 non-null    int64  
 #   2   age_group     400 non-null    object 
-#   3   poverty_line  400 non-null    object 
-#   4   poverty_rate  380 non-null    float64
-#   5   aniosem       400 non-null    object 
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
+#   5   aniosem       410 non-null    object 
 #  
 #  |    |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |---:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
@@ -133,16 +177,16 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 400 entries, 0 to 399
+#  Index: 410 entries, 0 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          400 non-null    int64  
-#   1   semester      400 non-null    int64  
+#   0   year          410 non-null    int32  
+#   1   semester      410 non-null    int64  
 #   2   age_group     400 non-null    object 
-#   3   poverty_line  400 non-null    object 
-#   4   poverty_rate  380 non-null    float64
-#   5   aniosem       400 non-null    object 
+#   3   poverty_line  410 non-null    object 
+#   4   poverty_rate  400 non-null    float64
+#   5   aniosem       410 non-null    object 
 #  
 #  |    |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |---:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
@@ -151,158 +195,158 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  query(condition="poverty_line == 'Pobreza'")
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   age_group     200 non-null    object 
+#   2   age_group     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   poverty_rate  190 non-null    float64
+#   4   poverty_rate  200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='age_group', curr_value='0_14_years', new_value='0-14')
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   age_group     200 non-null    object 
+#   2   age_group     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   poverty_rate  190 non-null    float64
+#   4   poverty_rate  200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='age_group', curr_value='15_29_years', new_value='15-29')
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   age_group     200 non-null    object 
+#   2   age_group     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   poverty_rate  190 non-null    float64
+#   4   poverty_rate  200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='age_group', curr_value='30_64_years', new_value='30-64')
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   age_group     200 non-null    object 
+#   2   age_group     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   poverty_rate  190 non-null    float64
+#   4   poverty_rate  200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='age_group', curr_value='65_and_more_years', new_value='65 y más')
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   age_group     200 non-null    object 
+#   2   age_group     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   poverty_rate  190 non-null    float64
+#   4   poverty_rate  200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | age_group   | poverty_line   |   poverty_rate | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|---------------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        |        59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'})
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 6 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   year          200 non-null    int64  
+#   0   year          200 non-null    int32  
 #   1   semester      200 non-null    int64  
-#   2   categoria     200 non-null    object 
+#   2   categoria     190 non-null    object 
 #   3   poverty_line  200 non-null    object 
-#   4   valor         190 non-null    float64
+#   4   valor         200 non-null    float64
 #   5   aniosem       200 non-null    object 
 #  
 #  |     |   year |   semester | categoria   | poverty_line   |   valor | aniosem   |
 #  |----:|-------:|-----------:|:------------|:---------------|--------:|:----------|
-#  | 200 |   2003 |          2 | Total       | Pobreza        | 59.9173 | 2003-2    |
+#  | 210 |   2003 |          2 | Total       | Pobreza        | 59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='year', axis=1)
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
 #   0   semester      200 non-null    int64  
-#   1   categoria     200 non-null    object 
+#   1   categoria     190 non-null    object 
 #   2   poverty_line  200 non-null    object 
-#   3   valor         190 non-null    float64
+#   3   valor         200 non-null    float64
 #   4   aniosem       200 non-null    object 
 #  
 #  |     |   semester | categoria   | poverty_line   |   valor | aniosem   |
 #  |----:|-----------:|:------------|:---------------|--------:|:----------|
-#  | 200 |          2 | Total       | Pobreza        | 59.9173 | 2003-2    |
+#  | 210 |          2 | Total       | Pobreza        | 59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='semester', axis=1)
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   categoria     200 non-null    object 
+#   0   categoria     190 non-null    object 
 #   1   poverty_line  200 non-null    object 
-#   2   valor         190 non-null    float64
+#   2   valor         200 non-null    float64
 #   3   aniosem       200 non-null    object 
 #  
 #  |     | categoria   | poverty_line   |   valor | aniosem   |
 #  |----:|:------------|:---------------|--------:|:----------|
-#  | 200 | Total       | Pobreza        | 59.9173 | 2003-2    |
+#  | 210 | Total       | Pobreza        | 59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='poverty_line', axis=1)
-#  Index: 200 entries, 200 to 399
+#  Index: 200 entries, 210 to 419
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  200 non-null    object 
-#   1   valor      190 non-null    float64
+#   0   categoria  190 non-null    object 
+#   1   valor      200 non-null    float64
 #   2   aniosem    200 non-null    object 
 #  
 #  |     | categoria   |   valor | aniosem   |
 #  |----:|:------------|--------:|:----------|
-#  | 200 | Total       | 59.9173 | 2003-2    |
+#  | 210 | Total       | 59.9173 | 2003-2    |
 #  
 #  ------------------------------
 #  
