@@ -77,15 +77,15 @@ replace_value(col='semester', curr_value='I', new_value=1),
 
 
 #  start()
-#  RangeIndex: 640 entries, 0 to 639
+#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      640 non-null    int64  
-#   1   semester  640 non-null    object 
-#   2   region    640 non-null    object 
-#   3   k_value   640 non-null    float64
-#   4   pov_rate  608 non-null    float64
+#   0   year      672 non-null    int64  
+#   1   semester  672 non-null    object 
+#   2   region    672 non-null    object 
+#   3   k_value   672 non-null    float64
+#   4   pov_rate  640 non-null    float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -94,15 +94,15 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  replace_value(col='semester', curr_value='I', new_value=1)
-#  RangeIndex: 640 entries, 0 to 639
+#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      640 non-null    int64  
-#   1   semester  640 non-null    object 
-#   2   region    640 non-null    object 
-#   3   k_value   640 non-null    float64
-#   4   pov_rate  608 non-null    float64
+#   0   year      672 non-null    int64  
+#   1   semester  672 non-null    object 
+#   2   region    672 non-null    object 
+#   3   k_value   672 non-null    float64
+#   4   pov_rate  640 non-null    float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -111,15 +111,15 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  replace_value(col='date', curr_value='II', new_value=2)
-#  RangeIndex: 640 entries, 0 to 639
+#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      640 non-null    int64  
-#   1   semester  640 non-null    object 
-#   2   region    640 non-null    object 
-#   3   k_value   640 non-null    float64
-#   4   pov_rate  608 non-null    float64
+#   0   year      672 non-null    int64  
+#   1   semester  672 non-null    object 
+#   2   region    672 non-null    object 
+#   3   k_value   672 non-null    float64
+#   4   pov_rate  640 non-null    float64
 #  
 #  |    |   year | semester   | region   |   k_value |   pov_rate |
 #  |---:|-------:|:-----------|:---------|----------:|-----------:|
@@ -128,7 +128,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  ------------------------------
 #  
 #  filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester')
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
@@ -140,12 +140,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   year |   semester | region   |   k_value |   pov_rate |
 #  |----:|-------:|-----------:|:---------|----------:|-----------:|
-#  | 312 |   2023 |          1 | Total    |      0.25 |  0.0890548 |
+#  | 328 |   2024 |          1 | Total    |      0.25 |  0.0953836 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'region': 'indicador', 'k_value': 'categoria', 'pov_rate': 'valor'})
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -157,12 +157,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   year |   semester | indicador   |   categoria |     valor |
 #  |----:|-------:|-----------:|:------------|------------:|----------:|
-#  | 312 |   2023 |          1 | Total       |        0.25 | 0.0890548 |
+#  | 328 |   2024 |          1 | Total       |        0.25 | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value=0.25, new_value='k = 0,25')
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -174,12 +174,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   year |   semester | indicador   | categoria   |     valor |
 #  |----:|-------:|-----------:|:------------|:------------|----------:|
-#  | 312 |   2023 |          1 | Total       | k = 0,25    | 0.0890548 |
+#  | 328 |   2024 |          1 | Total       | k = 0,25    | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value=0.35, new_value='k = 0,35')
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -191,12 +191,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   year |   semester | indicador   | categoria   |     valor |
 #  |----:|-------:|-----------:|:------------|:------------|----------:|
-#  | 312 |   2023 |          1 | Total       | k = 0,25    | 0.0890548 |
+#  | 328 |   2024 |          1 | Total       | k = 0,25    | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='Partidos', new_value='Partidos GBA')
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -208,12 +208,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   year |   semester | indicador   | categoria   |     valor |
 #  |----:|-------:|-----------:|:------------|:------------|----------:|
-#  | 312 |   2023 |          1 | Total       | k = 0,25    | 0.0890548 |
+#  | 328 |   2024 |          1 | Total       | k = 0,25    | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='year', axis=1)
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -224,12 +224,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     |   semester | indicador   | categoria   |     valor |
 #  |----:|-----------:|:------------|:------------|----------:|
-#  | 312 |          1 | Total       | k = 0,25    | 0.0890548 |
+#  | 328 |          1 | Total       | k = 0,25    | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='semester', axis=1)
-#  Index: 16 entries, 312 to 639
+#  Index: 16 entries, 328 to 671
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -239,12 +239,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     | indicador   | categoria   |     valor |
 #  |----:|:------------|:------------|----------:|
-#  | 312 | Total       | k = 0,25    | 0.0890548 |
+#  | 328 | Total       | k = 0,25    | 0.0953836 |
 #  
 #  ------------------------------
 #  
 #  query(condition="indicador != 'Total'")
-#  Index: 14 entries, 313 to 639
+#  Index: 14 entries, 329 to 671
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -254,12 +254,12 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     | indicador    | categoria   |   valor |
 #  |----:|:-------------|:------------|--------:|
-#  | 313 | Partidos GBA | k = 0,25    |  12.649 |
+#  | 329 | Partidos GBA | k = 0,25    | 13.7982 |
 #  
 #  ------------------------------
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
-#  Index: 14 entries, 313 to 639
+#  Index: 14 entries, 329 to 671
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -269,7 +269,7 @@ replace_value(col='semester', curr_value='I', new_value=1),
 #  
 #  |     | indicador    | categoria   |   valor |
 #  |----:|:-------------|:------------|--------:|
-#  | 313 | Partidos GBA | k = 0,25    |  12.649 |
+#  | 329 | Partidos GBA | k = 0,25    | 13.7982 |
 #  
 #  ------------------------------
 #  
