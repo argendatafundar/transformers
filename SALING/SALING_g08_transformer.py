@@ -47,7 +47,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  |    |   year |   semestre | edad_jefe   | fuente          |   proporcion |
 #  |---:|-------:|-----------:|:------------|:----------------|-------------:|
-#  |  0 |   2023 |          1 | 24 o menos  | Ingreso laboral |     0.714832 |
+#  |  0 |   2024 |          1 | 24 o menos  | Ingreso laboral |     0.742226 |
 #  
 #  ------------------------------
 #  
@@ -64,7 +64,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  |    |   year |   semestre | categoria   | indicador       |   valor |
 #  |---:|-------:|-----------:|:------------|:----------------|--------:|
-#  |  0 |   2023 |          1 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  |  0 |   2024 |          1 | 24 o menos  | Ingreso laboral | 74.2226 |
 #  
 #  ------------------------------
 #  
@@ -81,7 +81,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  |    |   year |   semestre | categoria   | indicador       |   valor |
 #  |---:|-------:|-----------:|:------------|:----------------|--------:|
-#  |  0 |   2023 |          1 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  |  0 |   2024 |          1 | 24 o menos  | Ingreso laboral | 74.2226 |
 #  
 #  ------------------------------
 #  
@@ -96,7 +96,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  |    | categoria   | indicador       |   valor |
 #  |---:|:------------|:----------------|--------:|
-#  |  0 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  |  0 | 24 o menos  | Ingreso laboral | 74.2226 |
 #  
 #  ------------------------------
 #  
@@ -111,7 +111,7 @@ rename_cols(map={'fuente': 'indicador', 'edad_jefe': 'categoria', 'proporcion': 
 #  
 #  |    | categoria   | indicador       |   valor |
 #  |---:|:------------|:----------------|--------:|
-#  |  0 | 24 o menos  | Ingreso laboral | 71.4832 |
+#  |  0 | 24 o menos  | Ingreso laboral | 74.2226 |
 #  
 #  ------------------------------
 #  
