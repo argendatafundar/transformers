@@ -58,7 +58,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    |   year |   semestre | region           | deflactor   |   indice |
 #  |---:|-------:|-----------:|:-----------------|:------------|---------:|
-#  |  0 |   2023 |          1 | Partidos del GBA | ipc         | 0.940684 |
+#  |  0 |   2024 |          1 | Partidos del GBA | ipc         | 0.940508 |
 #  
 #  ------------------------------
 #  
@@ -74,7 +74,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    |   semestre | region           | deflactor   |   indice |
 #  |---:|-----------:|:-----------------|:------------|---------:|
-#  |  0 |          1 | Partidos del GBA | ipc         | 0.940684 |
+#  |  0 |          1 | Partidos del GBA | ipc         | 0.940508 |
 #  
 #  ------------------------------
 #  
@@ -89,7 +89,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    | region           | deflactor   |   indice |
 #  |---:|:-----------------|:------------|---------:|
-#  |  0 | Partidos del GBA | ipc         | 0.940684 |
+#  |  0 | Partidos del GBA | ipc         | 0.940508 |
 #  
 #  ------------------------------
 #  
@@ -104,7 +104,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    | categoria        | indicador   |   valor |
 #  |---:|:-----------------|:------------|--------:|
-#  |  0 | Partidos del GBA | ipc         | 94.0684 |
+#  |  0 | Partidos del GBA | ipc         | 94.0508 |
 #  
 #  ------------------------------
 #  
@@ -119,7 +119,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    | categoria        | indicador   |   valor |
 #  |---:|:-----------------|:------------|--------:|
-#  |  0 | Partidos del GBA | ipc         | 94.0684 |
+#  |  0 | Partidos del GBA | ipc         | 94.0508 |
 #  
 #  ------------------------------
 #  
@@ -134,7 +134,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    | categoria        | indicador          |   valor |
 #  |---:|:-----------------|:-------------------|--------:|
-#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0684 |
+#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0508 |
 #  
 #  ------------------------------
 #  
@@ -149,7 +149,7 @@ drop_col(col='year', axis=1),
 #  
 #  |    | categoria        | indicador          |   valor |
 #  |---:|:-----------------|:-------------------|--------:|
-#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0684 |
+#  |  0 | Partidos del GBA | Ingreso per cápita | 94.0508 |
 #  
 #  ------------------------------
 #  
