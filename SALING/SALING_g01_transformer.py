@@ -29,13 +29,13 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 
 
 #  start()
-#  RangeIndex: 40 entries, 0 to 39
+#  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 3 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   year        40 non-null     int64  
-#   1   semestre    40 non-null     int64  
-#   2   ipcf_index  38 non-null     float64
+#   0   year        42 non-null     int64  
+#   1   semestre    42 non-null     int64  
+#   2   ipcf_index  40 non-null     float64
 #  
 #  |    |   year |   semestre |   ipcf_index |
 #  |---:|-------:|-----------:|-------------:|
@@ -44,14 +44,14 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 40 entries, 0 to 39
+#  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   year        40 non-null     int64  
-#   1   semestre    40 non-null     int64  
-#   2   ipcf_index  38 non-null     float64
-#   3   aniosem     40 non-null     object 
+#   0   year        42 non-null     int64  
+#   1   semestre    42 non-null     int64  
+#   2   ipcf_index  40 non-null     float64
+#   3   aniosem     42 non-null     object 
 #  
 #  |    |   year |   semestre |   ipcf_index | aniosem   |
 #  |---:|-------:|-----------:|-------------:|:----------|
@@ -60,12 +60,12 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  drop_col(col=['year', 'semestre'], axis=1)
-#  RangeIndex: 40 entries, 0 to 39
+#  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 2 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   ipcf_index  38 non-null     float64
-#   1   aniosem     40 non-null     object 
+#   0   ipcf_index  40 non-null     float64
+#   1   aniosem     42 non-null     object 
 #  
 #  |    |   ipcf_index | aniosem   |
 #  |---:|-------------:|:----------|
@@ -74,12 +74,12 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  rename_cols(map={'ipcf_index': 'valor'})
-#  RangeIndex: 40 entries, 0 to 39
+#  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 2 columns):
 #   #   Column   Non-Null Count  Dtype  
 #  ---  ------   --------------  -----  
-#   0   valor    38 non-null     float64
-#   1   aniosem  40 non-null     object 
+#   0   valor    40 non-null     float64
+#   1   aniosem  42 non-null     object 
 #  
 #  |    |   valor | aniosem   |
 #  |---:|--------:|:----------|
