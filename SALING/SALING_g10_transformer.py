@@ -29,14 +29,14 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 
 
 #  start()
-#  RangeIndex: 160 entries, 0 to 159
+#  RangeIndex: 168 entries, 0 to 167
 #  Data columns (total 4 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      160 non-null    int64  
-#   1   semestre  160 non-null    int64  
-#   2   fuente    160 non-null    object 
-#   3   indice    152 non-null    float64
+#   0   year      168 non-null    int64  
+#   1   semestre  168 non-null    int64  
+#   2   fuente    168 non-null    object 
+#   3   indice    160 non-null    float64
 #  
 #  |    |   year |   semestre | fuente             |   indice |
 #  |---:|-------:|-----------:|:-------------------|---------:|
@@ -45,15 +45,15 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 160 entries, 0 to 159
+#  RangeIndex: 168 entries, 0 to 167
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      160 non-null    int64  
-#   1   semestre  160 non-null    int64  
-#   2   fuente    160 non-null    object 
-#   3   indice    152 non-null    float64
-#   4   aniosem   160 non-null    object 
+#   0   year      168 non-null    int64  
+#   1   semestre  168 non-null    int64  
+#   2   fuente    168 non-null    object 
+#   3   indice    160 non-null    float64
+#   4   aniosem   168 non-null    object 
 #  
 #  |    |   year |   semestre | fuente             |   indice | aniosem   |
 #  |---:|-------:|-----------:|:-------------------|---------:|:----------|
@@ -62,13 +62,13 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  drop_col(col=['year', 'semestre'], axis=1)
-#  RangeIndex: 160 entries, 0 to 159
+#  RangeIndex: 168 entries, 0 to 167
 #  Data columns (total 3 columns):
 #   #   Column   Non-Null Count  Dtype  
 #  ---  ------   --------------  -----  
-#   0   fuente   160 non-null    object 
-#   1   indice   152 non-null    float64
-#   2   aniosem  160 non-null    object 
+#   0   fuente   168 non-null    object 
+#   1   indice   160 non-null    float64
+#   2   aniosem  168 non-null    object 
 #  
 #  |    | fuente             |   indice | aniosem   |
 #  |---:|:-------------------|---------:|:----------|
@@ -77,13 +77,13 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  rename_cols(map={'fuente': 'categoria', 'indice': 'valor'})
-#  RangeIndex: 160 entries, 0 to 159
+#  RangeIndex: 168 entries, 0 to 167
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  160 non-null    object 
-#   1   valor      152 non-null    float64
-#   2   aniosem    160 non-null    object 
+#   0   categoria  168 non-null    object 
+#   1   valor      160 non-null    float64
+#   2   aniosem    168 non-null    object 
 #  
 #  |    | categoria          |   valor | aniosem   |
 #  |---:|:-------------------|--------:|:----------|
