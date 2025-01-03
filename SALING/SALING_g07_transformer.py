@@ -36,7 +36,7 @@ rename_cols(map={'fuente': 'indicador', 'decil': 'categoria', 'proporcion': 'val
 #  
 #  |    |   year |   semestre | decil   | fuente          |   proporcion |
 #  |---:|-------:|-----------:|:--------|:----------------|-------------:|
-#  |  0 |   2023 |          1 | Decil 1 | Ingreso laboral |     0.618709 |
+#  |  0 |   2024 |          1 | Decil 1 | Ingreso laboral |     0.574017 |
 #  
 #  ------------------------------
 #  
@@ -53,7 +53,7 @@ rename_cols(map={'fuente': 'indicador', 'decil': 'categoria', 'proporcion': 'val
 #  
 #  |    |   year |   semestre | categoria   | indicador       |   valor |
 #  |---:|-------:|-----------:|:------------|:----------------|--------:|
-#  |  0 |   2023 |          1 | Decil 1     | Ingreso laboral | 61.8709 |
+#  |  0 |   2024 |          1 | Decil 1     | Ingreso laboral | 57.4017 |
 #  
 #  ------------------------------
 #  
@@ -70,7 +70,7 @@ rename_cols(map={'fuente': 'indicador', 'decil': 'categoria', 'proporcion': 'val
 #  
 #  |    |   year |   semestre | categoria   | indicador       |   valor |
 #  |---:|-------:|-----------:|:------------|:----------------|--------:|
-#  |  0 |   2023 |          1 | Decil 1     | Ingreso laboral | 61.8709 |
+#  |  0 |   2024 |          1 | Decil 1     | Ingreso laboral | 57.4017 |
 #  
 #  ------------------------------
 #  
