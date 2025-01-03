@@ -36,16 +36,17 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 
 #  start()
 #  RangeIndex: 42 entries, 0 to 41
-#  Data columns (total 3 columns):
+#  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
 #   0   year        42 non-null     int64  
 #   1   semestre    42 non-null     int64  
 #   2   proporcion  40 non-null     float64
+#   3   aniosem     42 non-null     object 
 #  
-#  |    |   year |   semestre |   proporcion |
-#  |---:|-------:|-----------:|-------------:|
-#  |  0 |   2003 |          2 |      0.83449 |
+#  |    |   year |   semestre |   proporcion | aniosem   |
+#  |---:|-------:|-----------:|-------------:|:----------|
+#  |  0 |   2003 |          2 |      0.83449 | 2003-2    |
 #  
 #  ------------------------------
 #  
