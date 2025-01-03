@@ -29,32 +29,31 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 
 
 #  start()
-#  RangeIndex: 320 entries, 0 to 319
-#  Data columns (total 5 columns):
+#  RangeIndex: 336 entries, 0 to 335
+#  Data columns (total 4 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      320 non-null    int64  
-#   1   semestre  320 non-null    int64  
-#   2   region    320 non-null    object 
-#   3   indice    304 non-null    float64
-#   4   aniosem   320 non-null    object 
+#   0   year      336 non-null    int64  
+#   1   semestre  336 non-null    int64  
+#   2   region    336 non-null    object 
+#   3   indice    320 non-null    float64
 #  
-#  |    |   year |   semestre | region   |   indice |   aniosem |
-#  |---:|-------:|-----------:|:---------|---------:|----------:|
-#  |  0 |   2003 |          2 | Total    |      100 |    2003_2 |
+#  |    |   year |   semestre | region   |   indice |
+#  |---:|-------:|-----------:|:---------|---------:|
+#  |  0 |   2003 |          2 | Total    |      100 |
 #  
 #  ------------------------------
 #  
 #  concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 320 entries, 0 to 319
+#  RangeIndex: 336 entries, 0 to 335
 #  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   year      320 non-null    int64  
-#   1   semestre  320 non-null    int64  
-#   2   region    320 non-null    object 
-#   3   indice    304 non-null    float64
-#   4   aniosem   320 non-null    object 
+#   0   year      336 non-null    int64  
+#   1   semestre  336 non-null    int64  
+#   2   region    336 non-null    object 
+#   3   indice    320 non-null    float64
+#   4   aniosem   336 non-null    object 
 #  
 #  |    |   year |   semestre | region   |   indice | aniosem   |
 #  |---:|-------:|-----------:|:---------|---------:|:----------|
@@ -63,13 +62,13 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  drop_col(col=['year', 'semestre'], axis=1)
-#  RangeIndex: 320 entries, 0 to 319
+#  RangeIndex: 336 entries, 0 to 335
 #  Data columns (total 3 columns):
 #   #   Column   Non-Null Count  Dtype  
 #  ---  ------   --------------  -----  
-#   0   region   320 non-null    object 
-#   1   indice   304 non-null    float64
-#   2   aniosem  320 non-null    object 
+#   0   region   336 non-null    object 
+#   1   indice   320 non-null    float64
+#   2   aniosem  336 non-null    object 
 #  
 #  |    | region   |   indice | aniosem   |
 #  |---:|:---------|---------:|:----------|
@@ -78,13 +77,13 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 #  ------------------------------
 #  
 #  rename_cols(map={'region': 'categoria', 'indice': 'valor'})
-#  RangeIndex: 320 entries, 0 to 319
+#  RangeIndex: 336 entries, 0 to 335
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   categoria  320 non-null    object 
-#   1   valor      304 non-null    float64
-#   2   aniosem    320 non-null    object 
+#   0   categoria  336 non-null    object 
+#   1   valor      320 non-null    float64
+#   2   aniosem    336 non-null    object 
 #  
 #  |    | categoria   |   valor | aniosem   |
 #  |---:|:------------|--------:|:----------|
