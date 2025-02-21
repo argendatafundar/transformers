@@ -16,10 +16,6 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -30,89 +26,65 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 latest_year(by='anio'),
 	rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'}),
-	drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1),
 	query(condition="geocodigo not in ['LAC','TLA','SSA','TSS', 'EAP','ECA','MNA','TSA','TSS', 'TEC','TEA']")
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 7662 entries, 0 to 7661
-#  Data columns (total 6 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   iso3               7662 non-null   object 
-#   1   pais_nombre        7662 non-null   object 
-#   2   continente_fundar  6095 non-null   object 
-#   3   anio               7662 non-null   int64  
-#   4   pib_pc             7662 non-null   float64
-#   5   nivel_agregacion   7662 non-null   object 
+#  RangeIndex: 8083 entries, 0 to 8082
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   iso3    8083 non-null   object 
+#   1   anio    8083 non-null   int64  
+#   2   pib_pc  8083 non-null   float64
 #  
-#  |    | iso3   | pais_nombre   | continente_fundar                      |   anio |   pib_pc | nivel_agregacion   |
-#  |---:|:-------|:--------------|:---------------------------------------|-------:|---------:|:-------------------|
-#  |  0 | ABW    | Aruba         | América del Norte, Central y el Caribe |   1990 |  30823.5 | pais               |
+#  |    | iso3   |   anio |   pib_pc |
+#  |---:|:-------|-------:|---------:|
+#  |  0 | AFE    |   2023 |  3967.86 |
 #  
 #  ------------------------------
 #  
 #  latest_year(by='anio')
-#  Index: 232 entries, 64 to 7661
-#  Data columns (total 5 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   iso3               232 non-null    object 
-#   1   pais_nombre        232 non-null    object 
-#   2   continente_fundar  184 non-null    object 
-#   3   pib_pc             232 non-null    float64
-#   4   nivel_agregacion   232 non-null    object 
+#  Index: 236 entries, 0 to 8049
+#  Data columns (total 2 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   iso3    236 non-null    object 
+#   1   pib_pc  236 non-null    float64
 #  
-#  |    | iso3   | pais_nombre                  |   continente_fundar |   pib_pc | nivel_agregacion   |
-#  |---:|:-------|:-----------------------------|--------------------:|---------:|:-------------------|
-#  | 64 | AFE    | África Oriental y Meridional |                 nan |  3553.91 | agregacion         |
+#  |    | iso3   |   pib_pc |
+#  |---:|:-------|---------:|
+#  |  0 | AFE    |  3967.86 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'iso3': 'geocodigo', 'pib_pc': 'valor'})
-#  Index: 232 entries, 64 to 7661
-#  Data columns (total 5 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   geocodigo          232 non-null    object 
-#   1   pais_nombre        232 non-null    object 
-#   2   continente_fundar  184 non-null    object 
-#   3   valor              232 non-null    float64
-#   4   nivel_agregacion   232 non-null    object 
-#  
-#  |    | geocodigo   | pais_nombre                  |   continente_fundar |   valor | nivel_agregacion   |
-#  |---:|:------------|:-----------------------------|--------------------:|--------:|:-------------------|
-#  | 64 | AFE         | África Oriental y Meridional |                 nan | 3553.91 | agregacion         |
-#  
-#  ------------------------------
-#  
-#  drop_col(col=['pais_nombre', 'continente_fundar', 'nivel_agregacion'], axis=1)
-#  Index: 232 entries, 64 to 7661
+#  Index: 236 entries, 0 to 8049
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  232 non-null    object 
-#   1   valor      232 non-null    float64
+#   0   geocodigo  236 non-null    object 
+#   1   valor      236 non-null    float64
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
-#  | 64 | AFE         | 3553.91 |
+#  |  0 | AFE         | 3967.86 |
 #  
 #  ------------------------------
 #  
 #  query(condition="geocodigo not in ['LAC','TLA','SSA','TSS', 'EAP','ECA','MNA','TSA','TSS', 'TEC','TEA']")
-#  Index: 222 entries, 64 to 7661
+#  Index: 226 entries, 0 to 8049
 #  Data columns (total 2 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  222 non-null    object 
-#   1   valor      222 non-null    float64
+#   0   geocodigo  226 non-null    object 
+#   1   valor      226 non-null    float64
 #  
 #  |    | geocodigo   |   valor |
 #  |---:|:------------|--------:|
-#  | 64 | AFE         | 3553.91 |
+#  |  0 | AFE         | 3967.86 |
 #  
 #  ------------------------------
 #  
