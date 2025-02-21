@@ -27,10 +27,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -54,7 +50,6 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
-	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo'}),
 	wide_to_long(primary_keys=['geocodigo'], value_name='valor', var_name='indicador'),
@@ -66,81 +61,63 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 
 #  start()
 #  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 5 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   provincia_id          24 non-null     object 
-#   1   provincia_nombre      24 non-null     object 
-#   2   region_pbg            24 non-null     object 
-#   3   pib_pc_1895           24 non-null     float64
-#   4   var_pib_pc_1895_2022  24 non-null     float64
+#  Data columns (total 4 columns):
+#   #   Column                       Non-Null Count  Dtype  
+#  ---  ------                       --------------  -----  
+#   0   region_pbg                   24 non-null     object 
+#   1   pib_pc_1895                  24 non-null     float64
+#   2   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   3   provincia_id                 24 non-null     object 
 #  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   pib_pc_1895 |   var_pib_pc_1895_2022 |
-#  |---:|:---------------|:--------------------------------|:----------------|--------------:|-----------------------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |        6085.6 |                6.35414 |
+#  |    | region_pbg      |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio | provincia_id   |
+#  |---:|:----------------|--------------:|------------------------------:|:---------------|
+#  |  0 | Pampeana y AMBA |       4413.34 |                       1.49071 | AR-B           |
 #  
 #  ------------------------------
 #  
 #  convert_indec_codes_to_isoprov(df_cod_col='provincia_id')
 #  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 5 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   provincia_id          24 non-null     object 
-#   1   provincia_nombre      24 non-null     object 
-#   2   region_pbg            24 non-null     object 
-#   3   pib_pc_1895           24 non-null     float64
-#   4   var_pib_pc_1895_2022  24 non-null     float64
-#  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   pib_pc_1895 |   var_pib_pc_1895_2022 |
-#  |---:|:---------------|:--------------------------------|:----------------|--------------:|-----------------------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |        6085.6 |                6.35414 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='provincia_nombre', axis=1)
-#  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 4 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   provincia_id          24 non-null     object 
-#   1   region_pbg            24 non-null     object 
-#   2   pib_pc_1895           24 non-null     float64
-#   3   var_pib_pc_1895_2022  24 non-null     float64
+#   #   Column                       Non-Null Count  Dtype  
+#  ---  ------                       --------------  -----  
+#   0   region_pbg                   24 non-null     object 
+#   1   pib_pc_1895                  24 non-null     float64
+#   2   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   3   provincia_id                 24 non-null     object 
 #  
-#  |    | provincia_id   | region_pbg      |   pib_pc_1895 |   var_pib_pc_1895_2022 |
-#  |---:|:---------------|:----------------|--------------:|-----------------------:|
-#  |  0 | AR-C           | Pampeana y CABA |        6085.6 |                6.35414 |
+#  |    | region_pbg      |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio | provincia_id   |
+#  |---:|:----------------|--------------:|------------------------------:|:---------------|
+#  |  0 | Pampeana y AMBA |       4413.34 |                       1.49071 | AR-B           |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='region_pbg', axis=1)
 #  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   provincia_id          24 non-null     object 
-#   1   pib_pc_1895           24 non-null     float64
-#   2   var_pib_pc_1895_2022  24 non-null     float64
+#   #   Column                       Non-Null Count  Dtype  
+#  ---  ------                       --------------  -----  
+#   0   pib_pc_1895                  24 non-null     float64
+#   1   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   2   provincia_id                 24 non-null     object 
 #  
-#  |    | provincia_id   |   pib_pc_1895 |   var_pib_pc_1895_2022 |
-#  |---:|:---------------|--------------:|-----------------------:|
-#  |  0 | AR-C           |        6085.6 |                6.35414 |
+#  |    |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio | provincia_id   |
+#  |---:|--------------:|------------------------------:|:---------------|
+#  |  0 |       4413.34 |                       1.49071 | AR-B           |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'provincia_id': 'geocodigo'})
 #  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   geocodigo             24 non-null     object 
-#   1   pib_pc_1895           24 non-null     float64
-#   2   var_pib_pc_1895_2022  24 non-null     float64
+#   #   Column                       Non-Null Count  Dtype  
+#  ---  ------                       --------------  -----  
+#   0   pib_pc_1895                  24 non-null     float64
+#   1   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   2   geocodigo                    24 non-null     object 
 #  
-#  |    | geocodigo   |   pib_pc_1895 |   var_pib_pc_1895_2022 |
-#  |---:|:------------|--------------:|-----------------------:|
-#  |  0 | AR-C        |        6085.6 |                6.35414 |
+#  |    |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio | geocodigo   |
+#  |---:|--------------:|------------------------------:|:------------|
+#  |  0 |       4413.34 |                       1.49071 | AR-B        |
 #  
 #  ------------------------------
 #  
@@ -155,7 +132,7 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   | indicador   |   valor |
 #  |---:|:------------|:------------|--------:|
-#  |  0 | AR-C        | pib_pc_1895 |  6085.6 |
+#  |  0 | AR-B        | pib_pc_1895 | 4413.34 |
 #  
 #  ------------------------------
 #  
@@ -170,7 +147,7 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   | indicador                                            |   valor |
 #  |---:|:------------|:-----------------------------------------------------|--------:|
-#  |  0 | AR-C        | PIB per cápita provincial en 1895 (en pesos de 2004) |  6085.6 |
+#  |  0 | AR-B        | PIB per cápita provincial en 1895 (en pesos de 2004) | 4413.34 |
 #  
 #  ------------------------------
 #  
@@ -185,7 +162,7 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  
 #  |    | geocodigo   | indicador                                            |   valor |
 #  |---:|:------------|:-----------------------------------------------------|--------:|
-#  |  0 | AR-C        | PIB per cápita provincial en 1895 (en pesos de 2004) |  6085.6 |
+#  |  0 | AR-B        | PIB per cápita provincial en 1895 (en pesos de 2004) | 4413.34 |
 #  
 #  ------------------------------
 #  
