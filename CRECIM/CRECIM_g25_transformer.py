@@ -27,10 +27,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -47,65 +43,42 @@ def agregar_filas(df:DataFrame, nuevas_filas:dict[str,list]):
 #  PIPELINE_START
 pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
-	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'}),
-	agregar_filas(nuevas_filas={
-        'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 
-        'anio': [1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], 
-        'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
-        })
+	agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': [1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 5 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   provincia_id      672 non-null    object 
-#   1   provincia_nombre  672 non-null    object 
-#   2   region_pbg        672 non-null    object 
-#   3   anio              672 non-null    int64  
-#   4   pib_pc_relativo   672 non-null    float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   region_pbg       672 non-null    object 
+#   1   anio             672 non-null    int64  
+#   2   pib_pc_relativo  672 non-null    float64
+#   3   provincia_id     672 non-null    object 
 #  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc_relativo |
-#  |---:|:---------------|:--------------------------------|:----------------|-------:|------------------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |            139.29 |
+#  |    | region_pbg      |   anio |   pib_pc_relativo | provincia_id   |
+#  |---:|:----------------|-------:|------------------:|:---------------|
+#  |  0 | Pampeana y AMBA |   1895 |           102.682 | AR-B           |
 #  
 #  ------------------------------
 #  
 #  convert_indec_codes_to_isoprov(df_cod_col='provincia_id')
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 5 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   provincia_id      672 non-null    object 
-#   1   provincia_nombre  672 non-null    object 
-#   2   region_pbg        672 non-null    object 
-#   3   anio              672 non-null    int64  
-#   4   pib_pc_relativo   672 non-null    float64
-#  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc_relativo |
-#  |---:|:---------------|:--------------------------------|:----------------|-------:|------------------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |            139.29 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='provincia_nombre', axis=1)
-#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   provincia_id     672 non-null    object 
-#   1   region_pbg       672 non-null    object 
-#   2   anio             672 non-null    int64  
-#   3   pib_pc_relativo  672 non-null    float64
+#   0   region_pbg       672 non-null    object 
+#   1   anio             672 non-null    int64  
+#   2   pib_pc_relativo  672 non-null    float64
+#   3   provincia_id     672 non-null    object 
 #  
-#  |    | provincia_id   | region_pbg      |   anio |   pib_pc_relativo |
-#  |---:|:---------------|:----------------|-------:|------------------:|
-#  |  0 | AR-C           | Pampeana y CABA |   1895 |            139.29 |
+#  |    | region_pbg      |   anio |   pib_pc_relativo | provincia_id   |
+#  |---:|:----------------|-------:|------------------:|:---------------|
+#  |  0 | Pampeana y AMBA |   1895 |           102.682 | AR-B           |
 #  
 #  ------------------------------
 #  
@@ -114,13 +87,13 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   provincia_id     672 non-null    object 
-#   1   anio             672 non-null    int64  
-#   2   pib_pc_relativo  672 non-null    float64
+#   0   anio             672 non-null    int64  
+#   1   pib_pc_relativo  672 non-null    float64
+#   2   provincia_id     672 non-null    object 
 #  
-#  |    | provincia_id   |   anio |   pib_pc_relativo |
-#  |---:|:---------------|-------:|------------------:|
-#  |  0 | AR-C           |   1895 |            139.29 |
+#  |    |   anio |   pib_pc_relativo | provincia_id   |
+#  |---:|-------:|------------------:|:---------------|
+#  |  0 |   1895 |           102.682 | AR-B           |
 #  
 #  ------------------------------
 #  
@@ -129,30 +102,28 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  672 non-null    object 
-#   1   anio       672 non-null    int64  
-#   2   valor      672 non-null    float64
+#   0   anio       672 non-null    int64  
+#   1   valor      672 non-null    float64
+#   2   geocodigo  672 non-null    object 
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  139.29 |
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1895 | 102.682 | AR-B        |
 #  
 #  ------------------------------
 #  
-#  agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': array([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005,
-#         2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
-#         2017, 2018, 2019, 2020, 2021, 2022]), 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
+#  agregar_filas(nuevas_filas={'geocodigo': ['AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC', 'AR-NAC'], 'anio': [1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], 'valor': [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]})
 #  Index: 700 entries, 0 to 27
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  700 non-null    object 
-#   1   anio       700 non-null    int64  
-#   2   valor      700 non-null    float64
+#   0   anio       700 non-null    int64  
+#   1   valor      700 non-null    float64
+#   2   geocodigo  700 non-null    object 
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  139.29 |
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1895 | 102.682 | AR-B        |
 #  
 #  ------------------------------
 #  
