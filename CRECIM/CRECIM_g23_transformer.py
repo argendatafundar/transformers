@@ -27,10 +27,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -40,7 +36,6 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
-	drop_col(col='provincia_nombre', axis=1),
 	drop_col(col='region_pbg', axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'})
 )
@@ -49,51 +44,33 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 
 #  start()
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 5 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   provincia_id      672 non-null    int64  
-#   1   provincia_nombre  672 non-null    object 
-#   2   region_pbg        672 non-null    object 
-#   3   anio              672 non-null    int64  
-#   4   pib_pc            672 non-null    float64
+#  Data columns (total 4 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   region_pbg    672 non-null    object 
+#   1   anio          672 non-null    int64  
+#   2   pib_pc        672 non-null    float64
+#   3   provincia_id  672 non-null    object 
 #  
-#  |    |   provincia_id | provincia_nombre                | region_pbg      |   anio |   pib_pc |
-#  |---:|---------------:|:--------------------------------|:----------------|-------:|---------:|
-#  |  0 |              2 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | region_pbg      |   anio |   pib_pc | provincia_id   |
+#  |---:|:----------------|-------:|---------:|:---------------|
+#  |  0 | Pampeana y AMBA |   1895 |  4413.34 | AR-B           |
 #  
 #  ------------------------------
 #  
 #  convert_indec_codes_to_isoprov(df_cod_col='provincia_id')
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 5 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   provincia_id      672 non-null    object 
-#   1   provincia_nombre  672 non-null    object 
-#   2   region_pbg        672 non-null    object 
-#   3   anio              672 non-null    int64  
-#   4   pib_pc            672 non-null    float64
-#  
-#  |    | provincia_id   | provincia_nombre                | region_pbg      |   anio |   pib_pc |
-#  |---:|:---------------|:--------------------------------|:----------------|-------:|---------:|
-#  |  0 | AR-C           | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 |   6085.6 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='provincia_nombre', axis=1)
-#  RangeIndex: 672 entries, 0 to 671
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   provincia_id  672 non-null    object 
-#   1   region_pbg    672 non-null    object 
-#   2   anio          672 non-null    int64  
-#   3   pib_pc        672 non-null    float64
+#   0   region_pbg    672 non-null    object 
+#   1   anio          672 non-null    int64  
+#   2   pib_pc        672 non-null    float64
+#   3   provincia_id  672 non-null    object 
 #  
-#  |    | provincia_id   | region_pbg      |   anio |   pib_pc |
-#  |---:|:---------------|:----------------|-------:|---------:|
-#  |  0 | AR-C           | Pampeana y CABA |   1895 |   6085.6 |
+#  |    | region_pbg      |   anio |   pib_pc | provincia_id   |
+#  |---:|:----------------|-------:|---------:|:---------------|
+#  |  0 | Pampeana y AMBA |   1895 |  4413.34 | AR-B           |
 #  
 #  ------------------------------
 #  
@@ -102,13 +79,13 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   provincia_id  672 non-null    object 
-#   1   anio          672 non-null    int64  
-#   2   pib_pc        672 non-null    float64
+#   0   anio          672 non-null    int64  
+#   1   pib_pc        672 non-null    float64
+#   2   provincia_id  672 non-null    object 
 #  
-#  |    | provincia_id   |   anio |   pib_pc |
-#  |---:|:---------------|-------:|---------:|
-#  |  0 | AR-C           |   1895 |   6085.6 |
+#  |    |   anio |   pib_pc | provincia_id   |
+#  |---:|-------:|---------:|:---------------|
+#  |  0 |   1895 |  4413.34 | AR-B           |
 #  
 #  ------------------------------
 #  
@@ -117,13 +94,13 @@ convert_indec_codes_to_isoprov(df_cod_col='provincia_id'),
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   geocodigo  672 non-null    object 
-#   1   anio       672 non-null    int64  
-#   2   valor      672 non-null    float64
+#   0   anio       672 non-null    int64  
+#   1   valor      672 non-null    float64
+#   2   geocodigo  672 non-null    object 
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AR-C        |   1895 |  6085.6 |
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  0 |   1895 | 4413.34 | AR-B        |
 #  
 #  ------------------------------
 #  
