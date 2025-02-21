@@ -37,19 +37,18 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 
 #  start()
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 6 columns):
+#  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   provincia_id       672 non-null    int64  
-#   1   provincia_nombre   672 non-null    object 
-#   2   region_pbg         672 non-null    object 
-#   3   anio               672 non-null    int64  
-#   4   vab                672 non-null    float64
-#   5   participacion_vab  672 non-null    float64
+#   0   anio               672 non-null    int64  
+#   1   region_pbg         672 non-null    object 
+#   2   participacion_vab  672 non-null    float64
+#   3   vab                672 non-null    float64
+#   4   provincia_id       672 non-null    object 
 #  
-#  |    |   provincia_id | provincia_nombre                | region_pbg      |   anio |    vab |   participacion_vab |
-#  |---:|---------------:|:--------------------------------|:----------------|-------:|-------:|--------------------:|
-#  |  0 |              2 | Ciudad Autónoma de Buenos Aires | Pampeana y CABA |   1895 | 3899.1 |              0.2243 |
+#  |    |   anio | region_pbg      |   participacion_vab |     vab | provincia_id   |
+#  |---:|-------:|:----------------|--------------------:|--------:|:---------------|
+#  |  0 |   1895 | Pampeana y AMBA |             0.23917 | 4158.05 | AR-B           |
 #  
 #  ------------------------------
 #  
@@ -64,7 +63,7 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  |    | region_pbg   |   anio |   participacion_vab |
 #  |---:|:-------------|-------:|--------------------:|
-#  |  0 | Cuyo         |   1895 |               0.072 |
+#  |  0 | Cuyo         |   1895 |           0.0719181 |
 #  
 #  ------------------------------
 #  
@@ -79,7 +78,7 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 |     7.2 |
+#  |  0 | Cuyo        |   1895 | 7.19181 |
 #  
 #  ------------------------------
 #  
@@ -94,7 +93,7 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 |     7.2 |
+#  |  0 | Cuyo        |   1895 | 7.19181 |
 #  
 #  ------------------------------
 #  
@@ -109,7 +108,7 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 |     7.2 |
+#  |  0 | Cuyo        |   1895 | 7.19181 |
 #  
 #  ------------------------------
 #  
