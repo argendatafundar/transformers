@@ -32,7 +32,7 @@ pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=100),
 	query(condition="geocodigo not in ('LAC', 'TLA', 'DESHUM_ZZH.LAC', 'DESHUM_AHDI.LAC')"),
-	sort_values(how='ascending', by='anio')
+	sort_values(how='ascending', by=['geocodigo', 'anio'])
 )
 #  PIPELINE_END
 
@@ -97,7 +97,7 @@ rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='anio')
+#  sort_values(how='ascending', by=['geocodigo', 'anio'])
 #  RangeIndex: 3229 entries, 0 to 3228
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -108,7 +108,7 @@ rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 #  
 #  |    | geocodigo   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
-#  |  0 | ZWE         |   2011 |       0 |
+#  |  0 | ABW         |   2011 |       0 |
 #  
 #  ------------------------------
 #  
