@@ -32,7 +32,7 @@ pipeline = chain(
 rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=100),
 	query(condition="geocodigo not in ('LAC', 'TEC', 'SAS', 'EAS', 'MNA', 'ECA', 'MEA', 'SSA', 'TEA', 'TMN', 'TLA', 'DESHUM_ZZH.LAC', 'DESHUM_AHDI.LAC')"),
-	sort_values(how='ascending', by='valor')
+	sort_values(how='ascending', by=['geocodigo', 'valor'])
 )
 #  PIPELINE_END
 
@@ -97,7 +97,7 @@ rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='valor')
+#  sort_values(how='ascending', by=['geocodigo', 'valor'])
 #  RangeIndex: 3112 entries, 0 to 3111
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -106,9 +106,9 @@ rename_cols(map={'iso3': 'geocodigo', 'cambio_relativo': 'valor'}),
 #   1   anio       3112 non-null   int64  
 #   2   valor      3112 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | MAC         |   2020 | -61.471 |
+#  |    | geocodigo   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | ABW         |   2020 | -21.7202 |
 #  
 #  ------------------------------
 #  
