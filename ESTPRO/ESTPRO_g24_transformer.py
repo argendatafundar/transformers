@@ -80,153 +80,152 @@ latest_year(by='anio'),
 
 
 #  start()
-#  RangeIndex: 525 entries, 0 to 524
-#  Data columns (total 9 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   anio          525 non-null    int64  
-#   1   id_depto      525 non-null    int64  
-#   2   departamento  525 non-null    object 
-#   3   provincia_id  525 non-null    int64  
-#   4   provincia     525 non-null    object 
-#   5   region        525 non-null    object 
-#   6   densidad_emp  525 non-null    float64
-#   7   share_pb_nbi  525 non-null    float64
-#   8   iso_prov      525 non-null    object 
+#  RangeIndex: 529 entries, 0 to 528
+#  Data columns (total 8 columns):
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   anio                        527 non-null    float64
+#   1   id_depto                    529 non-null    int64  
+#   2   departamento                526 non-null    object 
+#   3   provincia_id                527 non-null    float64
+#   4   provincia                   527 non-null    object 
+#   5   densidad_emp                527 non-null    float64
+#   6   porcentaje_hogares_con_nbi  527 non-null    float64
+#   7   region                      527 non-null    object 
 #  
-#  |    |   anio |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
-#  |---:|-------:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
-#  |  0 |   2022 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
+#  |    |   anio |   id_depto | departamento   |   provincia_id | provincia              |   densidad_emp |   porcentaje_hogares_con_nbi | region   |
+#  |---:|-------:|-----------:|:---------------|---------------:|:-----------------------|---------------:|-----------------------------:|:---------|
+#  |  0 |   2022 |       2007 | Comuna 1       |              2 | Ciudad de Buenos Aires |        166.823 |                      11.5549 | Centro   |
 #  
 #  ------------------------------
 #  
 #  latest_year(by='anio')
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 8 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   id_depto      525 non-null    int64  
-#   1   departamento  525 non-null    object 
-#   2   provincia_id  525 non-null    int64  
-#   3   provincia     525 non-null    object 
-#   4   region        525 non-null    object 
-#   5   densidad_emp  525 non-null    float64
-#   6   share_pb_nbi  525 non-null    float64
-#   7   iso_prov      525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   id_depto                    527 non-null    int64  
+#   1   departamento                524 non-null    object 
+#   2   provincia_id                527 non-null    float64
+#   3   provincia                   527 non-null    object 
+#   4   densidad_emp                527 non-null    float64
+#   5   porcentaje_hogares_con_nbi  527 non-null    float64
+#   6   region                      527 non-null    object 
+#   7   iso_prov                    527 non-null    object 
 #  
-#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
-#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
-#  |  0 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
+#  |    |   id_depto | departamento   |   provincia_id | provincia              |   densidad_emp |   porcentaje_hogares_con_nbi | region   | iso_prov   |
+#  |---:|-----------:|:---------------|---------------:|:-----------------------|---------------:|-----------------------------:|:---------|:-----------|
+#  |  0 |       2007 | Comuna 1       |              2 | Ciudad de Buenos Aires |        166.823 |                      11.5549 | Centro   | AR-C       |
 #  
 #  ------------------------------
 #  
 #  convert_indec_codes_to_isoprov2(cod_col='provincia_id', new_col='iso_prov')
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 8 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   id_depto      525 non-null    int64  
-#   1   departamento  525 non-null    object 
-#   2   provincia_id  525 non-null    int64  
-#   3   provincia     525 non-null    object 
-#   4   region        525 non-null    object 
-#   5   densidad_emp  525 non-null    float64
-#   6   share_pb_nbi  525 non-null    float64
-#   7   iso_prov      525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   id_depto                    527 non-null    int64  
+#   1   departamento                524 non-null    object 
+#   2   provincia_id                527 non-null    float64
+#   3   provincia                   527 non-null    object 
+#   4   densidad_emp                527 non-null    float64
+#   5   porcentaje_hogares_con_nbi  527 non-null    float64
+#   6   region                      527 non-null    object 
+#   7   iso_prov                    527 non-null    object 
 #  
-#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   |
-#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|
-#  |  0 |       2007 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       |
+#  |    |   id_depto | departamento   |   provincia_id | provincia              |   densidad_emp |   porcentaje_hogares_con_nbi | region   | iso_prov   |
+#  |---:|-----------:|:---------------|---------------:|:-----------------------|---------------:|-----------------------------:|:---------|:-----------|
+#  |  0 |       2007 | Comuna 1       |              2 | Ciudad de Buenos Aires |        166.823 |                      11.5549 | Centro   | AR-C       |
 #  
 #  ------------------------------
 #  
 #  cod_depto_CABA_to_indec(col_depto='id_depto')
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 9 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   id_depto      525 non-null    int64  
-#   1   departamento  525 non-null    object 
-#   2   provincia_id  525 non-null    int64  
-#   3   provincia     525 non-null    object 
-#   4   region        525 non-null    object 
-#   5   densidad_emp  525 non-null    float64
-#   6   share_pb_nbi  525 non-null    float64
-#   7   iso_prov      525 non-null    object 
-#   8   geocodigo     525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   id_depto                    527 non-null    int64  
+#   1   departamento                524 non-null    object 
+#   2   provincia_id                527 non-null    float64
+#   3   provincia                   527 non-null    object 
+#   4   densidad_emp                527 non-null    float64
+#   5   porcentaje_hogares_con_nbi  527 non-null    float64
+#   6   region                      527 non-null    object 
+#   7   iso_prov                    527 non-null    object 
+#   8   geocodigo                   527 non-null    object 
 #  
-#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   | geocodigo   |
-#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|:------------|
-#  |  0 |       2001 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       | AR-C001     |
+#  |    |   id_depto | departamento   |   provincia_id | provincia              |   densidad_emp |   porcentaje_hogares_con_nbi | region   | iso_prov   | geocodigo   |
+#  |---:|-----------:|:---------------|---------------:|:-----------------------|---------------:|-----------------------------:|:---------|:-----------|:------------|
+#  |  0 |       2001 | Comuna 1       |              2 | Ciudad de Buenos Aires |        166.823 |                      11.5549 | Centro   | AR-C       | AR-C001     |
 #  
 #  ------------------------------
 #  
 #  concatenar_id_depto_con_isoprov(col_depto='id_depto', col_isoprov='iso_prov', new_col='geocodigo')
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 9 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   id_depto      525 non-null    int64  
-#   1   departamento  525 non-null    object 
-#   2   provincia_id  525 non-null    int64  
-#   3   provincia     525 non-null    object 
-#   4   region        525 non-null    object 
-#   5   densidad_emp  525 non-null    float64
-#   6   share_pb_nbi  525 non-null    float64
-#   7   iso_prov      525 non-null    object 
-#   8   geocodigo     525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   id_depto                    527 non-null    int64  
+#   1   departamento                524 non-null    object 
+#   2   provincia_id                527 non-null    float64
+#   3   provincia                   527 non-null    object 
+#   4   densidad_emp                527 non-null    float64
+#   5   porcentaje_hogares_con_nbi  527 non-null    float64
+#   6   region                      527 non-null    object 
+#   7   iso_prov                    527 non-null    object 
+#   8   geocodigo                   527 non-null    object 
 #  
-#  |    |   id_depto | departamento   |   provincia_id | provincia   | region   |   densidad_emp |   share_pb_nbi | iso_prov   | geocodigo   |
-#  |---:|-----------:|:---------------|---------------:|:------------|:---------|---------------:|---------------:|:-----------|:------------|
-#  |  0 |       2001 | Comuna 1       |              2 | CABA        | Centro   |        209.837 |        18.1215 | AR-C       | AR-C001     |
+#  |    |   id_depto | departamento   |   provincia_id | provincia              |   densidad_emp |   porcentaje_hogares_con_nbi | region   | iso_prov   | geocodigo   |
+#  |---:|-----------:|:---------------|---------------:|:-----------------------|---------------:|-----------------------------:|:---------|:-----------|:------------|
+#  |  0 |       2001 | Comuna 1       |              2 | Ciudad de Buenos Aires |        166.823 |                      11.5549 | Centro   | AR-C       | AR-C001     |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['departamento', 'id_depto', 'provincia', 'iso_prov', 'provincia_id'], axis=1)
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 4 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   region        525 non-null    object 
-#   1   densidad_emp  525 non-null    float64
-#   2   share_pb_nbi  525 non-null    float64
-#   3   geocodigo     525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   densidad_emp                527 non-null    float64
+#   1   porcentaje_hogares_con_nbi  527 non-null    float64
+#   2   region                      527 non-null    object 
+#   3   geocodigo                   527 non-null    object 
 #  
-#  |    | region   |   densidad_emp |   share_pb_nbi | geocodigo   |
-#  |---:|:---------|---------------:|---------------:|:------------|
-#  |  0 | Centro   |        209.837 |        18.1215 | AR-C001     |
+#  |    |   densidad_emp |   porcentaje_hogares_con_nbi | region   | geocodigo   |
+#  |---:|---------------:|-----------------------------:|:---------|:------------|
+#  |  0 |        166.823 |                      11.5549 | Centro   | AR-C001     |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'region': 'grupo', 'densidad_emp': 'Densidad empresarial', 'share_pb_nbi': '% población NBI'})
-#  Index: 525 entries, 0 to 524
+#  Index: 527 entries, 0 to 528
 #  Data columns (total 4 columns):
-#   #   Column                Non-Null Count  Dtype  
-#  ---  ------                --------------  -----  
-#   0   grupo                 525 non-null    object 
-#   1   Densidad empresarial  525 non-null    float64
-#   2   % población NBI       525 non-null    float64
-#   3   geocodigo             525 non-null    object 
+#   #   Column                      Non-Null Count  Dtype  
+#  ---  ------                      --------------  -----  
+#   0   Densidad empresarial        527 non-null    float64
+#   1   porcentaje_hogares_con_nbi  527 non-null    float64
+#   2   grupo                       527 non-null    object 
+#   3   geocodigo                   527 non-null    object 
 #  
-#  |    | grupo   |   Densidad empresarial |   % población NBI | geocodigo   |
-#  |---:|:--------|-----------------------:|------------------:|:------------|
-#  |  0 | Centro  |                209.837 |           18.1215 | AR-C001     |
+#  |    |   Densidad empresarial |   porcentaje_hogares_con_nbi | grupo   | geocodigo   |
+#  |---:|-----------------------:|-----------------------------:|:--------|:------------|
+#  |  0 |                166.823 |                      11.5549 | Centro  | AR-C001     |
 #  
 #  ------------------------------
 #  
 #  wide_to_long(primary_keys=['grupo', 'geocodigo'], value_name='valor', var_name='indicador')
-#  RangeIndex: 1050 entries, 0 to 1049
+#  RangeIndex: 1054 entries, 0 to 1053
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   grupo      1050 non-null   object 
-#   1   geocodigo  1050 non-null   object 
-#   2   indicador  1050 non-null   object 
-#   3   valor      1050 non-null   float64
+#   0   grupo      1054 non-null   object 
+#   1   geocodigo  1054 non-null   object 
+#   2   indicador  1054 non-null   object 
+#   3   valor      1054 non-null   float64
 #  
 #  |    | grupo   | geocodigo   | indicador            |   valor |
 #  |---:|:--------|:------------|:---------------------|--------:|
-#  |  0 | Centro  | AR-C001     | Densidad empresarial | 209.837 |
+#  |  0 | Centro  | AR-C001     | Densidad empresarial | 166.823 |
 #  
 #  ------------------------------
 #  
