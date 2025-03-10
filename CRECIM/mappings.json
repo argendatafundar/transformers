@@ -125,12 +125,6 @@
             "public": "CRECIM_g18"
         }
     ],
-    "pbg_per_capita_relativo.csv": [
-        {
-            "private": "CRECIM_4-2-1_19",
-            "public": "CRECIM_g19"
-        }
-    ],
     "provincia_part_vab.csv": [
         {
             "private": "CRECIM_4-2-1_20",
@@ -165,6 +159,10 @@
         {
             "private": "CRECIM_4-2-1_25",
             "public": "CRECIM_g25"
+        },
+         {
+            "private": "CRECIM_4-2-1_19",
+            "public": "CRECIM_g19"
         }
     ]
 }
