@@ -16,6 +16,11 @@ def query(df: DataFrame, condition: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'}),
 	query(condition='anio == anio.max()'),
-	drop_col(col=['anio', 'region_pbg'], axis=1)
+	drop_col(col=['anio', 'region_pbg'], axis=1),
+	multiplicar_por_escalar(col='valor', k=0.01)
 )
 #  PIPELINE_END
 
@@ -84,9 +90,23 @@ rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc_relativo': 'valor'}),
 #   0   valor      24 non-null     float64
 #   1   geocodigo  24 non-null     object 
 #  
-#  |    |   valor | geocodigo   |
-#  |---:|--------:|:------------|
-#  | 27 | 84.1437 | AR-B        |
+#  |    |    valor | geocodigo   |
+#  |---:|---------:|:------------|
+#  | 27 | 0.841437 | AR-B        |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=0.01)
+#  Index: 24 entries, 27 to 671
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   valor      24 non-null     float64
+#   1   geocodigo  24 non-null     object 
+#  
+#  |    |    valor | geocodigo   |
+#  |---:|---------:|:------------|
+#  | 27 | 0.841437 | AR-B        |
 #  
 #  ------------------------------
 #  
