@@ -11,13 +11,19 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'}),
-	drop_col(col=['region_pbg'], axis=1)
+	drop_col(col=['region_pbg'], axis=1),
+	query(condition='anio >= 2004')
 )
 #  PIPELINE_END
 
@@ -66,6 +72,21 @@ rename_cols(map={'provincia_id': 'geocodigo', 'pib_pc': 'valor'}),
 #  |    |   anio |   valor | geocodigo   |
 #  |---:|-------:|--------:|:------------|
 #  |  0 |   1895 | 4413.34 | AR-B        |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 2004')
+#  Index: 456 entries, 9 to 671
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       456 non-null    int64  
+#   1   valor      456 non-null    float64
+#   2   geocodigo  456 non-null    object 
+#  
+#  |    |   anio |   valor | geocodigo   |
+#  |---:|-------:|--------:|:------------|
+#  |  9 |   2004 | 8989.67 | AR-B        |
 #  
 #  ------------------------------
 #  
