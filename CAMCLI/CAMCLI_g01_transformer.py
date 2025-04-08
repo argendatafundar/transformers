@@ -29,67 +29,67 @@ drop_col(col='iso3', axis=1),
 
 
 #  start()
-#  RangeIndex: 216 entries, 0 to 215
+#  RangeIndex: 215 entries, 0 to 214
 #  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   iso3               216 non-null    object 
-#   1   continente_fundar  216 non-null    object 
-#   2   iso3_desc_fundar   216 non-null    object 
-#   3   anio               216 non-null    int64  
-#   4   valor_en_porcent   216 non-null    float64
+#   0   iso3               215 non-null    object 
+#   1   continente_fundar  215 non-null    object 
+#   2   iso3_desc_fundar   215 non-null    object 
+#   3   anio               215 non-null    int64  
+#   4   valor_en_porcent   215 non-null    float64
 #  
 #  |    | iso3   | continente_fundar   | iso3_desc_fundar   |   anio |   valor_en_porcent |
 #  |---:|:-------|:--------------------|:-------------------|-------:|-------------------:|
-#  |  0 | AFG    | Asia                | Afganistán         |   2022 |        0.000326999 |
+#  |  0 | AFG    | Asia                | Afganistán         |   2023 |        0.000291605 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='iso3', axis=1)
-#  RangeIndex: 216 entries, 0 to 215
+#  RangeIndex: 215 entries, 0 to 214
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   continente_fundar  216 non-null    object 
-#   1   iso3_desc_fundar   216 non-null    object 
-#   2   anio               216 non-null    int64  
-#   3   valor_en_porcent   216 non-null    float64
+#   0   continente_fundar  215 non-null    object 
+#   1   iso3_desc_fundar   215 non-null    object 
+#   2   anio               215 non-null    int64  
+#   3   valor_en_porcent   215 non-null    float64
 #  
 #  |    | continente_fundar   | iso3_desc_fundar   |   anio |   valor_en_porcent |
 #  |---:|:--------------------|:-------------------|-------:|-------------------:|
-#  |  0 | Asia                | Afganistán         |   2022 |        0.000326999 |
+#  |  0 | Asia                | Afganistán         |   2023 |        0.000291605 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'continente_fundar': 'nivel1', 'iso3_desc_fundar': 'nivel2', 'valor_en_porcent': 'valor'})
-#  RangeIndex: 216 entries, 0 to 215
+#  RangeIndex: 215 entries, 0 to 214
 #  Data columns (total 4 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  216 non-null    object 
-#   1   nivel2  216 non-null    object 
-#   2   anio    216 non-null    int64  
-#   3   valor   216 non-null    float64
+#   0   nivel1  215 non-null    object 
+#   1   nivel2  215 non-null    object 
+#   2   anio    215 non-null    int64  
+#   3   valor   215 non-null    float64
 #  
 #  |    | nivel1   | nivel2     |   anio |     valor |
 #  |---:|:---------|:-----------|-------:|----------:|
-#  |  0 | Asia     | Afganistán |   2022 | 0.0326999 |
+#  |  0 | Asia     | Afganistán |   2023 | 0.0291605 |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 216 entries, 0 to 215
+#  RangeIndex: 215 entries, 0 to 214
 #  Data columns (total 4 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  216 non-null    object 
-#   1   nivel2  216 non-null    object 
-#   2   anio    216 non-null    int64  
-#   3   valor   216 non-null    float64
+#   0   nivel1  215 non-null    object 
+#   1   nivel2  215 non-null    object 
+#   2   anio    215 non-null    int64  
+#   3   valor   215 non-null    float64
 #  
 #  |    | nivel1   | nivel2     |   anio |     valor |
 #  |---:|:---------|:-----------|-------:|----------:|
-#  |  0 | Asia     | Afganistán |   2022 | 0.0326999 |
+#  |  0 | Asia     | Afganistán |   2023 | 0.0291605 |
 #  
 #  ------------------------------
 #  
