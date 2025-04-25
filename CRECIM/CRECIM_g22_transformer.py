@@ -35,12 +35,12 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-drop_col(col=['region_pbg', 'pib_pc_ultimo_anio'], axis=1),
+drop_col(col=['region_pbg', 'pib_pc_ultimo_anio', 'provincia_nombre'], axis=1),
 	rename_cols(map={'provincia_id': 'geocodigo'}),
 	multiplicar_por_escalar(col='var_pib_pc_1895_ultimo_anio', k=100),
 	wide_to_long(primary_keys=['geocodigo'], value_name='valor', var_name='indicador'),
 	replace_value(col='indicador', curr_value='pib_pc_1895', new_value='PIB per cápita provincial en 1895 (en pesos de 2004)'),
-	replace_value(col='indicador', curr_value='var_pib_pc_1895_2022', new_value='Variación del PIB per cápita provincial entre 1895 y 2022')
+	replace_value(col='indicador', curr_value='var_pib_pc_1895_ultimo_anio', new_value='Variación del PIB per cápita provincial entre 1895 y 2022')
 )
 #  PIPELINE_END
 
@@ -63,96 +63,93 @@ drop_col(col=['region_pbg', 'pib_pc_ultimo_anio'], axis=1),
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['region_pbg', 'pib_pc_ultimo_anio'], axis=1)
+#  drop_col(col=['region_pbg', 'pib_pc_ultimo_anio', 'provincia_nombre'], axis=1)
 #  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 4 columns):
+#  Data columns (total 3 columns):
 #   #   Column                       Non-Null Count  Dtype  
 #  ---  ------                       --------------  -----  
 #   0   provincia_id                 24 non-null     object 
-#   1   provincia_nombre             24 non-null     object 
-#   2   pib_pc_1895                  24 non-null     float64
-#   3   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   1   pib_pc_1895                  24 non-null     float64
+#   2   var_pib_pc_1895_ultimo_anio  24 non-null     float64
 #  
-#  |    | provincia_id   | provincia_nombre   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
-#  |---:|:---------------|:-------------------|--------------:|------------------------------:|
-#  |  0 | AR-B           | Buenos Aires       |       4413.34 |                       1.49071 |
+#  |    | provincia_id   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
+#  |---:|:---------------|--------------:|------------------------------:|
+#  |  0 | AR-B           |       4413.34 |                       1.49071 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'provincia_id': 'geocodigo'})
 #  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 4 columns):
+#  Data columns (total 3 columns):
 #   #   Column                       Non-Null Count  Dtype  
 #  ---  ------                       --------------  -----  
 #   0   geocodigo                    24 non-null     object 
-#   1   provincia_nombre             24 non-null     object 
-#   2   pib_pc_1895                  24 non-null     float64
-#   3   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   1   pib_pc_1895                  24 non-null     float64
+#   2   var_pib_pc_1895_ultimo_anio  24 non-null     float64
 #  
-#  |    | geocodigo   | provincia_nombre   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
-#  |---:|:------------|:-------------------|--------------:|------------------------------:|
-#  |  0 | AR-B        | Buenos Aires       |       4413.34 |                       149.071 |
+#  |    | geocodigo   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
+#  |---:|:------------|--------------:|------------------------------:|
+#  |  0 | AR-B        |       4413.34 |                       149.071 |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='var_pib_pc_1895_ultimo_anio', k=100)
 #  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 4 columns):
+#  Data columns (total 3 columns):
 #   #   Column                       Non-Null Count  Dtype  
 #  ---  ------                       --------------  -----  
 #   0   geocodigo                    24 non-null     object 
-#   1   provincia_nombre             24 non-null     object 
-#   2   pib_pc_1895                  24 non-null     float64
-#   3   var_pib_pc_1895_ultimo_anio  24 non-null     float64
+#   1   pib_pc_1895                  24 non-null     float64
+#   2   var_pib_pc_1895_ultimo_anio  24 non-null     float64
 #  
-#  |    | geocodigo   | provincia_nombre   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
-#  |---:|:------------|:-------------------|--------------:|------------------------------:|
-#  |  0 | AR-B        | Buenos Aires       |       4413.34 |                       149.071 |
+#  |    | geocodigo   |   pib_pc_1895 |   var_pib_pc_1895_ultimo_anio |
+#  |---:|:------------|--------------:|------------------------------:|
+#  |  0 | AR-B        |       4413.34 |                       149.071 |
 #  
 #  ------------------------------
 #  
 #  wide_to_long(primary_keys=['geocodigo'], value_name='valor', var_name='indicador')
-#  RangeIndex: 72 entries, 0 to 71
+#  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype 
-#  ---  ------     --------------  ----- 
-#   0   geocodigo  72 non-null     object
-#   1   indicador  72 non-null     object
-#   2   valor      72 non-null     object
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo   | indicador        | valor        |
-#  |---:|:------------|:-----------------|:-------------|
-#  |  0 | AR-B        | provincia_nombre | Buenos Aires |
+#  |    | geocodigo   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | AR-B        | pib_pc_1895 | 4413.34 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='indicador', curr_value='pib_pc_1895', new_value='PIB per cápita provincial en 1895 (en pesos de 2004)')
-#  RangeIndex: 72 entries, 0 to 71
+#  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype 
-#  ---  ------     --------------  ----- 
-#   0   geocodigo  72 non-null     object
-#   1   indicador  72 non-null     object
-#   2   valor      72 non-null     object
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo   | indicador        | valor        |
-#  |---:|:------------|:-----------------|:-------------|
-#  |  0 | AR-B        | provincia_nombre | Buenos Aires |
+#  |    | geocodigo   | indicador                                            |   valor |
+#  |---:|:------------|:-----------------------------------------------------|--------:|
+#  |  0 | AR-B        | PIB per cápita provincial en 1895 (en pesos de 2004) | 4413.34 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='var_pib_pc_1895_2022', new_value='Variación del PIB per cápita provincial entre 1895 y 2022')
-#  RangeIndex: 72 entries, 0 to 71
+#  replace_value(col='indicador', curr_value='var_pib_pc_1895_ultimo_anio', new_value='Variación del PIB per cápita provincial entre 1895 y 2022')
+#  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype 
-#  ---  ------     --------------  ----- 
-#   0   geocodigo  72 non-null     object
-#   1   indicador  72 non-null     object
-#   2   valor      72 non-null     object
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   geocodigo  48 non-null     object 
+#   1   indicador  48 non-null     object 
+#   2   valor      48 non-null     float64
 #  
-#  |    | geocodigo   | indicador        | valor        |
-#  |---:|:------------|:-----------------|:-------------|
-#  |  0 | AR-B        | provincia_nombre | Buenos Aires |
+#  |    | geocodigo   | indicador                                            |   valor |
+#  |---:|:------------|:-----------------------------------------------------|--------:|
+#  |  0 | AR-B        | PIB per cápita provincial en 1895 (en pesos de 2004) | 4413.34 |
 #  
 #  ------------------------------
 #  
