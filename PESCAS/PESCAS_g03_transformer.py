@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
 
@@ -38,7 +38,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |    0.134415 |
 #  
 #  ------------------------------
 #  
@@ -56,7 +56,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     1344.15 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
 #  
 #  ------------------------------
 #  
@@ -74,7 +74,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     1344.15 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
 #  
 #  ------------------------------
 #  
@@ -92,7 +92,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro                          | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:------------------------------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | Manufacturas de origen agropecuario | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     1344.15 |
+#  |  0 | Manufacturas de origen agropecuario | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
 #  
 #  ------------------------------
 #  
