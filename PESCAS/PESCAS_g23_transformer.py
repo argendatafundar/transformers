@@ -20,8 +20,8 @@ def imput_na(df: DataFrame, col:str, value:str) -> DataFrame:
 
 #  PIPELINE_START
 pipeline = chain(
-	drop_na(col='share_acuicola'),
-	imput_na(col='share_acuicola', value=0.0)
+	imput_na(col='share_acuicola', value=0.0),
+	drop_na(col='share_acuicola')
 )
 #  PIPELINE_END
 
@@ -42,7 +42,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  drop_na(col='share_acuicola')
+#  imput_na(col='share_acuicola', value=0.0)
 #  RangeIndex: 13486 entries, 0 to 13485
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
@@ -58,19 +58,19 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  imput_na(col='share_acuicola', value=0.0)
-#  RangeIndex: 13486 entries, 0 to 13485
+#  drop_na(col='share_acuicola')
+#  Index: 8738 entries, 2 to 13485
 #  Data columns (total 4 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   anio            13486 non-null  int64  
-#   1   iso3            13486 non-null  object 
-#   2   pais_nombre     13486 non-null  object 
+#   0   anio            8738 non-null   int64  
+#   1   iso3            8738 non-null   object 
+#   2   pais_nombre     8738 non-null   object 
 #   3   share_acuicola  8738 non-null   float64
 #  
-#  |    |   anio | iso3   | pais_nombre            |   share_acuicola |
-#  |---:|-------:|:-------|:-----------------------|-----------------:|
-#  |  0 |   1961 | ARE    | Emiratos Árabes Unidos |              nan |
+#  |    |   anio | iso3   | pais_nombre   |   share_acuicola |
+#  |---:|-------:|:-------|:--------------|-----------------:|
+#  |  2 |   1961 | AUS    | Australia     |          10.2017 |
 #  
 #  ------------------------------
 #  
