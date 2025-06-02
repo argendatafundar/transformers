@@ -11,21 +11,28 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def replace_multiple_values(df : DataFrame, col:str, replace_mapper:dict) -> DataFrame:
     return df.replace({col : replace_mapper})
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def add_row(df: DataFrame, row_dict:dict): 
+    import pandas as pd
+    add_df = DataFrame(row_dict, index=[0])
+    df = pd.concat([df, add_df], ignore_index=True)
+    return df
 #  DEFINITIONS_END
 
 
@@ -35,7 +42,8 @@ pipeline = chain(
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
 	multiplicar_por_escalar(col='value', k=1e-06),
 	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'}),
-	replace_multiple_values(col='variable', replace_mapper={'Captura': '1-Captura', 'Acuicultura': '2-Acuicultura'}),
+	add_row(row_dict={'anio': 1960, 'variable': 'Captura', 'value': 200}),
+	add_row(row_dict={'anio': 1960, 'variable': 'Acuicultura', 'value': 0}),
 	sort_values(how='ascending', by=['variable', 'anio'])
 )
 #  PIPELINE_END
@@ -117,33 +125,48 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='variable', replace_mapper={'Captura': '1-Captura', 'Acuicultura': '2-Acuicultura'})
-#  RangeIndex: 126 entries, 0 to 125
+#  add_row(row_dict={'anio': 1960, 'variable': 'Captura', 'value': 200})
+#  RangeIndex: 127 entries, 0 to 126
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   anio      126 non-null    int64  
-#   1   variable  126 non-null    object 
-#   2   value     126 non-null    float64
+#   0   anio      127 non-null    int64  
+#   1   variable  127 non-null    object 
+#   2   value     127 non-null    float64
 #  
-#  |    |   anio | variable      |   value |
-#  |---:|-------:|:--------------|--------:|
-#  |  0 |   1961 | 2-Acuicultura | 2.03605 |
+#  |    |   anio | variable    |   value |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1961 | Acuicultura | 2.03605 |
+#  
+#  ------------------------------
+#  
+#  add_row(row_dict={'anio': 1960, 'variable': 'Acuicultura', 'value': 0})
+#  RangeIndex: 128 entries, 0 to 127
+#  Data columns (total 3 columns):
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   anio      128 non-null    int64  
+#   1   variable  128 non-null    object 
+#   2   value     128 non-null    float64
+#  
+#  |    |   anio | variable    |   value |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1961 | Acuicultura | 2.03605 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['variable', 'anio'])
-#  RangeIndex: 126 entries, 0 to 125
+#  RangeIndex: 128 entries, 0 to 127
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
-#   0   anio      126 non-null    int64  
-#   1   variable  126 non-null    object 
-#   2   value     126 non-null    float64
+#   0   anio      128 non-null    int64  
+#   1   variable  128 non-null    object 
+#   2   value     128 non-null    float64
 #  
-#  |    |   anio | variable   |   value |
-#  |---:|-------:|:-----------|--------:|
-#  |  0 |   1961 | 1-Captura  | 39.4583 |
+#  |    |   anio | variable    |   value |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1960 | Acuicultura |       0 |
 #  
 #  ------------------------------
 #  
