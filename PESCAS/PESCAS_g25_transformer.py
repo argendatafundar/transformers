@@ -35,7 +35,7 @@ pipeline = chain(
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
 	multiplicar_por_escalar(col='value', k=1e-06),
 	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'}),
-	replace_multiple_values(col='variable', replace_mapper={'Captura': '\u200bCaptura', 'Acuicultura': '\u200cAcuicultura'}),
+	replace_multiple_values(col='variable', replace_mapper={'Captura': '1-Captura', 'Acuicultura': '2-Acuicultura'}),
 	sort_values(how='ascending', by=['variable', 'anio'])
 )
 #  PIPELINE_END
@@ -117,7 +117,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='variable', replace_mapper={'Captura': '\u200bCaptura', 'Acuicultura': '\u200cAcuicultura'})
+#  replace_multiple_values(col='variable', replace_mapper={'Captura': '1-Captura', 'Acuicultura': '2-Acuicultura'})
 #  RangeIndex: 126 entries, 0 to 125
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype  
@@ -126,9 +126,9 @@ pipeline = chain(
 #   1   variable  126 non-null    object 
 #   2   value     126 non-null    float64
 #  
-#  |    |   anio | variable    |   value |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | ‌Acuicultura | 2.03605 |
+#  |    |   anio | variable      |   value |
+#  |---:|-------:|:--------------|--------:|
+#  |  0 |   1961 | 2-Acuicultura | 2.03605 |
 #  
 #  ------------------------------
 #  
@@ -143,7 +143,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable   |   value |
 #  |---:|-------:|:-----------|--------:|
-#  |  0 |   1961 | ​Captura    | 39.4583 |
+#  |  0 |   1961 | 1-Captura  | 39.4583 |
 #  
 #  ------------------------------
 #  
