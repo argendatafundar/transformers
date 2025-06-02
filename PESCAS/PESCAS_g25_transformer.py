@@ -38,7 +38,7 @@ def replace_multiple_values(df : DataFrame, col:str, replace_mapper:dict) -> Dat
 pipeline = chain(
 	drop_col(col='produccion_total', axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
-	multiplicar_por_escalar(col='value', k=1e-05),
+	multiplicar_por_escalar(col='value', k=1e-06),
 	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'}),
 	create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x770ff86ab4c0>),
 	sort_values(how='ascending', by=['orden_cat', 'anio'])
@@ -88,11 +88,11 @@ pipeline = chain(
 #  
 #  |    |   anio | variable            |   value |
 #  |---:|-------:|:--------------------|--------:|
-#  |  0 |   1961 | produccion_acuicola | 20.3605 |
+#  |  0 |   1961 | produccion_acuicola | 2.03605 |
 #  
 #  ------------------------------
 #  
-#  multiplicar_por_escalar(col='value', k=1e-05)
+#  multiplicar_por_escalar(col='value', k=1e-06)
 #  RangeIndex: 126 entries, 0 to 125
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype  
@@ -103,7 +103,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable            |   value |
 #  |---:|-------:|:--------------------|--------:|
-#  |  0 |   1961 | produccion_acuicola | 20.3605 |
+#  |  0 |   1961 | produccion_acuicola | 2.03605 |
 #  
 #  ------------------------------
 #  
@@ -119,7 +119,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable    |   value |   orden_cat |
 #  |---:|-------:|:------------|--------:|------------:|
-#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
+#  |  0 |   1961 | Acuicultura | 2.03605 |           1 |
 #  
 #  ------------------------------
 #  
@@ -135,7 +135,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable    |   value |   orden_cat |
 #  |---:|-------:|:------------|--------:|------------:|
-#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
+#  |  0 |   1961 | Acuicultura | 2.03605 |           1 |
 #  
 #  ------------------------------
 #  
@@ -151,7 +151,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable    |   value |   orden_cat |
 #  |---:|-------:|:------------|--------:|------------:|
-#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
+#  |  0 |   1961 | Acuicultura | 2.03605 |           1 |
 #  
 #  ------------------------------
 #  
