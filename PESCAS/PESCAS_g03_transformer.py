@@ -4,8 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def txtwrapper(df: DataFrame, col:str, width:int)->DataFrame:
+    import textwrap
+    df[col] = df[col].apply(lambda text: "\n".join(textwrap.wrap(text, width=width)))
     return df
 
 @transformer.convert
@@ -14,9 +15,8 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def txtwrapper(df: DataFrame, col:str, width:int)->DataFrame:
-    import textwrap
-    df[col] = df[col].apply(lambda text: "\n".join(textwrap.wrap(text, width=width)))
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
 
@@ -26,7 +26,7 @@ pipeline = chain(
 	multiplicar_por_escalar(col='share_fob', k=100),
 	replace_value(col='producto', curr_value='Pescado sec./sal./en salm. har./pol./pell. aptos p/c humano', new_value='Otras preparaciones aptas para consumo humano'),
 	replace_value(col='producto', curr_value='Harina, polvo y pellets de pescado. No aptos p/c humano', new_value='Harina, polvo y pellets de pescado. No aptos para consumo humano'),
-	txtwrapper(col='producto', width=25)
+	txtwrapper(col='producto', width=15)
 )
 #  PIPELINE_END
 
@@ -45,7 +45,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |    0.134415 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
 #  
 #  ------------------------------
 #  
@@ -63,7 +63,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     1344.15 |
 #  
 #  ------------------------------
 #  
@@ -81,7 +81,7 @@ pipeline = chain(
 #  
 #  |    | gran_rubro   | producto                          |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
 #  |---:|:-------------|:----------------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     13.4415 |
+#  |  0 | MOA          | Filetes y demás carnes de pescado |     79321.9 |          254036 |          0.152354 |     1344.15 |
 #  
 #  ------------------------------
 #  
@@ -97,14 +97,15 @@ pipeline = chain(
 #   4   share_toneladas  8 non-null      float64
 #   5   share_fob        8 non-null      float64
 #  
-#  |    | gran_rubro   | producto                  |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
-#  |---:|:-------------|:--------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de |     79321.9 |          254036 |          0.152354 |     13.4415 |
-#  |    |              | pescado                   |             |                 |                   |             |
+#  |    | gran_rubro   | producto        |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
+#  |---:|:-------------|:----------------|------------:|----------------:|------------------:|------------:|
+#  |  0 | MOA          | Filetes y demás |     79321.9 |          254036 |          0.152354 |     1344.15 |
+#  |    |              | carnes de       |             |                 |                   |             |
+#  |    |              | pescado         |             |                 |                   |             |
 #  
 #  ------------------------------
 #  
-#  txtwrapper(col='producto', width=25)
+#  txtwrapper(col='producto', width=15)
 #  RangeIndex: 8 entries, 0 to 7
 #  Data columns (total 6 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -116,10 +117,11 @@ pipeline = chain(
 #   4   share_toneladas  8 non-null      float64
 #   5   share_fob        8 non-null      float64
 #  
-#  |    | gran_rubro   | producto                  |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
-#  |---:|:-------------|:--------------------------|------------:|----------------:|------------------:|------------:|
-#  |  0 | MOA          | Filetes y demás carnes de |     79321.9 |          254036 |          0.152354 |     13.4415 |
-#  |    |              | pescado                   |             |                 |                   |             |
+#  |    | gran_rubro   | producto        |   toneladas |   fob_miles_usd |   share_toneladas |   share_fob |
+#  |---:|:-------------|:----------------|------------:|----------------:|------------------:|------------:|
+#  |  0 | MOA          | Filetes y demás |     79321.9 |          254036 |          0.152354 |     1344.15 |
+#  |    |              | carnes de       |             |                 |                   |             |
+#  |    |              | pescado         |             |                 |                   |             |
 #  
 #  ------------------------------
 #  
