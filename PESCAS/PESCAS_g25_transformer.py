@@ -9,16 +9,28 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
 def replace_multiple_values(df : DataFrame, col:str, replace_mapper:dict) -> DataFrame:
     return df.replace({col : replace_mapper})
 
 @transformer.convert
-def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
-    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def create_col(df: DataFrame, new_col:str, col:str, func:Callable): 
+    df[new_col] = df[col].apply(lambda x: func(x))
+    return df
+
+@transformer.convert
+def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
+    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 #  DEFINITIONS_END
 
 
@@ -27,7 +39,9 @@ pipeline = chain(
 	drop_col(col='produccion_total', axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
 	multiplicar_por_escalar(col='value', k=0.001),
-	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'})
+	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'}),
+	create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x7251ddf9f240>),
+	sort_values(how='ascending', by=['orden_cat', 'anio'])
 )
 #  PIPELINE_END
 
@@ -95,16 +109,49 @@ pipeline = chain(
 #  
 #  replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'})
 #  RangeIndex: 126 entries, 0 to 125
-#  Data columns (total 3 columns):
-#   #   Column    Non-Null Count  Dtype  
-#  ---  ------    --------------  -----  
-#   0   anio      126 non-null    int64  
-#   1   variable  126 non-null    object 
-#   2   value     126 non-null    float64
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       126 non-null    int64  
+#   1   variable   126 non-null    object 
+#   2   value      126 non-null    float64
+#   3   orden_cat  126 non-null    object 
 #  
-#  |    |   anio | variable    |   value |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1961 | Acuicultura | 2036.05 |
+#  |    |   anio | variable    |   value |   orden_cat |
+#  |---:|-------:|:------------|--------:|------------:|
+#  |  0 |   1961 | Acuicultura | 2036.05 |           2 |
+#  
+#  ------------------------------
+#  
+#  create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x7251ddf9f240>)
+#  RangeIndex: 126 entries, 0 to 125
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       126 non-null    int64  
+#   1   variable   126 non-null    object 
+#   2   value      126 non-null    float64
+#   3   orden_cat  126 non-null    object 
+#  
+#  |    |   anio | variable    |   value |   orden_cat |
+#  |---:|-------:|:------------|--------:|------------:|
+#  |  0 |   1961 | Acuicultura | 2036.05 |           2 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['orden_cat', 'anio'])
+#  RangeIndex: 126 entries, 0 to 125
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       126 non-null    int64  
+#   1   variable   126 non-null    object 
+#   2   value      126 non-null    float64
+#   3   orden_cat  126 non-null    object 
+#  
+#  |    |   anio | variable   |   value |   orden_cat |
+#  |---:|-------:|:-----------|--------:|------------:|
+#  |  0 |   1961 | Captura    | 39458.3 |           1 |
 #  
 #  ------------------------------
 #  
