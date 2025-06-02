@@ -4,20 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def create_col(df: DataFrame, new_col:str, col:str, func:Callable): 
-    df[new_col] = df[col].apply(lambda x: func(x))
-    return df
-
-@transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
-
-@transformer.convert
-def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
-    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -29,6 +15,20 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
+def create_col(df: DataFrame, new_col:str, col:str, func:Callable): 
+    df[new_col] = df[col].apply(lambda x: func(x))
+    return df
+
+@transformer.convert
+def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
+    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def replace_multiple_values(df : DataFrame, col:str, replace_mapper:dict) -> DataFrame:
     return df.replace({col : replace_mapper})
 #  DEFINITIONS_END
@@ -38,9 +38,9 @@ def replace_multiple_values(df : DataFrame, col:str, replace_mapper:dict) -> Dat
 pipeline = chain(
 	drop_col(col='produccion_total', axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
-	multiplicar_por_escalar(col='value', k=0.001),
+	multiplicar_por_escalar(col='value', k=1e-05),
 	replace_multiple_values(col='variable', replace_mapper={'produccion_acuicola': 'Acuicultura', 'produccion_captura': 'Captura'}),
-	create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x7118f15b7560>),
+	create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x770ff86ab4c0>),
 	sort_values(how='ascending', by=['orden_cat', 'anio'])
 )
 #  PIPELINE_END
@@ -88,11 +88,11 @@ pipeline = chain(
 #  
 #  |    |   anio | variable            |   value |
 #  |---:|-------:|:--------------------|--------:|
-#  |  0 |   1961 | produccion_acuicola | 2036.05 |
+#  |  0 |   1961 | produccion_acuicola | 20.3605 |
 #  
 #  ------------------------------
 #  
-#  multiplicar_por_escalar(col='value', k=0.001)
+#  multiplicar_por_escalar(col='value', k=1e-05)
 #  RangeIndex: 126 entries, 0 to 125
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype  
@@ -103,7 +103,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable            |   value |
 #  |---:|-------:|:--------------------|--------:|
-#  |  0 |   1961 | produccion_acuicola | 2036.05 |
+#  |  0 |   1961 | produccion_acuicola | 20.3605 |
 #  
 #  ------------------------------
 #  
@@ -119,11 +119,11 @@ pipeline = chain(
 #  
 #  |    |   anio | variable    |   value |   orden_cat |
 #  |---:|-------:|:------------|--------:|------------:|
-#  |  0 |   1961 | Acuicultura | 2036.05 |           2 |
+#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
 #  
 #  ------------------------------
 #  
-#  create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x7118f15b7560>)
+#  create_col(new_col='orden_cat', col='variable', func=<function my_func at 0x770ff86ab4c0>)
 #  RangeIndex: 126 entries, 0 to 125
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -135,7 +135,7 @@ pipeline = chain(
 #  
 #  |    |   anio | variable    |   value |   orden_cat |
 #  |---:|-------:|:------------|--------:|------------:|
-#  |  0 |   1961 | Acuicultura | 2036.05 |           2 |
+#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
 #  
 #  ------------------------------
 #  
@@ -149,9 +149,9 @@ pipeline = chain(
 #   2   value      126 non-null    float64
 #   3   orden_cat  126 non-null    object 
 #  
-#  |    |   anio | variable   |   value |   orden_cat |
-#  |---:|-------:|:-----------|--------:|------------:|
-#  |  0 |   1961 | Captura    | 39458.3 |           1 |
+#  |    |   anio | variable    |   value |   orden_cat |
+#  |---:|-------:|:------------|--------:|------------:|
+#  |  0 |   1961 | Acuicultura | 20.3605 |           1 |
 #  
 #  ------------------------------
 #  
