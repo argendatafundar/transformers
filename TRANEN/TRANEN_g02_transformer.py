@@ -4,17 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def to_pandas(df: pl.DataFrame):
-    import pandas as pd
-    return df.to_pandas()
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 
 @transformer.convert
@@ -23,8 +14,16 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
@@ -36,8 +35,9 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
     return df_.drop(mapcol, axis=1)
 
 @transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
+def to_pandas(df: pl.DataFrame):
+    import pandas as pd
+    return df.to_pandas()
 #  DEFINITIONS_END
 
 
