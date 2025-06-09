@@ -43,7 +43,7 @@ def drop_cols(df, cols):
 #  PIPELINE_START
 pipeline = chain(
 	replace_value(col='iso3', mapping={'OWID_WRL': 'WLD'}, alias=None),
-	df_sql(query="SELECT * FROM self WHERE tipo_energia != 'Limpias' AND iso3 = 'WLD'"),
+	df_sql(query="SELECT * FROM self WHERE tipo_energia = 'Limpias' AND iso3 = 'WLD'"),
 	rename_cols(map={'fuente_energia': 'indicador', 'porcentaje': 'valor', 'iso3': 'geocodigo'}),
 	drop_cols(cols=['valor_en_twh', 'tipo_energia']),
 	drop_na(cols=['valor']),
@@ -60,7 +60,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  df_sql(query="SELECT * FROM self WHERE tipo_energia != 'Limpias' AND iso3 = 'WLD'")
+#  df_sql(query="SELECT * FROM self WHERE tipo_energia = 'Limpias' AND iso3 = 'WLD'")
 #  
 #  ------------------------------
 #  
