@@ -43,7 +43,8 @@ pipeline = chain(
 	rename_cols(map={'tipo_energia': 'indicador', 'porcentaje': 'valor', 'iso3': 'geocodigo'}),
 	df_sql(query="select * from self where indicador != 'Total' and geocodigo = 'ARG'"),
 	drop_na(cols=['valor']),
-	drop_cols(cols=['valor_en_twh'])
+	drop_cols(cols=['valor_en_twh']),
+	replace_value(col='indicador', mapping={'Bioenergia': 'Bioenergía', 'Carbon': 'Carbón', 'Petroleo': 'Petróleo', 'Eolica': 'Eólica'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -69,6 +70,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_cols(cols=['valor_en_twh'])
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', mapping={'Bioenergia': 'Bioenergía', 'Carbon': 'Carbón', 'Petroleo': 'Petróleo', 'Eolica': 'Eólica'}, alias=None)
 #  
 #  ------------------------------
 #  
