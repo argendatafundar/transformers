@@ -4,9 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def txtwrapper(df: DataFrame, col:str, width:int)->DataFrame:
-    import textwrap
-    df[col] = df[col].apply(lambda text: "\n".join(textwrap.wrap(text, width=width)))
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
@@ -15,8 +14,9 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def txtwrapper(df: DataFrame, col:str, width:int)->DataFrame:
+    import textwrap
+    df[col] = df[col].apply(lambda text: "\n".join(textwrap.wrap(text, width=width)))
     return df
 #  DEFINITIONS_END
 
@@ -24,8 +24,8 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 	multiplicar_por_escalar(col='share_fob', k=100),
-	replace_value(col='producto', curr_value='Pescado sec./sal./en salm. har./pol./pell. aptos p/c humano', new_value='Otras preparaciones aptas para consumo humano'),
-	replace_value(col='producto', curr_value='Harina, polvo y pellets de pescado. No aptos p/c humano', new_value='Harina, polvo y pellets de pescado. No aptos para consumo humano'),
+	replace_value(col='producto', curr_value='Pescado sec./sal./en salm. har./pol./pell. aptos p/c humano', new_value='Otros'),
+	replace_value(col='producto', curr_value='Harina, polvo y pellets de pescado. No aptos p/c humano', new_value='Harina, polvo y pellets de pescado no aptos para cons. hum.'),
 	txtwrapper(col='producto', width=15)
 )
 #  PIPELINE_END
@@ -67,7 +67,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='producto', curr_value='Pescado sec./sal./en salm. har./pol./pell. aptos p/c humano', new_value='Otras preparaciones aptas para consumo humano')
+#  replace_value(col='producto', curr_value='Pescado sec./sal./en salm. har./pol./pell. aptos p/c humano', new_value='Otros')
 #  RangeIndex: 8 entries, 0 to 7
 #  Data columns (total 6 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -85,7 +85,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='producto', curr_value='Harina, polvo y pellets de pescado. No aptos p/c humano', new_value='Harina, polvo y pellets de pescado. No aptos para consumo humano')
+#  replace_value(col='producto', curr_value='Harina, polvo y pellets de pescado. No aptos p/c humano', new_value='Harina, polvo y pellets de pescado no aptos para cons. hum.')
 #  RangeIndex: 8 entries, 0 to 7
 #  Data columns (total 6 columns):
 #   #   Column           Non-Null Count  Dtype  
