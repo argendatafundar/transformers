@@ -13,7 +13,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 	replace_value(col='subclase_desc', curr_value='Pescados y mariscos en conserva', new_value='En conserva'),
-	replace_value(col='subclase_desc', curr_value='Pescados y mariscos frescos, congelados o semipreparados', new_value='Frescos, congelados o semipreparados')
+	replace_value(col='subclase_desc', curr_value='Pescados y mariscos frescos, congelados o semipreparados', new_value='Frescos, congel. o semiprep.')
 )
 #  PIPELINE_END
 
@@ -48,7 +48,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='subclase_desc', curr_value='Pescados y mariscos frescos, congelados o semipreparados', new_value='Frescos, congelados o semipreparados')
+#  replace_value(col='subclase_desc', curr_value='Pescados y mariscos frescos, congelados o semipreparados', new_value='Frescos, congel. o semiprep.')
 #  RangeIndex: 20 entries, 0 to 19
 #  Data columns (total 3 columns):
 #   #   Column         Non-Null Count  Dtype  
