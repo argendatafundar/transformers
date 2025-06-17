@@ -4,26 +4,26 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
-
-@transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def agregar_geonomenclador(df: DataFrame, nombre_col:str, nombre_key:str, mapper : dict = geo_mapping) -> DataFrame:
-    df[nombre_col] = df[nombre_key].apply(lambda x: mapper[x]) # si hay un error, raisea 
+def agregar_continente(df: DataFrame, continente_col:str, nombre_key = str, mapper: dict = continentes_mapper) -> DataFrame:
+    df[continente_col] = df[nombre_key].apply(lambda x: mapper[x])
     return df
 
 @transformer.convert
-def agregar_continente(df: DataFrame, continente_col:str, nombre_key = str, mapper: dict = continentes_mapper) -> DataFrame:
-    df[continente_col] = df[nombre_key].apply(lambda x: mapper[x])
+def agregar_geonomenclador(df: DataFrame, nombre_col:str, nombre_key:str, mapper : dict = geo_mapping) -> DataFrame:
+    df[nombre_col] = df[nombre_key].apply(lambda x: mapper[x]) # si hay un error, raisea 
     return df
 #  DEFINITIONS_END
 
@@ -42,19 +42,17 @@ pipeline = chain(
 
 #  start()
 #  RangeIndex: 6587 entries, 0 to 6586
-#  Data columns (total 6 columns):
+#  Data columns (total 4 columns):
 #   #   Column                Non-Null Count  Dtype  
 #  ---  ------                --------------  -----  
 #   0   iso3                  6587 non-null   object 
 #   1   anio                  6587 non-null   int64  
 #   2   pib_pc                6587 non-null   float64
 #   3   expectativa_al_nacer  6587 non-null   float64
-#   4   pais_nombre           6587 non-null   object 
-#   5   grupo                 6587 non-null   object 
 #  
-#  |    | iso3   |   anio |   pib_pc |   expectativa_al_nacer | pais_nombre   | grupo   |
-#  |---:|:-------|-------:|---------:|-----------------------:|:--------------|:--------|
-#  |  0 | AFG    |   2023 |  1992.42 |                66.0346 | Afganistán    | Asia    |
+#  |    | iso3   |   anio |   pib_pc |   expectativa_al_nacer |
+#  |---:|:-------|-------:|---------:|-----------------------:|
+#  |  0 | AFG    |   2023 |  1992.42 |                66.0346 |
 #  
 #  ------------------------------
 #  
