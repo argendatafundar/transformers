@@ -4,12 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def replace_values(df: DataFrame, col: str, mapper: dict) -> DataFrame:
+    df[col] = df[col].replace(mapper)
+    return df
 
 @transformer.convert
 def query(df: DataFrame, condition: str):
@@ -17,9 +14,12 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def replace_values(df: DataFrame, col: str, mapper: dict) -> DataFrame:
-    df[col] = df[col].replace(mapper)
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 #  DEFINITIONS_END
 
 
