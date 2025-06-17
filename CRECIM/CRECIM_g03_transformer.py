@@ -4,15 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -22,9 +13,18 @@ def agregar_continente(df: DataFrame, continente_col:str, nombre_key = str, mapp
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def agregar_geonomenclador(df: DataFrame, nombre_col:str, nombre_key:str, mapper : dict = geo_mapping) -> DataFrame:
     df[nombre_col] = df[nombre_key].apply(lambda x: mapper[x]) # si hay un error, raisea 
     return df
+
+@transformer.convert
+def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
 #  DEFINITIONS_END
 
 
