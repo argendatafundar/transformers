@@ -4,13 +4,18 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_values(df: DataFrame, col: str, mapper: dict) -> DataFrame:
-    df[col] = df[col].replace(mapper)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def replace_values(df: DataFrame, col: str, mapper: dict) -> DataFrame:
+    df[col] = df[col].replace(mapper)
     return df
 
 @transformer.convert
@@ -28,7 +33,8 @@ pipeline = chain(
 	query(condition='iso3 == "ARG"'),
 	drop_col(col='iso3', axis=1),
 	wide_to_long(primary_keys=['anio'], value_name='valor', var_name='indicador'),
-	replace_values(col='indicador', mapper={'pib_corriente': 'Precios corrientes', 'pib_constante': 'Precios constantes'})
+	replace_values(col='indicador', mapper={'pib_corriente': 'Precios corrientes', 'pib_constante': 'Precios constantes'}),
+	multiplicar_por_escalar(col='valor', k=1e-06)
 )
 #  PIPELINE_END
 
@@ -89,9 +95,9 @@ pipeline = chain(
 #   1   indicador  124 non-null    object 
 #   2   valor      124 non-null    float64
 #  
-#  |    |   anio | indicador          |       valor |
-#  |---:|-------:|:-------------------|------------:|
-#  |  0 |   2023 | Precios corrientes | 6.46075e+11 |
+#  |    |   anio | indicador          |   valor |
+#  |---:|-------:|:-------------------|--------:|
+#  |  0 |   2023 | Precios corrientes |  646075 |
 #  
 #  ------------------------------
 #  
@@ -104,9 +110,24 @@ pipeline = chain(
 #   1   indicador  124 non-null    object 
 #   2   valor      124 non-null    float64
 #  
-#  |    |   anio | indicador          |       valor |
-#  |---:|-------:|:-------------------|------------:|
-#  |  0 |   2023 | Precios corrientes | 6.46075e+11 |
+#  |    |   anio | indicador          |   valor |
+#  |---:|-------:|:-------------------|--------:|
+#  |  0 |   2023 | Precios corrientes |  646075 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=1e-06)
+#  RangeIndex: 124 entries, 0 to 123
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       124 non-null    int64  
+#   1   indicador  124 non-null    object 
+#   2   valor      124 non-null    float64
+#  
+#  |    |   anio | indicador          |   valor |
+#  |---:|-------:|:-------------------|--------:|
+#  |  0 |   2023 | Precios corrientes |  646075 |
 #  
 #  ------------------------------
 #  
