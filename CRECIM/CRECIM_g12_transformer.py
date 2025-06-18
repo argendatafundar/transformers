@@ -4,12 +4,22 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def agregar_geonomenclador(df: DataFrame, nombre_col:str, nombre_key:str, mapper :dict = geo_mapping) -> pl.DataFrame:
+    df[nombre_col] = df[nombre_key].apply(lambda x: mapper[x]) # si hay un error, raisea 
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def agregar_geonomenclador(df: DataFrame, nombre_col:str, nombre_key:str, mapper :dict = geo_mapping) -> pl.DataFrame:
-    df[nombre_col] = df[nombre_key].apply(lambda x: mapper[x]) # si hay un error, raisea 
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
@@ -18,11 +28,6 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
 #  DEFINITIONS_END
 
 
@@ -33,7 +38,8 @@ pipeline = chain(
 	query(condition='iso3 != "LAC"'),
 	drop_col(col='iso3', axis=1),
 	drop_col(col='pib_pc', axis=1),
-	sort_values(how='ascending', by=['anio'])
+	sort_values(how='ascending', by=['anio']),
+	multiplicar_por_escalar(col='cambio_relativo', k=100)
 )
 #  PIPELINE_END
 
@@ -138,6 +144,21 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 542 entries, 0 to 541
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             542 non-null    int64  
+#   1   cambio_relativo  542 non-null    float64
+#   2   pais_nombre      542 non-null    object 
+#  
+#  |    |   anio |   cambio_relativo | pais_nombre   |
+#  |---:|-------:|------------------:|:--------------|
+#  |  0 |   1975 |                 0 | Zimbabwe      |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='cambio_relativo', k=100)
 #  RangeIndex: 542 entries, 0 to 541
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
