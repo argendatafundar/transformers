@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -17,7 +22,8 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='geocodigoFundar not in ["LAC", "TSA", "TSS", "SSA", "IBD","IDX", "MNA", "TLA", "SAS", "TEA", "TMN", "EAP", "TEA"]'),
-	drop_col(col='iso3', axis=1)
+	drop_col(col='iso3', axis=1),
+	multiplicar_por_escalar(col='cambio_relativo', k=100)
 )
 #  PIPELINE_END
 
@@ -68,7 +74,23 @@ pipeline = chain(
 #  
 #  |    |   anio |   cambio_relativo | geocodigoFundar   | geonombreFundar              |
 #  |---:|-------:|------------------:|:------------------|:-----------------------------|
-#  |  0 |   2023 |         -0.021853 | AFE               | África Oriental y Meridional |
+#  |  0 |   2023 |           -2.1853 | AFE               | África Oriental y Meridional |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='cambio_relativo', k=100)
+#  Index: 3099 entries, 0 to 3254
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             3099 non-null   int64  
+#   1   cambio_relativo  3099 non-null   float64
+#   2   geocodigoFundar  3099 non-null   object 
+#   3   geonombreFundar  3099 non-null   object 
+#  
+#  |    |   anio |   cambio_relativo | geocodigoFundar   | geonombreFundar              |
+#  |---:|-------:|------------------:|:------------------|:-----------------------------|
+#  |  0 |   2023 |           -2.1853 | AFE               | África Oriental y Meridional |
 #  
 #  ------------------------------
 #  
