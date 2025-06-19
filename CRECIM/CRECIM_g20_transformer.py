@@ -4,13 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def agregacion_suma(df:DataFrame, group_cols:list[str], col_sum:str):
-    df_gr = df.groupby(group_cols)[col_sum].sum().reset_index()
-    return df_gr
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
@@ -19,25 +14,23 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
+    return df.groupby(key_cols)[summarised_col].sum().reset_index()
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
-	rename_cols(map={'region_pbg': 'indicador', 'participacion_vab': 'valor'}),
-	multiplicar_por_escalar(col='valor', k=100),
-	query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
+	query(condition='(anio == anio.min()) or anio == anio.max()'),
+	agg_sum(key_cols=['anio', 'region_pbg'], summarised_col='participacion_vab'),
+	multiplicar_por_escalar(col='participacion_vab', k=100)
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 672 entries, 0 to 671
-#  Data columns (total 5 columns):
+#  Data columns (total 7 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
 #   0   anio               672 non-null    int64  
@@ -45,70 +38,61 @@ agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab'),
 #   2   participacion_vab  672 non-null    float64
 #   3   vab                672 non-null    float64
 #   4   provincia_id       672 non-null    object 
+#   5   geocodigoFundar    672 non-null    object 
+#   6   geonombreFundar    672 non-null    object 
 #  
-#  |    |   anio | region_pbg      |   participacion_vab |     vab | provincia_id   |
-#  |---:|-------:|:----------------|--------------------:|--------:|:---------------|
-#  |  0 |   1895 | Pampeana y AMBA |             0.23917 | 4158.05 | AR-B           |
+#  |    |   anio | region_pbg      |   participacion_vab |     vab | provincia_id   | geocodigoFundar   | geonombreFundar   |
+#  |---:|-------:|:----------------|--------------------:|--------:|:---------------|:------------------|:------------------|
+#  |  0 |   1895 | Pampeana y AMBA |             0.23917 | 4158.05 | AR-B           | AR-B              | Buenos Aires      |
 #  
 #  ------------------------------
 #  
-#  agregacion_suma(group_cols=['region_pbg', 'anio'], col_sum='participacion_vab')
-#  RangeIndex: 140 entries, 0 to 139
+#  query(condition='(anio == anio.min()) or anio == anio.max()')
+#  Index: 48 entries, 0 to 671
+#  Data columns (total 7 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   anio               48 non-null     int64  
+#   1   region_pbg         48 non-null     object 
+#   2   participacion_vab  48 non-null     float64
+#   3   vab                48 non-null     float64
+#   4   provincia_id       48 non-null     object 
+#   5   geocodigoFundar    48 non-null     object 
+#   6   geonombreFundar    48 non-null     object 
+#  
+#  |    |   anio | region_pbg      |   participacion_vab |     vab | provincia_id   | geocodigoFundar   | geonombreFundar   |
+#  |---:|-------:|:----------------|--------------------:|--------:|:---------------|:------------------|:------------------|
+#  |  0 |   1895 | Pampeana y AMBA |             0.23917 | 4158.05 | AR-B           | AR-B              | Buenos Aires      |
+#  
+#  ------------------------------
+#  
+#  agg_sum(key_cols=['anio', 'region_pbg'], summarised_col='participacion_vab')
+#  RangeIndex: 10 entries, 0 to 9
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   region_pbg         140 non-null    object 
-#   1   anio               140 non-null    int64  
-#   2   participacion_vab  140 non-null    float64
+#   0   anio               10 non-null     int64  
+#   1   region_pbg         10 non-null     object 
+#   2   participacion_vab  10 non-null     float64
 #  
-#  |    | region_pbg   |   anio |   participacion_vab |
-#  |---:|:-------------|-------:|--------------------:|
-#  |  0 | Cuyo         |   1895 |           0.0719181 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'region_pbg': 'indicador', 'participacion_vab': 'valor'})
-#  RangeIndex: 140 entries, 0 to 139
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  140 non-null    object 
-#   1   anio       140 non-null    int64  
-#   2   valor      140 non-null    float64
-#  
-#  |    | indicador   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 | 7.19181 |
+#  |    |   anio | region_pbg   |   participacion_vab |
+#  |---:|-------:|:-------------|--------------------:|
+#  |  0 |   1895 | Cuyo         |             7.19181 |
 #  
 #  ------------------------------
 #  
-#  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 140 entries, 0 to 139
+#  multiplicar_por_escalar(col='participacion_vab', k=100)
+#  RangeIndex: 10 entries, 0 to 9
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  140 non-null    object 
-#   1   anio       140 non-null    int64  
-#   2   valor      140 non-null    float64
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   anio               10 non-null     int64  
+#   1   region_pbg         10 non-null     object 
+#   2   participacion_vab  10 non-null     float64
 #  
-#  |    | indicador   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 | 7.19181 |
-#  
-#  ------------------------------
-#  
-#  query(condition='anio.isin([1895, 1914, 1937, 1946, 1953, 1965, 1975, 1986, 1993, 2004, 2022])')
-#  Index: 55 entries, 0 to 139
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  55 non-null     object 
-#   1   anio       55 non-null     int64  
-#   2   valor      55 non-null     float64
-#  
-#  |    | indicador   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | Cuyo        |   1895 | 7.19181 |
+#  |    |   anio | region_pbg   |   participacion_vab |
+#  |---:|-------:|:-------------|--------------------:|
+#  |  0 |   1895 | Cuyo         |             7.19181 |
 #  
 #  ------------------------------
 #  
