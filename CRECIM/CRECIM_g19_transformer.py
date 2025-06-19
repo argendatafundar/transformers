@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -17,7 +22,8 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	drop_col(col=['provincia_id', 'geocodigoFundar', 'anio'], axis=1)
+	drop_col(col=['provincia_id', 'geocodigoFundar', 'anio'], axis=1),
+	multiplicar_por_escalar(col='pib_pc_relativo', k=0.01)
 )
 #  PIPELINE_END
 
@@ -69,7 +75,22 @@ pipeline = chain(
 #  
 #  |    | region_pbg      |   pib_pc_relativo | geonombreFundar   |
 #  |---:|:----------------|------------------:|:------------------|
-#  | 27 | Pampeana y AMBA |           84.1437 | Buenos Aires      |
+#  | 27 | Pampeana y AMBA |          0.841437 | Buenos Aires      |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='pib_pc_relativo', k=0.01)
+#  Index: 24 entries, 27 to 671
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   region_pbg       24 non-null     object 
+#   1   pib_pc_relativo  24 non-null     float64
+#   2   geonombreFundar  24 non-null     object 
+#  
+#  |    | region_pbg      |   pib_pc_relativo | geonombreFundar   |
+#  |---:|:----------------|------------------:|:------------------|
+#  | 27 | Pampeana y AMBA |          0.841437 | Buenos Aires      |
 #  
 #  ------------------------------
 #  
