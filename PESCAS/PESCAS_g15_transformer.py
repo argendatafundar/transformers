@@ -8,13 +8,14 @@ def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_c
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +24,7 @@ pipeline = chain(
 	pivot_longer(id_cols=['anio'], names_to_col='variable', values_to_col='value'),
 	replace_value(col='variable', curr_value='share_bienes', new_value='Bienes'),
 	replace_value(col='variable', curr_value='share_expo', new_value='Bienes y servicios'),
-	drop_col(col='value', axis=1)
+	drop_na(col='value')
 )
 #  PIPELINE_END
 
@@ -88,17 +89,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  drop_col(col='value', axis=1)
-#  RangeIndex: 124 entries, 0 to 123
-#  Data columns (total 2 columns):
-#   #   Column    Non-Null Count  Dtype 
-#  ---  ------    --------------  ----- 
-#   0   anio      124 non-null    int64 
-#   1   variable  124 non-null    object
+#  drop_na(col='value')
+#  Index: 106 entries, 0 to 123
+#  Data columns (total 3 columns):
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   anio      106 non-null    int64  
+#   1   variable  106 non-null    object 
+#   2   value     106 non-null    float64
 #  
-#  |    |   anio | variable   |
-#  |---:|-------:|:-----------|
-#  |  0 |   1962 | Bienes     |
+#  |    |   anio | variable   |     value |
+#  |---:|-------:|:-----------|----------:|
+#  |  0 |   1962 | Bienes     | 0.0190338 |
 #  
 #  ------------------------------
 #  
