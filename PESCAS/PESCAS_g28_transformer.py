@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def paste_before(df: DataFrame, col:str, string:str, sep:str = ' ') -> DataFrame:
+    df[col] = string + sep + df[col].astype(str)    
     return df
 
 @transformer.convert
-def paste_before(df: DataFrame, col:str, string:str, sep:str = ' ') -> DataFrame:
-    df[col] = string + sep + df[col].astype(str)    
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
