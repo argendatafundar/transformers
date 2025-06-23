@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -12,7 +17,9 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-	multiplicar_por_escalar(col='share', k=100)
+	multiplicar_por_escalar(col='share', k=100),
+	replace_value(col='especie', curr_value='Merluza Hubbsi', new_value='Merluza hubbsi'),
+	replace_value(col='especie', curr_value='Calamar Illex', new_value='Calamar illex')
 )
 #  PIPELINE_END
 
@@ -46,6 +53,38 @@ pipeline = chain(
 #  |    |   anio | especie       |   desembarque_toneladas |   share |
 #  |---:|-------:|:--------------|------------------------:|--------:|
 #  |  0 |   2024 | Calamar Illex |                  154567 | 18.8151 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='especie', curr_value='Merluza Hubbsi', new_value='Merluza hubbsi')
+#  RangeIndex: 4 entries, 0 to 3
+#  Data columns (total 4 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   anio                   4 non-null      int64  
+#   1   especie                4 non-null      object 
+#   2   desembarque_toneladas  4 non-null      float64
+#   3   share                  4 non-null      float64
+#  
+#  |    |   anio | especie       |   desembarque_toneladas |   share |
+#  |---:|-------:|:--------------|------------------------:|--------:|
+#  |  0 |   2024 | Calamar Illex |                  154567 | 18.8151 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='especie', curr_value='Calamar Illex', new_value='Calamar illex')
+#  RangeIndex: 4 entries, 0 to 3
+#  Data columns (total 4 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   anio                   4 non-null      int64  
+#   1   especie                4 non-null      object 
+#   2   desembarque_toneladas  4 non-null      float64
+#   3   share                  4 non-null      float64
+#  
+#  |    |   anio | especie       |   desembarque_toneladas |   share |
+#  |---:|-------:|:--------------|------------------------:|--------:|
+#  |  0 |   2024 | Calamar illex |                  154567 | 18.8151 |
 #  
 #  ------------------------------
 #  
