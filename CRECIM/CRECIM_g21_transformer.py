@@ -35,7 +35,7 @@ pipeline = chain(
 #  
 #  |    | region_pbg      |   var_participacion | provincia_id   | geocodigoFundar   | geonombreFundar   |
 #  |---:|:----------------|--------------------:|:---------------|:------------------|:------------------|
-#  |  0 | Pampeana y AMBA |              1.8752 | AR-B           | AR-B              | Buenos Aires      |
+#  |  0 | Pampeana y AMBA |            0.018752 | AR-B           | AR-B              | Buenos Aires      |
 #  
 #  ------------------------------
 #  
@@ -50,7 +50,7 @@ pipeline = chain(
 #  
 #  |    | region_pbg      |   var_participacion | geonombreFundar   |
 #  |---:|:----------------|--------------------:|:------------------|
-#  |  0 | Pampeana y AMBA |              187.52 | Buenos Aires      |
+#  |  0 | Pampeana y AMBA |              1.8752 | Buenos Aires      |
 #  
 #  ------------------------------
 #  
@@ -65,7 +65,7 @@ pipeline = chain(
 #  
 #  |    | region_pbg      |   var_participacion | geonombreFundar   |
 #  |---:|:----------------|--------------------:|:------------------|
-#  |  0 | Pampeana y AMBA |              187.52 | Buenos Aires      |
+#  |  0 | Pampeana y AMBA |              1.8752 | Buenos Aires      |
 #  
 #  ------------------------------
 #  
