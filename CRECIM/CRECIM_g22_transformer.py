@@ -10,13 +10,20 @@ def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indi
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	drop_col(col=['geocodigoFundar', 'pib_pc_ultimo_anio'], axis=1),
-	wide_to_long(primary_keys=['geonombreFundar', 'region_pbg'], value_name='valor', var_name='indicador')
+	wide_to_long(primary_keys=['geonombreFundar', 'region_pbg'], value_name='valor', var_name='indicador'),
+	replace_value(col='indicador', curr_value='pib_pc_1895', new_value='PIB per cápita de 1895 (en pesos de 2004)'),
+	replace_value(col='indicador', curr_value='var_pib_pc_1895_ultimo_anio', new_value='Variación del PIB per cápita entre 1895 y 2022')
 )
 #  PIPELINE_END
 
@@ -68,6 +75,38 @@ pipeline = chain(
 #  |    | geonombreFundar   | region_pbg      | indicador   |   valor |
 #  |---:|:------------------|:----------------|:------------|--------:|
 #  |  0 | Buenos Aires      | Pampeana y AMBA | pib_pc_1895 | 4413.34 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='pib_pc_1895', new_value='PIB per cápita de 1895 (en pesos de 2004)')
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  48 non-null     object 
+#   1   region_pbg       48 non-null     object 
+#   2   indicador        48 non-null     object 
+#   3   valor            48 non-null     float64
+#  
+#  |    | geonombreFundar   | region_pbg      | indicador                                 |   valor |
+#  |---:|:------------------|:----------------|:------------------------------------------|--------:|
+#  |  0 | Buenos Aires      | Pampeana y AMBA | PIB per cápita de 1895 (en pesos de 2004) | 4413.34 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', curr_value='var_pib_pc_1895_ultimo_anio', new_value='Variación del PIB per cápita entre 1895 y 2022')
+#  RangeIndex: 48 entries, 0 to 47
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  48 non-null     object 
+#   1   region_pbg       48 non-null     object 
+#   2   indicador        48 non-null     object 
+#   3   valor            48 non-null     float64
+#  
+#  |    | geonombreFundar   | region_pbg      | indicador                                 |   valor |
+#  |---:|:------------------|:----------------|:------------------------------------------|--------:|
+#  |  0 | Buenos Aires      | Pampeana y AMBA | PIB per cápita de 1895 (en pesos de 2004) | 4413.34 |
 #  
 #  ------------------------------
 #  
