@@ -6,12 +6,18 @@ from data_transformers import chain, transformer
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	drop_col(col=['geocodigoFundar', 'pib_per_capita'], axis=1)
+	drop_col(col=['geocodigoFundar', 'pib_per_capita'], axis=1),
+	multiplicar_por_escalar(col='cambio_relativo', k=100)
 )
 #  PIPELINE_END
 
@@ -34,6 +40,21 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_col(col=['geocodigoFundar', 'pib_per_capita'], axis=1)
+#  RangeIndex: 7831 entries, 0 to 7830
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  7831 non-null   object 
+#   1   anio             7831 non-null   int64  
+#   2   cambio_relativo  7831 non-null   float64
+#  
+#  |    | geonombreFundar   |   anio |   cambio_relativo |
+#  |---:|:------------------|-------:|------------------:|
+#  |  0 | Argentina         |   1820 |                 0 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='cambio_relativo', k=100)
 #  RangeIndex: 7831 entries, 0 to 7830
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
