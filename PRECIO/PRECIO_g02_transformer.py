@@ -4,10 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame:
     df['value_scaled'] = df.groupby(group_cols)[summarised_col].transform(
     lambda x: 100*(x/x.sum()))
@@ -16,6 +12,10 @@ def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame
 @transformer.convert
 def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
     return df.groupby(key_cols)[summarised_col].sum().reset_index()
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFrame:
