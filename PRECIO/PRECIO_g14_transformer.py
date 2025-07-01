@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def filtrar_hojas(df, codigo_col="codigo"):
 
     codigos = set(df[codigo_col].unique())
@@ -15,11 +20,6 @@ def filtrar_hojas(df, codigo_col="codigo"):
     hojas = [codigo for codigo in codigos if codigo not in padres]
     # print(hojas)
     df = df[df[codigo_col].isin(hojas)]
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
