@@ -4,23 +4,27 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def imput_na_by_condition(df:DataFrame, bool_mask:list[bool], col:str):
+    from numpy import nan
+    df.loc[bool_mask,col] = nan
     return df
-
-@transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tasa_inflacion': 'valor'}),
-	sort_values(how='ascending', by=['anio'])
+	imput_na_by_condition(bool_mask=0     False
+1     False
+2     False
+3     False
+4     False
+      ...  
+84    False
+85    False
+86    False
+87    False
+88    False
+Name: tasa_inflacion, Length: 89, dtype: bool, col='tasa_inflacion')
 )
 #  PIPELINE_END
 
@@ -39,31 +43,28 @@ rename_cols(map={'tasa_inflacion': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'tasa_inflacion': 'valor'})
+#  imput_na_by_condition(bool_mask=0     False
+#  1     False
+#  2     False
+#  3     False
+#  4     False
+#        ...  
+#  84    False
+#  85    False
+#  86    False
+#  87    False
+#  88    False
+#  Name: tasa_inflacion, Length: 89, dtype: bool, col='tasa_inflacion')
 #  RangeIndex: 89 entries, 0 to 88
 #  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    89 non-null     int64  
-#   1   valor   89 non-null     float64
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   anio            89 non-null     int64  
+#   1   tasa_inflacion  81 non-null     float64
 #  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1935 | 14.0881 |
-#  
-#  ------------------------------
-#  
-#  sort_values(how='ascending', by=['anio'])
-#  RangeIndex: 89 entries, 0 to 88
-#  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    89 non-null     int64  
-#   1   valor   89 non-null     float64
-#  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1935 | 14.0881 |
+#  |    |   anio |   tasa_inflacion |
+#  |---:|-------:|-----------------:|
+#  |  0 |   1935 |          14.0881 |
 #  
 #  ------------------------------
 #  
