@@ -9,23 +9,23 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, None))
-    return df
-
-@transformer.convert
-def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
-    return df.groupby(key_cols)[summarised_col].sum().reset_index()
-
-@transformer.convert
 def rescale(df:DataFrame, group_cols:list[str], summarised_col:str, new_col:str) -> DataFrame:
     df[new_col] = df.groupby(group_cols)[summarised_col].transform(
     lambda x: 100*(x/x.sum()))
     return df
 
 @transformer.convert
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, None))
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
+    return df.groupby(key_cols)[summarised_col].sum().reset_index()
 #  DEFINITIONS_END
 
 
