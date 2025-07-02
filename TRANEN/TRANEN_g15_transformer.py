@@ -88,6 +88,7 @@ def wide_to_long(df: pl.DataFrame, primary_keys, value_name='valor', var_name='i
 #  PIPELINE_START
 pipeline = chain(
 	sort_values(how='ascending', by=['anio', 'geocodigoFundar']),
+	drop_col(col='geonombreFundar', axis=1),
 	recalculo_kaya(group='geocodigoFundar', date_col='anio'),
 	query(condition='pl.col("geocodigoFundar") == "WLD"'),
 	rename_cols(map={'geocodigoFundar': 'geocodigo'}),
@@ -110,6 +111,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'geocodigoFundar'])
+#  
+#  ------------------------------
+#  
+#  drop_col(col='geonombreFundar', axis=1)
 #  
 #  ------------------------------
 #  
