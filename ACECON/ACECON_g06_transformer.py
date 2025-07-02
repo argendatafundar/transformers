@@ -14,6 +14,11 @@ def abs_col(df:DataFrame, col:str, new_col:str):
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
     return df.groupby(key_cols)[summarised_col].sum().reset_index()
 #  DEFINITIONS_END
@@ -23,7 +28,8 @@ def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
 pipeline = chain(
 	map_categoria(curr_col='comp_dem_ag', new_col='comp_dem_ag_neto', mapper={'Exportaciones': 'Exportaciones netas', 'Importaciones': 'Exportaciones netas', 'Formacion bruta de capital': 'Inversión', 'Variacion de existencias': 'Inversión'}, default=None),
 	agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor'),
-	abs_col(col='valor', new_col='valor_abs')
+	abs_col(col='valor', new_col='valor_abs'),
+	query(condition='(anio == anio.min()) | (anio == anio.max())')
 )
 #  PIPELINE_END
 
@@ -89,6 +95,22 @@ pipeline = chain(
 #   1   comp_dem_ag_neto  352 non-null    object 
 #   2   valor             352 non-null    float64
 #   3   valor_abs         352 non-null    float64
+#  
+#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
+#  |---:|-------:|:-------------------|--------:|------------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |
+#  
+#  ------------------------------
+#  
+#  query(condition='(anio == anio.min()) | (anio == anio.max())')
+#  Index: 8 entries, 0 to 351
+#  Data columns (total 4 columns):
+#   #   Column            Non-Null Count  Dtype  
+#  ---  ------            --------------  -----  
+#   0   anio              8 non-null      int64  
+#   1   comp_dem_ag_neto  8 non-null      object 
+#   2   valor             8 non-null      float64
+#   3   valor_abs         8 non-null      float64
 #  
 #  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
 #  |---:|-------:|:-------------------|--------:|------------:|
