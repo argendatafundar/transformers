@@ -4,18 +4,18 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def abs_col(df:DataFrame, col:str, new_col:str):
-    df[new_col] = df[col].apply(lambda x: abs(x))
-    return df
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:Any = None)->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default if default is not None else x))
     return df
 
 @transformer.convert
 def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
     return df.groupby(key_cols)[summarised_col].sum().reset_index()
+
+@transformer.convert
+def abs_col(df:DataFrame, col:str, new_col:str):
+    df[new_col] = df[col].apply(lambda x: abs(x))
+    return df
 
 @transformer.convert
 def rescale(df:DataFrame, group_cols:list[str], summarised_col:str, new_col:str) -> DataFrame:
@@ -24,8 +24,8 @@ def rescale(df:DataFrame, group_cols:list[str], summarised_col:str, new_col:str)
     return df
 
 @transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:Any = None)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default if default is not None else x))
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
@@ -35,7 +35,7 @@ pipeline = chain(
 	map_categoria(curr_col='comp_dem_ag', new_col='comp_dem_ag_neto', mapper={'Exportaciones': 'Exportaciones netas', 'Importaciones': 'Exportaciones netas', 'Formacion bruta de capital': 'Inversión', 'Variacion de existencias': 'Inversión'}, default=None),
 	agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor'),
 	abs_col(col='valor', new_col='valor_abs'),
-	query(condition='(anio == anio.min()) | (anio == anio.max())'),
+	query(condition='anio in [1935, 1953, 1970, 1987, 2005, 2022]'),
 	rescale(group_cols=['anio'], summarised_col='valor_abs', new_col='valor_abs_scaled')
 )
 #  PIPELINE_END
@@ -104,16 +104,16 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='(anio == anio.min()) | (anio == anio.max())')
-#  Index: 8 entries, 0 to 351
+#  query(condition='anio in [1935, 1953, 1970, 1987, 2005, 2022]')
+#  Index: 24 entries, 0 to 351
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              8 non-null      int64  
-#   1   comp_dem_ag_neto  8 non-null      object 
-#   2   valor             8 non-null      float64
-#   3   valor_abs         8 non-null      float64
-#   4   valor_abs_scaled  8 non-null      float64
+#   0   anio              24 non-null     int64  
+#   1   comp_dem_ag_neto  24 non-null     object 
+#   2   valor             24 non-null     float64
+#   3   valor_abs         24 non-null     float64
+#   4   valor_abs_scaled  24 non-null     float64
 #  
 #  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |   valor_abs_scaled |
 #  |---:|-------:|:-------------------|--------:|------------:|-------------------:|
@@ -122,15 +122,15 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  rescale(group_cols=['anio'], summarised_col='valor_abs', new_col='valor_abs_scaled')
-#  Index: 8 entries, 0 to 351
+#  Index: 24 entries, 0 to 351
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              8 non-null      int64  
-#   1   comp_dem_ag_neto  8 non-null      object 
-#   2   valor             8 non-null      float64
-#   3   valor_abs         8 non-null      float64
-#   4   valor_abs_scaled  8 non-null      float64
+#   0   anio              24 non-null     int64  
+#   1   comp_dem_ag_neto  24 non-null     object 
+#   2   valor             24 non-null     float64
+#   3   valor_abs         24 non-null     float64
+#   4   valor_abs_scaled  24 non-null     float64
 #  
 #  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |   valor_abs_scaled |
 #  |---:|-------:|:-------------------|--------:|------------:|-------------------:|
