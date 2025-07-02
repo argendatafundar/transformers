@@ -9,6 +9,11 @@ def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:
     return df
 
 @transformer.convert
+def abs_col(df:DataFrame, col:str, new_col:str):
+    df[new_col] = df[col].apply(lambda x: abs(x))
+    return df
+
+@transformer.convert
 def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
     return df.groupby(key_cols)[summarised_col].sum().reset_index()
 #  DEFINITIONS_END
@@ -17,7 +22,8 @@ def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
 #  PIPELINE_START
 pipeline = chain(
 	map_categoria(curr_col='comp_dem_ag', new_col='comp_dem_ag_neto', mapper={'Exportaciones': 'Exportaciones netas', 'Importaciones': 'Exportaciones netas', 'Formacion bruta de capital': 'Inversión', 'Variacion de existencias': 'Inversión'}, default=None),
-	agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor')
+	agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor'),
+	abs_col(col='valor', new_col='valor_abs')
 )
 #  PIPELINE_END
 
@@ -60,16 +66,33 @@ pipeline = chain(
 #  
 #  agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor')
 #  RangeIndex: 352 entries, 0 to 351
-#  Data columns (total 3 columns):
+#  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
 #   0   anio              352 non-null    int64  
 #   1   comp_dem_ag_neto  352 non-null    object 
 #   2   valor             352 non-null    float64
+#   3   valor_abs         352 non-null    float64
 #  
-#  |    |   anio | comp_dem_ag_neto   |   valor |
-#  |---:|-------:|:-------------------|--------:|
-#  |  0 |   1935 | Consumo gobierno   | 9.63011 |
+#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
+#  |---:|-------:|:-------------------|--------:|------------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |
+#  
+#  ------------------------------
+#  
+#  abs_col(col='valor', new_col='valor_abs')
+#  RangeIndex: 352 entries, 0 to 351
+#  Data columns (total 4 columns):
+#   #   Column            Non-Null Count  Dtype  
+#  ---  ------            --------------  -----  
+#   0   anio              352 non-null    int64  
+#   1   comp_dem_ag_neto  352 non-null    object 
+#   2   valor             352 non-null    float64
+#   3   valor_abs         352 non-null    float64
+#  
+#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
+#  |---:|-------:|:-------------------|--------:|------------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |
 #  
 #  ------------------------------
 #  
