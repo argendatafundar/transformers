@@ -114,7 +114,7 @@ pipeline = chain(
 	replace_value(col='categoria', curr_value='emision_anual_co2_ton_index', new_value='Emisiones anuales de CO2'),
 	replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh_index', new_value='Intensidad energética'),
 	replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011_index', new_value='PIB per cápita en dólares'),
-	replace_value(col='categoria', curr_value='poblacion_idex', new_value='Población'),
+	replace_value(col='categoria', curr_value='poblacion_index', new_value='Población'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh_index', new_value='Intensidad de carbono*'),
 	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011_index', new_value='Intensidad de carbono**'),
 	drop_col(col='geocodigo', axis=1),
@@ -168,7 +168,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='poblacion_idex', new_value='Población')
+#  replace_value(col='categoria', curr_value='poblacion_index', new_value='Población')
 #  
 #  ------------------------------
 #  
