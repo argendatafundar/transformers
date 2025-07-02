@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='(anio == 1953) | (anio == anio.max())')
+	query(condition='(anio == 1953) | (anio == anio.max())'),
+	multiplicar_por_escalar(col='participacion_vab', k=100)
 )
 #  PIPELINE_END
 
@@ -49,7 +55,25 @@ pipeline = chain(
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | region_pbg      |   participacion_vab |     vab |
 #  |---:|:------------------|:------------------|-------:|:----------------|--------------------:|--------:|
-#  |  4 | AR-B              | Buenos Aires      |   1953 | Pampeana y AMBA |            0.306406 | 36854.1 |
+#  |  4 | AR-B              | Buenos Aires      |   1953 | Pampeana y AMBA |             30.6406 | 36854.1 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='participacion_vab', k=100)
+#  Index: 48 entries, 4 to 671
+#  Data columns (total 6 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   geocodigoFundar    48 non-null     object 
+#   1   geonombreFundar    48 non-null     object 
+#   2   anio               48 non-null     int64  
+#   3   region_pbg         48 non-null     object 
+#   4   participacion_vab  48 non-null     float64
+#   5   vab                48 non-null     float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | region_pbg      |   participacion_vab |     vab |
+#  |---:|:------------------|:------------------|-------:|:----------------|--------------------:|--------:|
+#  |  4 | AR-B              | Buenos Aires      |   1953 | Pampeana y AMBA |             30.6406 | 36854.1 |
 #  
 #  ------------------------------
 #  
