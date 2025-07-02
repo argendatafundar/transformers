@@ -4,92 +4,76 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def rename_cols(df: pl.DataFrame, map):
+    return df.rename(map)
+
+@transformer.convert
+def drop_col(df: pl.DataFrame, col, axis=1):
+    # In Polars, axis parameter is not needed
+    if isinstance(col, str):
+        return df.drop(col)
+    elif isinstance(col, list):
+        return df.drop(col)
+    else:
+        return df.drop([col])
+
+@transformer.convert
+def sort_values_by_comparison(df: pl.DataFrame, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname + '_map'
+
+    # Create mapping column using replace with default value for unmapped items
+    df_ = df.with_columns(
+        pl.col(colname).replace(precedence, default=float('inf')).alias(mapcol)
+    )
+
+    # Sort by prefix columns, mapped column, and suffix columns
+    sort_columns = [*prefix, mapcol, *suffix]
+    df_ = df_.sort(sort_columns)
+
+    # Drop the temporary mapping column
+    return df_.drop(mapcol)
+
+@transformer.convert
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
     return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
-    mapcol = colname+'_map'
-    df_ = df.copy()
-    df_[mapcol] = df_[colname].map(precedence)
-    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
-    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'}),
+	rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'}),
 	drop_col(col='sector', axis=1),
-	sort_values_by_comparison(colname='indicador', precedence={'Industrias de la energía': 0, 'Transporte': 1, 'Industrias manufactureras y de la construcción': 2, 'Otros sectores': 3, 'Emisiones fugitivas provenientes de la fabricación de combustibles': 4}, prefix=['anio'], suffix=[])
+	sort_values_by_comparison(colname='indicador', precedence={'Industrias de la energía': 0, 'Transporte': 1, 'Industrias manufactureras y de la construcción': 2, 'Otros sectores': 3, 'Emisiones fugitivas provenientes de la fabricación de combustibles': 4}, prefix=['anio'], suffix=[]),
+	replace_value(col='indicador', mapping={'Industrias de la energía': 'Energía', 'Industrias manufactureras y de la construcción': 'Industria y construcción', 'Emisiones fugitivas provenientes de la fabricación de combustibles': 'Emisiones fugitivas'}, alias=None)
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 145 entries, 0 to 144
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   anio             145 non-null    int64  
-#   1   sector           145 non-null    object 
-#   2   subsector        145 non-null    object 
-#   3   valor_en_mtco2e  145 non-null    float64
-#  
-#  |    |   anio | sector   | subsector                                                          |   valor_en_mtco2e |
-#  |---:|-------:|:---------|:-------------------------------------------------------------------|------------------:|
-#  |  0 |   1990 | Energía  | Emisiones fugitivas provenientes de la fabricación de combustibles |              6.44 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'valor_en_mtco2e': 'valor', 'subsector': 'indicador'})
-#  RangeIndex: 145 entries, 0 to 144
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       145 non-null    int64  
-#   1   sector     145 non-null    object 
-#   2   indicador  145 non-null    object 
-#   3   valor      145 non-null    float64
-#  
-#  |    |   anio | sector   | indicador                                                          |   valor |
-#  |---:|-------:|:---------|:-------------------------------------------------------------------|--------:|
-#  |  0 |   1990 | Energía  | Emisiones fugitivas provenientes de la fabricación de combustibles |    6.44 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col='sector', axis=1)
-#  RangeIndex: 145 entries, 0 to 144
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       145 non-null    int64  
-#   1   indicador  145 non-null    object 
-#   2   valor      145 non-null    float64
-#  
-#  |    |   anio | indicador                                                          |   valor |
-#  |---:|-------:|:-------------------------------------------------------------------|--------:|
-#  |  0 |   1990 | Emisiones fugitivas provenientes de la fabricación de combustibles |    6.44 |
 #  
 #  ------------------------------
 #  
 #  sort_values_by_comparison(colname='indicador', precedence={'Industrias de la energía': 0, 'Transporte': 1, 'Industrias manufactureras y de la construcción': 2, 'Otros sectores': 3, 'Emisiones fugitivas provenientes de la fabricación de combustibles': 4}, prefix=['anio'], suffix=[])
-#  Index: 145 entries, 1 to 140
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       145 non-null    int64  
-#   1   indicador  145 non-null    object 
-#   2   valor      145 non-null    float64
 #  
-#  |    |   anio | indicador                |   valor |
-#  |---:|-------:|:-------------------------|--------:|
-#  |  1 |   1990 | Industrias de la energía |   22.29 |
+#  ------------------------------
+#  
+#  replace_value(col='indicador', mapping={'Industrias de la energía': 'Energía', 'Industrias manufactureras y de la construcción': 'Industria y construcción', 'Emisiones fugitivas provenientes de la fabricación de combustibles': 'Emisiones fugitivas'}, alias=None)
 #  
 #  ------------------------------
 #  
