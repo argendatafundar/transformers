@@ -4,144 +4,96 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def drop_col(df: pl.DataFrame, col, axis=1):
+    return df.drop(col)
+
+@transformer.convert
+def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.with_columns(pl.col(col).replace(curr_value, new_value))
     return df
 
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
+def sort_values(df: pl.DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+    return df.sort(by=by, descending=how == 'descending')
 
 @transformer.convert
-def recalculo_kaya(df: DataFrame, group: str, date_col: str):
-    
-    import pandas as pd
+def drop_na(df: pl.DataFrame, cols: list):
+    return df.drop_nulls(subset=cols)
 
+@transformer.convert
+def recalculo_kaya(df: pl.DataFrame, group: str, date_col: str):
     # Filter data from the year 1965 onwards
-    data = df.loc[df[date_col] >= 1965].copy()
+    data = df.filter(pl.col(date_col) >= 1965)
 
-    # Get all column names except 'anio' and 'iso3'
+    # Get all column names except date_col and group
     variables = [col for col in data.columns if col not in [date_col, group]]
 
-    # Get unique country codes
-    codes = data[group].unique()
+    # Get unique codes
+    codes = data.get_column(group).unique()
 
-    # print(codes)
-
-    # Initialize an empty list to store the modified dataframes
+    # Initialize empty list for results
     data_list = []
 
-    # Iterate through each country code
+    # Process each code
     for j in codes:
+        # Filter data for current code
+        data_code = data.filter(pl.col(group) == j).sort(date_col)
 
-        # Filter data for the current country code
-        data_code = data.loc[data[group] == j].copy()
+        # Create a copy to modify
+        data_code_modified = data_code.clone()
 
-        data_code.sort_values(by=date_col, inplace=True)
-
-        # Iterate through each variable
+        # Process each variable
         for i in variables:
-            #print(i)
-            # Filter out rows where the current variable is not NaN
-            datos = data_code.dropna(subset=[i])
+            # Drop nulls for current variable
+            datos = data_code.drop_nulls(subset=[i])
 
-            if datos.shape[0] == 0:
+            if datos.height == 0:
+                # Skip this variable for this code if no data
                 continue
-            
-            # Get the baseline value from the earliest year
-            baseline = datos.loc[datos[date_col].idxmin(), i]
-            
-            # Calculate the base index
-            data_code[i] = ((data_code[i] / baseline)-1) * 100
 
+            # Get baseline value
+            baseline = datos.sort(date_col).slice(0,1).get_column(i)[0]
 
-        # Append the modified dataframe to the list
-        data_list.append(data_code)
+            try:
+                # Calculate index only if we have the column
+                if i in data_code_modified.columns:
+                    data_code_modified = data_code_modified.with_columns(
+                        ((pl.col(i) / baseline - 1) * 100).alias(i)
+                    )
+            except:
+                # Skip if calculation fails
+                continue
 
-    # Concatenate the modified dataframes
-    data = pd.concat(data_list)
-    return data
+        data_list.append(data_code_modified)
 
-
-    #data
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+    # Combine results
+    return pl.concat(data_list)
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
+def query(df: pl.DataFrame, condition: str):
+    return df.filter(eval(condition))
 
 @transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_na(df:DataFrame, cols:list):
-    return df.dropna(subset=cols)
-
-@transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort_values(by=by, ascending=how == 'ascending')
+def wide_to_long(df: pl.DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, variable_name=var_name)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
-	sort_values(how='ascending', by=['anio', 'iso3']),
-	recalculo_kaya(group='iso3', date_col='anio'),
-	query(condition='iso3 == "WLD"'),
-	rename_cols(map={'iso3': 'geocodigo'}),
-	wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='categoria'),
+	drop_col(col='geonombreFundar', axis=1),
+	recalculo_kaya(group='geocodigoFundar', date_col='anio'),
+	query(condition='pl.col("geocodigoFundar") == "WLD"'),
+	wide_to_long(primary_keys=['anio', 'geocodigoFundar'], value_name='valor', var_name='categoria'),
 	replace_value(col='categoria', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2'),
-	replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energética (por unidad de PIB medido en dólares de 2011 PPA)'),
-	replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per cápita en dólares PPA 2011'),
+	replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energética'),
+	replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per cápita en dólares'),
 	replace_value(col='categoria', curr_value='poblacion', new_value='Población'),
-	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)'),
-	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011', new_value='Intensidad de carbono (CO2/$ PPA 2011)'),
-	drop_col(col='geocodigo', axis=1),
+	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono*'),
+	replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011', new_value='Intensidad de carbono**'),
+	drop_col(col='geocodigoFundar', axis=1),
 	drop_na(cols='valor'),
 	sort_values(how='ascending', by=['anio', 'categoria'])
 )
@@ -149,279 +101,58 @@ replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD'),
 
 
 #  start()
-#  RangeIndex: 201096 entries, 0 to 201095
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count   Dtype  
-#  ---  ------                                --------------   -----  
-#   0   anio                                  201096 non-null  int64  
-#   1   iso3                                  201096 non-null  object 
-#   2   emision_anual_co2_ton                 24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh            7789 non-null    float64
-#   4   pib_per_cap_usd_ppa_2011              21314 non-null   float64
-#   5   poblacion                             54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh           9328 non-null    float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  14242 non-null   float64
-#  
-#  |    |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |---:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  |  0 |   1750 | GBR    |             9.30594e+06 |                          nan |                       2702 | 9.28817e+06 |                           nan |                                    nan |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='iso3', curr_value='OWID_WRL', new_value='WLD')
-#  RangeIndex: 201096 entries, 0 to 201095
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count   Dtype  
-#  ---  ------                                --------------   -----  
-#   0   anio                                  201096 non-null  int64  
-#   1   iso3                                  201096 non-null  object 
-#   2   emision_anual_co2_ton                 24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh            7789 non-null    float64
-#   4   pib_per_cap_usd_ppa_2011              21314 non-null   float64
-#   5   poblacion                             54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh           9328 non-null    float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  14242 non-null   float64
-#  
-#  |    |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |---:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  |  0 |   1750 | GBR    |             9.30594e+06 |                          nan |                       2702 | 9.28817e+06 |                           nan |                                    nan |
+#  drop_col(col='geonombreFundar', axis=1)
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'iso3'])
-#  Index: 201096 entries, 71000 to 58526
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count   Dtype  
-#  ---  ------                                --------------   -----  
-#   0   anio                                  201096 non-null  int64  
-#   1   iso3                                  201096 non-null  object 
-#   2   emision_anual_co2_ton                 24157 non-null   float64
-#   3   energia_por_unidad_pib_kwh            7789 non-null    float64
-#   4   pib_per_cap_usd_ppa_2011              21314 non-null   float64
-#   5   poblacion                             54971 non-null   float64
-#   6   emision_anual_kgco2_por_kwh           9328 non-null    float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  14242 non-null   float64
-#  
-#  |       |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |------:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 71000 | -10000 | ABW    |                     nan |                          nan |                        nan |         nan |                           nan |                                    nan |
+#  recalculo_kaya(group='geocodigoFundar', date_col='anio')
 #  
 #  ------------------------------
 #  
-#  recalculo_kaya(group='iso3', date_col='anio')
-#  Index: 14616 entries, 70439 to 58526
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count  Dtype  
-#  ---  ------                                --------------  -----  
-#   0   anio                                  14616 non-null  int64  
-#   1   iso3                                  14616 non-null  object 
-#   2   emision_anual_co2_ton                 12091 non-null  float64
-#   3   energia_por_unidad_pib_kwh            7789 non-null   float64
-#   4   pib_per_cap_usd_ppa_2011              9509 non-null   float64
-#   5   poblacion                             13783 non-null  float64
-#   6   emision_anual_kgco2_por_kwh           9327 non-null   float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  9194 non-null   float64
-#  
-#  |       |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |------:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 70439 |   1965 | ABW    |                       0 |                          nan |                        nan |           0 |                           nan |                                    nan |
+#  query(condition='pl.col("geocodigoFundar") == "WLD"')
 #  
 #  ------------------------------
 #  
-#  query(condition='iso3 == "WLD"')
-#  Index: 58 entries, 11387 to 11444
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count  Dtype  
-#  ---  ------                                --------------  -----  
-#   0   anio                                  58 non-null     int64  
-#   1   iso3                                  58 non-null     object 
-#   2   emision_anual_co2_ton                 58 non-null     float64
-#   3   energia_por_unidad_pib_kwh            13 non-null     float64
-#   4   pib_per_cap_usd_ppa_2011              13 non-null     float64
-#   5   poblacion                             57 non-null     float64
-#   6   emision_anual_kgco2_por_kwh           58 non-null     float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  13 non-null     float64
-#  
-#  |       |   anio | iso3   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |------:|-------:|:-------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 11387 |   1965 | WLD    |                       0 |                          nan |                        nan |           0 |                             0 |                                    nan |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'iso3': 'geocodigo'})
-#  Index: 58 entries, 11387 to 11444
-#  Data columns (total 8 columns):
-#   #   Column                                Non-Null Count  Dtype  
-#  ---  ------                                --------------  -----  
-#   0   anio                                  58 non-null     int64  
-#   1   geocodigo                             58 non-null     object 
-#   2   emision_anual_co2_ton                 58 non-null     float64
-#   3   energia_por_unidad_pib_kwh            13 non-null     float64
-#   4   pib_per_cap_usd_ppa_2011              13 non-null     float64
-#   5   poblacion                             57 non-null     float64
-#   6   emision_anual_kgco2_por_kwh           58 non-null     float64
-#   7   emision_anual_kgco2_por_usd_ppa_2011  13 non-null     float64
-#  
-#  |       |   anio | geocodigo   |   emision_anual_co2_ton |   energia_por_unidad_pib_kwh |   pib_per_cap_usd_ppa_2011 |   poblacion |   emision_anual_kgco2_por_kwh |   emision_anual_kgco2_por_usd_ppa_2011 |
-#  |------:|-------:|:------------|------------------------:|-----------------------------:|---------------------------:|------------:|------------------------------:|---------------------------------------:|
-#  | 11387 |   1965 | WLD         |                       0 |                          nan |                        nan |           0 |                             0 |                                    nan |
-#  
-#  ------------------------------
-#  
-#  wide_to_long(primary_keys=['anio', 'geocodigo'], value_name='valor', var_name='categoria')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria             |   valor |
-#  |---:|-------:|:------------|:----------------------|--------:|
-#  |  0 |   1965 | WLD         | emision_anual_co2_ton |       0 |
+#  wide_to_long(primary_keys=['anio', 'geocodigoFundar'], value_name='valor', var_name='categoria')
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='emision_anual_co2_ton', new_value='Emisiones anuales de CO2')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energética (por unidad de PIB medido en dólares de 2011 PPA)')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
+#  replace_value(col='categoria', curr_value='energia_por_unidad_pib_kwh', new_value='Intensidad energética')
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per cápita en dólares PPA 2011')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
+#  replace_value(col='categoria', curr_value='pib_per_cap_usd_ppa_2011', new_value='PIB per cápita en dólares')
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='poblacion', new_value='Población')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono (CO2/kWh)')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
+#  replace_value(col='categoria', curr_value='emision_anual_kgco2_por_kwh', new_value='Intensidad de carbono*')
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011', new_value='Intensidad de carbono (CO2/$ PPA 2011)')
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   geocodigo  348 non-null    object 
-#   2   categoria  348 non-null    object 
-#   3   valor      212 non-null    float64
-#  
-#  |    |   anio | geocodigo   | categoria                |   valor |
-#  |---:|-------:|:------------|:-------------------------|--------:|
-#  |  0 |   1965 | WLD         | Emisiones anuales de CO2 |       0 |
+#  replace_value(col='categoria', curr_value='emision_anual_kgco2_por_usd_ppa_2011', new_value='Intensidad de carbono**')
 #  
 #  ------------------------------
 #  
-#  drop_col(col='geocodigo', axis=1)
-#  RangeIndex: 348 entries, 0 to 347
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       348 non-null    int64  
-#   1   categoria  348 non-null    object 
-#   2   valor      212 non-null    float64
-#  
-#  |    |   anio | categoria                |   valor |
-#  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
+#  drop_col(col='geocodigoFundar', axis=1)
 #  
 #  ------------------------------
 #  
 #  drop_na(cols='valor')
-#  Index: 212 entries, 0 to 347
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       212 non-null    int64  
-#   1   categoria  212 non-null    object 
-#   2   valor      212 non-null    float64
-#  
-#  |    |   anio | categoria                |   valor |
-#  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'categoria'])
-#  Index: 212 entries, 0 to 173
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       212 non-null    int64  
-#   1   categoria  212 non-null    object 
-#   2   valor      212 non-null    float64
-#  
-#  |    |   anio | categoria                |   valor |
-#  |---:|-------:|:-------------------------|--------:|
-#  |  0 |   1965 | Emisiones anuales de CO2 |       0 |
 #  
 #  ------------------------------
 #  
