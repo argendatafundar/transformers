@@ -32,7 +32,8 @@ pipeline = chain(
 	rename_cols(map={'rindes_maiz_ma5': 'valor'}),
 	query(condition='anio >= 1965'),
 	drop_na(col=['valor']),
-	sort_values(how='ascending', by=['anio', 'geocodigoFundar'])
+	sort_values(how='ascending', by=['anio', 'geocodigoFundar']),
+	query(condition="geocodigoFundar != 'F351'")
 )
 #  PIPELINE_END
 
@@ -115,6 +116,23 @@ pipeline = chain(
 #   2   anio             8847 non-null   int64  
 #   3   rindes           8847 non-null   float64
 #   4   valor            8847 non-null   object 
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   rindes |   valor |
+#  |---:|:------------------|:------------------|-------:|---------:|--------:|
+#  |  0 | AFG               | Afganistán        |   1965 |     1.44 | 1.41834 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigoFundar != 'F351'")
+#  Index: 8815 entries, 0 to 8846
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  8815 non-null   object 
+#   1   geonombreFundar  8815 non-null   object 
+#   2   anio             8815 non-null   int64  
+#   3   rindes           8815 non-null   float64
+#   4   valor            8815 non-null   object 
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio |   rindes |   valor |
 #  |---:|:------------------|:------------------|-------:|---------:|--------:|
