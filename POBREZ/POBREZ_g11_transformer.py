@@ -4,230 +4,92 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def drop_cols(df, cols):
+    return df.drop(cols)
+
+@transformer.convert
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
+    return df.with_columns([
+        pl.col(col).cast(eval(target_type), strict=False)
+    ])
+
+@transformer.convert
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
     return df
 
 @transformer.convert
-def concatenar_columnas(df:DataFrame, cols:list, nueva_col:str, separtor:str = "-"):
-    df[nueva_col] = df[cols].astype(str).agg(separtor.join, axis=1)
-    return df
+def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: str = "-") -> pl.DataFrame:
+    # Validate that all columns exist
+    missing_cols = [col for col in cols if col not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Columns not found in DataFrame: {missing_cols}")
 
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
+    return df.with_columns([
+        pl.concat_str(cols, separator=separtor).alias(nueva_col)
+    ])
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='semester', curr_value='I', new_value=1),
-	replace_value(col='semester', curr_value='II', new_value=2),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
-	query(condition="poverty_line == 'Pobreza'"),
-	rename_cols(map={'region': 'categoria', 'poverty_rate': 'valor'}),
-	drop_col(col='year', axis=1),
-	drop_col(col='semester', axis=1),
-	drop_col(col='poverty_line', axis=1),
-	replace_value(col='categoria', curr_value='Partidos', new_value='Partidos del GBA')
+	replace_value(col='semester', mapping={'I': '.0', 'II': '.5'}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor=''),
+	cast_to(col='aniosem', target_type='pl.Float64'),
+	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
+	drop_cols(cols='year'),
+	drop_cols(cols='semester'),
+	drop_cols(cols='poverty_line'),
+	replace_value(col='region', mapping={'Partidos': 'Partidos del GBA'}, alias=None)
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 640 entries, 0 to 639
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          640 non-null    int64  
-#   1   semester      640 non-null    object 
-#   2   region        640 non-null    object 
-#   3   poverty_line  640 non-null    object 
-#   4   poverty_rate  608 non-null    float64
-#  
-#  |    |   year | semester   | region   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:---------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Total    | Indigencia     |         22.119 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', curr_value='I', new_value=1)
-#  RangeIndex: 640 entries, 0 to 639
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          640 non-null    int64  
-#   1   semester      640 non-null    object 
-#   2   region        640 non-null    object 
-#   3   poverty_line  640 non-null    object 
-#   4   poverty_rate  608 non-null    float64
-#  
-#  |    |   year | semester   | region   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:---------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Total    | Indigencia     |         22.119 |
+#  replace_value(col='semester', mapping={'I': '.0', 'II': '.5'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', curr_value='II', new_value=2)
-#  RangeIndex: 640 entries, 0 to 639
-#  Data columns (total 6 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          640 non-null    int64  
-#   1   semester      640 non-null    int64  
-#   2   region        640 non-null    object 
-#   3   poverty_line  640 non-null    object 
-#   4   poverty_rate  608 non-null    float64
-#   5   aniosem       640 non-null    object 
-#  
-#  |    |   year |   semester | region   | poverty_line   |   poverty_rate | aniosem   |
-#  |---:|-------:|-----------:|:---------|:---------------|---------------:|:----------|
-#  |  0 |   2003 |          2 | Total    | Indigencia     |         22.119 | 2003-2    |
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='')
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
-#  RangeIndex: 640 entries, 0 to 639
-#  Data columns (total 6 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          640 non-null    int64  
-#   1   semester      640 non-null    int64  
-#   2   region        640 non-null    object 
-#   3   poverty_line  640 non-null    object 
-#   4   poverty_rate  608 non-null    float64
-#   5   aniosem       640 non-null    object 
-#  
-#  |    |   year |   semester | region   | poverty_line   |   poverty_rate | aniosem   |
-#  |---:|-------:|-----------:|:---------|:---------------|---------------:|:----------|
-#  |  0 |   2003 |          2 | Total    | Indigencia     |         22.119 | 2003-2    |
+#  cast_to(col='aniosem', target_type='pl.Float64')
 #  
 #  ------------------------------
 #  
-#  query(condition="poverty_line == 'Pobreza'")
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 6 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          320 non-null    int64  
-#   1   semester      320 non-null    int64  
-#   2   region        320 non-null    object 
-#   3   poverty_line  320 non-null    object 
-#   4   poverty_rate  304 non-null    float64
-#   5   aniosem       320 non-null    object 
-#  
-#  |     |   year |   semester | region   | poverty_line   |   poverty_rate | aniosem   |
-#  |----:|-------:|-----------:|:---------|:---------------|---------------:|:----------|
-#  | 320 |   2003 |          2 | Total    | Pobreza        |        59.9279 | 2003-2    |
+#  df_sql(query="select * from self where poverty_line == 'Pobreza'")
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'region': 'categoria', 'poverty_rate': 'valor'})
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 6 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          320 non-null    int64  
-#   1   semester      320 non-null    int64  
-#   2   categoria     320 non-null    object 
-#   3   poverty_line  320 non-null    object 
-#   4   valor         304 non-null    float64
-#   5   aniosem       320 non-null    object 
-#  
-#  |     |   year |   semester | categoria   | poverty_line   |   valor | aniosem   |
-#  |----:|-------:|-----------:|:------------|:---------------|--------:|:----------|
-#  | 320 |   2003 |          2 | Total       | Pobreza        | 59.9279 | 2003-2    |
+#  drop_cols(cols='year')
 #  
 #  ------------------------------
 #  
-#  drop_col(col='year', axis=1)
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   semester      320 non-null    int64  
-#   1   categoria     320 non-null    object 
-#   2   poverty_line  320 non-null    object 
-#   3   valor         304 non-null    float64
-#   4   aniosem       320 non-null    object 
-#  
-#  |     |   semester | categoria   | poverty_line   |   valor | aniosem   |
-#  |----:|-----------:|:------------|:---------------|--------:|:----------|
-#  | 320 |          2 | Total       | Pobreza        | 59.9279 | 2003-2    |
+#  drop_cols(cols='semester')
 #  
 #  ------------------------------
 #  
-#  drop_col(col='semester', axis=1)
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 4 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   categoria     320 non-null    object 
-#   1   poverty_line  320 non-null    object 
-#   2   valor         304 non-null    float64
-#   3   aniosem       320 non-null    object 
-#  
-#  |     | categoria   | poverty_line   |   valor | aniosem   |
-#  |----:|:------------|:---------------|--------:|:----------|
-#  | 320 | Total       | Pobreza        | 59.9279 | 2003-2    |
+#  drop_cols(cols='poverty_line')
 #  
 #  ------------------------------
 #  
-#  drop_col(col='poverty_line', axis=1)
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  320 non-null    object 
-#   1   valor      304 non-null    float64
-#   2   aniosem    320 non-null    object 
-#  
-#  |     | categoria   |   valor | aniosem   |
-#  |----:|:------------|--------:|:----------|
-#  | 320 | Total       | 59.9279 | 2003-2    |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='Partidos', new_value='Partidos del GBA')
-#  Index: 320 entries, 320 to 639
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  320 non-null    object 
-#   1   valor      304 non-null    float64
-#   2   aniosem    320 non-null    object 
-#  
-#  |     | categoria   |   valor | aniosem   |
-#  |----:|:------------|--------:|:----------|
-#  | 320 | Total       | 59.9279 | 2003-2    |
+#  replace_value(col='region', mapping={'Partidos': 'Partidos del GBA'}, alias=None)
 #  
 #  ------------------------------
 #  
