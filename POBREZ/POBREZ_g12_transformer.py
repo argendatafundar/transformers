@@ -31,12 +31,6 @@ def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame:
     return df
 
 @transformer.convert
-def drop_na(df:pl.DataFrame, cols:list):
-    df = df.drop_nans(subset=cols)
-    df = df.drop_nulls(subset=cols)
-    return df
-
-@transformer.convert
 def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: str = "-") -> pl.DataFrame:
     # Validate that all columns exist
     missing_cols = [col for col in cols if col not in df.columns]
@@ -58,7 +52,6 @@ pipeline = chain(
 	drop_cols(cols='year'),
 	drop_cols(cols='semester'),
 	drop_cols(cols='poverty_line'),
-	drop_na(cols='poverty_rate'),
 	replace_value(col='region', mapping={'Partidos': 'Partidos del GBA'}, alias=None)
 )
 #  PIPELINE_END
@@ -93,10 +86,6 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_cols(cols='poverty_line')
-#  
-#  ------------------------------
-#  
-#  drop_na(cols='poverty_rate')
 #  
 #  ------------------------------
 #  
