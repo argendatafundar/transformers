@@ -4,23 +4,18 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:Any = None)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default if default is not None else x))
-    return df
-
-@transformer.convert
 def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
     return df.groupby(key_cols)[summarised_col].sum().reset_index()
-
-@transformer.convert
-def abs_col(df:DataFrame, col:str, new_col:str):
-    df[new_col] = df[col].apply(lambda x: abs(x))
-    return df
 
 @transformer.convert
 def rescale(df:DataFrame, group_cols:list[str], summarised_col:str, new_col:str) -> DataFrame:
     df[new_col] = df.groupby(group_cols)[summarised_col].transform(
     lambda x: 100*(x/x.sum()))
+    return df
+
+@transformer.convert
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:Any = None)->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default if default is not None else x))
     return df
 
 @transformer.convert
@@ -34,9 +29,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	map_categoria(curr_col='comp_dem_ag', new_col='comp_dem_ag_neto', mapper={'Exportaciones': 'Exportaciones netas', 'Importaciones': 'Exportaciones netas', 'Formacion bruta de capital': 'Inversión', 'Variacion de existencias': 'Inversión'}, default=None),
 	agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor'),
-	abs_col(col='valor', new_col='valor_abs'),
 	query(condition='anio in [1935, 1953, 1970, 1987, 2005, 2022]'),
-	rescale(group_cols=['anio'], summarised_col='valor_abs', new_col='valor_abs_scaled')
+	rescale(group_cols=['anio'], summarised_col='valor', new_col='valor_scaled')
 )
 #  PIPELINE_END
 
@@ -74,67 +68,48 @@ pipeline = chain(
 #  
 #  agg_sum(key_cols=['anio', 'comp_dem_ag_neto'], summarised_col='valor')
 #  RangeIndex: 352 entries, 0 to 351
-#  Data columns (total 4 columns):
+#  Data columns (total 3 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
 #   0   anio              352 non-null    int64  
 #   1   comp_dem_ag_neto  352 non-null    object 
 #   2   valor             352 non-null    float64
-#   3   valor_abs         352 non-null    float64
 #  
-#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
-#  |---:|-------:|:-------------------|--------:|------------:|
-#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |
-#  
-#  ------------------------------
-#  
-#  abs_col(col='valor', new_col='valor_abs')
-#  RangeIndex: 352 entries, 0 to 351
-#  Data columns (total 4 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   anio              352 non-null    int64  
-#   1   comp_dem_ag_neto  352 non-null    object 
-#   2   valor             352 non-null    float64
-#   3   valor_abs         352 non-null    float64
-#  
-#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |
-#  |---:|-------:|:-------------------|--------:|------------:|
-#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |
+#  |    |   anio | comp_dem_ag_neto   |   valor |
+#  |---:|-------:|:-------------------|--------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |
 #  
 #  ------------------------------
 #  
 #  query(condition='anio in [1935, 1953, 1970, 1987, 2005, 2022]')
 #  Index: 24 entries, 0 to 351
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
 #   0   anio              24 non-null     int64  
 #   1   comp_dem_ag_neto  24 non-null     object 
 #   2   valor             24 non-null     float64
-#   3   valor_abs         24 non-null     float64
-#   4   valor_abs_scaled  24 non-null     float64
+#   3   valor_scaled      24 non-null     float64
 #  
-#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |   valor_abs_scaled |
-#  |---:|-------:|:-------------------|--------:|------------:|-------------------:|
-#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |            9.63011 |
+#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_scaled |
+#  |---:|-------:|:-------------------|--------:|---------------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |        9.63011 |
 #  
 #  ------------------------------
 #  
-#  rescale(group_cols=['anio'], summarised_col='valor_abs', new_col='valor_abs_scaled')
+#  rescale(group_cols=['anio'], summarised_col='valor', new_col='valor_scaled')
 #  Index: 24 entries, 0 to 351
-#  Data columns (total 5 columns):
+#  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
 #   0   anio              24 non-null     int64  
 #   1   comp_dem_ag_neto  24 non-null     object 
 #   2   valor             24 non-null     float64
-#   3   valor_abs         24 non-null     float64
-#   4   valor_abs_scaled  24 non-null     float64
+#   3   valor_scaled      24 non-null     float64
 #  
-#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_abs |   valor_abs_scaled |
-#  |---:|-------:|:-------------------|--------:|------------:|-------------------:|
-#  |  0 |   1935 | Consumo gobierno   | 9.63011 |     9.63011 |            9.63011 |
+#  |    |   anio | comp_dem_ag_neto   |   valor |   valor_scaled |
+#  |---:|-------:|:-------------------|--------:|---------------:|
+#  |  0 |   1935 | Consumo gobierno   | 9.63011 |        9.63011 |
 #  
 #  ------------------------------
 #  
