@@ -12,38 +12,40 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'region': 'indicador'})
+	rename_cols(map={'region': 'indicador'})
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 80 entries, 0 to 79
-#  Data columns (total 3 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    80 non-null     int64  
-#   1   region  80 non-null     object 
-#   2   valor   80 non-null     float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  80 non-null     object 
+#   1   geonombreFundar  80 non-null     object 
+#   2   anio             80 non-null     int64  
+#   3   valor            80 non-null     float64
 #  
-#  |    |   anio | region   |       valor |
-#  |---:|-------:|:---------|------------:|
-#  |  0 |   2007 | Cuyo     | 2.01333e+06 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |       valor |
+#  |---:|:------------------|:------------------|-------:|------------:|
+#  |  0 | AR-CUY            | Cuyo              |   2007 | 2.01333e+06 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'region': 'indicador'})
 #  RangeIndex: 80 entries, 0 to 79
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       80 non-null     int64  
-#   1   indicador  80 non-null     object 
-#   2   valor      80 non-null     float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  80 non-null     object 
+#   1   geonombreFundar  80 non-null     object 
+#   2   anio             80 non-null     int64  
+#   3   valor            80 non-null     float64
 #  
-#  |    |   anio | indicador   |       valor |
-#  |---:|-------:|:------------|------------:|
-#  |  0 |   2007 | Cuyo        | 2.01333e+06 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |       valor |
+#  |---:|:------------------|:------------------|-------:|------------:|
+#  |  0 | AR-CUY            | Cuyo              |   2007 | 2.01333e+06 |
 #  
 #  ------------------------------
 #  
