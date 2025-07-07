@@ -9,19 +9,16 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 
 @transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
-@transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
@@ -32,10 +29,9 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
-	drop_col(col='pais', axis=1),
-	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	drop_na(subset='valor'),
+	rename_cols(map={'share_expo': 'valor'}),
+	sort_values(how='ascending', by=['anio', 'geocodigoFundar']),
+	query(condition="geocodigoFundar != 'F351'"),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -44,92 +40,80 @@ rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'}),
 #  start()
 #  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 4 columns):
-#   #   Column      Non-Null Count  Dtype  
-#  ---  ------      --------------  -----  
-#   0   anio        6747 non-null   int64  
-#   1   share_expo  6747 non-null   float64
-#   2   iso3        6747 non-null   object 
-#   3   pais        6747 non-null   object 
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6747 non-null   object 
+#   1   geonombreFundar  6747 non-null   object 
+#   2   anio             6747 non-null   int64  
+#   3   share_expo       6747 non-null   float64
 #  
-#  |    |   anio |   share_expo | iso3   | pais   |
-#  |---:|-------:|-------------:|:-------|:-------|
-#  |  0 |   2014 |            0 | ABW    | Aruba  |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   share_expo |
+#  |---:|:------------------|:------------------|-------:|-------------:|
+#  |  0 | ABW               | Aruba             |   2014 |            0 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'iso3': 'geocodigo', 'share_expo': 'valor'})
+#  rename_cols(map={'share_expo': 'valor'})
 #  RangeIndex: 6747 entries, 0 to 6746
 #  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       6747 non-null   int64  
-#   1   valor      6747 non-null   float64
-#   2   geocodigo  6747 non-null   object 
-#   3   pais       6747 non-null   object 
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6747 non-null   object 
+#   1   geonombreFundar  6747 non-null   object 
+#   2   anio             6747 non-null   int64  
+#   3   valor            6747 non-null   float64
 #  
-#  |    |   anio |   valor | geocodigo   | pais   |
-#  |---:|-------:|--------:|:------------|:-------|
-#  |  0 |   2014 |       0 | ABW         | Aruba  |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='pais', axis=1)
-#  RangeIndex: 6747 entries, 0 to 6746
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       6747 non-null   int64  
-#   1   valor      6747 non-null   float64
-#   2   geocodigo  6747 non-null   object 
-#  
-#  |    |   anio |   valor | geocodigo   |
-#  |---:|-------:|--------:|:------------|
-#  |  0 |   2014 |       0 | ABW         |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|:------------------|-------:|--------:|
+#  |  0 | ABW               | Aruba             |   2014 |       0 |
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  sort_values(how='ascending', by=['anio', 'geocodigoFundar'])
 #  RangeIndex: 6747 entries, 0 to 6746
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       6747 non-null   int64  
-#   1   valor      6747 non-null   float64
-#   2   geocodigo  6747 non-null   object 
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6747 non-null   object 
+#   1   geonombreFundar  6747 non-null   object 
+#   2   anio             6747 non-null   int64  
+#   3   valor            6747 non-null   float64
 #  
-#  |    |   anio |   valor | geocodigo   |
-#  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |  0.0009 | AGO         |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|:------------------|-------:|--------:|
+#  |  0 | AGO               | Angola            |   1962 |  0.0009 |
 #  
 #  ------------------------------
 #  
-#  drop_na(subset='valor')
-#  RangeIndex: 6747 entries, 0 to 6746
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       6747 non-null   int64  
-#   1   valor      6747 non-null   float64
-#   2   geocodigo  6747 non-null   object 
+#  query(condition="geocodigoFundar != 'F351'")
+#  Index: 6747 entries, 0 to 6746
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6747 non-null   object 
+#   1   geonombreFundar  6747 non-null   object 
+#   2   anio             6747 non-null   int64  
+#   3   valor            6747 non-null   float64
 #  
-#  |    |   anio |   valor | geocodigo   |
-#  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |    0.09 | AGO         |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|:------------------|-------:|--------:|
+#  |  0 | AGO               | Angola            |   1962 |    0.09 |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 6747 entries, 0 to 6746
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       6747 non-null   int64  
-#   1   valor      6747 non-null   float64
-#   2   geocodigo  6747 non-null   object 
+#  Index: 6747 entries, 0 to 6746
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6747 non-null   object 
+#   1   geonombreFundar  6747 non-null   object 
+#   2   anio             6747 non-null   int64  
+#   3   valor            6747 non-null   float64
 #  
-#  |    |   anio |   valor | geocodigo   |
-#  |---:|-------:|--------:|:------------|
-#  |  0 |   1962 |    0.09 | AGO         |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|:------------------|-------:|--------:|
+#  |  0 | AGO               | Angola            |   1962 |    0.09 |
 #  
 #  ------------------------------
 #  
