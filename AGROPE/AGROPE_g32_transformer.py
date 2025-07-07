@@ -4,7 +4,7 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
@@ -12,7 +12,7 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -31,7 +31,7 @@ mutiplicar_por_escalar(col='valor', k=100)
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 18 entries, 0 to 17
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
