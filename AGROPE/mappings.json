@@ -217,6 +217,14 @@
         {
             "private": "AGROPE_6-1-2_38",
             "public": "AGROPE_g37"
+        },
+        {
+            "private": "AGROPE_6-1-2_38",
+            "public": "AGROPE_g371"
+        },
+        {
+            "private": "AGROPE_6-1-2_38",
+            "public": "AGROPE_g372"
         }
     ],
     "indices_precios_exportacion.csv": [
