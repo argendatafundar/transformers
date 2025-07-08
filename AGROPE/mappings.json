@@ -352,5 +352,18 @@
             "private": "AGROPE_6-1-2_39",
             "public": "AGROPE_g38"
         }
+    ],
+    "expo_producto_rubro_ultimo_anio.csv" : [
+        {
+            "private":"",
+            "public":"AGROPE_g39"
+        }
+    ],
+    "principales_mercados_agro_argentina.csv" : [
+        {
+            "private":"",
+            "public":"AGROPE_g40"
+        }
     ]
+        
 }
