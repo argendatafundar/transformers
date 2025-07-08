@@ -205,7 +205,23 @@
         {
             "private": "AGROPE_6-1-2_36",
             "public": "AGROPE_g35"
-        }
+        },
+        {
+            "private": "AGROPE_6-1-2_36",
+            "public": "AGROPE_g351"
+        },
+        {
+            "private": "AGROPE_6-1-2_36",
+            "public": "AGROPE_g352"
+        },
+        {
+            "private": "AGROPE_6-1-2_36",
+            "public": "AGROPE_g353"
+        },
+        {
+            "private": "AGROPE_6-1-2_36",
+            "public": "AGROPE_g354"
+        },
     ],
     "insercion_internacional_CAA.csv": [
         {
