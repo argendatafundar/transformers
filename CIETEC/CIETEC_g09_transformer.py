@@ -36,7 +36,7 @@ pipeline = chain(
 	drop_col(col=['anio', 'geocodigoFundar'], axis=1),
 	completar_combinaciones(keys=['geonombreFundar', 'disciplina']),
 	fill_na(col='share', fill=0),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Haití', 'Nicaragua', 'Guatemala', 'Paraguay', 'Rep. Dominicana', 'Barbados', 'El Salvador', 'Cuba', 'Puerto Rico', 'Jamaica', 'Venezuela', 'Honduras', 'Perú', 'Guyana', 'Bolivia', 'España', 'Trinidad y Tobago', 'Brasil', 'Colombia', 'Iberoamérica', 'Uruguay', 'América Latina y el Caribe', 'Argentina', 'Portugal', 'Costa Rica', 'Chile', 'México', 'Ecuador'], col2='disciplina', order2=['Ciencias de la Salud', 'Ciencias Sociales', 'Ciencias de la Vida', 'Ciencias Físicas'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Guyana', 'Costa Rica', 'Uruguay', 'Honduras', 'Argentina', 'Brasil', 'Bolivia', 'Paraguay', 'Nicaragua', 'México', 'Puerto Rico', 'América Latina y el Caribe', 'Iberoamérica', 'Guatemala', 'España', 'Venezuela', 'El Salvador', 'Cuba', 'Barbados', 'Trinidad y Tobago', 'Rep. Dominicana', 'Ecuador', 'Perú', 'Haití', 'Portugal', 'Colombia', 'Chile', 'Jamaica'], col2='disciplina', order2=['Ciencias de la Vida', 'Ciencias Sociales', 'Ciencias de la Salud', 'Ciencias Físicas'])
 )
 #  PIPELINE_END
 
@@ -103,8 +103,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Haití', 'Nicaragua', 'Guatemala', 'Paraguay', 'Rep. Dominicana', 'Barbados', 'El Salvador', 'Cuba', 'Puerto Rico', 'Jamaica', 'Venezuela', 'Honduras', 'Perú', 'Guyana', 'Bolivia', 'España', 'Trinidad y Tobago', 'Brasil', 'Colombia', 'Iberoamérica', 'Uruguay', 'América Latina y el Caribe', 'Argentina', 'Portugal', 'Costa Rica', 'Chile', 'México', 'Ecuador'], col2='disciplina', order2=['Ciencias de la Salud', 'Ciencias Sociales', 'Ciencias de la Vida', 'Ciencias Físicas'])
-#  Index: 112 entries, 52 to 34
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Guyana', 'Costa Rica', 'Uruguay', 'Honduras', 'Argentina', 'Brasil', 'Bolivia', 'Paraguay', 'Nicaragua', 'México', 'Puerto Rico', 'América Latina y el Caribe', 'Iberoamérica', 'Guatemala', 'España', 'Venezuela', 'El Salvador', 'Cuba', 'Barbados', 'Trinidad y Tobago', 'Rep. Dominicana', 'Ecuador', 'Perú', 'Haití', 'Portugal', 'Colombia', 'Chile', 'Jamaica'], col2='disciplina', order2=['Ciencias de la Vida', 'Ciencias Sociales', 'Ciencias de la Salud', 'Ciencias Físicas'])
+#  Index: 112 entries, 49 to 62
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
@@ -112,9 +112,9 @@ pipeline = chain(
 #   1   disciplina       112 non-null    category
 #   2   share            112 non-null    float64 
 #  
-#  |    | geonombreFundar   | disciplina           |   share |
-#  |---:|:------------------|:---------------------|--------:|
-#  | 52 | Haití             | Ciencias de la Salud |   59.06 |
+#  |    | geonombreFundar   | disciplina          |   share |
+#  |---:|:------------------|:--------------------|--------:|
+#  | 49 | Guyana            | Ciencias de la Vida |   34.57 |
 #  
 #  ------------------------------
 #  
