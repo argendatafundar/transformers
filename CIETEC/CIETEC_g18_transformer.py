@@ -4,14 +4,17 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: pl.DataFrame) -> pl.DataFrame:
-    return df
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -33,7 +36,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  identity()
+#  sort_values(how='ascending', by=['anio'])
 #  RangeIndex: 81 entries, 0 to 80
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype 
@@ -46,7 +49,7 @@ pipeline = chain(
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | funcion        |   personas_fisicas |
 #  |---:|:------------------|:------------------|-------:|:---------------|-------------------:|
-#  |  0 | ARG               | Argentina         |   2017 | Investigadores |              84284 |
+#  |  0 | ARG               | Argentina         |   1997 | Investigadores |              37198 |
 #  
 #  ------------------------------
 #  
