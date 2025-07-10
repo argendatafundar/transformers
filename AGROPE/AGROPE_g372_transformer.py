@@ -15,6 +15,12 @@ def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_c
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    data = df.copy()
+    data[col] = data[col]*k
+    return data
 #  DEFINITIONS_END
 
 
@@ -22,7 +28,8 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 pipeline = chain(
 	drop_col(col=['productos_primarios', 'moa'], axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='sector', values_to_col='valor'),
-	replace_value(col='sector', curr_value='participacion_expo_totales', new_value='Participación en las exportaciones totales')
+	replace_value(col='sector', curr_value='participacion_expo_totales', new_value='Participación en las exportaciones totales'),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -84,6 +91,21 @@ pipeline = chain(
 #  |    |   anio | sector                                     |    valor |
 #  |---:|-------:|:-------------------------------------------|---------:|
 #  |  0 |   2009 | Participación en las exportaciones totales | 0.526943 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 14 entries, 0 to 13
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    14 non-null     int64  
+#   1   sector  14 non-null     object 
+#   2   valor   14 non-null     float64
+#  
+#  |    |   anio | sector                                     |   valor |
+#  |---:|-------:|:-------------------------------------------|--------:|
+#  |  0 |   2009 | Participación en las exportaciones totales | 52.6943 |
 #  
 #  ------------------------------
 #  
