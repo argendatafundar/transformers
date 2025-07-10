@@ -11,13 +11,20 @@ def drop_na(df:DataFrame, col:str):
 @transformer.convert
 def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	pivot_longer(id_cols=['anio'], names_to_col='medida', values_to_col='valor'),
-	drop_na(col='valor')
+	drop_na(col='valor'),
+	replace_value(col='medida', curr_value='i_d_pib', new_value='I+D'),
+	replace_value(col='medida', curr_value='act_pib', new_value='Act. científico-tecnológicas')
 )
 #  PIPELINE_END
 
@@ -64,6 +71,36 @@ pipeline = chain(
 #  |    |   anio | medida   |   valor |
 #  |---:|-------:|:---------|--------:|
 #  |  6 |   1996 | i_d_pib  |    0.42 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='medida', curr_value='i_d_pib', new_value='I+D')
+#  Index: 60 entries, 6 to 65
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    60 non-null     int64  
+#   1   medida  60 non-null     object 
+#   2   valor   60 non-null     float64
+#  
+#  |    |   anio | medida   |   valor |
+#  |---:|-------:|:---------|--------:|
+#  |  6 |   1996 | I+D      |    0.42 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='medida', curr_value='act_pib', new_value='Act. científico-tecnológicas')
+#  Index: 60 entries, 6 to 65
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    60 non-null     int64  
+#   1   medida  60 non-null     object 
+#   2   valor   60 non-null     float64
+#  
+#  |    |   anio | medida   |   valor |
+#  |---:|-------:|:---------|--------:|
+#  |  6 |   1996 | I+D      |    0.42 |
 #  
 #  ------------------------------
 #  
