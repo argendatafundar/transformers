@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 #  DEFINITIONS_END
@@ -11,7 +16,8 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-	drop_col(col=['geocodigoFundar', 'region_pbg'], axis=1)
+	drop_col(col=['geocodigoFundar', 'region_pbg'], axis=1),
+	query(condition='anio >= 2004')
 )
 #  PIPELINE_END
 
@@ -45,6 +51,21 @@ pipeline = chain(
 #  |    | geonombreFundar   |   anio |   pib_pc |
 #  |---:|:------------------|-------:|---------:|
 #  |  0 | Buenos Aires      |   1895 |  4413.34 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 2004')
+#  Index: 456 entries, 9 to 671
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  456 non-null    object 
+#   1   anio             456 non-null    int64  
+#   2   pib_pc           456 non-null    float64
+#  
+#  |    | geonombreFundar   |   anio |   pib_pc |
+#  |---:|:------------------|-------:|---------:|
+#  |  9 | Buenos Aires      |   2004 |  8989.67 |
 #  
 #  ------------------------------
 #  
