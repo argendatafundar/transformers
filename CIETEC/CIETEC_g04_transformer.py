@@ -20,6 +20,10 @@ def drop_na(df:DataFrame, col:str):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
+    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 #  DEFINITIONS_END
 
 
@@ -28,7 +32,8 @@ pipeline = chain(
 	query(condition='anio in [2009, 2024]'),
 	long_to_wide(index=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], columns='anio', values='ranking'),
 	drop_na(col='2009'),
-	drop_na(col='2024')
+	drop_na(col='2024'),
+	pivot_longer(id_cols=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], names_to_col='anio', values_to_col='ranking')
 )
 #  PIPELINE_END
 
@@ -120,6 +125,24 @@ pipeline = chain(
 #  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion                                |   2009 |   2024 |
 #  |---:|:------------------|:------------------|------:|:-------------------------------------------|-------:|-------:|
 #  |  1 | ARG               | Argentina         | 25408 | Centro Cientifico Tecnologico Bahia Blanca |      8 |     21 |
+#  
+#  ------------------------------
+#  
+#  pivot_longer(id_cols=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], names_to_col='anio', values_to_col='ranking')
+#  RangeIndex: 38 entries, 0 to 37
+#  Data columns (total 6 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  38 non-null     object 
+#   1   geonombreFundar  38 non-null     object 
+#   2   idp              38 non-null     int64  
+#   3   institucion      38 non-null     object 
+#   4   anio             38 non-null     object 
+#   5   ranking          38 non-null     float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion                                |   anio |   ranking |
+#  |---:|:------------------|:------------------|------:|:-------------------------------------------|-------:|----------:|
+#  |  0 | ARG               | Argentina         | 25408 | Centro Cientifico Tecnologico Bahia Blanca |   2009 |         8 |
 #  
 #  ------------------------------
 #  
