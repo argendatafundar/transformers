@@ -21,7 +21,7 @@ def sort_values(df: DataFrame, how: str, by: list):
 #  PIPELINE_START
 pipeline = chain(
 	multiplicar_por_escalar(col='share', k=100),
-	sort_values(how='ascending', by=['share'])
+	sort_values(how='descending', by=['share'])
 )
 #  PIPELINE_END
 
@@ -58,7 +58,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['share'])
+#  sort_values(how='descending', by=['share'])
 #  RangeIndex: 7 entries, 0 to 6
 #  Data columns (total 4 columns):
 #   #   Column                   Non-Null Count  Dtype  
@@ -70,7 +70,7 @@ pipeline = chain(
 #  
 #  |    |   anio | disciplina_de_formacion   |   personas_fisicas |   share |
 #  |---:|-------:|:--------------------------|-------------------:|--------:|
-#  |  0 |   2023 | Sin clasificar            |                492 | 0.49935 |
+#  |  0 |   2023 | Ciencias Sociales         |              24160 | 24.5209 |
 #  
 #  ------------------------------
 #  
