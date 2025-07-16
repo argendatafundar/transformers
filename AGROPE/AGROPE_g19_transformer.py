@@ -9,6 +9,13 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -17,13 +24,6 @@ def query(df: DataFrame, condition: str):
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
-
-@transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
