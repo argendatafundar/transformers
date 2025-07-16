@@ -4,12 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def long_to_wide(df:DataFrame, index:list[str], columns:str, values:str):
-    df = df.pivot(index=index, columns=columns, values=values).reset_index()
-    df.index.name = None
-    df.columns.name = None
-    df.columns = [str(col) for col in df.columns]  # Convertir columnas a str
-    return df  
+def concatenar_columnas(df:DataFrame, cols:list, nueva_col:str, separtor:str = "-"):
+    df[nueva_col] = df[cols].astype(str).agg(separtor.join, axis=1)
+    return df
+
+@transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
 
 @transformer.convert
 def drop_na(df:DataFrame, col:str):
@@ -22,8 +24,26 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def agregar_parentesis(df: DataFrame, col:str) -> DataFrame:
+    import pandas as pd
+    df[col] = df[col].apply(lambda x: f"({x})" if pd.notna(x) else x)
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
+
+@transformer.convert
+def long_to_wide(df:DataFrame, index:list[str], columns:str, values:str):
+    df = df.pivot(index=index, columns=columns, values=values).reset_index()
+    df.index.name = None
+    df.columns.name = None
+    df.columns = [str(col) for col in df.columns]  # Convertir columnas a str
+    return df  
 #  DEFINITIONS_END
 
 
@@ -33,7 +53,11 @@ pipeline = chain(
 	long_to_wide(index=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], columns='anio', values='ranking'),
 	drop_na(col='2009'),
 	drop_na(col='2024'),
-	pivot_longer(id_cols=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], names_to_col='anio', values_to_col='ranking')
+	pivot_longer(id_cols=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], names_to_col='anio', values_to_col='ranking'),
+	agregar_parentesis(col='geocodigoFundar'),
+	replace_multiple_values(col='institucion', replacements={'Comision Nacional de Energia Atomica Argentina': 'CNEA', 'Consejo Nacional de Investigaciones Cientificas y Tecnicas': 'CONICET', 'Instituto Nacional de Tecnologia Agropecuaria': 'INTA', 'Empresa Brasileira de Pesquisa Agropecuaria': 'EMBRAPA', 'Instituto Nacional de Pesquisas da Amazonia': 'INPA', 'Instituto Nacional de Pesquisas Espaciais': 'INPE', 'Instituto Mexicano del Petroleo': 'IMP', 'Centro Cientifico Tecnologico Bahia Blanca': 'CCT Bahía Blanca', 'Centro Cientifico Tecnologico Mendoza': 'CCT Mendoza', 'Centro Cientifico Tecnologico La Plata': 'CCT La Plata', 'Instituto Smithsonian de Investigaciones Tropicales, Panama': 'STRI', 'Instituto de Investigaciones FisicoQuimicas, Teoricas y Aplicadas': 'INIFTA', 'Comision de Investigaciones Cientificas': 'CIC', 'Comissao Nacional de Energia Nuclear': 'CNEN', 'Conselho Nacional de Desenvolvimento Cientifico e Tecnologico': 'CNPq', 'Centro de Investigacion en Alimentacion y Desarrollo': 'CIAD', 'Consejo Nacional de Humanidades, Ciencias y Tecnologias': 'CONAHCYT', 'Instituto Nacional de Investigaciones Forestales, Agricolas y Pecuarias': 'INIFAP'}),
+	concatenar_columnas(cols=['institucion', 'geocodigoFundar'], nueva_col='institucion_geocodigo', separtor=' '),
+	drop_col(col=['geocodigoFundar', 'institucion', 'geonombreFundar', 'idp'], axis=1)
 )
 #  PIPELINE_END
 
@@ -130,19 +154,92 @@ pipeline = chain(
 #  
 #  pivot_longer(id_cols=['geocodigoFundar', 'geonombreFundar', 'idp', 'institucion'], names_to_col='anio', values_to_col='ranking')
 #  RangeIndex: 38 entries, 0 to 37
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  38 non-null     object 
-#   1   geonombreFundar  38 non-null     object 
-#   2   idp              38 non-null     int64  
-#   3   institucion      38 non-null     object 
-#   4   anio             38 non-null     object 
-#   5   ranking          38 non-null     float64
+#  Data columns (total 7 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   geocodigoFundar        38 non-null     object 
+#   1   geonombreFundar        38 non-null     object 
+#   2   idp                    38 non-null     int64  
+#   3   institucion            38 non-null     object 
+#   4   anio                   38 non-null     object 
+#   5   ranking                38 non-null     float64
+#   6   institucion_geocodigo  38 non-null     object 
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion                                |   anio |   ranking |
-#  |---:|:------------------|:------------------|------:|:-------------------------------------------|-------:|----------:|
-#  |  0 | ARG               | Argentina         | 25408 | Centro Cientifico Tecnologico Bahia Blanca |   2009 |         8 |
+#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion      |   anio |   ranking | institucion_geocodigo   |
+#  |---:|:------------------|:------------------|------:|:-----------------|-------:|----------:|:------------------------|
+#  |  0 | (ARG)             | Argentina         | 25408 | CCT Bahía Blanca |   2009 |         8 | CCT Bahía Blanca (ARG)  |
+#  
+#  ------------------------------
+#  
+#  agregar_parentesis(col='geocodigoFundar')
+#  RangeIndex: 38 entries, 0 to 37
+#  Data columns (total 7 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   geocodigoFundar        38 non-null     object 
+#   1   geonombreFundar        38 non-null     object 
+#   2   idp                    38 non-null     int64  
+#   3   institucion            38 non-null     object 
+#   4   anio                   38 non-null     object 
+#   5   ranking                38 non-null     float64
+#   6   institucion_geocodigo  38 non-null     object 
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion      |   anio |   ranking | institucion_geocodigo   |
+#  |---:|:------------------|:------------------|------:|:-----------------|-------:|----------:|:------------------------|
+#  |  0 | (ARG)             | Argentina         | 25408 | CCT Bahía Blanca |   2009 |         8 | CCT Bahía Blanca (ARG)  |
+#  
+#  ------------------------------
+#  
+#  replace_multiple_values(col='institucion', replacements={'Comision Nacional de Energia Atomica Argentina': 'CNEA', 'Consejo Nacional de Investigaciones Cientificas y Tecnicas': 'CONICET', 'Instituto Nacional de Tecnologia Agropecuaria': 'INTA', 'Empresa Brasileira de Pesquisa Agropecuaria': 'EMBRAPA', 'Instituto Nacional de Pesquisas da Amazonia': 'INPA', 'Instituto Nacional de Pesquisas Espaciais': 'INPE', 'Instituto Mexicano del Petroleo': 'IMP', 'Centro Cientifico Tecnologico Bahia Blanca': 'CCT Bahía Blanca', 'Centro Cientifico Tecnologico Mendoza': 'CCT Mendoza', 'Centro Cientifico Tecnologico La Plata': 'CCT La Plata', 'Instituto Smithsonian de Investigaciones Tropicales, Panama': 'STRI', 'Instituto de Investigaciones FisicoQuimicas, Teoricas y Aplicadas': 'INIFTA', 'Comision de Investigaciones Cientificas': 'CIC', 'Comissao Nacional de Energia Nuclear': 'CNEN', 'Conselho Nacional de Desenvolvimento Cientifico e Tecnologico': 'CNPq', 'Centro de Investigacion en Alimentacion y Desarrollo': 'CIAD', 'Consejo Nacional de Humanidades, Ciencias y Tecnologias': 'CONAHCYT', 'Instituto Nacional de Investigaciones Forestales, Agricolas y Pecuarias': 'INIFAP'})
+#  RangeIndex: 38 entries, 0 to 37
+#  Data columns (total 7 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   geocodigoFundar        38 non-null     object 
+#   1   geonombreFundar        38 non-null     object 
+#   2   idp                    38 non-null     int64  
+#   3   institucion            38 non-null     object 
+#   4   anio                   38 non-null     object 
+#   5   ranking                38 non-null     float64
+#   6   institucion_geocodigo  38 non-null     object 
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion      |   anio |   ranking | institucion_geocodigo   |
+#  |---:|:------------------|:------------------|------:|:-----------------|-------:|----------:|:------------------------|
+#  |  0 | (ARG)             | Argentina         | 25408 | CCT Bahía Blanca |   2009 |         8 | CCT Bahía Blanca (ARG)  |
+#  
+#  ------------------------------
+#  
+#  concatenar_columnas(cols=['institucion', 'geocodigoFundar'], nueva_col='institucion_geocodigo', separtor=' ')
+#  RangeIndex: 38 entries, 0 to 37
+#  Data columns (total 7 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   geocodigoFundar        38 non-null     object 
+#   1   geonombreFundar        38 non-null     object 
+#   2   idp                    38 non-null     int64  
+#   3   institucion            38 non-null     object 
+#   4   anio                   38 non-null     object 
+#   5   ranking                38 non-null     float64
+#   6   institucion_geocodigo  38 non-null     object 
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   idp | institucion      |   anio |   ranking | institucion_geocodigo   |
+#  |---:|:------------------|:------------------|------:|:-----------------|-------:|----------:|:------------------------|
+#  |  0 | (ARG)             | Argentina         | 25408 | CCT Bahía Blanca |   2009 |         8 | CCT Bahía Blanca (ARG)  |
+#  
+#  ------------------------------
+#  
+#  drop_col(col=['geocodigoFundar', 'institucion', 'geonombreFundar', 'idp'], axis=1)
+#  RangeIndex: 38 entries, 0 to 37
+#  Data columns (total 3 columns):
+#   #   Column                 Non-Null Count  Dtype  
+#  ---  ------                 --------------  -----  
+#   0   anio                   38 non-null     object 
+#   1   ranking                38 non-null     float64
+#   2   institucion_geocodigo  38 non-null     object 
+#  
+#  |    |   anio |   ranking | institucion_geocodigo   |
+#  |---:|-------:|----------:|:------------------------|
+#  |  0 |   2009 |         8 | CCT Bahía Blanca (ARG)  |
 #  
 #  ------------------------------
 #  
