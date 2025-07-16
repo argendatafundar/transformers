@@ -39,7 +39,7 @@ pipeline = chain(
 	multiplicar_por_escalar(col='valor', k=100),
 	query(condition="indicador != 'Total'"),
 	sort_values(how='ascending', by=['anio']),
-	ordenar_categorica(col1='indicador', order1=['Agricultura', 'Pecuario', 'Otros'])
+	ordenar_categorica(col1='indicador', order1=['Otros', 'Pecuario', 'Agricultura'])
 )
 #  PIPELINE_END
 
@@ -119,8 +119,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_categorica(col1='indicador', order1=['Agricultura', 'Pecuario', 'Otros'])
-#  Index: 60 entries, 0 to 28
+#  ordenar_categorica(col1='indicador', order1=['Otros', 'Pecuario', 'Agricultura'])
+#  Index: 60 entries, 58 to 0
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -128,9 +128,9 @@ pipeline = chain(
 #   1   indicador  60 non-null     category
 #   2   valor      60 non-null     float64 
 #  
-#  |    |   anio | indicador   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   2004 | Agricultura | 4.96514 |
+#  |    |   anio | indicador   |    valor |
+#  |---:|-------:|:------------|---------:|
+#  | 58 |   2023 | Otros       | 0.476212 |
 #  
 #  ------------------------------
 #  
