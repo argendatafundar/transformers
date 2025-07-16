@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 #  DEFINITIONS_END
@@ -11,7 +16,8 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-	drop_col(col=['geocodigoFundar', 'ultimo_anio_disponible', 'fuente'], axis=1)
+	drop_col(col=['geocodigoFundar', 'ultimo_anio_disponible', 'fuente'], axis=1),
+	replace_multiple_values(col='geonombreFundar', replacements={'América Latina y el Caribe': 'A. Latina y el Caribe', 'Países miembros de OCDE': 'Miembros de OCDE', 'Unión Europea (27 países)': 'Unión Europea'})
 )
 #  PIPELINE_END
 
@@ -34,6 +40,20 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_col(col=['geocodigoFundar', 'ultimo_anio_disponible', 'fuente'], axis=1)
+#  RangeIndex: 57 entries, 0 to 56
+#  Data columns (total 2 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  57 non-null     object 
+#   1   ejc_pea_1000     57 non-null     float64
+#  
+#  |    | geonombreFundar   |   ejc_pea_1000 |
+#  |---:|:------------------|---------------:|
+#  |  0 | Dinamarca         |        16.9399 |
+#  
+#  ------------------------------
+#  
+#  replace_multiple_values(col='geonombreFundar', replacements={'América Latina y el Caribe': 'A. Latina y el Caribe', 'Países miembros de OCDE': 'Miembros de OCDE', 'Unión Europea (27 países)': 'Unión Europea'})
 #  RangeIndex: 57 entries, 0 to 56
 #  Data columns (total 2 columns):
 #   #   Column           Non-Null Count  Dtype  
