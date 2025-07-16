@@ -17,6 +17,14 @@
         {
             "private": "POBREZ_4-3-6_4",
             "public": "POBREZ_g04"
+        },
+        {
+            "private": "POBREZ_4-3-6_4_1",
+            "public": "POBREZ_g04_1"
+        },
+                {
+            "private": "POBREZ_4-3-6_4_2",
+            "public": "POBREZ_g04_2"
         }
     ],
     "ISA_pobreza_monetaria_it1.csv": [
