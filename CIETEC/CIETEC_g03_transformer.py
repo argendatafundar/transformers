@@ -4,22 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def completar_combinaciones(df:DataFrame, keys:list[str]):
-
-    import pandas as pd
-
-    niveles = [df[key].dropna().unique() for key in keys]
-    combinaciones = pd.MultiIndex.from_product(niveles, names=keys).to_frame(index=False)
-    df = combinaciones.merge(df, on=keys, how='left')
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def fill_na(df:DataFrame, col:str, fill:Any):
-    df[col] = df[col].fillna(fill)
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
     return df
 
 @transformer.convert
@@ -28,11 +14,30 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def fill_na(df:DataFrame, col:str, fill:Any):
+    df[col] = df[col].fillna(fill)
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
+
+@transformer.convert
+def completar_combinaciones(df:DataFrame, keys:list[str]):
+
+    import pandas as pd
+
+    niveles = [df[key].dropna().unique() for key in keys]
+    combinaciones = pd.MultiIndex.from_product(niveles, names=keys).to_frame(index=False)
+    df = combinaciones.merge(df, on=keys, how='left')
+    return df
 #  DEFINITIONS_END
 
 
@@ -42,7 +47,8 @@ pipeline = chain(
 	drop_col(col=['ultimo_anio_disponible', 'fuente', 'geocodigoFundar'], axis=1),
 	completar_combinaciones(keys=['geonombreFundar', 'sector']),
 	fill_na(col='valor', fill=0),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Israel', 'Irlanda', 'Taiwán', 'Corea del Sur', 'Japón', 'Estados Unidos', 'China', 'Islandia', 'Suecia', 'Bélgica', 'Países miembros de OCDE', 'Hungría', 'Reino Unido', 'Países Bajos', 'Austria', 'Eslovenia', 'Suiza', 'Alemania', 'Finlandia', 'Unión Europea (27 países)', 'Francia', 'Turquía', 'Chequia', 'Polonia', 'Bulgaria', 'Singapur', 'Portugal', 'Rumania', 'Dinamarca', 'Canadá', 'Nueva Zelanda', 'Italia', 'Estonia', 'Noruega', 'Rusia', 'España', 'Eslovaquia', 'Croacia', 'Australia', 'Grecia', 'Uruguay', 'Luxemburgo', 'Colombia', 'Argentina', 'Chile', 'Lituania', 'Iberoamérica', 'Letonia', 'Sudáfrica', 'América Latina y el Caribe', 'Perú', 'Costa Rica', 'México', 'Panamá', 'Guatemala', 'Paraguay', 'Trinidad y Tobago'], col2='sector', order2=['Empresas (Públicas y Privadas)', 'Educación Superior', 'Gobierno', 'Org. priv. sin fines de lucro'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Israel', 'Irlanda', 'Taiwán', 'Corea del Sur', 'Japón', 'Estados Unidos', 'China', 'Islandia', 'Suecia', 'Bélgica', 'Países miembros de OCDE', 'Hungría', 'Reino Unido', 'Países Bajos', 'Austria', 'Eslovenia', 'Suiza', 'Alemania', 'Finlandia', 'Unión Europea (27 países)', 'Francia', 'Turquía', 'Chequia', 'Polonia', 'Bulgaria', 'Singapur', 'Portugal', 'Rumania', 'Dinamarca', 'Canadá', 'Nueva Zelanda', 'Italia', 'Estonia', 'Noruega', 'Rusia', 'España', 'Eslovaquia', 'Croacia', 'Australia', 'Grecia', 'Uruguay', 'Luxemburgo', 'Colombia', 'Argentina', 'Chile', 'Lituania', 'Iberoamérica', 'Letonia', 'Sudáfrica', 'América Latina y el Caribe', 'Perú', 'Costa Rica', 'México', 'Panamá', 'Guatemala', 'Paraguay', 'Trinidad y Tobago'], col2='sector', order2=['Empresas (Públicas y Privadas)', 'Educación Superior', 'Gobierno', 'Org. priv. sin fines de lucro']),
+	replace_multiple_values(col='geonombreFundar', replacements={'América Latina y el Caribe': 'A. Latina y el Caribe', 'Países miembros de OCDE': 'Miembros de OCDE', 'Unión Europea (27 países)': 'Unión Europea'})
 )
 #  PIPELINE_END
 
@@ -129,6 +135,21 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  ordenar_dos_columnas(col1='geonombreFundar', order1=['Israel', 'Irlanda', 'Taiwán', 'Corea del Sur', 'Japón', 'Estados Unidos', 'China', 'Islandia', 'Suecia', 'Bélgica', 'Países miembros de OCDE', 'Hungría', 'Reino Unido', 'Países Bajos', 'Austria', 'Eslovenia', 'Suiza', 'Alemania', 'Finlandia', 'Unión Europea (27 países)', 'Francia', 'Turquía', 'Chequia', 'Polonia', 'Bulgaria', 'Singapur', 'Portugal', 'Rumania', 'Dinamarca', 'Canadá', 'Nueva Zelanda', 'Italia', 'Estonia', 'Noruega', 'Rusia', 'España', 'Eslovaquia', 'Croacia', 'Australia', 'Grecia', 'Uruguay', 'Luxemburgo', 'Colombia', 'Argentina', 'Chile', 'Lituania', 'Iberoamérica', 'Letonia', 'Sudáfrica', 'América Latina y el Caribe', 'Perú', 'Costa Rica', 'México', 'Panamá', 'Guatemala', 'Paraguay', 'Trinidad y Tobago'], col2='sector', order2=['Empresas (Públicas y Privadas)', 'Educación Superior', 'Gobierno', 'Org. priv. sin fines de lucro'])
+#  Index: 228 entries, 63 to 221
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   geonombreFundar  228 non-null    category
+#   1   sector           228 non-null    category
+#   2   valor            228 non-null    float64 
+#  
+#  |    | geonombreFundar   | sector                         |   valor |
+#  |---:|:------------------|:-------------------------------|--------:|
+#  | 63 | Israel            | Empresas (Públicas y Privadas) | 93.0072 |
+#  
+#  ------------------------------
+#  
+#  replace_multiple_values(col='geonombreFundar', replacements={'América Latina y el Caribe': 'A. Latina y el Caribe', 'Países miembros de OCDE': 'Miembros de OCDE', 'Unión Europea (27 países)': 'Unión Europea'})
 #  Index: 228 entries, 63 to 221
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
