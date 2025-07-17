@@ -4,6 +4,22 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
+    return df.with_columns([
+        pl.col(col).cast(eval(target_type), strict=False)
+    ])
+
+@transformer.convert
+def pl_filter(df: pl.DataFrame, query: str):
+    df = df.filter(eval(query))
+    return df
+
+@transformer.convert
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
+    return df
+
+@transformer.convert
 def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: str = "-") -> pl.DataFrame:
     # Validate that all columns exist
     missing_cols = [col for col in cols if col not in df.columns]
@@ -15,19 +31,8 @@ def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: 
     ])
 
 @transformer.convert
-def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
-    return df.with_columns([
-        pl.col(col).cast(eval(target_type), strict=False)
-    ])
-
-@transformer.convert
-def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
-    df = df.sql(query)
-    return df
-
-@transformer.convert
-def pl_filter(df: pl.DataFrame, query: str):
-    df = df.filter(eval(query))
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(map)
     return df
 
 @transformer.convert
@@ -41,11 +46,6 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
     )
 
     return df
-
-@transformer.convert
-def rename_cols(df: pl.DataFrame, map):
-    df = df.rename(map)
-    return df
 #  DEFINITIONS_END
 
 
@@ -58,7 +58,7 @@ pipeline = chain(
 	pl_filter(query="pl.col('aniosem') == df['aniosem'].max()"),
 	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
 	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'}),
-	replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores\nque viven con niños', 'old_and_old': 'Adultos mayores\nque viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
+	replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores con niños', 'old_and_old': 'Hogares de adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -95,7 +95,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores\nque viven con niños', 'old_and_old': 'Adultos mayores\nque viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
+#  replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores con niños', 'old_and_old': 'Hogares de adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 #  
 #  ------------------------------
 #  
