@@ -47,6 +47,7 @@ def rename_cols(df: pl.DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	replace_value(col='semester', mapping={'II': '5', 'I': '0'}, alias=None),
+	replace_value(col='gender', mapping={'Varon': 'Varón'}, alias=None),
 	cast_to(col='year', target_type='pl.String'),
 	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
 	cast_to(col='aniosem', target_type='pl.Float64'),
@@ -61,6 +62,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='semester', mapping={'II': '5', 'I': '0'}, alias=None)
+#  
+#  ------------------------------
+#  
+#  replace_value(col='gender', mapping={'Varon': 'Varón'}, alias=None)
 #  
 #  ------------------------------
 #  
