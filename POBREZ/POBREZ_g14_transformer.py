@@ -4,224 +4,83 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: str = "-") -> pl.DataFrame:
+    # Validate that all columns exist
+    missing_cols = [col for col in cols if col not in df.columns]
+    if missing_cols:
+        raise ValueError(f"Columns not found in DataFrame: {missing_cols}")
+
+    return df.with_columns([
+        pl.concat_str(cols, separator=separtor).alias(nueva_col)
+    ])
+
+@transformer.convert
+def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
+    return df.with_columns([
+        pl.col(col).cast(eval(target_type), strict=False)
+    ])
+
+@transformer.convert
+def pl_filter(df: pl.DataFrame, query: str):
+    df = df.filter(eval(query))
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
     return df
 
 @transformer.convert
-def filtrar_filas_ultimo_semestre(df:DataFrame, col_anio:str, col_semestre:str):
-    df = df[df[col_anio] ==  df[col_anio].max()]
-    df = df[df[col_semestre] == df[col_semestre].max()]
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(map)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='semester', curr_value='I', new_value=1),
-	replace_value(col='date', curr_value='II', new_value=2),
-	filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester'),
+	replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
+	cast_to(col='aniosem', target_type='pl.Float64'),
 	rename_cols(map={'hh_gender': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'}),
-	drop_col(col='year', axis=1),
-	drop_col(col='semester', axis=1),
-	query(condition="indicador != 'Total'"),
-	replace_value(col='indicador', curr_value='Jefe_Varon', new_value='Jefe Varón'),
-	replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefa Mujer')
+	replace_value(col='indicador', mapping={'Jefe_Varon': 'Jefe Varón', 'Jefa_Mujer': 'Jefa Mujer'}, alias=None),
+	pl_filter(query="(pl.col('aniosem') == df.select(pl.col('aniosem').max()).item()) & (pl.col('indicador') != 'Total')")
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 240 entries, 0 to 239
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   hh_gender     240 non-null    object 
-#   3   poverty_line  240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
-#  
-#  |    |   year | semester   | hh_gender   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Total       | Indigencia     |         22.121 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', curr_value='I', new_value=1)
-#  RangeIndex: 240 entries, 0 to 239
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   hh_gender     240 non-null    object 
-#   3   poverty_line  240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
-#  
-#  |    |   year | semester   | hh_gender   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Total       | Indigencia     |         22.121 |
+#  replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None)
 #  
 #  ------------------------------
 #  
-#  replace_value(col='date', curr_value='II', new_value=2)
-#  RangeIndex: 240 entries, 0 to 239
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          240 non-null    int64  
-#   1   semester      240 non-null    object 
-#   2   hh_gender     240 non-null    object 
-#   3   poverty_line  240 non-null    object 
-#   4   poverty_rate  228 non-null    float64
-#  
-#  |    |   year | semester   | hh_gender   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Total       | Indigencia     |         22.121 |
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.')
 #  
 #  ------------------------------
 #  
-#  filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester')
-#  Index: 6 entries, 117 to 239
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          6 non-null      int64  
-#   1   semester      6 non-null      object 
-#   2   hh_gender     6 non-null      object 
-#   3   poverty_line  6 non-null      object 
-#   4   poverty_rate  6 non-null      float64
-#  
-#  |     |   year |   semester | hh_gender   | poverty_line   |   poverty_rate |
-#  |----:|-------:|-----------:|:------------|:---------------|---------------:|
-#  | 117 |   2023 |          1 | Total       | Indigencia     |        9.37642 |
+#  cast_to(col='aniosem', target_type='pl.Float64')
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'hh_gender': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'})
-#  Index: 6 entries, 117 to 239
-#  Data columns (total 5 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   year       6 non-null      int64  
-#   1   semester   6 non-null      object 
-#   2   indicador  6 non-null      object 
-#   3   categoria  6 non-null      object 
-#   4   valor      6 non-null      float64
-#  
-#  |     |   year |   semester | indicador   | categoria   |   valor |
-#  |----:|-------:|-----------:|:------------|:------------|--------:|
-#  | 117 |   2023 |          1 | Total       | Indigencia  | 9.37642 |
 #  
 #  ------------------------------
 #  
-#  drop_col(col='year', axis=1)
-#  Index: 6 entries, 117 to 239
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   semester   6 non-null      object 
-#   1   indicador  6 non-null      object 
-#   2   categoria  6 non-null      object 
-#   3   valor      6 non-null      float64
-#  
-#  |     |   semester | indicador   | categoria   |   valor |
-#  |----:|-----------:|:------------|:------------|--------:|
-#  | 117 |          1 | Total       | Indigencia  | 9.37642 |
+#  replace_value(col='indicador', mapping={'Jefe_Varon': 'Jefe Varón', 'Jefa_Mujer': 'Jefa Mujer'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  drop_col(col='semester', axis=1)
-#  Index: 6 entries, 117 to 239
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  6 non-null      object 
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 117 | Total       | Indigencia  | 9.37642 |
-#  
-#  ------------------------------
-#  
-#  query(condition="indicador != 'Total'")
-#  Index: 4 entries, 118 to 239
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  4 non-null      object 
-#   1   categoria  4 non-null      object 
-#   2   valor      4 non-null      float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 118 | Jefe_Varon  | Indigencia  | 7.79352 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Jefe_Varon', new_value='Jefe Varón')
-#  Index: 4 entries, 118 to 239
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  4 non-null      object 
-#   1   categoria  4 non-null      object 
-#   2   valor      4 non-null      float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 118 | Jefe Varón  | Indigencia  | 7.79352 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Jefa_Mujer', new_value='Jefa Mujer')
-#  Index: 4 entries, 118 to 239
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  4 non-null      object 
-#   1   categoria  4 non-null      object 
-#   2   valor      4 non-null      float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 118 | Jefe Varón  | Indigencia  | 7.79352 |
+#  pl_filter(query="(pl.col('aniosem') == df.select(pl.col('aniosem').max()).item()) & (pl.col('indicador') != 'Total')")
 #  
 #  ------------------------------
 #  
