@@ -26,7 +26,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'tipo_carne': 'indicador'}),
-	ordenar_categorica(col1='indicador', order1=['Carne bovina', 'Carne aviar', 'Carne de cerdo']),
+	ordenar_categorica(col1='indicador', order1=['Carne de cerdo', 'Carne aviar', 'Carne bovina']),
 	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
@@ -62,8 +62,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_categorica(col1='indicador', order1=['Carne bovina', 'Carne aviar', 'Carne de cerdo'])
-#  Index: 183 entries, 0 to 182
+#  ordenar_categorica(col1='indicador', order1=['Carne de cerdo', 'Carne aviar', 'Carne bovina'])
+#  Index: 183 entries, 182 to 0
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -71,9 +71,9 @@ pipeline = chain(
 #   1   anio       183 non-null    int64   
 #   2   valor      183 non-null    float64 
 #  
-#  |    | indicador    |   anio |       valor |
-#  |---:|:-------------|-------:|------------:|
-#  |  0 | Carne bovina |   1961 | 2.14506e+06 |
+#  |     | indicador      |   anio |   valor |
+#  |----:|:---------------|-------:|--------:|
+#  | 182 | Carne de cerdo |   2021 |  695939 |
 #  
 #  ------------------------------
 #  
@@ -86,9 +86,9 @@ pipeline = chain(
 #   1   anio       183 non-null    int64   
 #   2   valor      183 non-null    float64 
 #  
-#  |    | indicador    |   anio |       valor |
-#  |---:|:-------------|-------:|------------:|
-#  |  0 | Carne bovina |   1961 | 2.14506e+06 |
+#  |    | indicador      |   anio |   valor |
+#  |---:|:---------------|-------:|--------:|
+#  |  0 | Carne de cerdo |   1961 |  186932 |
 #  
 #  ------------------------------
 #  
