@@ -15,25 +15,32 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 @transformer.convert
 def replace_values(df: DataFrame, col: str, values: dict):
+    import numpy as np
     df = df.replace({col: values})
     return df
 
 @transformer.convert
-def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
-    mapcol = colname+'_map'
-    df_ = df.copy()
-    df_[mapcol] = df_[colname].map(precedence)
-    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
-    return df_.drop(mapcol, axis=1)
+def ordenar_categorica(df, col1:str, order1:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    return df.sort_values(by=[col1])
+
+@transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
+	rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=1e-06),
 	replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otro'}),
-	sort_values_by_comparison(colname='indicador', precedence={'Otro': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
+	ordenar_categorica(col1='indicador', order1=['Otro', 'Hierro', 'Aluminio', 'Ferroaleaciones', 'Zinc']),
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -86,11 +93,11 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  replace_values(col='indicador', values={'aluminio': 'Aluminio', 'cinc': 'Zinc', 'ferroaleaciones': 'Ferroaleaciones', 'hierro': 'Hierro', 'otros': 'Otro'})
 #  RangeIndex: 145 entries, 0 to 144
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  145 non-null    object 
-#   1   anio       145 non-null    int64  
-#   2   valor      145 non-null    float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  145 non-null    category
+#   1   anio       145 non-null    int64   
+#   2   valor      145 non-null    float64 
 #  
 #  |    | indicador   |   anio |   valor |
 #  |---:|:------------|-------:|--------:|
@@ -98,18 +105,33 @@ rename_cols(map={'grupo_nuevo': 'indicador', 'impo_grupo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='indicador', precedence={'Otro': 1, 'Hierro': 2, 'Aluminio': 3, 'Ferroaleaciones': 4, 'Zinc': 5}, prefix=['anio'], suffix=[])
-#  Index: 145 entries, 116 to 57
+#  ordenar_categorica(col1='indicador', order1=['Otro', 'Hierro', 'Aluminio', 'Ferroaleaciones', 'Zinc'])
+#  Index: 145 entries, 144 to 42
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  145 non-null    object 
-#   1   anio       145 non-null    int64  
-#   2   valor      145 non-null    float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  145 non-null    category
+#   1   anio       145 non-null    int64   
+#   2   valor      145 non-null    float64 
 #  
 #  |     | indicador   |   anio |   valor |
 #  |----:|:------------|-------:|--------:|
-#  | 116 | Otro        |   1994 | 212.459 |
+#  | 144 | Otro        |   2022 | 550.968 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 145 entries, 0 to 144
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  145 non-null    category
+#   1   anio       145 non-null    int64   
+#   2   valor      145 non-null    float64 
+#  
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | Otro        |   1994 | 212.459 |
 #  
 #  ------------------------------
 #  
