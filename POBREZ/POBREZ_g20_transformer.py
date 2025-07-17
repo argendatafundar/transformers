@@ -58,7 +58,7 @@ pipeline = chain(
 	pl_filter(query="pl.col('aniosem') == df['aniosem'].max()"),
 	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
 	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'}),
-	replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores que viven con niños', 'old_and_old': 'Adultos mayores que viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
+	replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores\nque viven con niños', 'old_and_old': 'Adultos mayores\nque viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -95,7 +95,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores que viven con niños', 'old_and_old': 'Adultos mayores que viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
+#  replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores\nque viven con niños', 'old_and_old': 'Adultos mayores\nque viven con otros adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 #  
 #  ------------------------------
 #  
