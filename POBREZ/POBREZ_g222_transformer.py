@@ -10,6 +10,11 @@ def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.D
     ])
 
 @transformer.convert
+def pl_filter(df: pl.DataFrame, query: str):
+    df = df.filter(eval(query))
+    return df
+
+@transformer.convert
 def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
     df = df.sql(query)
     return df
@@ -47,10 +52,13 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
 #  PIPELINE_START
 pipeline = chain(
 	cast_to(col='year', target_type='pl.Int64'),
-	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
-	df_sql(query="select * from self where pov_type == 'difference'"),
-	rename_cols(map={'poverty_line': 'categoria', 'poverty_rate': 'valor'})
+	replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
+	cast_to(col='aniosem', target_type='pl.Float64'),
+	pl_filter(query="pl.col('aniosem') == df['aniosem'].max()"),
+	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
+	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'}),
+	replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores con niños', 'old_and_old': 'Hogares de adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -63,19 +71,31 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
+#  replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.')
 #  
 #  ------------------------------
 #  
-#  df_sql(query="select * from self where pov_type == 'difference'")
+#  cast_to(col='aniosem', target_type='pl.Float64')
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'poverty_line': 'categoria', 'poverty_rate': 'valor'})
+#  pl_filter(query="pl.col('aniosem') == df['aniosem'].max()")
+#  
+#  ------------------------------
+#  
+#  df_sql(query="select * from self where poverty_line == 'Pobreza'")
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'})
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', mapping={'old_and_child': 'Adultos mayores con niños', 'old_and_old': 'Hogares de adultos mayores', 'child_no_siblings': 'Niños sin hermanos', 'child_1_sibling': 'Niños con 1 hermano', 'child_2more_siblings': 'Niños con 2 o más hermanos'}, alias=None)
 #  
 #  ------------------------------
 #  
