@@ -83,6 +83,14 @@
         {
             "private": "POBREZ_4-3-6_14",
             "public": "POBREZ_g14"
+        },
+                {
+            "private": "POBREZ_4-3-6_14_1",
+            "public": "POBREZ_g141"
+        },
+        {
+            "private": "POBREZ_4-3-6_14_2",
+            "public": "POBREZ_g142"
         }
     ],
     "ISA_laboral-pobreza_it1-it2.csv": [
