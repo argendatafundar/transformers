@@ -9,40 +9,40 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
+def ordenar_categorica(df, col1:str, order1:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    return df.sort_values(by=[col1])
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
 
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'indicador', 'exportaciones_sector_perc': 'valor'}),
+	rename_cols(map={'sector': 'indicador', 'exportaciones_sector_perc': 'valor'}),
 	query(condition="indicador != 'otros'"),
 	replace_value(col='indicador', curr_value='no_metaliferos', new_value='No metalíferos'),
 	replace_value(col='indicador', curr_value='metaliferos', new_value='Metalíferos'),
 	replace_value(col='indicador', curr_value='piedras_preciosas_semipreciosas', new_value='Piedras preciosas y semipreciosas'),
-	replace_value(col='indicador', curr_value='rocas_de_aplicacion', new_value='Rocas de aplicación')
+	replace_value(col='indicador', curr_value='rocas_de_aplicacion', new_value='Rocas de aplicación'),
+	ordenar_categorica(col1='indicador', order1=['Metalíferos', 'No metalíferos', 'Rocas de aplicación', 'Piedras preciosas y semipreciosas']),
+	sort_values(how='ascending', by=['anio'])
 )
 #  PIPELINE_END
 
@@ -140,11 +140,41 @@ rename_cols(map={'sector': 'indicador', 'exportaciones_sector_perc': 'valor'}),
 #  replace_value(col='indicador', curr_value='rocas_de_aplicacion', new_value='Rocas de aplicación')
 #  Index: 116 entries, 0 to 115
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       116 non-null    int64  
-#   1   indicador  116 non-null    object 
-#   2   valor      116 non-null    float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   anio       116 non-null    int64   
+#   1   indicador  116 non-null    category
+#   2   valor      116 non-null    float64 
+#  
+#  |    |   anio | indicador   |    valor |
+#  |---:|-------:|:------------|---------:|
+#  |  0 |   1994 | Metalíferos | 0.170485 |
+#  
+#  ------------------------------
+#  
+#  ordenar_categorica(col1='indicador', order1=['Metalíferos', 'No metalíferos', 'Rocas de aplicación', 'Piedras preciosas y semipreciosas'])
+#  Index: 116 entries, 0 to 79
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   anio       116 non-null    int64   
+#   1   indicador  116 non-null    category
+#   2   valor      116 non-null    float64 
+#  
+#  |    |   anio | indicador   |    valor |
+#  |---:|-------:|:------------|---------:|
+#  |  0 |   1994 | Metalíferos | 0.170485 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio'])
+#  RangeIndex: 116 entries, 0 to 115
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   anio       116 non-null    int64   
+#   1   indicador  116 non-null    category
+#   2   valor      116 non-null    float64 
 #  
 #  |    |   anio | indicador   |    valor |
 #  |---:|-------:|:------------|---------:|
