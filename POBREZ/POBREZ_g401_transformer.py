@@ -10,6 +10,12 @@ def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.D
     ])
 
 @transformer.convert
+def multiplicar_por_escalar(df: pl.DataFrame, col: str, k: float) -> pl.DataFrame:
+    return df.with_columns([
+        (pl.col(col) * k).alias(col)
+    ])
+
+@transformer.convert
 def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
     df = df.sql(query)
     return df
@@ -25,12 +31,6 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
     )
 
     return df
-
-@transformer.convert
-def multiplicar_por_escalar(df: pl.DataFrame, col: str, k: float) -> pl.DataFrame:
-    return df.with_columns([
-        (pl.col(col) * k).alias(col)
-    ])
 #  DEFINITIONS_END
 
 
