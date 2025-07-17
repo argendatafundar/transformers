@@ -37,11 +37,11 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
 #  PIPELINE_START
 pipeline = chain(
 	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
-	df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total'"),
 	cast_to(col='k_value', target_type='pl.String'),
 	replace_value(col='k_value', mapping={0.25: 'k = 0,25', 0.35: 'k = 0,35'}, alias=None),
 	replace_value(col='region', mapping={'Partidos': 'Partidos GBA'}, alias=None),
-	multiplicar_por_escalar(col='pov_rate', k=100)
+	multiplicar_por_escalar(col='pov_rate', k=100),
+	df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total' and k_value = 'k = 0,25'")
 )
 #  PIPELINE_END
 
@@ -51,10 +51,6 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
-#  
-#  ------------------------------
-#  
-#  df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total'")
 #  
 #  ------------------------------
 #  
@@ -71,6 +67,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='pov_rate', k=100)
+#  
+#  ------------------------------
+#  
+#  df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total' and k_value = 'k = 0,25'")
 #  
 #  ------------------------------
 #  
