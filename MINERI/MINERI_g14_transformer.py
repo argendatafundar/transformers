@@ -9,22 +9,23 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def replace_values(df: DataFrame, col: str, values: dict):
-    df = df.replace({col: values})
-    return df
-
-@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
+
+@transformer.convert
+def replace_values(df: DataFrame, col: str, values: dict):
+    import numpy as np
+    df = df.replace({col: values})
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'rama_actividad': 'categoria', 'categoria_ocupacional': 'indicador', 'porcentaje_sobre_total_rama': 'valor'}),
+	rename_cols(map={'rama_actividad': 'categoria', 'categoria_ocupacional': 'indicador', 'porcentaje_sobre_total_rama': 'valor'}),
 	replace_values(col='indicador', values={'asalariados_registrados': 'Asalariados registrados', 'asalariados_no_registrados': 'Asalariados no registrados', 'no_asalariados': 'No asalariados'}),
 	ordenar_dos_columnas(col1='categoria', order1=['Construcción', 'Serv. Doméstico', 'Otros servicios', 'Act. profesionales, científicas y técnicas', 'Comercio', 'Agro', 'Inmobiliarias', 'Hoteles y restaurantes', 'Recreación', 'Transporte', 'Promedio ocupados', 'Industria', 'Act. Administrativas', 'Salud', 'Información y comunicación', 'Reciclamiento de desperdicios, agua y saneamiento', 'Otras minas y canteras', 'Finanzas', 'Enseñanza', 'Administración pública y defensa', 'Electricidad y gas', 'Extracción de petróleo y gas', 'Minería metalífera'], col2='indicador', order2=['Asalariados registrados', 'Asalariados no registrados', 'No asalariados'])
 )
