@@ -4,17 +4,24 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
 
 @transformer.convert
+def wraping_labels(df:DataFrame, lab_col:str, textwidth:int):
+    from textwrap import wrap
+    df[lab_col] = df[lab_col].apply(lambda text: "\n".join(wrap(text, width=textwidth)))
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def replace_values(df: DataFrame, col: str, values: dict):
+    import numpy as np
     df = df.replace({col: values})
     return df
 
@@ -22,29 +29,12 @@ def replace_values(df: DataFrame, col: str, values: dict):
 def str_to_title(df: DataFrame, col:str):
     df[col] = df[col].str.title()
     return df
-
-@transformer.convert
-def replace_values(df: DataFrame, col: str, values: dict):
-    df = df.replace({col: values})
-    return df
-
-@transformer.convert
-def wraping_labels(df:DataFrame, lab_col:str, textwidth:int):
-    from textwrap import wrap
-    df[lab_col] = df[lab_col].apply(lambda text: "\n".join(wrap(text, width=textwidth)))
-    return df
-
-@transformer.convert
-def wraping_labels(df:DataFrame, lab_col:str, textwidth:int):
-    from textwrap import wrap
-    df[lab_col] = df[lab_col].apply(lambda text: "\n".join(wrap(text, width=textwidth)))
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='concepto != "total"'),
+	query(condition='concepto != "total"'),
 	rename_cols(map={'destino': 'nivel1', 'concepto': 'nivel2', 'porcentaje_total': 'valor'}),
 	replace_values(col='nivel1', values={'local': 'Gastos locales', 'gastos a no residentes': 'Gastos a no residentes'}),
 	str_to_title(col='nivel2'),
