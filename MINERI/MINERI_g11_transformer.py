@@ -4,8 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
     return df
 
 @transformer.convert
@@ -15,8 +15,15 @@ def calculate_relative_percentages(df: DataFrame, group_col: str, value_col: str
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -56,7 +63,8 @@ pipeline = chain(
 	replace_value(col='indicador', curr_value='AR-T', new_value='Tucumán'),
 	replace_value(col='indicador', curr_value='AR-V', new_value='Tierra del Fuego'),
 	replace_value(col='indicador', curr_value='MINERI_NO-DIST', new_value='No distribuído'),
-	calculate_relative_percentages(group_col='anio', value_col='valor')
+	calculate_relative_percentages(group_col='anio', value_col='valor'),
+	sort_values(how='ascending', by=['anio', 'indicador'])
 )
 #  PIPELINE_END
 
@@ -493,6 +501,21 @@ pipeline = chain(
 #  |    | indicador                       |   anio |   valor |
 #  |---:|:--------------------------------|-------:|--------:|
 #  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 3.79645 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by=['anio', 'indicador'])
+#  RangeIndex: 475 entries, 0 to 474
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   indicador  475 non-null    object 
+#   1   anio       475 non-null    int64  
+#   2   valor      475 non-null    float64
+#  
+#  |    | indicador    |   anio |   valor |
+#  |---:|:-------------|-------:|--------:|
+#  |  0 | Buenos Aires |   2004 |  9.4445 |
 #  
 #  ------------------------------
 #  
