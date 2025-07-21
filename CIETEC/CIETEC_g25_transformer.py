@@ -20,7 +20,8 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 #  PIPELINE_START
 pipeline = chain(
 	replace_multiple_values(col='destino', replacements={'Erogaciones en personal': 'Personal', 'Erogaciones en inmuebles y construcciones': 'Inmuebles y construcciones', 'Erogaciones en equipamiento y rodados': 'Equipamiento y rodados', 'Otras erogaciones corrientes': 'Otras erogaciones corrientes', 'Otras erogaciones de capital': 'Otras erogaciones de capital'}),
-	ordenar_dos_columnas(col1='tipo', order1=['Nacional (total)', 'Universidades públicas', 'Universidades privadas', 'Organismos públicos', 'Empresas', 'Entidades sin fines de lucro'], col2='destino', order2=['Personal', 'Inmuebles y construcciones', 'Equipamiento y rodados', 'Otras erogaciones corrientes', 'Otras erogaciones de capital'])
+	replace_multiple_values(col='tipo', replacements={'Nacional (total)': 'Nacional', 'Universidades públicas': 'Univ. públicas', 'Universidades privadas': 'Univ. privadas', 'Organismos públicos': 'Org. públicos', 'Empresas': 'Empresas', 'Entidades sin fines de lucro': 'Org. s/fines de lucro'}),
+	ordenar_dos_columnas(col1='tipo', order1=['Nacional', 'Univ. públicas', 'Univ. privadas', 'Org. públicos', 'Empresas', 'Org. s/fines de lucro'], col2='destino', order2=['Personal', 'Inmuebles y construcciones', 'Equipamiento y rodados', 'Otras erogaciones corrientes', 'Otras erogaciones de capital'])
 )
 #  PIPELINE_END
 
@@ -61,7 +62,25 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='tipo', order1=['Nacional (total)', 'Universidades públicas', 'Universidades privadas', 'Organismos públicos', 'Empresas', 'Entidades sin fines de lucro'], col2='destino', order2=['Personal', 'Inmuebles y construcciones', 'Equipamiento y rodados', 'Otras erogaciones corrientes', 'Otras erogaciones de capital'])
+#  replace_multiple_values(col='tipo', replacements={'Nacional (total)': 'Nacional', 'Universidades públicas': 'Univ. públicas', 'Universidades privadas': 'Univ. privadas', 'Organismos públicos': 'Org. públicos', 'Empresas': 'Empresas', 'Entidades sin fines de lucro': 'Org. s/fines de lucro'})
+#  RangeIndex: 30 entries, 0 to 29
+#  Data columns (total 6 columns):
+#   #   Column         Non-Null Count  Dtype   
+#  ---  ------         --------------  -----   
+#   0   tipo           30 non-null     category
+#   1   anio           30 non-null     int64   
+#   2   destino        30 non-null     category
+#   3   inversion_i_d  30 non-null     float64 
+#   4   unidad_medida  30 non-null     object  
+#   5   share          30 non-null     float64 
+#  
+#  |    | tipo     |   anio | destino   |   inversion_i_d | unidad_medida                |   share |
+#  |---:|:---------|-------:|:----------|----------------:|:-----------------------------|--------:|
+#  |  0 | Empresas |   2023 | Personal  |          255384 | millones de pesos corrientes | 52.7628 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='tipo', order1=['Nacional', 'Univ. públicas', 'Univ. privadas', 'Org. públicos', 'Empresas', 'Org. s/fines de lucro'], col2='destino', order2=['Personal', 'Inmuebles y construcciones', 'Equipamiento y rodados', 'Otras erogaciones corrientes', 'Otras erogaciones de capital'])
 #  Index: 30 entries, 15 to 9
 #  Data columns (total 6 columns):
 #   #   Column         Non-Null Count  Dtype   
@@ -73,9 +92,9 @@ pipeline = chain(
 #   4   unidad_medida  30 non-null     object  
 #   5   share          30 non-null     float64 
 #  
-#  |    | tipo             |   anio | destino   |   inversion_i_d | unidad_medida                |   share |
-#  |---:|:-----------------|-------:|:----------|----------------:|:-----------------------------|--------:|
-#  | 15 | Nacional (total) |   2023 | Personal  |          766926 | millones de pesos corrientes | 66.6566 |
+#  |    | tipo     |   anio | destino   |   inversion_i_d | unidad_medida                |   share |
+#  |---:|:---------|-------:|:----------|----------------:|:-----------------------------|--------:|
+#  | 15 | Nacional |   2023 | Personal  |          766926 | millones de pesos corrientes | 66.6566 |
 #  
 #  ------------------------------
 #  
