@@ -4,49 +4,50 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: pl.DataFrame) -> pl.DataFrame:
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	query(condition="medida == 'Publicaciones en SCOPUS cada 100 investigadores (EJC)'")
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 24 entries, 0 to 23
+#  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 5 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  24 non-null     object 
-#   1   geonombreFundar  24 non-null     object 
-#   2   anio             24 non-null     int64  
-#   3   valor            24 non-null     float64
-#   4   calculo          24 non-null     object 
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   pais    48 non-null     object 
+#   1   anio    48 non-null     int64  
+#   2   valor   48 non-null     float64
+#   3   medida  48 non-null     object 
+#   4   iso3    48 non-null     object 
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor | calculo                                               |
-#  |---:|:------------------|:------------------|-------:|--------:|:------------------------------------------------------|
-#  |  0 | GTM               | Guatemala         |   2022 | 667.949 | Publicaciones en SCOPUS cada 100 investigadores (EJC) |
+#  |    | pais      |   anio |   valor | medida                                                                       | iso3   |
+#  |---:|:----------|-------:|--------:|:-----------------------------------------------------------------------------|:-------|
+#  |  0 | Guatemala |   2022 | 40.8574 | Publicaciones en SCOPUS en relacion al Gasto en I+D (cada millón de U$S PPC) | GTM    |
 #  
 #  ------------------------------
 #  
-#  identity()
-#  RangeIndex: 24 entries, 0 to 23
+#  query(condition="medida == 'Publicaciones en SCOPUS cada 100 investigadores (EJC)'")
+#  Index: 24 entries, 24 to 47
 #  Data columns (total 5 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  24 non-null     object 
-#   1   geonombreFundar  24 non-null     object 
-#   2   anio             24 non-null     int64  
-#   3   valor            24 non-null     float64
-#   4   calculo          24 non-null     object 
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   pais    24 non-null     object 
+#   1   anio    24 non-null     int64  
+#   2   valor   24 non-null     float64
+#   3   medida  24 non-null     object 
+#   4   iso3    24 non-null     object 
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor | calculo                                               |
-#  |---:|:------------------|:------------------|-------:|--------:|:------------------------------------------------------|
-#  |  0 | GTM               | Guatemala         |   2022 | 667.949 | Publicaciones en SCOPUS cada 100 investigadores (EJC) |
+#  |    | pais      |   anio |   valor | medida                                                | iso3   |
+#  |---:|:----------|-------:|--------:|:------------------------------------------------------|:-------|
+#  | 24 | Guatemala |   2022 | 667.949 | Publicaciones en SCOPUS cada 100 investigadores (EJC) | GTM    |
 #  
 #  ------------------------------
 #  
