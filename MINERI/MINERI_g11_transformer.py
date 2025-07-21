@@ -9,154 +9,27 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def calculate_relative_percentages(df: DataFrame, group_col: str, value_col: str):
+    totals = df.groupby(group_col)[value_col].transform('sum')
+    df[value_col] = (df[value_col] / totals) * 100
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def replace_values(df: DataFrame, col: str, values: dict):
+    import numpy as np
     df = df.replace({col: values})
     return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def calculate_relative_percentages(df):
-    from pandas import merge
-    yearly_totals = df.groupby('anio')['valor'].sum().reset_index()
-    yearly_totals = yearly_totals.rename(columns={'valor': 'total_valor'})
-    
-    df = merge(df, yearly_totals, on='anio')
-    
-    # Calculate relative percentage
-    df['valor'] = (df['valor'] / df['total_valor']) * 100
-    
-    # Select relevant columns and return new dataframe
-    return df[['indicador', 'anio', 'valor']]
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
+	rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 	replace_values(col='indicador', values={'Ciudad_de_Buenos_Aires': 'AR-C', 'Buenos_Aires': 'AR-B', 'Catamarca': 'AR-K', 'Cordoba': 'AR-X', 'Corrientes': 'AR-W', 'Chaco': 'AR-H', 'Chubut': 'AR-U', 'Entre_Rios': 'AR-E', 'Formosa': 'AR-P', 'Jujuy': 'AR-Y', 'La_Pampa': 'AR-L', 'La_Rioja': 'AR-F', 'Mendoza': 'AR-M', 'Misiones': 'AR-N', 'Neuquen': 'AR-Q', 'Rio_Negro': 'AR-R', 'Salta': 'AR-A', 'San_Juan': 'AR-J', 'San_Luis': 'AR-D', 'Santa_Cruz': 'AR-Z', 'Santa_Fe': 'AR-S', 'Santiago_del_Estero': 'AR-G', 'Tucuman': 'AR-T', 'Tierra_del_Fuego': 'AR-V', 'No_distribuido': 'MINERI_NO-DIST'}),
 	replace_value(col='indicador', curr_value='AR-C', new_value='Ciudad Autónoma de Buenos Aires'),
 	replace_value(col='indicador', curr_value='AR-B', new_value='Buenos Aires'),
@@ -183,7 +56,7 @@ rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 	replace_value(col='indicador', curr_value='AR-T', new_value='Tucumán'),
 	replace_value(col='indicador', curr_value='AR-V', new_value='Tierra del Fuego'),
 	replace_value(col='indicador', curr_value='MINERI_NO-DIST', new_value='No distribuído'),
-	calculate_relative_percentages()
+	calculate_relative_percentages(group_col='anio', value_col='valor')
 )
 #  PIPELINE_END
 
@@ -604,11 +477,11 @@ rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 #  
 #  |    | indicador                       |   anio |   valor |
 #  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 3.79645 |
 #  
 #  ------------------------------
 #  
-#  calculate_relative_percentages()
+#  calculate_relative_percentages(group_col='anio', value_col='valor')
 #  RangeIndex: 475 entries, 0 to 474
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
