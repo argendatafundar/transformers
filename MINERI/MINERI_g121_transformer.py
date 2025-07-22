@@ -4,8 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -16,13 +16,13 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def str_to_title(df: DataFrame, col:str):
-    df[col] = df[col].str.title()
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def str_to_title(df: DataFrame, col:str):
+    df[col] = df[col].str.title()
     return df
 #  DEFINITIONS_END
 
