@@ -4,16 +4,16 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
+
+@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
-
-@transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
-    df[col] = df[col].replace(replacements)
-    return df
 #  DEFINITIONS_END
 
 
