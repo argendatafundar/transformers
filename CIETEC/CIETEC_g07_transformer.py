@@ -19,8 +19,8 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='genero', replacements={'Varones': '♂', 'Mujeres': '♀'}),
-	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['♀', '♂'])
+	replace_multiple_values(col='genero', replacements={'Varones': 'V', 'Mujeres': 'M'}),
+	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['M', 'V'])
 )
 #  PIPELINE_END
 
@@ -41,7 +41,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='genero', replacements={'Varones': '♂', 'Mujeres': '♀'})
+#  replace_multiple_values(col='genero', replacements={'Varones': 'V', 'Mujeres': 'M'})
 #  RangeIndex: 10 entries, 0 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -53,11 +53,11 @@ pipeline = chain(
 #  
 #  |    | categoria   | genero   |   cantidad |   share |
 #  |---:|:------------|:---------|-----------:|--------:|
-#  |  0 | Adjunto     | ♀        |       2913 | 58.2367 |
+#  |  0 | Adjunto     | M        |       2913 | 58.2367 |
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['♀', '♂'])
+#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['M', 'V'])
 #  Index: 10 entries, 2 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -69,7 +69,7 @@ pipeline = chain(
 #  
 #  |    | categoria   | genero   |   cantidad |   share |
 #  |---:|:------------|:---------|-----------:|--------:|
-#  |  2 | Asistente   | ♀        |       1805 | 60.3881 |
+#  |  2 | Asistente   | M        |       1805 | 60.3881 |
 #  
 #  ------------------------------
 #  
