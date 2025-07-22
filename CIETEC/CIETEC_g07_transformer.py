@@ -19,8 +19,8 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='genero', replacements={'Varones': 'V', 'Mujeres': 'M'}),
-	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['M', 'V'])
+	replace_multiple_values(col='genero', replacements={'Varones': 'Los Varones', 'Mujeres': 'Las Mujeres'}),
+	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Las Mujeres', 'Los Varones'])
 )
 #  PIPELINE_END
 
@@ -41,7 +41,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='genero', replacements={'Varones': 'V', 'Mujeres': 'M'})
+#  replace_multiple_values(col='genero', replacements={'Varones': 'Los Varones', 'Mujeres': 'Las Mujeres'})
 #  RangeIndex: 10 entries, 0 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -51,13 +51,13 @@ pipeline = chain(
 #   2   cantidad   10 non-null     int64   
 #   3   share      10 non-null     float64 
 #  
-#  |    | categoria   | genero   |   cantidad |   share |
-#  |---:|:------------|:---------|-----------:|--------:|
-#  |  0 | Adjunto     | M        |       2913 | 58.2367 |
+#  |    | categoria   | genero      |   cantidad |   share |
+#  |---:|:------------|:------------|-----------:|--------:|
+#  |  0 | Adjunto     | Las Mujeres |       2913 | 58.2367 |
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['M', 'V'])
+#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Las Mujeres', 'Los Varones'])
 #  Index: 10 entries, 2 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -67,9 +67,9 @@ pipeline = chain(
 #   2   cantidad   10 non-null     int64   
 #   3   share      10 non-null     float64 
 #  
-#  |    | categoria   | genero   |   cantidad |   share |
-#  |---:|:------------|:---------|-----------:|--------:|
-#  |  2 | Asistente   | M        |       1805 | 60.3881 |
+#  |    | categoria   | genero      |   cantidad |   share |
+#  |---:|:------------|:------------|-----------:|--------:|
+#  |  2 | Asistente   | Las Mujeres |       1805 | 60.3881 |
 #  
 #  ------------------------------
 #  
