@@ -19,8 +19,8 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='genero', replacements={'Varones': 'Invest. Varones', 'Mujeres': 'Invest. Mujeres'}),
-	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Invest. Mujeres', 'Invest. Varones'])
+	replace_multiple_values(col='genero', replacements={'Varones': 'Inv. Varones', 'Mujeres': 'Inv. Mujeres'}),
+	ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Inv. Mujeres', 'Inv. Varones'])
 )
 #  PIPELINE_END
 
@@ -41,7 +41,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='genero', replacements={'Varones': 'Invest. Varones', 'Mujeres': 'Invest. Mujeres'})
+#  replace_multiple_values(col='genero', replacements={'Varones': 'Inv. Varones', 'Mujeres': 'Inv. Mujeres'})
 #  RangeIndex: 10 entries, 0 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -51,13 +51,13 @@ pipeline = chain(
 #   2   cantidad   10 non-null     int64   
 #   3   share      10 non-null     float64 
 #  
-#  |    | categoria   | genero          |   cantidad |   share |
-#  |---:|:------------|:----------------|-----------:|--------:|
-#  |  0 | Adjunto     | Invest. Mujeres |       2913 | 58.2367 |
+#  |    | categoria   | genero       |   cantidad |   share |
+#  |---:|:------------|:-------------|-----------:|--------:|
+#  |  0 | Adjunto     | Inv. Mujeres |       2913 | 58.2367 |
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Invest. Mujeres', 'Invest. Varones'])
+#  ordenar_dos_columnas(col1='categoria', order1=['Asistente', 'Adjunto', 'Independiente', 'Principal', 'Superior'], col2='genero', order2=['Inv. Mujeres', 'Inv. Varones'])
 #  Index: 10 entries, 2 to 9
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -67,9 +67,9 @@ pipeline = chain(
 #   2   cantidad   10 non-null     int64   
 #   3   share      10 non-null     float64 
 #  
-#  |    | categoria   | genero          |   cantidad |   share |
-#  |---:|:------------|:----------------|-----------:|--------:|
-#  |  2 | Asistente   | Invest. Mujeres |       1805 | 60.3881 |
+#  |    | categoria   | genero       |   cantidad |   share |
+#  |---:|:------------|:-------------|-----------:|--------:|
+#  |  2 | Asistente   | Inv. Mujeres |       1805 | 60.3881 |
 #  
 #  ------------------------------
 #  
