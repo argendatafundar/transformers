@@ -23,7 +23,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col='anio', axis=1),
-	rename_columns(iso3='geocodigo', impo='valor')
+	rename_columns(iso3='geocodigo', expo='valor')
 )
 #  PIPELINE_END
 
@@ -75,18 +75,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  rename_columns(iso3='geocodigo', impo='valor')
+#  rename_columns(iso3='geocodigo', expo='valor')
 #  Index: 161 entries, 3 to 1350
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
 #   0   geocodigoFundar  161 non-null    object 
 #   1   geonombreFundar  161 non-null    object 
-#   2   expo             161 non-null    float64
+#   2   valor            161 non-null    float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   expo |
-#  |---:|:------------------|:------------------|-------:|
-#  |  3 | NAM               | Namibia           |      0 |
+#  |    | geocodigoFundar   | geonombreFundar   |   valor |
+#  |---:|:------------------|:------------------|--------:|
+#  |  3 | NAM               | Namibia           |       0 |
 #  
 #  ------------------------------
 #  
