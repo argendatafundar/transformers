@@ -9,106 +9,89 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
-@transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'iso3': 'geocodigo', 'prop_expo': 'valor'}),
-	replace_value(col='geocodigo', curr_value='ROM', new_value='ROU'),
-	sort_values(how='ascending', by=['anio', 'geocodigo']),
-	mutiplicar_por_escalar(col='valor', k=100)
+	rename_cols(map={'prop_expo': 'valor'}),
+	sort_values(how='ascending', by=['anio', 'geonombreFundar']),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 2198 entries, 0 to 2197
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   iso3       2198 non-null   object 
-#   1   anio       2198 non-null   int64  
-#   2   prop_expo  2198 non-null   float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  2198 non-null   object 
+#   1   geonombreFundar  2198 non-null   object 
+#   2   anio             2198 non-null   int64  
+#   3   prop_expo        2198 non-null   float64
 #  
-#  |    | iso3   |   anio |   prop_expo |
-#  |---:|:-------|-------:|------------:|
-#  |  0 | AFG    |   2008 |  9.6217e-05 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'iso3': 'geocodigo', 'prop_expo': 'valor'})
-#  RangeIndex: 2198 entries, 0 to 2197
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  2198 non-null   object 
-#   1   anio       2198 non-null   int64  
-#   2   valor      2198 non-null   float64
-#  
-#  |    | geocodigo   |   anio |      valor |
-#  |---:|:------------|-------:|-----------:|
-#  |  0 | AFG         |   2008 | 9.6217e-05 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   prop_expo |
+#  |---:|:------------------|:------------------|-------:|------------:|
+#  |  0 | AFG               | Afganistán        |   2008 |  9.6217e-05 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='geocodigo', curr_value='ROM', new_value='ROU')
+#  rename_cols(map={'prop_expo': 'valor'})
 #  RangeIndex: 2198 entries, 0 to 2197
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  2198 non-null   object 
-#   1   anio       2198 non-null   int64  
-#   2   valor      2198 non-null   float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  2198 non-null   object 
+#   1   geonombreFundar  2198 non-null   object 
+#   2   anio             2198 non-null   int64  
+#   3   valor            2198 non-null   float64
 #  
-#  |    | geocodigo   |   anio |      valor |
-#  |---:|:------------|-------:|-----------:|
-#  |  0 | AFG         |   2008 | 9.6217e-05 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |      valor |
+#  |---:|:------------------|:------------------|-------:|-----------:|
+#  |  0 | AFG               | Afganistán        |   2008 | 9.6217e-05 |
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'geocodigo'])
+#  sort_values(how='ascending', by=['anio', 'geonombreFundar'])
 #  RangeIndex: 2198 entries, 0 to 2197
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  2198 non-null   object 
-#   1   anio       2198 non-null   int64  
-#   2   valor      2198 non-null   float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  2198 non-null   object 
+#   1   geonombreFundar  2198 non-null   object 
+#   2   anio             2198 non-null   int64  
+#   3   valor            2198 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AGO         |   2005 |       0 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |      valor |
+#  |---:|:------------------|:------------------|-------:|-----------:|
+#  |  0 | ALB               | Albania           |   2005 | 0.00190569 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 2198 entries, 0 to 2197
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  2198 non-null   object 
-#   1   anio       2198 non-null   int64  
-#   2   valor      2198 non-null   float64
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  2198 non-null   object 
+#   1   geonombreFundar  2198 non-null   object 
+#   2   anio             2198 non-null   int64  
+#   3   valor            2198 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AGO         |   2005 |       0 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |      valor |
+#  |---:|:------------------|:------------------|-------:|-----------:|
+#  |  0 | ALB               | Albania           |   2005 | 0.00190569 |
 #  
 #  ------------------------------
 #  
