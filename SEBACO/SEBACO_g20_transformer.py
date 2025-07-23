@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -12,21 +17,16 @@ def rename_cols(df: DataFrame, map):
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
-@transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'descripcion': 'indicador', 'prop_sobre_sbc_expo': 'valor'}),
+	rename_cols(map={'descripcion': 'indicador', 'prop_sobre_sbc_expo': 'valor'}),
 	sort_values(how='ascending', by=['anio', 'indicador']),
-	mutiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -76,7 +76,7 @@ rename_cols(map={'descripcion': 'indicador', 'prop_sobre_sbc_expo': 'valor'}),
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
+#  multiplicar_por_escalar(col='valor', k=100)
 #  RangeIndex: 102 entries, 0 to 101
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
