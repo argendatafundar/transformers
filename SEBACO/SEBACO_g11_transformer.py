@@ -4,47 +4,19 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
 @transformer.convert
-def resub(df: DataFrame, col: str, pattern: str, replace: str):
-    # replace regex pattern in column
-    
-    df[col] = df[col].str.replace(pattern, replace)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
 def resub(df: DataFrame, col: str, pattern: str, replace: str):
     # replace regex pattern in column
-    
-    df[col] = df[col].str.replace(pattern, replace)
-    return df
 
-@transformer.convert
-def resub(df: DataFrame, col: str, pattern: str, replace: str):
-    # replace regex pattern in column
-    
-    df[col] = df[col].str.replace(pattern, replace)
-    return df
-
-@transformer.convert
-def resub(df: DataFrame, col: str, pattern: str, replace: str):
-    # replace regex pattern in column
-    
-    df[col] = df[col].str.replace(pattern, replace)
-    return df
-
-@transformer.convert
-def resub(df: DataFrame, col: str, pattern: str, replace: str):
-    # replace regex pattern in column
-    
     df[col] = df[col].str.replace(pattern, replace)
     return df
 
@@ -59,7 +31,7 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'categoria', 'estado_ocupacional': 'indicador', 'prop_ocupados': 'valor'}),
+	rename_cols(map={'sector': 'categoria', 'estado_ocupacional': 'indicador', 'prop_ocupados': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
 	resub(col='categoria', pattern='a.', replace=''),
 	resub(col='categoria', pattern='b.', replace=''),
