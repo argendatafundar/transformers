@@ -12,14 +12,14 @@ def rename_cols(df: DataFrame, map):
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
-    
+
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
+	rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
 	sort_values(how='ascending', by=['anio', 'indicador'])
 )
 #  PIPELINE_END
