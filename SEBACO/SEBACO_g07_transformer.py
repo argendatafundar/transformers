@@ -11,6 +11,11 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -25,6 +30,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'prop': 'valor'}),
+	replace_value(col='provincia', curr_value='Resto', new_value='Resto del país'),
 	multiplicar_por_escalar(col='valor', k=100),
 	sort_values(how='ascending', by=['anio', 'provincia'])
 )
@@ -47,6 +53,21 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  rename_cols(map={'prop': 'valor'})
+#  RangeIndex: 162 entries, 0 to 161
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   provincia  162 non-null    object 
+#   1   anio       162 non-null    int64  
+#   2   valor      162 non-null    float64
+#  
+#  |    | provincia   |   anio |    valor |
+#  |---:|:------------|-------:|---------:|
+#  |  0 | CABA        |   1996 | 0.410583 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='provincia', curr_value='Resto', new_value='Resto del país')
 #  RangeIndex: 162 entries, 0 to 161
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
