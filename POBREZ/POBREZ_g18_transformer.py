@@ -4,6 +4,10 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_cols(df, cols):
+    return df.drop(cols)
+
+@transformer.convert
 def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: str = "-") -> pl.DataFrame:
     # Validate that all columns exist
     missing_cols = [col for col in cols if col not in df.columns]
@@ -15,19 +19,9 @@ def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: 
     ])
 
 @transformer.convert
-def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
-    return df.with_columns([
-        pl.col(col).cast(eval(target_type), strict=False)
-    ])
-
-@transformer.convert
 def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
     df = df.sql(query)
     return df
-
-@transformer.convert
-def drop_cols(df, cols):
-    return df.drop(cols)
 
 @transformer.convert
 def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
@@ -50,15 +44,14 @@ def rename_cols(df: pl.DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
-	cast_to(col='aniosem', target_type='pl.Float64'),
+	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
 	rename_cols(map={'educ_level': 'categoria', 'poverty_rate': 'valor'}),
 	drop_cols(cols='year'),
 	drop_cols(cols='semester'),
 	drop_cols(cols='poverty_line'),
-	replace_value(col='categoria', mapping={'Primaria_o_menos': 'Primaria o menos', 'Secu_incompleta': 'Secundaria incompleta', 'Secu_completa': 'Secundaria completa', 'Supe_incompleta': 'Superior incompleta', 'Supe_completa': 'Superior completa'}, alias=None)
+	replace_value(col='categoria', mapping={'Primaria_o_menos': 'Prim. o menos', 'Secu_incompleta': 'Sec. incompleta', 'Secu_completa': 'Sec. completa', 'Supe_incompleta': 'Sup. incompleta', 'Supe_completa': 'Sup. completa'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -67,15 +60,11 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None)
+#  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.')
-#  
-#  ------------------------------
-#  
-#  cast_to(col='aniosem', target_type='pl.Float64')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
 #  
 #  ------------------------------
 #  
@@ -99,7 +88,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', mapping={'Primaria_o_menos': 'Primaria o menos', 'Secu_incompleta': 'Secundaria incompleta', 'Secu_completa': 'Secundaria completa', 'Supe_incompleta': 'Superior incompleta', 'Supe_completa': 'Superior completa'}, alias=None)
+#  replace_value(col='categoria', mapping={'Primaria_o_menos': 'Prim. o menos', 'Secu_incompleta': 'Sec. incompleta', 'Secu_completa': 'Sec. completa', 'Supe_incompleta': 'Sup. incompleta', 'Supe_completa': 'Sup. completa'}, alias=None)
 #  
 #  ------------------------------
 #  
