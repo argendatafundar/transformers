@@ -15,20 +15,8 @@ def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: 
     ])
 
 @transformer.convert
-def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
-    return df.with_columns([
-        pl.col(col).cast(eval(target_type), strict=False)
-    ])
-
-@transformer.convert
 def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
     df = df.sql(query)
-    return df
-
-@transformer.convert
-def drop_na(df:pl.DataFrame, cols:list):
-    df = df.drop_nans(subset=cols)
-    df = df.drop_nulls(subset=cols)
     return df
 
 @transformer.convert
@@ -47,15 +35,20 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
 def rename_cols(df: pl.DataFrame, map):
     df = df.rename(map)
     return df
+
+@transformer.convert
+def drop_na(df:pl.DataFrame, cols:list):
+    df = df.drop_nans(subset=cols)
+    df = df.drop_nulls(subset=cols)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	drop_na(cols=['year', 'poverty_rate']),
-	replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
-	cast_to(col='aniosem', target_type='pl.Float64'),
+	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
 	replace_value(col='age_group', mapping={'0_14_years': '0-14', '15_29_years': '15-29', '30_64_years': '30-64', '65_and_more_years': '65 y más'}, alias=None),
 	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'})
@@ -71,15 +64,11 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': 0, 'II': 5}, alias=None)
+#  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.')
-#  
-#  ------------------------------
-#  
-#  cast_to(col='aniosem', target_type='pl.Float64')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
 #  
 #  ------------------------------
 #  
