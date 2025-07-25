@@ -12,7 +12,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio.isin([2004, 2009, 2015, 2021])')
+	query(condition='anio.isin([2009, 2012, 2015, 2021])')
 )
 #  PIPELINE_END
 
@@ -33,15 +33,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio.isin([2004, 2009, 2015, 2021])')
-#  Index: 15 entries, 10 to 74
+#  query(condition='anio.isin([2009, 2012, 2015, 2021])')
+#  Index: 20 entries, 10 to 74
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  15 non-null     object 
-#   1   geonombreFundar  15 non-null     object 
-#   2   anio             15 non-null     int64  
-#   3   valor            15 non-null     float64
+#   0   geocodigoFundar  20 non-null     object 
+#   1   geonombreFundar  20 non-null     object 
+#   2   anio             20 non-null     int64  
+#   3   valor            20 non-null     float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio |       valor |
 #  |---:|:------------------|:------------------|-------:|------------:|
