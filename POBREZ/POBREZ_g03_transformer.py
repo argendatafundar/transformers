@@ -52,9 +52,8 @@ def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.D
 #  PIPELINE_START
 pipeline = chain(
 	df_sql(query="select * from self where region == 'Total'"),
-	replace_value(col='semester', mapping={'I': '.0', 'II': '.49'}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor=''),
-	cast_to(col='aniosem', target_type='pl.Float64'),
+	replace_value(col='semester', mapping={'I': '1', 'II': '2'}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	drop_cols(cols='year'),
 	drop_cols(cols='semester'),
 	drop_cols(cols='region'),
@@ -73,15 +72,11 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': '.0', 'II': '.49'}, alias=None)
+#  replace_value(col='semester', mapping={'I': '1', 'II': '2'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='')
-#  
-#  ------------------------------
-#  
-#  cast_to(col='aniosem', target_type='pl.Float64')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
 #  
 #  ------------------------------
 #  
