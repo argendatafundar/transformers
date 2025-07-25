@@ -4,21 +4,26 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
-
-@transformer.convert
 def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
@@ -28,7 +33,8 @@ pipeline = chain(
 	drop_col(col=['pp_sin_mineria', 'moa', 'total'], axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='sector', values_to_col='valor'),
 	replace_value(col='sector', curr_value='participacion_expo_totales', new_value='Participación en las exportaciones totales'),
-	multiplicar_por_escalar(col='valor', k=100)
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='anio >= 2009')
 )
 #  PIPELINE_END
 
@@ -106,6 +112,21 @@ pipeline = chain(
 #  |    |   anio | sector                                     |   valor |
 #  |---:|-------:|:-------------------------------------------|--------:|
 #  |  0 |   1992 | Participación en las exportaciones totales | 67.9349 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio >= 2009')
+#  Index: 16 entries, 17 to 32
+#  Data columns (total 3 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   anio    16 non-null     int64  
+#   1   sector  16 non-null     object 
+#   2   valor   16 non-null     float64
+#  
+#  |    |   anio | sector                                     |   valor |
+#  |---:|-------:|:-------------------------------------------|--------:|
+#  | 17 |   2009 | Participación en las exportaciones totales | 52.3013 |
 #  
 #  ------------------------------
 #  
