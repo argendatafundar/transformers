@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
+    return df
+
+@transformer.convert
 def drop_cols(df, cols):
     return df.drop(cols)
 
@@ -17,17 +22,6 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
         pl.col(col).replace(mapping).alias(alias)
     )
 
-    return df
-
-@transformer.convert
-def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
-    return df.with_columns([
-        pl.col(col).cast(eval(target_type), strict=False)
-    ])
-
-@transformer.convert
-def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
-    df = df.sql(query)
     return df
 
 @transformer.convert
@@ -45,9 +39,8 @@ def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: 
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='semester', mapping={'I': '.0', 'II': '.5'}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor=''),
-	cast_to(col='aniosem', target_type='pl.Float64'),
+	replace_value(col='semester', mapping={'I': '1', 'II': '2'}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	df_sql(query="select * from self where poverty_line == 'Indigencia'"),
 	drop_cols(cols='year'),
 	drop_cols(cols='semester'),
@@ -61,15 +54,11 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': '.0', 'II': '.5'}, alias=None)
+#  replace_value(col='semester', mapping={'I': '1', 'II': '2'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='')
-#  
-#  ------------------------------
-#  
-#  cast_to(col='aniosem', target_type='pl.Float64')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
 #  
 #  ------------------------------
 #  
