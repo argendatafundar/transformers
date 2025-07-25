@@ -38,11 +38,11 @@ pipeline = chain(
 	rename_cols(map={'educ_level': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'}),
 	drop_col(col='year', axis=1),
 	drop_col(col='semester', axis=1),
-	replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria completa o menos'),
-	replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Secundaria incompleta'),
-	replace_value(col='indicador', curr_value='Secu_completa', new_value='Secundaria completa'),
-	replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Superior incompleta'),
-	replace_value(col='indicador', curr_value='Supe_completa', new_value='Superior completa'),
+	replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Prim. completa o menos'),
+	replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Sec. incompleta'),
+	replace_value(col='indicador', curr_value='Secu_completa', new_value='Sec. completa'),
+	replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Sup. incompleta'),
+	replace_value(col='indicador', curr_value='Supe_completa', new_value='Sup. completa'),
 	query(condition="categoria == 'Pobreza'")
 )
 #  PIPELINE_END
@@ -164,7 +164,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Primaria completa o menos')
+#  replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Prim. completa o menos')
 #  Index: 12 entries, 246 to 503
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -179,7 +179,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Secundaria incompleta')
+#  replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Sec. incompleta')
 #  Index: 12 entries, 246 to 503
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -194,7 +194,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Secu_completa', new_value='Secundaria completa')
+#  replace_value(col='indicador', curr_value='Secu_completa', new_value='Sec. completa')
 #  Index: 12 entries, 246 to 503
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -209,7 +209,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Superior incompleta')
+#  replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Sup. incompleta')
 #  Index: 12 entries, 246 to 503
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -224,7 +224,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Supe_completa', new_value='Superior completa')
+#  replace_value(col='indicador', curr_value='Supe_completa', new_value='Sup. completa')
 #  Index: 12 entries, 246 to 503
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
