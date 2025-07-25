@@ -41,7 +41,7 @@ def concatenar_columnas(df: pl.DataFrame, cols: list, nueva_col: str, separtor: 
 pipeline = chain(
 	replace_value(col='semester', mapping={'I': '1', 'II': '2'}, alias=None),
 	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
-	df_sql(query="select * from self where poverty_line == 'Pobreza' and region in ('NEA', 'CABA')"),
+	df_sql(query="select * from self where poverty_line == 'Pobreza'"),
 	drop_cols(cols='year'),
 	drop_cols(cols='semester'),
 	drop_cols(cols='poverty_line'),
@@ -62,7 +62,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  df_sql(query="select * from self where poverty_line == 'Pobreza' and region in ('NEA', 'CABA')")
+#  df_sql(query="select * from self where poverty_line == 'Pobreza'")
 #  
 #  ------------------------------
 #  
