@@ -47,9 +47,8 @@ def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.D
 #  PIPELINE_START
 pipeline = chain(
 	cast_to(col='year', target_type='pl.Int64'),
-	replace_value(col='semester', mapping={'I': 0, 'II': 49}, alias=None),
-	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.'),
-	cast_to(col='aniosem', target_type='pl.Float64'),
+	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
+	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	df_sql(query="select * from self where pov_type == 'difference'"),
 	rename_cols(map={'poverty_line': 'categoria', 'poverty_rate': 'valor'})
 )
@@ -64,15 +63,11 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', mapping={'I': 0, 'II': 49}, alias=None)
+#  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
 #  
 #  ------------------------------
 #  
-#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='.')
-#  
-#  ------------------------------
-#  
-#  cast_to(col='aniosem', target_type='pl.Float64')
+#  concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-')
 #  
 #  ------------------------------
 #  
