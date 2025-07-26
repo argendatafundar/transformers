@@ -15,11 +15,17 @@ def drop_col(df: DataFrame, col, axis=1):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
+	rename_cols(map={'exportaciones': 'Exportaciones', 'importaciones': 'Importaciones'}),
 	query(condition="sector == 'SBC'"),
 	drop_col(col=['balanza', 'sector'], axis=1),
 	pivot_longer(id_cols=['anio'], names_to_col='categoria', values_to_col='valor')
@@ -44,6 +50,23 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
+#  rename_cols(map={'exportaciones': 'Exportaciones', 'importaciones': 'Importaciones'})
+#  RangeIndex: 119 entries, 0 to 118
+#  Data columns (total 5 columns):
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   anio           119 non-null    int64  
+#   1   sector         119 non-null    object 
+#   2   balanza        119 non-null    float64
+#   3   Exportaciones  119 non-null    float64
+#   4   Importaciones  119 non-null    float64
+#  
+#  |    |   anio | sector   |   balanza |   Exportaciones |   Importaciones |
+#  |---:|-------:|:---------|----------:|----------------:|----------------:|
+#  |  0 |   2006 | SBC      |   200.396 |         2521.42 |         2321.02 |
+#  
+#  ------------------------------
+#  
 #  query(condition="sector == 'SBC'")
 #  Index: 17 entries, 0 to 16
 #  Data columns (total 5 columns):
@@ -52,10 +75,10 @@ pipeline = chain(
 #   0   anio           17 non-null     int64  
 #   1   sector         17 non-null     object 
 #   2   balanza        17 non-null     float64
-#   3   exportaciones  17 non-null     float64
-#   4   importaciones  17 non-null     float64
+#   3   Exportaciones  17 non-null     float64
+#   4   Importaciones  17 non-null     float64
 #  
-#  |    |   anio | sector   |   balanza |   exportaciones |   importaciones |
+#  |    |   anio | sector   |   balanza |   Exportaciones |   Importaciones |
 #  |---:|-------:|:---------|----------:|----------------:|----------------:|
 #  |  0 |   2006 | SBC      |   200.396 |         2521.42 |         2321.02 |
 #  
@@ -67,10 +90,10 @@ pipeline = chain(
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
 #   0   anio           17 non-null     int64  
-#   1   exportaciones  17 non-null     float64
-#   2   importaciones  17 non-null     float64
+#   1   Exportaciones  17 non-null     float64
+#   2   Importaciones  17 non-null     float64
 #  
-#  |    |   anio |   exportaciones |   importaciones |
+#  |    |   anio |   Exportaciones |   Importaciones |
 #  |---:|-------:|----------------:|----------------:|
 #  |  0 |   2006 |         2521.42 |         2321.02 |
 #  
@@ -87,7 +110,7 @@ pipeline = chain(
 #  
 #  |    |   anio | categoria     |   valor |
 #  |---:|-------:|:--------------|--------:|
-#  |  0 |   2006 | exportaciones | 2521.42 |
+#  |  0 |   2006 | Exportaciones | 2521.42 |
 #  
 #  ------------------------------
 #  
