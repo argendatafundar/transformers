@@ -11,6 +11,14 @@
             "private": "SEBACO_5-1-2_2",
             "public": "SEBACO_g02"
         }
+        {
+            "private": "SEBACO_5-1-2_2",
+            "public": "SEBACO_g021"
+        },
+        {
+            "private": "SEBACO_5-1-2_2",
+            "public": "SEBACO_g022"
+        }        
     ],
     "03_vab_indec.csv": [
         {
