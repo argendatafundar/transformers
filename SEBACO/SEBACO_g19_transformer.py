@@ -20,7 +20,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
-	ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Investigación y desarrollo', 'SSIServicios profesionales', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
+	ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
 )
 #  PIPELINE_END
 
@@ -46,7 +46,7 @@ pipeline = chain(
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
 #   0   anio       102 non-null    category
-#   1   indicador  68 non-null     category
+#   1   indicador  102 non-null    category
 #   2   valor      102 non-null    float64 
 #  
 #  |    |   anio | indicador             |    valor |
@@ -55,18 +55,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Investigación y desarrollo', 'SSIServicios profesionales', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
-#  Index: 102 entries, 34 to 67
+#  ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
+#  Index: 102 entries, 51 to 16
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
 #   0   anio       102 non-null    category
-#   1   indicador  68 non-null     category
+#   1   indicador  102 non-null    category
 #   2   valor      102 non-null    float64 
 #  
-#  |    |   anio | indicador                  |   valor |
-#  |---:|-------:|:---------------------------|--------:|
-#  | 34 |   2006 | Investigación y desarrollo | 106.637 |
+#  |    |   anio | indicador               |   valor |
+#  |---:|-------:|:------------------------|--------:|
+#  | 51 |   2006 | Servicios profesionales | 479.619 |
 #  
 #  ------------------------------
 #  
