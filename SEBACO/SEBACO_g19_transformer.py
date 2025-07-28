@@ -4,22 +4,23 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
-
-@transformer.convert
-def ordenar_categorica(df, col1:str, order1:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    return df.sort_values(by=[col1])
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
-	ordenar_categorica(col1='indicador', order1=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
+	ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
 )
 #  PIPELINE_END
 
@@ -44,7 +45,7 @@ pipeline = chain(
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
-#   0   anio       102 non-null    int64   
+#   0   anio       102 non-null    category
 #   1   indicador  102 non-null    category
 #   2   valor      102 non-null    float64 
 #  
@@ -54,18 +55,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_categorica(col1='indicador', order1=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
-#  Index: 102 entries, 56 to 0
+#  ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Servicios profesionales', 'SSI', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'Ss. audiovisuales', 'Propiedad intelectual'])
+#  Index: 102 entries, 51 to 16
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
-#   0   anio       102 non-null    int64   
+#   0   anio       102 non-null    category
 #   1   indicador  102 non-null    category
 #   2   valor      102 non-null    float64 
 #  
 #  |    |   anio | indicador               |   valor |
 #  |---:|-------:|:------------------------|--------:|
-#  | 56 |   2011 | Servicios profesionales | 1193.73 |
+#  | 51 |   2006 | Servicios profesionales | 479.619 |
 #  
 #  ------------------------------
 #  
