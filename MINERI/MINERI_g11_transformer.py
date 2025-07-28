@@ -9,12 +9,6 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     return df
 
 @transformer.convert
-def calculate_relative_percentages(df: DataFrame, group_col: str, value_col: str):
-    totals = df.groupby(group_col)[value_col].transform('sum')
-    df[value_col] = (df[value_col] / totals) * 100
-    return df
-
-@transformer.convert
 def sort_values(df: DataFrame, how: str, by: list):
     if how not in ['ascending', 'descending']:
         raise ValueError('how must be either "ascending" or "descending"')
@@ -31,6 +25,12 @@ def replace_values(df: DataFrame, col: str, values: dict):
     import numpy as np
     df = df.replace({col: values})
     return df
+
+@transformer.convert
+def calculate_relative_percentages(df: DataFrame, group_col: str, value_col: str):
+    totals = df.groupby(group_col)[value_col].transform('sum')
+    df[value_col] = (df[value_col] / totals) * 100
+    return df
 #  DEFINITIONS_END
 
 
@@ -38,7 +38,7 @@ def replace_values(df: DataFrame, col: str, values: dict):
 pipeline = chain(
 	rename_cols(map={'provincia': 'indicador', 'vab_min_provincial': 'valor'}),
 	replace_values(col='indicador', values={'Ciudad_de_Buenos_Aires': 'AR-C', 'Buenos_Aires': 'AR-B', 'Catamarca': 'AR-K', 'Cordoba': 'AR-X', 'Corrientes': 'AR-W', 'Chaco': 'AR-H', 'Chubut': 'AR-U', 'Entre_Rios': 'AR-E', 'Formosa': 'AR-P', 'Jujuy': 'AR-Y', 'La_Pampa': 'AR-L', 'La_Rioja': 'AR-F', 'Mendoza': 'AR-M', 'Misiones': 'AR-N', 'Neuquen': 'AR-Q', 'Rio_Negro': 'AR-R', 'Salta': 'AR-A', 'San_Juan': 'AR-J', 'San_Luis': 'AR-D', 'Santa_Cruz': 'AR-Z', 'Santa_Fe': 'AR-S', 'Santiago_del_Estero': 'AR-G', 'Tucuman': 'AR-T', 'Tierra_del_Fuego': 'AR-V', 'No_distribuido': 'MINERI_NO-DIST'}),
-	replace_value(col='indicador', curr_value='AR-C', new_value='Ciudad Autónoma de Buenos Aires'),
+	replace_value(col='indicador', curr_value='AR-C', new_value='CABA'),
 	replace_value(col='indicador', curr_value='AR-B', new_value='Buenos Aires'),
 	replace_value(col='indicador', curr_value='AR-K', new_value='Catamarca'),
 	replace_value(col='indicador', curr_value='AR-X', new_value='Córdoba'),
@@ -114,7 +114,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='AR-C', new_value='Ciudad Autónoma de Buenos Aires')
+#  replace_value(col='indicador', curr_value='AR-C', new_value='CABA')
 #  RangeIndex: 475 entries, 0 to 474
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -123,9 +123,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -138,9 +138,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -153,9 +153,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -168,9 +168,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -183,9 +183,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -198,9 +198,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -213,9 +213,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -228,9 +228,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -243,9 +243,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -258,9 +258,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -273,9 +273,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -288,9 +288,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -303,9 +303,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -318,9 +318,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -333,9 +333,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -348,9 +348,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -363,9 +363,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -378,9 +378,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -393,9 +393,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -408,9 +408,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -423,9 +423,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -438,9 +438,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -453,9 +453,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -468,9 +468,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 112.651 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 112.651 |
 #  
 #  ------------------------------
 #  
@@ -483,9 +483,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 3.79645 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 3.79645 |
 #  
 #  ------------------------------
 #  
@@ -498,9 +498,9 @@ pipeline = chain(
 #   1   anio       475 non-null    int64  
 #   2   valor      475 non-null    float64
 #  
-#  |    | indicador                       |   anio |   valor |
-#  |---:|:--------------------------------|-------:|--------:|
-#  |  0 | Ciudad Autónoma de Buenos Aires |   2004 | 3.79645 |
+#  |    | indicador   |   anio |   valor |
+#  |---:|:------------|-------:|--------:|
+#  |  0 | CABA        |   2004 | 3.79645 |
 #  
 #  ------------------------------
 #  
