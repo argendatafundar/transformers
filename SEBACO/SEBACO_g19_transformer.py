@@ -20,7 +20,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
-	ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Ss. audiovisuales', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'SSI', 'Servicios profesionales', 'Propiedad intelectual'])
+	ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Ss. audiovisuales', 'Investigación y desarrollo', 'SSI', 'Ss. arquitectura, ingeniería y otros', 'Servicios profesionales', 'Propiedad intelectual'])
 )
 #  PIPELINE_END
 
@@ -55,7 +55,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Ss. audiovisuales', 'Investigación y desarrollo', 'Ss. arquitectura, ingeniería y otros', 'SSI', 'Servicios profesionales', 'Propiedad intelectual'])
+#  ordenar_dos_columnas(col1='anio', order1=[2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022], col2='indicador', order2=['Ss. audiovisuales', 'Investigación y desarrollo', 'SSI', 'Ss. arquitectura, ingeniería y otros', 'Servicios profesionales', 'Propiedad intelectual'])
 #  Index: 102 entries, 85 to 16
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
