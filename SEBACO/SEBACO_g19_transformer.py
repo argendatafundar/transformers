@@ -20,7 +20,7 @@ def sort_values(df: DataFrame, how: str, by: list):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'sector': 'indicador', 'balanza': 'valor'}),
-	sort_values(how='ascending', by=['anio', 'indicador'])
+	sort_values(how='ascending', by=['anio', 'valor'])
 )
 #  PIPELINE_END
 
@@ -55,7 +55,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['anio', 'indicador'])
+#  sort_values(how='ascending', by=['anio', 'valor'])
 #  RangeIndex: 102 entries, 0 to 101
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -64,9 +64,9 @@ pipeline = chain(
 #   1   indicador  102 non-null    object 
 #   2   valor      102 non-null    float64
 #  
-#  |    |   anio | indicador                  |   valor |
-#  |---:|-------:|:---------------------------|--------:|
-#  |  0 |   2006 | Investigación y desarrollo | 106.637 |
+#  |    |   anio | indicador             |    valor |
+#  |---:|-------:|:----------------------|---------:|
+#  |  0 |   2006 | Propiedad intelectual | -814.312 |
 #  
 #  ------------------------------
 #  
