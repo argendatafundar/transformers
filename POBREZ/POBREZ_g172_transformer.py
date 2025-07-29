@@ -4,253 +4,73 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def filtrar_filas_ultimo_semestre(df:pd.DataFrame, col_anio:str, col_semestre:str):
-    df = df[df[col_anio] ==  df[col_anio].max()]
-    df = df[df[col_semestre] == df[col_semestre].max()]
+def cast_to(df: pl.DataFrame, col: str, target_type: str = "pl.Float64") -> pl.DataFrame:
+    return df.with_columns([
+        pl.col(col).cast(eval(target_type), strict=False)
+    ])
+
+@transformer.convert
+def multiplicar_por_escalar(df: pl.DataFrame, col: str, k: float) -> pl.DataFrame:
+    return df.with_columns([
+        (pl.col(col) * k).alias(col)
+    ])
+
+@transformer.convert
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
     return df
 
 @transformer.convert
-def drop_col(df: pd.DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def replace_value(df: pd.DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def rename_cols(df: pd.DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='semester', curr_value='I', new_value=1),
-	replace_value(col='date', curr_value='II', new_value=2),
-	filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester'),
-	rename_cols(map={'educ_level': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'}),
-	drop_col(col='year', axis=1),
-	drop_col(col='semester', axis=1),
-	replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Prim. completa o menos'),
-	replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Sec. incompleta'),
-	replace_value(col='indicador', curr_value='Secu_completa', new_value='Sec. completa'),
-	replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Sup. incompleta'),
-	replace_value(col='indicador', curr_value='Supe_completa', new_value='Sup. completa'),
-	query(condition="categoria == 'Pobreza'")
+	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
+	cast_to(col='k_value', target_type='pl.String'),
+	replace_value(col='k_value', mapping={0.25: 'k = 0,25', 0.35: 'k = 0,35'}, alias=None),
+	replace_value(col='region', mapping={'Partidos': 'GBA'}, alias=None),
+	multiplicar_por_escalar(col='pov_rate', k=100),
+	df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total' and k_value = 'k = 0,25'")
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 504 entries, 0 to 503
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          504 non-null    int64  
-#   1   semester      504 non-null    object 
-#   2   educ_level    504 non-null    object 
-#   3   poverty_line  504 non-null    object 
-#   4   poverty_rate  480 non-null    float64
-#  
-#  |    |   year | semester   | educ_level   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:-------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Todos        | Indigencia     |        18.3672 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='semester', curr_value='I', new_value=1)
-#  RangeIndex: 504 entries, 0 to 503
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          504 non-null    int64  
-#   1   semester      504 non-null    object 
-#   2   educ_level    504 non-null    object 
-#   3   poverty_line  504 non-null    object 
-#   4   poverty_rate  480 non-null    float64
-#  
-#  |    |   year | semester   | educ_level   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:-------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Todos        | Indigencia     |        18.3672 |
+#  replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None)
 #  
 #  ------------------------------
 #  
-#  replace_value(col='date', curr_value='II', new_value=2)
-#  RangeIndex: 504 entries, 0 to 503
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          504 non-null    int64  
-#   1   semester      504 non-null    object 
-#   2   educ_level    504 non-null    object 
-#   3   poverty_line  504 non-null    object 
-#   4   poverty_rate  480 non-null    float64
-#  
-#  |    |   year | semester   | educ_level   | poverty_line   |   poverty_rate |
-#  |---:|-------:|:-----------|:-------------|:---------------|---------------:|
-#  |  0 |   2003 | II         | Todos        | Indigencia     |        18.3672 |
+#  cast_to(col='k_value', target_type='pl.String')
 #  
 #  ------------------------------
 #  
-#  filtrar_filas_ultimo_semestre(col_anio='year', col_semestre='semester')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   year          12 non-null     int64  
-#   1   semester      12 non-null     object 
-#   2   educ_level    12 non-null     object 
-#   3   poverty_line  12 non-null     object 
-#   4   poverty_rate  12 non-null     float64
-#  
-#  |     |   year |   semester | educ_level   | poverty_line   |   poverty_rate |
-#  |----:|-------:|-----------:|:-------------|:---------------|---------------:|
-#  | 246 |   2024 |          1 | Todos        | Indigencia     |        15.8837 |
+#  replace_value(col='k_value', mapping={0.25: 'k = 0,25', 0.35: 'k = 0,35'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'educ_level': 'indicador', 'poverty_line': 'categoria', 'poverty_rate': 'valor'})
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 5 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   year       12 non-null     int64  
-#   1   semester   12 non-null     object 
-#   2   indicador  12 non-null     object 
-#   3   categoria  12 non-null     object 
-#   4   valor      12 non-null     float64
-#  
-#  |     |   year |   semester | indicador   | categoria   |   valor |
-#  |----:|-------:|-----------:|:------------|:------------|--------:|
-#  | 246 |   2024 |          1 | Todos       | Indigencia  | 15.8837 |
+#  replace_value(col='region', mapping={'Partidos': 'GBA'}, alias=None)
 #  
 #  ------------------------------
 #  
-#  drop_col(col='year', axis=1)
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   semester   12 non-null     object 
-#   1   indicador  12 non-null     object 
-#   2   categoria  12 non-null     object 
-#   3   valor      12 non-null     float64
-#  
-#  |     |   semester | indicador   | categoria   |   valor |
-#  |----:|-----------:|:------------|:------------|--------:|
-#  | 246 |          1 | Todos       | Indigencia  | 15.8837 |
+#  multiplicar_por_escalar(col='pov_rate', k=100)
 #  
 #  ------------------------------
 #  
-#  drop_col(col='semester', axis=1)
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Primaria_o_menos', new_value='Prim. completa o menos')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Secu_incompleta', new_value='Sec. incompleta')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Secu_completa', new_value='Sec. completa')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Supe_incompleta', new_value='Sup. incompleta')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Supe_completa', new_value='Sup. completa')
-#  Index: 12 entries, 246 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  12 non-null     object 
-#   1   categoria  12 non-null     object 
-#   2   valor      12 non-null     float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 246 | Todos       | Indigencia  | 15.8837 |
-#  
-#  ------------------------------
-#  
-#  query(condition="categoria == 'Pobreza'")
-#  Index: 6 entries, 498 to 503
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  6 non-null      object 
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
-#  
-#  |     | indicador   | categoria   |   valor |
-#  |----:|:------------|:------------|--------:|
-#  | 498 | Todos       | Pobreza     | 49.6662 |
+#  df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total' and k_value = 'k = 0,25'")
 #  
 #  ------------------------------
 #  
