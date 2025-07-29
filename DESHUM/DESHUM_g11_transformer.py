@@ -4,352 +4,73 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_na(df:DataFrame, cols:list):
-    return df.dropna(subset=cols)
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD'),
-	replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD'),
-	replace_value(col='iso3', curr_value='ZZB.HHD', new_value='DESHUM_ZZB.HHD'),
-	replace_value(col='iso3', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD'),
-	replace_value(col='iso3', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD'),
-	replace_value(col='iso3', curr_value='ZZE.AS', new_value='DESHUM_ZZE.AS'),
-	replace_value(col='iso3', curr_value='ZZF.EAP', new_value='DESHUM_ZZF.EAP'),
-	replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD'),
-	replace_value(col='iso3', curr_value='ZZG.ECA', new_value='DESHUM_ZZG.ECA'),
-	replace_value(col='iso3', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC'),
-	replace_value(col='iso3', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA'),
-	replace_value(col='iso3', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA'),
-	rename_cols(map={'iso3': 'geocodigo', 'gdi': 'valor'}),
-	drop_col(col=['country'], axis=1),
-	drop_na(cols=['valor'])
+	rename_cols(map={'gdi': 'valor'}),
+	drop_na(col=['valor'])
 )
 #  PIPELINE_END
 
 
 #  start()
 #  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6765 non-null   object 
+#   1   geonombreFundar  6765 non-null   object 
+#   2   anio             6798 non-null   int64  
+#   3   country          6798 non-null   object 
+#   4   gdi              5014 non-null   float64
 #  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | country     |   gdi |
+#  |---:|:------------------|:------------------|-------:|:------------|------:|
+#  |  0 | AFG               | Afganistán        |   1990 | Afghanistan |   nan |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='iso3', curr_value='ZZK.WORLD', new_value='WLD')
+#  rename_cols(map={'gdi': 'valor'})
 #  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  6765 non-null   object 
+#   1   geonombreFundar  6765 non-null   object 
+#   2   anio             6798 non-null   int64  
+#   3   country          6798 non-null   object 
+#   4   valor            5014 non-null   float64
 #  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | country     |   valor |
+#  |---:|:------------------|:------------------|-------:|:------------|--------:|
+#  |  0 | AFG               | Afganistán        |   1990 | Afghanistan |     nan |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='iso3', curr_value='ZZB.HHD', new_value='DESHUM_ZZB.HHD')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZC.MHD', new_value='DESHUM_ZZC.MHD')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZD.LHD', new_value='DESHUM_ZZD.LHD')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZE.AS', new_value='DESHUM_ZZE.AS')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZF.EAP', new_value='DESHUM_ZZF.EAP')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZA.VHHD', new_value='DESHUM_ZZA.VHHD')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZG.ECA', new_value='DESHUM_ZZG.ECA')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZH.LAC', new_value='DESHUM_ZZH.LAC')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZI.SA', new_value='DESHUM_ZZI.SA')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='iso3', curr_value='ZZJ.SSA', new_value='DESHUM_ZZJ.SSA')
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column   Non-Null Count  Dtype  
-#  ---  ------   --------------  -----  
-#   0   iso3     6798 non-null   object 
-#   1   anio     6798 non-null   int64  
-#   2   country  6798 non-null   object 
-#   3   gdi      5014 non-null   float64
-#  
-#  |    | iso3   |   anio | country     |   gdi |
-#  |---:|:-------|-------:|:------------|------:|
-#  |  0 | AFG    |   1990 | Afghanistan |   nan |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'iso3': 'geocodigo', 'gdi': 'valor'})
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  6798 non-null   object 
-#   1   anio       6798 non-null   int64  
-#   2   country    6798 non-null   object 
-#   3   valor      5014 non-null   float64
-#  
-#  |    | geocodigo   |   anio | country     |   valor |
-#  |---:|:------------|-------:|:------------|--------:|
-#  |  0 | AFG         |   1990 | Afghanistan |     nan |
-#  
-#  ------------------------------
-#  
-#  drop_col(col=['country'], axis=1)
-#  RangeIndex: 6798 entries, 0 to 6797
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  6798 non-null   object 
-#   1   anio       6798 non-null   int64  
-#   2   valor      5014 non-null   float64
-#  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  |  0 | AFG         |   1990 |     nan |
-#  
-#  ------------------------------
-#  
-#  drop_na(cols=['valor'])
+#  drop_na(col=['valor'])
 #  Index: 5014 entries, 18 to 6797
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  5014 non-null   object 
-#   1   anio       5014 non-null   int64  
-#   2   valor      5014 non-null   float64
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  4981 non-null   object 
+#   1   geonombreFundar  4981 non-null   object 
+#   2   anio             5014 non-null   int64  
+#   3   country          5014 non-null   object 
+#   4   valor            5014 non-null   float64
 #  
-#  |    | geocodigo   |   anio |   valor |
-#  |---:|:------------|-------:|--------:|
-#  | 18 | AFG         |   2008 |   0.682 |
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | country     |   valor |
+#  |---:|:------------------|:------------------|-------:|:------------|--------:|
+#  | 18 | AFG               | Afganistán        |   2008 | Afghanistan |   0.682 |
 #  
 #  ------------------------------
 #  
