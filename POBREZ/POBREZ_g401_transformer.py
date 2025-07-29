@@ -16,11 +16,6 @@ def multiplicar_por_escalar(df: pl.DataFrame, col: str, k: float) -> pl.DataFram
     ])
 
 @transformer.convert
-def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
-    df = df.sql(query)
-    return df
-
-@transformer.convert
 def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
 
     if not alias:
@@ -30,6 +25,11 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
         pl.col(col).replace(mapping).alias(alias)
     )
 
+    return df
+
+@transformer.convert
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
     return df
 #  DEFINITIONS_END
 
