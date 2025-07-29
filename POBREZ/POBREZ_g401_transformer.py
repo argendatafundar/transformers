@@ -39,7 +39,7 @@ pipeline = chain(
 	replace_value(col='semester', mapping={'I': 1, 'II': 2}, alias=None),
 	cast_to(col='k_value', target_type='pl.String'),
 	replace_value(col='k_value', mapping={0.25: 'k = 0,25', 0.35: 'k = 0,35'}, alias=None),
-	replace_value(col='region', mapping={'Partidos': 'Partidos GBA'}, alias=None),
+	replace_value(col='region', mapping={'Partidos': 'GBA'}, alias=None),
 	multiplicar_por_escalar(col='pov_rate', k=100),
 	df_sql(query="select * from self where year = 2024 and semester = '1' and region != 'Total' and k_value = 'k = 0,25'")
 )
@@ -62,7 +62,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='region', mapping={'Partidos': 'Partidos GBA'}, alias=None)
+#  replace_value(col='region', mapping={'Partidos': 'GBA'}, alias=None)
 #  
 #  ------------------------------
 #  
