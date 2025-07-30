@@ -16,6 +16,11 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
 #  DEFINITIONS_END
 
 
@@ -23,7 +28,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['geocodigoFundar', 'es_agregacion', 'anio'], axis=1),
-	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'})
+	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'}),
+	drop_na(col=['geonombre'])
 )
 #  PIPELINE_END
 
@@ -83,6 +89,22 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'})
+#  Index: 165 entries, 32 to 5094
+#  Data columns (total 4 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   geonombre     165 non-null    object 
+#   1   grupo         154 non-null    object 
+#   2   idh           165 non-null    float64
+#   3   dif_idh_idhp  165 non-null    float64
+#  
+#  |    | geonombre   | grupo   |   idh |   dif_idh_idhp |
+#  |---:|:------------|:--------|------:|---------------:|
+#  | 32 | Afganistán  | Asia    | 0.462 |       0.649351 |
+#  
+#  ------------------------------
+#  
+#  drop_na(col=['geonombre'])
 #  Index: 165 entries, 32 to 5094
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
