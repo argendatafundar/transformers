@@ -33,7 +33,7 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['geocodigoFundar', 'es_agregacion', 'anio'], axis=1),
 	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'}),
-	drop_na(col=['geonombre']),
+	drop_na(col=['grupo']),
 	wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador')
 )
 #  PIPELINE_END
@@ -109,15 +109,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  drop_na(col=['geonombre'])
-#  Index: 165 entries, 32 to 5094
+#  drop_na(col=['grupo'])
+#  Index: 154 entries, 32 to 4733
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   geonombre     165 non-null    object 
+#   0   geonombre     154 non-null    object 
 #   1   grupo         154 non-null    object 
-#   2   idh           165 non-null    float64
-#   3   dif_idh_idhp  165 non-null    float64
+#   2   idh           154 non-null    float64
+#   3   dif_idh_idhp  154 non-null    float64
 #  
 #  |    | geonombre   | grupo   |   idh |   dif_idh_idhp |
 #  |---:|:------------|:--------|------:|---------------:|
@@ -126,14 +126,14 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador')
-#  RangeIndex: 330 entries, 0 to 329
+#  RangeIndex: 308 entries, 0 to 307
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
 #   0   grupo      308 non-null    object 
-#   1   geonombre  330 non-null    object 
-#   2   indicador  330 non-null    object 
-#   3   valor      330 non-null    float64
+#   1   geonombre  308 non-null    object 
+#   2   indicador  308 non-null    object 
+#   3   valor      308 non-null    float64
 #  
 #  |    | grupo   | geonombre   | indicador   |   valor |
 #  |---:|:--------|:------------|:------------|--------:|
