@@ -4,15 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def to_upper(df: DataFrame, col:str):
-    df[col] = df[col].str.upper()
-    return df
-
-@transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -26,9 +17,7 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 	drop_col(col=['geocodigoFundar', 'es_agregacion', 'anio'], axis=1),
-	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'}),
-	wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador'),
-	to_upper(col='indicador')
+	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'})
 )
 #  PIPELINE_END
 
@@ -81,38 +70,6 @@ pipeline = chain(
 #  |    | geonombre   | grupo   |   idh |   dif_idh_idhp |
 #  |---:|:------------|:--------|------:|---------------:|
 #  |  0 | Afganistán  | Asia    | 0.284 |        1.05634 |
-#  
-#  ------------------------------
-#  
-#  wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador')
-#  RangeIndex: 10190 entries, 0 to 10189
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   grupo      9468 non-null   object 
-#   1   geonombre  10190 non-null  object 
-#   2   indicador  10190 non-null  object 
-#   3   valor      10190 non-null  float64
-#  
-#  |    | grupo   | geonombre   | indicador   |   valor |
-#  |---:|:--------|:------------|:------------|--------:|
-#  |  0 | Asia    | Afganistán  | IDH         |   0.284 |
-#  
-#  ------------------------------
-#  
-#  to_upper(col='indicador')
-#  RangeIndex: 10190 entries, 0 to 10189
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   grupo      9468 non-null   object 
-#   1   geonombre  10190 non-null  object 
-#   2   indicador  10190 non-null  object 
-#   3   valor      10190 non-null  float64
-#  
-#  |    | grupo   | geonombre   | indicador   |   valor |
-#  |---:|:--------|:------------|:------------|--------:|
-#  |  0 | Asia    | Afganistán  | IDH         |   0.284 |
 #  
 #  ------------------------------
 #  
