@@ -18,6 +18,10 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
+
+@transformer.convert
 def drop_na(df:DataFrame, col:str):
     df = df.dropna(subset=col, axis=0)
     return df
@@ -29,7 +33,8 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['geocodigoFundar', 'es_agregacion', 'anio'], axis=1),
 	rename_cols(map={'continente_fundar': 'grupo', 'geonombreFundar': 'geonombre'}),
-	drop_na(col=['geonombre'])
+	drop_na(col=['geonombre']),
+	wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador')
 )
 #  PIPELINE_END
 
@@ -117,6 +122,22 @@ pipeline = chain(
 #  |    | geonombre   | grupo   |   idh |   dif_idh_idhp |
 #  |---:|:------------|:--------|------:|---------------:|
 #  | 32 | Afganistán  | Asia    | 0.462 |       0.649351 |
+#  
+#  ------------------------------
+#  
+#  wide_to_long(primary_keys=['grupo', 'geonombre'], value_name='valor', var_name='indicador')
+#  RangeIndex: 330 entries, 0 to 329
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   grupo      308 non-null    object 
+#   1   geonombre  330 non-null    object 
+#   2   indicador  330 non-null    object 
+#   3   valor      330 non-null    float64
+#  
+#  |    | grupo   | geonombre   | indicador   |   valor |
+#  |---:|:--------|:------------|:------------|--------:|
+#  |  0 | Asia    | Afganistán  | idh         |   0.462 |
 #  
 #  ------------------------------
 #  
