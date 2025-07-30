@@ -52,7 +52,7 @@ pipeline = chain(
 	wide_to_long(primary_keys=['geonombreFundar', 'rank'], value_name='valor', var_name='indicador'),
 	sort_values(how='ascending', by=['rank', 'indicador']),
 	drop_col(col=['rank'], axis=1),
-	rename_cols(map={'name_short': 'categoria'})
+	rename_cols(map={'geonombreFundar': 'categoria'})
 )
 #  PIPELINE_END
 
@@ -186,18 +186,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'name_short': 'categoria'})
+#  rename_cols(map={'geonombreFundar': 'categoria'})
 #  RangeIndex: 20 entries, 0 to 19
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype 
-#  ---  ------           --------------  ----- 
-#   0   geonombreFundar  20 non-null     object
-#   1   indicador        20 non-null     object
-#   2   valor            20 non-null     int64 
+#   #   Column     Non-Null Count  Dtype 
+#  ---  ------     --------------  ----- 
+#   0   categoria  20 non-null     object
+#   1   indicador  20 non-null     object
+#   2   valor      20 non-null     int64 
 #  
-#  |    | geonombreFundar   | indicador   |   valor |
-#  |---:|:------------------|:------------|--------:|
-#  |  0 | Noruega           | IDH         |       2 |
+#  |    | categoria   | indicador   |   valor |
+#  |---:|:------------|:------------|--------:|
+#  |  0 | Noruega     | IDH         |       2 |
 #  
 #  ------------------------------
 #  
