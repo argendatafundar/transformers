@@ -4,11 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -19,6 +14,11 @@ def fill_mundo_world(df: DataFrame) -> DataFrame:
         (df['country'] == 'World') & df['geonombreFundar'].isna(),
         'geonombreFundar'
     ] = 'Mundo'
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
