@@ -8,6 +8,16 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def completar_combinaciones(df:DataFrame, keys:list[str]):
+
+    import pandas as pd
+
+    niveles = [df[key].dropna().unique() for key in keys]
+    combinaciones = pd.MultiIndex.from_product(niveles, names=keys).to_frame(index=False)
+    df = combinaciones.merge(df, on=keys, how='left')
+    return df
+
+@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
@@ -25,6 +35,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]'),
 	drop_col(col=['geocodigoFundar'], axis=1),
+	completar_combinaciones(keys=['geonombreFundar', 'anio']),
 	ordenar_dos_columnas(col1='geonombreFundar', order1=['Argentina', 'Afganistán', 'Albania', 'Alemania', 'América Latina', 'Angola', 'Arabia Saudita', 'Argelia', 'Armenia', 'Asia Oriental', 'Asia del Sur y Sudeste', 'Australia', 'Austria', 'Azerbaiyán', 'Bahrein', 'Bangladesh', 'Barbados', 'Belarús', 'Benin', 'Bolivia', 'Bosnia y Herzegovina', 'Botswana', 'Brasil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bélgica', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Chad', 'Checoslovaquia', 'Chequia', 'Chile', 'China', 'Chipre', 'Colombia', 'Comoras', 'Congo', 'Corea del Norte', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil', 'Croacia', 'Cuba', 'Dinamarca', 'Djibouti', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Eswatini', 'Etiopía', 'Europa Occidental', 'Europa Oriental', 'Filipinas', 'Finlandia', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Grecia', 'Guatemala', 'Guinea', 'Guinea Ecuatorial', 'Guinea-Bissau', 'Haití', 'Honduras', 'Hong Kong', 'Hungría', 'India', 'Indonesia', 'Iraq', 'Irlanda', 'Irán', 'Islandia', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajstán', 'Kenia', 'Kirguistán', 'Kuwait', 'Laos', 'Lesotho', 'Letonia', 'Liberia', 'Libia', 'Lituania', 'Luxemburgo', 'Líbano', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malawi', 'Malta', 'Malí', 'Marruecos', 'Mauricio', 'Mauritania', 'Medio Oriente y África del Norte', 'Moldavia', 'Mongolia', 'Montenegro', 'Mozambique', 'Mundo', 'Myanmar', 'México', 'Namibia', 'Nepal', 'Nicaragua', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Níger', 'Omán', 'Pakistán', 'Palestina', 'Panamá', 'Paraguay', 'Países Bajos', 'Perú', 'Polonia', 'Portugal', 'Puerto Rico', 'Qatar', 'Ramificaciones de Occidente', 'Reino Unido', 'Rep. Centroafricana', 'Rep. Dem. Congo', 'Rep. Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Sri Lanka', 'Sudáfrica', 'Sudán', 'Suecia', 'Suiza', 'Tailandia', 'Taiwán', 'Tanzanía', 'Tayikistán', 'Togo', 'Trinidad y Tobago', 'Turkmenistán', 'Turquía', 'Túnez', 'Ucrania', 'Uganda', 'Unión Soviética', 'Uruguay', 'Uzbekistán', 'Venezuela', 'Vietnam', 'Yemen', 'Yugoslavia', 'Zambia', 'Zimbabwe', 'África Subsahariana'], col2='anio', order2=[1900, 1925, 1950, 1975, 2000, 2022])
 )
 #  PIPELINE_END
@@ -65,10 +76,25 @@ pipeline = chain(
 #  drop_col(col=['geocodigoFundar'], axis=1)
 #  Index: 785 entries, 0 to 21585
 #  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  785 non-null    object 
+#   1   anio             785 non-null    int64  
+#   2   pib_per_capita   785 non-null    float64
+#  
+#  |    | geonombreFundar   |   anio |   pib_per_capita |
+#  |---:|:------------------|-------:|-----------------:|
+#  |  0 | Afganistán        |   1950 |             1156 |
+#  
+#  ------------------------------
+#  
+#  completar_combinaciones(keys=['geonombreFundar', 'anio'])
+#  RangeIndex: 1068 entries, 0 to 1067
+#  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
-#   0   geonombreFundar  785 non-null    category
-#   1   anio             785 non-null    category
+#   0   geonombreFundar  1068 non-null   category
+#   1   anio             1068 non-null   category
 #   2   pib_per_capita   785 non-null    float64 
 #  
 #  |    | geonombreFundar   |   anio |   pib_per_capita |
@@ -78,17 +104,17 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  ordenar_dos_columnas(col1='geonombreFundar', order1=['Argentina', 'Afganistán', 'Albania', 'Alemania', 'América Latina', 'Angola', 'Arabia Saudita', 'Argelia', 'Armenia', 'Asia Oriental', 'Asia del Sur y Sudeste', 'Australia', 'Austria', 'Azerbaiyán', 'Bahrein', 'Bangladesh', 'Barbados', 'Belarús', 'Benin', 'Bolivia', 'Bosnia y Herzegovina', 'Botswana', 'Brasil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bélgica', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Chad', 'Checoslovaquia', 'Chequia', 'Chile', 'China', 'Chipre', 'Colombia', 'Comoras', 'Congo', 'Corea del Norte', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil', 'Croacia', 'Cuba', 'Dinamarca', 'Djibouti', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Eswatini', 'Etiopía', 'Europa Occidental', 'Europa Oriental', 'Filipinas', 'Finlandia', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Grecia', 'Guatemala', 'Guinea', 'Guinea Ecuatorial', 'Guinea-Bissau', 'Haití', 'Honduras', 'Hong Kong', 'Hungría', 'India', 'Indonesia', 'Iraq', 'Irlanda', 'Irán', 'Islandia', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajstán', 'Kenia', 'Kirguistán', 'Kuwait', 'Laos', 'Lesotho', 'Letonia', 'Liberia', 'Libia', 'Lituania', 'Luxemburgo', 'Líbano', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malawi', 'Malta', 'Malí', 'Marruecos', 'Mauricio', 'Mauritania', 'Medio Oriente y África del Norte', 'Moldavia', 'Mongolia', 'Montenegro', 'Mozambique', 'Mundo', 'Myanmar', 'México', 'Namibia', 'Nepal', 'Nicaragua', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Níger', 'Omán', 'Pakistán', 'Palestina', 'Panamá', 'Paraguay', 'Países Bajos', 'Perú', 'Polonia', 'Portugal', 'Puerto Rico', 'Qatar', 'Ramificaciones de Occidente', 'Reino Unido', 'Rep. Centroafricana', 'Rep. Dem. Congo', 'Rep. Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Sri Lanka', 'Sudáfrica', 'Sudán', 'Suecia', 'Suiza', 'Tailandia', 'Taiwán', 'Tanzanía', 'Tayikistán', 'Togo', 'Trinidad y Tobago', 'Turkmenistán', 'Turquía', 'Túnez', 'Ucrania', 'Uganda', 'Unión Soviética', 'Uruguay', 'Uzbekistán', 'Venezuela', 'Vietnam', 'Yemen', 'Yugoslavia', 'Zambia', 'Zimbabwe', 'África Subsahariana'], col2='anio', order2=[1900, 1925, 1950, 1975, 2000, 2022])
-#  Index: 785 entries, 326 to 21582
+#  Index: 1068 entries, 28 to 1065
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
-#   0   geonombreFundar  785 non-null    category
-#   1   anio             785 non-null    category
+#   0   geonombreFundar  1068 non-null   category
+#   1   anio             1068 non-null   category
 #   2   pib_per_capita   785 non-null    float64 
 #  
-#  |     | geonombreFundar   |   anio |   pib_per_capita |
-#  |----:|:------------------|-------:|-----------------:|
-#  | 326 | Argentina         |   1900 |             4583 |
+#  |    | geonombreFundar   |   anio |   pib_per_capita |
+#  |---:|:------------------|-------:|-----------------:|
+#  | 28 | Argentina         |   1900 |             4583 |
 #  
 #  ------------------------------
 #  
