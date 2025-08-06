@@ -8,13 +8,6 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -23,9 +16,9 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
+	query(condition="geocodigoFundar.isin(['ALB','ARG','AUS','AUT','BEL','BOL','BRA','CAN','CHE','CHL','CHN','COL','CSK','DEU','DNK','ECU','ESP','FIN','FRA','GBR','GHA','GRC','HUN','IDN','IND','ISL','ITA','JAM','JPN','LBR','LKA','MEX','MYS','NGA','NLD','NOR','NZL','PER','POL','PRT','ROU','RUS','SGP','SVU','SWE','URY','USA','VEN','SER','ZAF','EAS_MPD','EEU_MPD','LAC_MPD','SEA_MPD','WEU_MPD','WOF_MPD','WLD'])"),
 	query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]'),
-	drop_col(col=['geocodigoFundar'], axis=1),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Argentina', 'Afganistán', 'Albania', 'Alemania', 'América Latina', 'Angola', 'Arabia Saudita', 'Argelia', 'Armenia', 'Asia Oriental', 'Asia del Sur y Sudeste', 'Australia', 'Austria', 'Azerbaiyán', 'Bahrein', 'Bangladesh', 'Barbados', 'Belarús', 'Benin', 'Bolivia', 'Bosnia y Herzegovina', 'Botswana', 'Brasil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bélgica', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Chad', 'Checoslovaquia', 'Chequia', 'Chile', 'China', 'Chipre', 'Colombia', 'Comoras', 'Congo', 'Corea del Norte', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil', 'Croacia', 'Cuba', 'Dinamarca', 'Djibouti', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Eswatini', 'Etiopía', 'Europa Occidental', 'Europa Oriental', 'Filipinas', 'Finlandia', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Grecia', 'Guatemala', 'Guinea', 'Guinea Ecuatorial', 'Guinea-Bissau', 'Haití', 'Honduras', 'Hong Kong', 'Hungría', 'India', 'Indonesia', 'Iraq', 'Irlanda', 'Irán', 'Islandia', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajstán', 'Kenia', 'Kirguistán', 'Kuwait', 'Laos', 'Lesotho', 'Letonia', 'Liberia', 'Libia', 'Lituania', 'Luxemburgo', 'Líbano', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malawi', 'Malta', 'Malí', 'Marruecos', 'Mauricio', 'Mauritania', 'Medio Oriente y África del Norte', 'Moldavia', 'Mongolia', 'Montenegro', 'Mozambique', 'Mundo', 'Myanmar', 'México', 'Namibia', 'Nepal', 'Nicaragua', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Níger', 'Omán', 'Pakistán', 'Palestina', 'Panamá', 'Paraguay', 'Países Bajos', 'Perú', 'Polonia', 'Portugal', 'Puerto Rico', 'Qatar', 'Ramificaciones de Occidente', 'Reino Unido', 'Rep. Centroafricana', 'Rep. Dem. Congo', 'Rep. Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Sri Lanka', 'Sudáfrica', 'Sudán', 'Suecia', 'Suiza', 'Tailandia', 'Taiwán', 'Tanzanía', 'Tayikistán', 'Togo', 'Trinidad y Tobago', 'Turkmenistán', 'Turquía', 'Túnez', 'Ucrania', 'Uganda', 'Unión Soviética', 'Uruguay', 'Uzbekistán', 'Venezuela', 'Vietnam', 'Yemen', 'Yugoslavia', 'Zambia', 'Zimbabwe', 'África Subsahariana'], col2='anio', order2=[1900, 1925, 1950, 1975, 2000, 2022])
+	drop_col(col=['geocodigoFundar'], axis=1)
 )
 #  PIPELINE_END
 
@@ -46,49 +39,50 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]')
-#  Index: 785 entries, 0 to 21585
+#  query(condition="geocodigoFundar.isin(['ALB','ARG','AUS','AUT','BEL','BOL','BRA','CAN','CHE','CHL','CHN','COL','CSK','DEU','DNK','ECU','ESP','FIN','FRA','GBR','GHA','GRC','HUN','IDN','IND','ISL','ITA','JAM','JPN','LBR','LKA','MEX','MYS','NGA','NLD','NOR','NZL','PER','POL','PRT','ROU','RUS','SGP','SVU','SWE','URY','USA','VEN','SER','ZAF','EAS_MPD','EEU_MPD','LAC_MPD','SEA_MPD','WEU_MPD','WOF_MPD','WLD'])")
+#  Index: 12607 entries, 146 to 21585
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  785 non-null    object 
-#   1   geonombreFundar  785 non-null    object 
-#   2   anio             785 non-null    int64  
-#   3   pib_per_capita   785 non-null    float64
+#   0   geocodigoFundar  12607 non-null  object 
+#   1   geonombreFundar  12607 non-null  object 
+#   2   anio             12607 non-null  int64  
+#   3   pib_per_capita   12607 non-null  float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   anio |   pib_per_capita |
-#  |---:|:------------------|:------------------|-------:|-----------------:|
-#  |  0 | AFG               | Afganistán        |   1950 |             1156 |
+#  |     | geocodigoFundar   | geonombreFundar   |   anio |   pib_per_capita |
+#  |----:|:------------------|:------------------|-------:|-----------------:|
+#  | 146 | ALB               | Albania           |   1870 |              711 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]')
+#  Index: 325 entries, 148 to 21585
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  325 non-null    object 
+#   1   geonombreFundar  325 non-null    object 
+#   2   anio             325 non-null    int64  
+#   3   pib_per_capita   325 non-null    float64
+#  
+#  |     | geocodigoFundar   | geonombreFundar   |   anio |   pib_per_capita |
+#  |----:|:------------------|:------------------|-------:|-----------------:|
+#  | 148 | ALB               | Albania           |   1900 |             1092 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['geocodigoFundar'], axis=1)
-#  Index: 785 entries, 0 to 21585
+#  Index: 325 entries, 148 to 21585
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   geonombreFundar  785 non-null    category
-#   1   anio             785 non-null    category
-#   2   pib_per_capita   785 non-null    float64 
-#  
-#  |    | geonombreFundar   |   anio |   pib_per_capita |
-#  |---:|:------------------|-------:|-----------------:|
-#  |  0 | Afganistán        |   1950 |             1156 |
-#  
-#  ------------------------------
-#  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Argentina', 'Afganistán', 'Albania', 'Alemania', 'América Latina', 'Angola', 'Arabia Saudita', 'Argelia', 'Armenia', 'Asia Oriental', 'Asia del Sur y Sudeste', 'Australia', 'Austria', 'Azerbaiyán', 'Bahrein', 'Bangladesh', 'Barbados', 'Belarús', 'Benin', 'Bolivia', 'Bosnia y Herzegovina', 'Botswana', 'Brasil', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bélgica', 'Cabo Verde', 'Camboya', 'Camerún', 'Canadá', 'Chad', 'Checoslovaquia', 'Chequia', 'Chile', 'China', 'Chipre', 'Colombia', 'Comoras', 'Congo', 'Corea del Norte', 'Corea del Sur', 'Costa Rica', 'Costa de Marfil', 'Croacia', 'Cuba', 'Dinamarca', 'Djibouti', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador', 'Emiratos Árabes Unidos', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos', 'Estonia', 'Eswatini', 'Etiopía', 'Europa Occidental', 'Europa Oriental', 'Filipinas', 'Finlandia', 'Francia', 'Gabón', 'Gambia', 'Georgia', 'Ghana', 'Grecia', 'Guatemala', 'Guinea', 'Guinea Ecuatorial', 'Guinea-Bissau', 'Haití', 'Honduras', 'Hong Kong', 'Hungría', 'India', 'Indonesia', 'Iraq', 'Irlanda', 'Irán', 'Islandia', 'Israel', 'Italia', 'Jamaica', 'Japón', 'Jordania', 'Kazajstán', 'Kenia', 'Kirguistán', 'Kuwait', 'Laos', 'Lesotho', 'Letonia', 'Liberia', 'Libia', 'Lituania', 'Luxemburgo', 'Líbano', 'Macedonia del Norte', 'Madagascar', 'Malasia', 'Malawi', 'Malta', 'Malí', 'Marruecos', 'Mauricio', 'Mauritania', 'Medio Oriente y África del Norte', 'Moldavia', 'Mongolia', 'Montenegro', 'Mozambique', 'Mundo', 'Myanmar', 'México', 'Namibia', 'Nepal', 'Nicaragua', 'Nigeria', 'Noruega', 'Nueva Zelanda', 'Níger', 'Omán', 'Pakistán', 'Palestina', 'Panamá', 'Paraguay', 'Países Bajos', 'Perú', 'Polonia', 'Portugal', 'Puerto Rico', 'Qatar', 'Ramificaciones de Occidente', 'Reino Unido', 'Rep. Centroafricana', 'Rep. Dem. Congo', 'Rep. Dominicana', 'Ruanda', 'Rumania', 'Rusia', 'Santa Lucía', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona', 'Singapur', 'Siria', 'Sri Lanka', 'Sudáfrica', 'Sudán', 'Suecia', 'Suiza', 'Tailandia', 'Taiwán', 'Tanzanía', 'Tayikistán', 'Togo', 'Trinidad y Tobago', 'Turkmenistán', 'Turquía', 'Túnez', 'Ucrania', 'Uganda', 'Unión Soviética', 'Uruguay', 'Uzbekistán', 'Venezuela', 'Vietnam', 'Yemen', 'Yugoslavia', 'Zambia', 'Zimbabwe', 'África Subsahariana'], col2='anio', order2=[1900, 1925, 1950, 1975, 2000, 2022])
-#  Index: 785 entries, 326 to 21582
-#  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   geonombreFundar  785 non-null    category
-#   1   anio             785 non-null    category
-#   2   pib_per_capita   785 non-null    float64 
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  325 non-null    object 
+#   1   anio             325 non-null    int64  
+#   2   pib_per_capita   325 non-null    float64
 #  
 #  |     | geonombreFundar   |   anio |   pib_per_capita |
 #  |----:|:------------------|-------:|-----------------:|
-#  | 326 | Argentina         |   1900 |             4583 |
+#  | 148 | Albania           |   1900 |             1092 |
 #  
 #  ------------------------------
 #  
