@@ -25,7 +25,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]'),
 	drop_col(col=['geocodigoFundar'], axis=1),
-	sort_values(how='ascending', by='anio')
+	sort_values(how='ascending', by=['anio', 'geonombreFundar'])
 )
 #  PIPELINE_END
 
@@ -77,7 +77,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='anio')
+#  sort_values(how='ascending', by=['anio', 'geonombreFundar'])
 #  RangeIndex: 785 entries, 0 to 784
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -88,7 +88,7 @@ pipeline = chain(
 #  
 #  |    | geonombreFundar   |   anio |   pib_per_capita |
 #  |---:|:------------------|-------:|-----------------:|
-#  |  0 | Mundo             |   1900 |          2265.47 |
+#  |  0 | Albania           |   1900 |             1092 |
 #  
 #  ------------------------------
 #  
