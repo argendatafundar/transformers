@@ -16,8 +16,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio in [1950, 1975, 2000, 2022]'),
-	query(condition='geonombreFundar in ["Argentina", "Mundo", "Estados Unidos", "Europa Occidental","Reino Unido", "Australia"]'),
+	query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]'),
 	drop_col(col=['geocodigoFundar'], axis=1)
 )
 #  PIPELINE_END
@@ -39,15 +38,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1950, 1975, 2000, 2022]')
-#  Index: 664 entries, 0 to 21585
+#  query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]')
+#  Index: 785 entries, 0 to 21585
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  664 non-null    object 
-#   1   geonombreFundar  664 non-null    object 
-#   2   anio             664 non-null    int64  
-#   3   pib_per_capita   664 non-null    float64
+#   0   geocodigoFundar  785 non-null    object 
+#   1   geonombreFundar  785 non-null    object 
+#   2   anio             785 non-null    int64  
+#   3   pib_per_capita   785 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio |   pib_per_capita |
 #  |---:|:------------------|:------------------|-------:|-----------------:|
@@ -55,34 +54,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='geonombreFundar in ["Argentina", "Mundo", "Estados Unidos", "Europa Occidental","Reino Unido", "Australia"]')
-#  Index: 22 entries, 376 to 21585
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  22 non-null     object 
-#   1   geonombreFundar  22 non-null     object 
-#   2   anio             22 non-null     int64  
-#   3   pib_per_capita   22 non-null     float64
-#  
-#  |     | geocodigoFundar   | geonombreFundar   |   anio |   pib_per_capita |
-#  |----:|:------------------|:------------------|-------:|-----------------:|
-#  | 376 | ARG               | Argentina         |   1950 |             7949 |
-#  
-#  ------------------------------
-#  
 #  drop_col(col=['geocodigoFundar'], axis=1)
-#  Index: 22 entries, 376 to 21585
+#  Index: 785 entries, 0 to 21585
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geonombreFundar  22 non-null     object 
-#   1   anio             22 non-null     int64  
-#   2   pib_per_capita   22 non-null     float64
+#   0   geonombreFundar  785 non-null    object 
+#   1   anio             785 non-null    int64  
+#   2   pib_per_capita   785 non-null    float64
 #  
-#  |     | geonombreFundar   |   anio |   pib_per_capita |
-#  |----:|:------------------|-------:|-----------------:|
-#  | 376 | Argentina         |   1950 |             7949 |
+#  |    | geonombreFundar   |   anio |   pib_per_capita |
+#  |---:|:------------------|-------:|-----------------:|
+#  |  0 | Afganistán        |   1950 |             1156 |
 #  
 #  ------------------------------
 #  
