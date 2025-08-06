@@ -8,6 +8,13 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -17,7 +24,8 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio in [1900, 1925, 1950, 1975, 2000, 2022]'),
-	drop_col(col=['geocodigoFundar'], axis=1)
+	drop_col(col=['geocodigoFundar'], axis=1),
+	sort_values(how='ascending', by='anio')
 )
 #  PIPELINE_END
 
@@ -66,6 +74,21 @@ pipeline = chain(
 #  |    | geonombreFundar   |   anio |   pib_per_capita |
 #  |---:|:------------------|-------:|-----------------:|
 #  |  0 | Afganistán        |   1950 |             1156 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='ascending', by='anio')
+#  RangeIndex: 785 entries, 0 to 784
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  785 non-null    object 
+#   1   anio             785 non-null    int64  
+#   2   pib_per_capita   785 non-null    float64
+#  
+#  |    | geonombreFundar   |   anio |   pib_per_capita |
+#  |---:|:------------------|-------:|-----------------:|
+#  |  0 | Mundo             |   1900 |          2265.47 |
 #  
 #  ------------------------------
 #  
