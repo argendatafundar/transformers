@@ -126,7 +126,8 @@ pipeline = chain(
 	concatenar_columnas(cols=['year', 'semester'], nueva_col='aniosem', separtor='-'),
 	df_sql(query="select * from self where poverty_line == 'Pobreza' and aniosem != '2024-2' "),
 	replace_value(col='age_group', mapping={'0_14_years': '0-14', '15_29_years': '15-29', '30_64_years': '30-64', '65_and_more_years': '65 y más'}, alias=None),
-	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'})
+	rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'}),
+	df_sql(query='SELECT * FROM self ORDER BY categoria, year, semester')
 )
 #  PIPELINE_END
 
@@ -160,6 +161,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  rename_cols(map={'age_group': 'categoria', 'poverty_rate': 'valor'})
+#  
+#  ------------------------------
+#  
+#  df_sql(query='SELECT * FROM self ORDER BY categoria, year, semester')
 #  
 #  ------------------------------
 #  
