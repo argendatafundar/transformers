@@ -4,25 +4,35 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc': 'indicador', 'vab': 'valor'}),
+	to_pandas(dummy=True),
+	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc': 'indicador', 'vab': 'valor'}),
 	drop_col(col=['letra'], axis=1)
 )
 #  PIPELINE_END
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 1476 entries, 0 to 1475
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
