@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
@@ -18,15 +18,21 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio == anio.max()'),
+	to_pandas(dummy=True),
+	query(condition='anio == anio.max()'),
 	rename_cols(map={'tipo_sector': 'nivel1', 'letra_desc_abrev': 'nivel2', 'particip_vab': 'valor'}),
 	drop_col(col=['letra', 'id_tipo_sector', 'anio'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100)
@@ -35,6 +41,10 @@ query(condition='anio == anio.max()'),
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 320 entries, 0 to 319
 #  Data columns (total 6 columns):
 #   #   Column            Non-Null Count  Dtype  
