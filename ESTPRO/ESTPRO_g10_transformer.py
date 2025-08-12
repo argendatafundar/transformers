@@ -54,7 +54,7 @@ pipeline = chain(
 	rename_cols(map={'calificacion': 'indicador', 'letra_desc_abrev': 'categoria', 'particip_calif': 'valor'}),
 	drop_col(col=['letra', 'calificacion_cod'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	ordenar_dos_columnas(col1='indicador', order1=['Calificado', 'Semicalificado', 'No calificado'], col2='categoria', order2=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales']),
+	ordenar_dos_columnas(col1='categoria', order1=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales'], col2='indicador', order2=['Calificado', 'Semicalificado', 'No calificado']),
 	drop_na(subset='valor'),
 	replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales'),
 	replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.'),
@@ -149,8 +149,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='indicador', order1=['Calificado', 'Semicalificado', 'No calificado'], col2='categoria', order2=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales'])
-#  Index: 65 entries, 449 to 433
+#  ordenar_dos_columnas(col1='categoria', order1=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales'], col2='indicador', order2=['Calificado', 'Semicalificado', 'No calificado'])
+#  Index: 65 entries, 449 to 321
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -165,7 +165,7 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_na(subset='valor')
-#  Index: 65 entries, 449 to 433
+#  Index: 65 entries, 449 to 321
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -180,7 +180,7 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales')
-#  Index: 65 entries, 449 to 433
+#  Index: 65 entries, 449 to 321
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -195,7 +195,7 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.')
-#  Index: 65 entries, 449 to 433
+#  Index: 65 entries, 449 to 321
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -210,7 +210,7 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
-#  Index: 65 entries, 449 to 433
+#  Index: 65 entries, 449 to 321
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
