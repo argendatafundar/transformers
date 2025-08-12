@@ -4,16 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
 
 @transformer.convert
 def to_pandas(df: pl.DataFrame, dummy = True):
@@ -21,8 +18,8 @@ def to_pandas(df: pl.DataFrame, dummy = True):
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
@@ -33,17 +30,20 @@ def latest_year(df, by='anio'):
     return df
 
 @transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
