@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def drop_na(df:DataFrame, col:str):
     df = df.dropna(subset=col, axis=0)
     return df
@@ -32,6 +37,7 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 	to_pandas(dummy=True),
+	query(condition="geonombreFundar == 'Argentina'"),
 	rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'}),
 	drop_col(col=['gran_sector', 'sector_codigo', 'empleo_miles'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
@@ -64,19 +70,39 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'})
-#  RangeIndex: 42228 entries, 0 to 42227
+#  query(condition="geonombreFundar == 'Argentina'")
+#  Index: 828 entries, 0 to 827
 #  Data columns (total 8 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  42228 non-null  object 
-#   1   geonombreFundar  42228 non-null  object 
-#   2   anio             42228 non-null  int64  
-#   3   gran_sector      42228 non-null  object 
-#   4   sector_codigo    42228 non-null  object 
-#   5   indicador        42228 non-null  object 
-#   6   empleo_miles     30958 non-null  float64
-#   7   valor            30953 non-null  float64
+#   0   geocodigoFundar  828 non-null    object 
+#   1   geonombreFundar  828 non-null    object 
+#   2   anio             828 non-null    int64  
+#   3   gran_sector      828 non-null    object 
+#   4   sector_codigo    828 non-null    object 
+#   5   sector_desc      828 non-null    object 
+#   6   empleo_miles     828 non-null    float64
+#   7   share_empleo     828 non-null    float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | gran_sector   | sector_codigo   | sector_desc   |   empleo_miles |   share_empleo |
+#  |---:|:------------------|:------------------|-------:|:--------------|:----------------|:--------------|---------------:|---------------:|
+#  |  0 | ARG               | Argentina         |   1950 | Bienes        | A               | Agro y pesca  |        1676.85 |       0.258262 |
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'sector_desc': 'indicador', 'share_empleo': 'valor'})
+#  Index: 828 entries, 0 to 827
+#  Data columns (total 8 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  828 non-null    object 
+#   1   geonombreFundar  828 non-null    object 
+#   2   anio             828 non-null    int64  
+#   3   gran_sector      828 non-null    object 
+#   4   sector_codigo    828 non-null    object 
+#   5   indicador        828 non-null    object 
+#   6   empleo_miles     828 non-null    float64
+#   7   valor            828 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | gran_sector   | sector_codigo   | indicador    |   empleo_miles |    valor |
 #  |---:|:------------------|:------------------|-------:|:--------------|:----------------|:-------------|---------------:|---------:|
@@ -85,15 +111,15 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_col(col=['gran_sector', 'sector_codigo', 'empleo_miles'], axis=1)
-#  RangeIndex: 42228 entries, 0 to 42227
+#  Index: 828 entries, 0 to 827
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  42228 non-null  object 
-#   1   geonombreFundar  42228 non-null  object 
-#   2   anio             42228 non-null  int64  
-#   3   indicador        42228 non-null  object 
-#   4   valor            30953 non-null  float64
+#   0   geocodigoFundar  828 non-null    object 
+#   1   geonombreFundar  828 non-null    object 
+#   2   anio             828 non-null    int64  
+#   3   indicador        828 non-null    object 
+#   4   valor            828 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | indicador    |   valor |
 #  |---:|:------------------|:------------------|-------:|:-------------|--------:|
@@ -102,15 +128,15 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  mutiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 42228 entries, 0 to 42227
+#  Index: 828 entries, 0 to 827
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  42228 non-null  object 
-#   1   geonombreFundar  42228 non-null  object 
-#   2   anio             42228 non-null  int64  
-#   3   indicador        42228 non-null  object 
-#   4   valor            30953 non-null  float64
+#   0   geocodigoFundar  828 non-null    object 
+#   1   geonombreFundar  828 non-null    object 
+#   2   anio             828 non-null    int64  
+#   3   indicador        828 non-null    object 
+#   4   valor            828 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | indicador    |   valor |
 #  |---:|:------------------|:------------------|-------:|:-------------|--------:|
@@ -119,15 +145,15 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_na(col='valor')
-#  Index: 30953 entries, 0 to 42227
+#  Index: 828 entries, 0 to 827
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  30953 non-null  object 
-#   1   geonombreFundar  30953 non-null  object 
-#   2   anio             30953 non-null  int64  
-#   3   indicador        30953 non-null  object 
-#   4   valor            30953 non-null  float64
+#   0   geocodigoFundar  828 non-null    object 
+#   1   geonombreFundar  828 non-null    object 
+#   2   anio             828 non-null    int64  
+#   3   indicador        828 non-null    object 
+#   4   valor            828 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | indicador    |   valor |
 #  |---:|:------------------|:------------------|-------:|:-------------|--------:|
