@@ -111,7 +111,7 @@ pipeline = chain(
 	rename_cols(map={'particip_va_pib': 'valor', 'gran_sector': 'indicador'}),
 	multiplicar_por_escalar(col='valor', k=100),
 	calcular_ranking(index=['geonombreFundar'], query="tipo_sector == 'Servicios'", groupby=['geonombreFundar'], rank_col='ranking', value_col='valor', method='dense', agg='sum'),
-	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios']}),
+	sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios']}),
 	drop_na(subset='valor')
 )
 #  PIPELINE_END
@@ -223,7 +223,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios']})
+#  sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Agro y pesca', 'Industria manufacturera', 'Energía y minería', 'Construcción', 'Comercio, hotelería y restaurantes', 'Transporte y comunicaciones', 'Otros servicios']})
 #  RangeIndex: 1537 entries, 0 to 1536
 #  Data columns (total 9 columns):
 #   #   Column           Non-Null Count  Dtype   
@@ -238,14 +238,14 @@ pipeline = chain(
 #   7   valor            1439 non-null   float64 
 #   8   ranking          1537 non-null   float64 
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   es_agregacion | letra   | indicador    |   id_tipo_sector | tipo_sector   |    valor |   ranking |
-#  |---:|:------------------|:------------------|----------------:|:--------|:-------------|-----------------:|:--------------|---------:|----------:|
-#  |  0 | BMU               | Bermuda           |               0 | AB      | Agro y pesca |                1 | Bienes        | 0.266278 |         1 |
+#  |    | geocodigoFundar   | geonombreFundar   |   es_agregacion | letra   | indicador    |   id_tipo_sector | tipo_sector   |   valor |   ranking |
+#  |---:|:------------------|:------------------|----------------:|:--------|:-------------|-----------------:|:--------------|--------:|----------:|
+#  |  0 | CPV               | Cabo Verde        |               0 | AB      | Agro y pesca |                1 | Bienes        |     nan |       207 |
 #  
 #  ------------------------------
 #  
 #  drop_na(subset='valor')
-#  Index: 1439 entries, 0 to 1452
+#  Index: 1439 entries, 84 to 1536
 #  Data columns (total 9 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
@@ -259,9 +259,9 @@ pipeline = chain(
 #   7   valor            1439 non-null   float64 
 #   8   ranking          1439 non-null   float64 
 #  
-#  |    | geocodigoFundar   | geonombreFundar   |   es_agregacion | letra   | indicador    |   id_tipo_sector | tipo_sector   |    valor |   ranking |
-#  |---:|:------------------|:------------------|----------------:|:--------|:-------------|-----------------:|:--------------|---------:|----------:|
-#  |  0 | BMU               | Bermuda           |               0 | AB      | Agro y pesca |                1 | Bienes        | 0.266278 |         1 |
+#  |    | geocodigoFundar   | geonombreFundar   |   es_agregacion | letra   | indicador    |   id_tipo_sector | tipo_sector   |   valor |   ranking |
+#  |---:|:------------------|:------------------|----------------:|:--------|:-------------|-----------------:|:--------------|--------:|----------:|
+#  | 84 | LBR               | Liberia           |               0 | AB      | Agro y pesca |                1 | Bienes        | 73.9551 |       206 |
 #  
 #  ------------------------------
 #  
