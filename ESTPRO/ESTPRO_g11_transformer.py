@@ -17,6 +17,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, mapping: dict):
+    df = df.replace(mapping)
+    return df
+
+@transformer.convert
 def sort_mixed(
     df, 
     sort_instructions: dict
@@ -62,11 +67,6 @@ def latest_year(df, by='anio'):
     latest_year = df[by].max()
     df = df.query(f'{by} == {latest_year}')
     df = df.drop(columns = by)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
     return df
 
 @transformer.convert
@@ -121,10 +121,9 @@ pipeline = chain(
 	drop_col(col=['letra'], axis=1),
 	wide_to_long(primary_keys=['categoria'], value_name='valor', var_name='indicador'),
 	multiplicar_por_escalar(col='valor', k=100),
-	replace_value(col='indicador', curr_value='porc_mujeres', new_value='Mujeres'),
-	replace_value(col='indicador', curr_value='porc_varones', new_value='Varones'),
-	calcular_ranking(index=['categoria'], query="indicador == 'Mujeres'", groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum'),
-	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Mujeres', 'Varones']})
+	replace_value(col='indicador', mapping={'porc_mujeres': ' Mujeres', 'porc_varones': ' Varones'}),
+	calcular_ranking(index=['categoria'], query="indicador == ' Mujeres'", groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum'),
+	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': [' Mujeres', ' Varones']})
 )
 #  PIPELINE_END
 
@@ -227,7 +226,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='porc_mujeres', new_value='Mujeres')
+#  replace_value(col='indicador', mapping={'porc_mujeres': ' Mujeres', 'porc_varones': ' Varones'})
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -242,22 +241,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='porc_varones', new_value='Varones')
-#  RangeIndex: 32 entries, 0 to 31
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   categoria  32 non-null     object 
-#   1   indicador  32 non-null     object 
-#   2   valor      32 non-null     float64
-#  
-#  |    | categoria    | indicador   |   valor |
-#  |---:|:-------------|:------------|--------:|
-#  |  0 | Agro y pesca | Mujeres     | 14.0203 |
-#  
-#  ------------------------------
-#  
-#  calcular_ranking(index=['categoria'], query="indicador == 'Mujeres'", groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum')
+#  calcular_ranking(index=['categoria'], query="indicador == ' Mujeres'", groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum')
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -273,7 +257,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Mujeres', 'Varones']})
+#  sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': [' Mujeres', ' Varones']})
 #  RangeIndex: 32 entries, 0 to 31
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
