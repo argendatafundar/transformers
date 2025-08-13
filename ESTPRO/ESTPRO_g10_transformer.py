@@ -4,25 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
-
-@transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
-    return df
-
-@transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
-    return df
-
-@transformer.convert
 def latest_year(df, by='anio'):
     latest_year = df[by].max()
     df = df.query(f'{by} == {latest_year}')
@@ -30,20 +11,83 @@ def latest_year(df, by='anio'):
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def expand_and_fill(df: pd.DataFrame, agrupacion: list, index: dict, objetivo: dict) -> pd.DataFrame:
+    """
+    Expands DataFrame to include all possible combinations of index values for each group
+    and fills missing values in target columns with default values.
+
+    Args:
+        df: Input DataFrame
+        agrupacion: List of column names to group by
+        index: Dictionary mapping column names to lists of possible values
+        objetivo: Dictionary mapping target column names to default fill values
+
+    Returns:
+        DataFrame with expanded combinations and filled values
+    """
+    # Validate columns
+    for col in agrupacion:
+        if col not in df.columns:
+            raise ValueError(f"Grouping column '{col}' not found in DataFrame")
+    for col in index.keys():
+        if col not in df.columns:
+            raise ValueError(f"Index column '{col}' not found in DataFrame")
+    for col in objetivo.keys():
+        if col not in df.columns:
+            raise ValueError(f"Target column '{col}' not found in DataFrame")
+
+    # Build MultiIndex for expansion
+    group_vals = [df[col].unique() for col in agrupacion]
+    index_vals = [index[col] for col in index]
     import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
+
+    # Create a MultiIndex with all combinations
+    import itertools
+    all_combinations = list(itertools.product(*group_vals, *index_vals))
+    all_columns = agrupacion + list(index.keys())
+    expanded_index = pd.MultiIndex.from_tuples(all_combinations, names=all_columns)
+    df_expanded = df.set_index(all_columns).reindex(expanded_index).reset_index()
+
+    # Fill missing values in target columns
+    for col, default in objetivo.items():
+        df_expanded[col] = df_expanded[col].fillna(default)
+
+    return df_expanded
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 #  DEFINITIONS_END
 
 
@@ -58,7 +102,9 @@ pipeline = chain(
 	drop_na(subset='valor'),
 	replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales'),
 	replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.'),
-	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
+	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
+	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
+	expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0})
 )
 #  PIPELINE_END
 
@@ -221,6 +267,36 @@ pipeline = chain(
 #  |     | categoria          | indicador   |    valor |
 #  |----:|:-------------------|:------------|---------:|
 #  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
+#  Index: 65 entries, 449 to 321
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  65 non-null     category
+#   1   indicador  65 non-null     category
+#   2   valor      65 non-null     float64 
+#  
+#  |     | categoria          | indicador   |    valor |
+#  |----:|:-------------------|:------------|---------:|
+#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  
+#  ------------------------------
+#  
+#  expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0})
+#  RangeIndex: 66 entries, 0 to 65
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  66 non-null     object 
+#   1   indicador  66 non-null     object 
+#   2   valor      66 non-null     float64
+#  
+#  |    | categoria          | indicador   |    valor |
+#  |---:|:-------------------|:------------|---------:|
+#  |  0 | Servicio doméstico | Calificado  | 0.774139 |
 #  
 #  ------------------------------
 #  
