@@ -170,7 +170,7 @@ pipeline = chain(
 	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
 	expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0}),
 	calcular_ranking(index=['categoria'], query='indicador == "Calificado"', groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum'),
-	sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
+	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
 )
 #  PIPELINE_END
 
@@ -352,7 +352,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
+#  sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
 #  RangeIndex: 66 entries, 0 to 65
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -362,9 +362,9 @@ pipeline = chain(
 #   2   valor      66 non-null     float64 
 #   3   ranking    66 non-null     float64 
 #  
-#  |    | categoria          | indicador   |    valor |   ranking |
-#  |---:|:-------------------|:------------|---------:|----------:|
-#  |  0 | Servicio doméstico | Calificado  | 0.774139 |        22 |
+#  |    | categoria               | indicador   |   valor |   ranking |
+#  |---:|:------------------------|:------------|--------:|----------:|
+#  |  0 | Org. extraterritoriales | Calificado  | 97.2321 |         1 |
 #  
 #  ------------------------------
 #  
