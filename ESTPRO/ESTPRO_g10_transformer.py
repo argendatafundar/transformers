@@ -11,13 +11,6 @@ def latest_year(df, by='anio'):
     return df
 
 @transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
-
-@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -26,8 +19,81 @@ def drop_na(df, subset:str):
     return df.dropna(subset=subset, axis=0)
 
 @transformer.convert
+def sort_mixed(
+    df, 
+    sort_instructions: dict
+):
+    """
+    Sorts a DataFrame by multiple columns, supporting both categorical (with custom order) and numerical (with direction) sorting.
+
+    Args:
+        df: Input DataFrame.
+        sort_instructions: Dictionary where keys are column names and values are either:
+            - a list of categories (for categorical columns, sorted in that order)
+            - a string 'ascending' or 'descending' (for numerical or string columns)
+
+    Returns:
+        DataFrame sorted by the specified columns in the given order/direction.
+    """
+    import pandas as pd
+
+    by = []
+    ascending = []
+
+    for col, instruction in sort_instructions.items():
+        if isinstance(instruction, list):
+            # Categorical sort
+            df[col] = pd.Categorical(df[col], categories=instruction, ordered=True)
+            by.append(col)
+            ascending.append(True)
+        elif instruction in ['ascending', 'descending']:
+            by.append(col)
+            ascending.append(instruction == 'ascending')
+        else:
+            raise ValueError(f"Invalid sort instruction for column '{col}': {instruction}")
+
+    return df.sort_values(by=by, ascending=ascending).reset_index(drop=True)
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def calcular_ranking(
+    df, 
+    index: list, 
+    query = None,
+    groupby = None, 
+    rank_col: str = 'ranking', 
+    value_col: str = 'valor', 
+    method: str = 'dense',
+    agg: str = 'sum'
+):
+
+    if query is not None and not isinstance(query, str):
+        raise ValueError("query must be a string or None")
+
+    # INSERT_YOUR_CODE
+    if groupby is not None and not isinstance(groupby, list):
+        raise ValueError("groupby must be a list or None")
+
+    df_copy = df.copy()
+    if query is not None:
+        df_copy = df_copy.query(query)
+
+    # If groupby is specified, aggregate value_col before ranking
+    if groupby is not None:
+        # Aggregate value_col
+        df_copy = df_copy.groupby(groupby, as_index=False)[value_col].agg(agg)
+        # Compute ranking
+        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
+        # Merge ranking back to original df on groupby columns
+        df = df.merge(df_copy[groupby + [rank_col]], on=groupby, how='left')
+    else:
+        # Compute ranking without aggregation
+        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
+        df = df.merge(df_copy[index + [rank_col]], on=index, how='left')
     return df
 
 @transformer.convert
@@ -98,13 +164,13 @@ pipeline = chain(
 	rename_cols(map={'calificacion': 'indicador', 'letra_desc_abrev': 'categoria', 'particip_calif': 'valor'}),
 	drop_col(col=['letra', 'calificacion_cod'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
-	ordenar_dos_columnas(col1='categoria', order1=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales'], col2='indicador', order2=['Calificado', 'Semicalificado', 'No calificado']),
 	drop_na(subset='valor'),
 	replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales'),
 	replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.'),
 	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
-	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
-	expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0})
+	expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0}),
+	calcular_ranking(index=['categoria'], query='indicador == "Calificado"', groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum'),
+	sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
 )
 #  PIPELINE_END
 
@@ -168,11 +234,11 @@ pipeline = chain(
 #  drop_col(col=['letra', 'calificacion_cod'], axis=1)
 #  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
 #  |    | categoria                   | indicador   |   valor |
 #  |---:|:----------------------------|:------------|--------:|
@@ -183,11 +249,11 @@ pipeline = chain(
 #  multiplicar_por_escalar(col='valor', k=100)
 #  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
 #  |    | categoria                   | indicador   |   valor |
 #  |---:|:----------------------------|:------------|--------:|
@@ -195,93 +261,63 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='categoria', order1=['Servicio doméstico', 'Agua y saneamiento', 'Transporte', 'Hotelería y restaurantes', 'Actividades administrativas', 'Comercio', 'Construcción', 'Industria manufacturera', 'Agro y pesca', 'Serv. comunitarios, sociales y personales', 'Petróleo y minería', 'Total', 'Electricidad y gas', 'Administración pública', 'Finanzas', 'Serv. inmobiliarios', 'Cultura', 'Salud', 'Información y comunicaciones', 'Enseñanza', 'Serv. profesionales', 'Organizaciones extraterritoriales'], col2='indicador', order2=['Calificado', 'Semicalificado', 'No calificado'])
-#  Index: 65 entries, 449 to 321
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
-#  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
-#  
-#  ------------------------------
-#  
 #  drop_na(subset='valor')
-#  Index: 65 entries, 449 to 321
+#  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  |    | categoria                   | indicador   |   valor |
+#  |---:|:----------------------------|:------------|--------:|
+#  |  7 | Actividades administrativas | Calificado  | 10.4882 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales')
-#  Index: 65 entries, 449 to 321
+#  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  |    | categoria                   | indicador   |   valor |
+#  |---:|:----------------------------|:------------|--------:|
+#  |  7 | Actividades administrativas | Calificado  | 10.4882 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.')
-#  Index: 65 entries, 449 to 321
+#  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  |    | categoria                   | indicador   |   valor |
+#  |---:|:----------------------------|:------------|--------:|
+#  |  7 | Actividades administrativas | Calificado  | 10.4882 |
 #  
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
-#  Index: 65 entries, 449 to 321
+#  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  65 non-null     object 
+#   1   indicador  65 non-null     object 
+#   2   valor      65 non-null     float64
 #  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
-#  Index: 65 entries, 449 to 321
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype   
-#  ---  ------     --------------  -----   
-#   0   categoria  65 non-null     category
-#   1   indicador  65 non-null     category
-#   2   valor      65 non-null     float64 
-#  
-#  |     | categoria          | indicador   |    valor |
-#  |----:|:-------------------|:------------|---------:|
-#  | 449 | Servicio doméstico | Calificado  | 0.774139 |
+#  |    | categoria                   | indicador   |   valor |
+#  |---:|:----------------------------|:------------|--------:|
+#  |  7 | Actividades administrativas | Calificado  | 10.4882 |
 #  
 #  ------------------------------
 #  
@@ -294,9 +330,41 @@ pipeline = chain(
 #   1   indicador  66 non-null     object 
 #   2   valor      66 non-null     float64
 #  
-#  |    | categoria          | indicador   |    valor |
-#  |---:|:-------------------|:------------|---------:|
-#  |  0 | Servicio doméstico | Calificado  | 0.774139 |
+#  |    | categoria                   | indicador   |   valor |
+#  |---:|:----------------------------|:------------|--------:|
+#  |  0 | Actividades administrativas | Calificado  | 10.4882 |
+#  
+#  ------------------------------
+#  
+#  calcular_ranking(index=['categoria'], query='indicador == "Calificado"', groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum')
+#  RangeIndex: 66 entries, 0 to 65
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  66 non-null     object  
+#   1   indicador  66 non-null     category
+#   2   valor      66 non-null     float64 
+#   3   ranking    66 non-null     float64 
+#  
+#  |    | categoria                   | indicador   |   valor |   ranking |
+#  |---:|:----------------------------|:------------|--------:|----------:|
+#  |  0 | Actividades administrativas | Calificado  | 10.4882 |        18 |
+#  
+#  ------------------------------
+#  
+#  sort_mixed(sort_instructions={'ranking': 'descending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
+#  RangeIndex: 66 entries, 0 to 65
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  66 non-null     object  
+#   1   indicador  66 non-null     category
+#   2   valor      66 non-null     float64 
+#   3   ranking    66 non-null     float64 
+#  
+#  |    | categoria          | indicador   |    valor |   ranking |
+#  |---:|:-------------------|:------------|---------:|----------:|
+#  |  0 | Servicio doméstico | Calificado  | 0.774139 |        22 |
 #  
 #  ------------------------------
 #  
