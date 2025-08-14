@@ -4,14 +4,19 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_value(df: DataFrame, mapping = None):
+    df = df.replace(mapping).copy()
+
+    return df
+
+@transformer.convert
 def to_pandas(df: pl.DataFrame, dummy = True):
     df = df.to_pandas()
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def rename_cols(df: DataFrame, map):
@@ -19,8 +24,9 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
@@ -30,7 +36,8 @@ pipeline = chain(
 	query(condition='geocodigoFundar == "ARG"'),
 	rename_cols(map={'geocodigoFundar': 'geocodigo', 'sector_bp_name': 'categoria', 'import_value_pc': 'valor'}),
 	drop_col(col='country_name_abbreviation', axis=1),
-	drop_col(col='sector_bp', axis=1)
+	drop_col(col='sector_bp', axis=1),
+	replace_value(mapping={'categoria': {'Alimentos procesados': 'Alim. procesados', 'Otros productos industriales': 'Otros prod. industriales', 'Productos agropecuarios': 'Prod. agropecuarios'}})
 )
 #  PIPELINE_END
 
@@ -115,6 +122,23 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_col(col='sector_bp', axis=1)
+#  Index: 13 entries, 477 to 2607
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigo        13 non-null     object 
+#   1   geonombreFundar  13 non-null     object 
+#   2   anio             13 non-null     int64  
+#   3   categoria        13 non-null     object 
+#   4   valor            13 non-null     float64
+#  
+#  |     | geocodigo   | geonombreFundar   |   anio | categoria       |    valor |
+#  |----:|:------------|:------------------|-------:|:----------------|---------:|
+#  | 477 | ARG         | Argentina         |   2020 | Cueros y pieles | 0.242406 |
+#  
+#  ------------------------------
+#  
+#  replace_value(mapping={'categoria': {'Alimentos procesados': 'Alim. procesados', 'Otros productos industriales': 'Otros prod. industriales', 'Productos agropecuarios': 'Prod. agropecuarios'}})
 #  Index: 13 entries, 477 to 2607
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
