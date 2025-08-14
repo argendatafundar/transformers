@@ -4,6 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.copy()
+    df_[mapcol] = df_[colname].map(precedence)
+    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
+    return df_.drop(mapcol, axis=1)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -14,6 +22,11 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
@@ -21,20 +34,13 @@ def drop_col(df: DataFrame, col, axis=1):
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
-
-@transformer.convert
-def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
-    mapcol = colname+'_map'
-    df_ = df.copy()
-    df_[mapcol] = df_[colname].map(precedence)
-    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
-    return df_.drop(mapcol, axis=1)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio == 2022'),
+	to_pandas(dummy=True),
+	query(condition='anio == 2022'),
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'gran_region_desc': 'categoria', 'share_vab_sectorial': 'valor'}),
 	drop_col(col=['anio', 'gran_region_id'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
@@ -44,6 +50,10 @@ query(condition='anio == 2022'),
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 912 entries, 0 to 911
 #  Data columns (total 6 columns):
 #   #   Column               Non-Null Count  Dtype  
