@@ -4,16 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -23,8 +13,41 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
+def replace_value(df: DataFrame, mapping: dict):
+    df = df.replace(mapping)
+    return df
+
+@transformer.convert
+def summarize(df: DataFrame, groupby: list, columns: list = None, operation: str = 'sum'):
+    """
+    Agrupa el DataFrame por las columnas indicadas y aplica la operación de agregación especificada
+    sobre las columnas seleccionadas.
+
+    Args:
+        df: DataFrame de entrada (pandas).
+        groupby: Lista de columnas para agrupar.
+        columns: Lista de columnas sobre las que aplicar la operación. Si es None, se aplica a todas las columnas numéricas.
+        operation: Operación de agregación como string (por ejemplo, 'sum', 'mean', etc.).
+
+    Returns:
+        DataFrame con los resultados agregados, no agrupado.
+    """
+    if columns is not None:
+        grouped = df.groupby(groupby)[columns].agg(operation)
+    else:
+        grouped = df.groupby(groupby).agg(operation)
+    # Si el resultado tiene un índice múltiple, lo reseteamos
+    result = grouped.reset_index()
+    return result
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 #  DEFINITIONS_END
 
@@ -37,10 +60,8 @@ pipeline = chain(
 	drop_col(col='location_name_short_en', axis=1),
 	drop_col(col='sitc_2_1_cod', axis=1),
 	rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'}),
-	replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles'),
-	replace_value(col='indicador', curr_value='Combustibles minerales, lubricantes y productos similares', new_value='Combustibles minerales, lubricantes y similares'),
-	replace_value(col='indicador', curr_value='Artículos manufacturados, clasificados principalmente según el material', new_value='Artículos manufacturados según material'),
-	replace_value(col='indicador', curr_value='Transacciones y mercaderías diversas, N. E. P.', new_value='Transacciones y mercaderías diversas')
+	replace_value(mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manufact', 'Artículos manufacturados diversos': 'Artículos manufact', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}}),
+	summarize(groupby=['geonombreFundar', 'anio', 'indicador'], columns='valor', operation='sum')
 )
 #  PIPELINE_END
 
@@ -154,7 +175,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Materiales crudos, no comestibles, excepto combustibles', new_value='Materiales crudos no comestibles')
+#  replace_value(mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manufact', 'Artículos manufacturados diversos': 'Artículos manufact', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}})
 #  Index: 600 entries, 50 to 120309
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -164,57 +185,25 @@ pipeline = chain(
 #   2   indicador        600 non-null    object 
 #   3   valor            600 non-null    float64
 #  
-#  |    | geonombreFundar   |   anio | indicador              |   valor |
-#  |---:|:------------------|-------:|:-----------------------|--------:|
-#  | 50 | Argentina         |   1962 | Productos alimenticios | 65.8647 |
+#  |    | geonombreFundar   |   anio | indicador          |   valor |
+#  |---:|:------------------|-------:|:-------------------|--------:|
+#  | 50 | Argentina         |   1962 | Prod. alimenticios | 65.8647 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='indicador', curr_value='Combustibles minerales, lubricantes y productos similares', new_value='Combustibles minerales, lubricantes y similares')
-#  Index: 600 entries, 50 to 120309
+#  summarize(groupby=['geonombreFundar', 'anio', 'indicador'], columns='valor', operation='sum')
+#  RangeIndex: 540 entries, 0 to 539
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geonombreFundar  600 non-null    object 
-#   1   anio             600 non-null    int64  
-#   2   indicador        600 non-null    object 
-#   3   valor            600 non-null    float64
+#   0   geonombreFundar  540 non-null    object 
+#   1   anio             540 non-null    int64  
+#   2   indicador        540 non-null    object 
+#   3   valor            540 non-null    float64
 #  
-#  |    | geonombreFundar   |   anio | indicador              |   valor |
-#  |---:|:------------------|-------:|:-----------------------|--------:|
-#  | 50 | Argentina         |   1962 | Productos alimenticios | 65.8647 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Artículos manufacturados, clasificados principalmente según el material', new_value='Artículos manufacturados según material')
-#  Index: 600 entries, 50 to 120309
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geonombreFundar  600 non-null    object 
-#   1   anio             600 non-null    int64  
-#   2   indicador        600 non-null    object 
-#   3   valor            600 non-null    float64
-#  
-#  |    | geonombreFundar   |   anio | indicador              |   valor |
-#  |---:|:------------------|-------:|:-----------------------|--------:|
-#  | 50 | Argentina         |   1962 | Productos alimenticios | 65.8647 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='indicador', curr_value='Transacciones y mercaderías diversas, N. E. P.', new_value='Transacciones y mercaderías diversas')
-#  Index: 600 entries, 50 to 120309
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geonombreFundar  600 non-null    object 
-#   1   anio             600 non-null    int64  
-#   2   indicador        600 non-null    object 
-#   3   valor            600 non-null    float64
-#  
-#  |    | geonombreFundar   |   anio | indicador              |   valor |
-#  |---:|:------------------|-------:|:-----------------------|--------:|
-#  | 50 | Argentina         |   1962 | Productos alimenticios | 65.8647 |
+#  |    | geonombreFundar   |   anio | indicador          |   valor |
+#  |---:|:------------------|-------:|:-------------------|--------:|
+#  |  0 | Argentina         |   1962 | Aceites y mantecas | 5.89688 |
 #  
 #  ------------------------------
 #  
