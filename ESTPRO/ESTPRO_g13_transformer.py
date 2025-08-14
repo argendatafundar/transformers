@@ -4,12 +4,40 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suffix=[]):
-    mapcol = colname+'_map'
-    df_ = df.copy()
-    df_[mapcol] = df_[colname].map(precedence)
-    df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
-    return df_.drop(mapcol, axis=1)
+def sort_mixed(
+    df, 
+    sort_instructions: dict
+):
+    """
+    Sorts a DataFrame by multiple columns, supporting both categorical (with custom order) and numerical (with direction) sorting.
+
+    Args:
+        df: Input DataFrame.
+        sort_instructions: Dictionary where keys are column names and values are either:
+            - a list of categories (for categorical columns, sorted in that order)
+            - a string 'ascending' or 'descending' (for numerical or string columns)
+
+    Returns:
+        DataFrame sorted by the specified columns in the given order/direction.
+    """
+    import pandas as pd
+
+    by = []
+    ascending = []
+
+    for col, instruction in sort_instructions.items():
+        if isinstance(instruction, list):
+            # Categorical sort
+            df[col] = pd.Categorical(df[col], categories=instruction, ordered=True)
+            by.append(col)
+            ascending.append(True)
+        elif instruction in ['ascending', 'descending']:
+            by.append(col)
+            ascending.append(instruction == 'ascending')
+        else:
+            raise ValueError(f"Invalid sort instruction for column '{col}': {instruction}")
+
+    return df.sort_values(by=by, ascending=ascending).reset_index(drop=True)
 
 @transformer.convert
 def query(df: DataFrame, condition: str):
@@ -44,7 +72,7 @@ pipeline = chain(
 	rename_cols(map={'letra_desc_abrev': 'indicador', 'gran_region_desc': 'categoria', 'share_vab_sectorial': 'valor'}),
 	drop_col(col=['anio', 'gran_region_id'], axis=1),
 	mutiplicar_por_escalar(col='valor', k=100),
-	sort_values_by_comparison(colname='letra', precedence={'B': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'J': 8, 'K': 9, 'L': 10, 'M': 11, 'N': 12, 'O': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
+	sort_mixed(sort_instructions={'categoria': ['Norte', 'Centro', 'Sur'], 'letra': 'ascending'})
 )
 #  PIPELINE_END
 
@@ -110,12 +138,12 @@ pipeline = chain(
 #  drop_col(col=['anio', 'gran_region_id'], axis=1)
 #  Index: 48 entries, 18 to 911
 #  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   letra      48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   categoria  48 non-null     object 
-#   3   valor      48 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   letra      48 non-null     object  
+#   1   indicador  48 non-null     object  
+#   2   categoria  48 non-null     category
+#   3   valor      48 non-null     float64 
 #  
 #  |    | letra   | indicador              | categoria   |   valor |
 #  |---:|:--------|:-----------------------|:------------|--------:|
@@ -126,12 +154,12 @@ pipeline = chain(
 #  mutiplicar_por_escalar(col='valor', k=100)
 #  Index: 48 entries, 18 to 911
 #  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   letra      48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   categoria  48 non-null     object 
-#   3   valor      48 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   letra      48 non-null     object  
+#   1   indicador  48 non-null     object  
+#   2   categoria  48 non-null     category
+#   3   valor      48 non-null     float64 
 #  
 #  |    | letra   | indicador              | categoria   |   valor |
 #  |---:|:--------|:-----------------------|:------------|--------:|
@@ -139,19 +167,19 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values_by_comparison(colname='letra', precedence={'B': 0, 'C': 1, 'D': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'J': 8, 'K': 9, 'L': 10, 'M': 11, 'N': 12, 'O': 13, 'P': 14, 'A': 15}, prefix=['categoria'], suffix=[])
-#  Index: 48 entries, 246 to 645
+#  sort_mixed(sort_instructions={'categoria': ['Norte', 'Centro', 'Sur'], 'letra': 'ascending'})
+#  RangeIndex: 48 entries, 0 to 47
 #  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   letra      48 non-null     object 
-#   1   indicador  48 non-null     object 
-#   2   categoria  48 non-null     object 
-#   3   valor      48 non-null     float64
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   letra      48 non-null     object  
+#   1   indicador  48 non-null     object  
+#   2   categoria  48 non-null     category
+#   3   valor      48 non-null     float64 
 #  
-#  |     | letra   | indicador   | categoria   |    valor |
-#  |----:|:--------|:------------|:------------|---------:|
-#  | 246 | B       | Pesca       | Centro      | 0.182441 |
+#  |    | letra   | indicador   | categoria   |   valor |
+#  |---:|:--------|:------------|:------------|--------:|
+#  |  0 | A       | Agro        | Norte       | 12.6084 |
 #  
 #  ------------------------------
 #  
