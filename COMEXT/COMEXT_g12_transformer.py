@@ -4,16 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -25,6 +15,16 @@ def drop_col(df: DataFrame, col, axis=1):
 @transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 #  DEFINITIONS_END
 
@@ -41,13 +41,13 @@ pipeline = chain(
 	replace_value(col='categoria', curr_value='Plásticos y gomas', new_value='Plásticos y gomas'),
 	replace_value(col='categoria', curr_value='Químicos', new_value='Químicos'),
 	replace_value(col='categoria', curr_value='Textiles, indumentaria y calzado', new_value='Textiles, indumentaria y calzado'),
-	replace_value(col='categoria', curr_value='Productos agropecuarios', new_value='Productos agropecuarios'),
-	replace_value(col='categoria', curr_value='Alimentos procesados', new_value='Alimentos procesados'),
+	replace_value(col='categoria', curr_value='Productos agropecuarios', new_value='Prod. agropecuarios'),
+	replace_value(col='categoria', curr_value='Alimentos procesados', new_value='Alim. procesados'),
 	replace_value(col='categoria', curr_value='Madera', new_value='Madera'),
 	replace_value(col='categoria', curr_value='Piedra y vidrio', new_value='Piedra y vidrio'),
 	replace_value(col='categoria', curr_value='Transporte', new_value='Transporte'),
 	replace_value(col='categoria', curr_value='Maquinaria', new_value='Maquinaria'),
-	replace_value(col='categoria', curr_value='Otros productos industriales', new_value='Otros productos industriales'),
+	replace_value(col='categoria', curr_value='Otros productos industriales', new_value='Otros prod. industriales'),
 	replace_value(col='categoria', curr_value='Minerales', new_value='Minerales')
 )
 #  PIPELINE_END
@@ -234,7 +234,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Productos agropecuarios', new_value='Productos agropecuarios')
+#  replace_value(col='categoria', curr_value='Productos agropecuarios', new_value='Prod. agropecuarios')
 #  Index: 13 entries, 477 to 2607
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -251,7 +251,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Alimentos procesados', new_value='Alimentos procesados')
+#  replace_value(col='categoria', curr_value='Alimentos procesados', new_value='Alim. procesados')
 #  Index: 13 entries, 477 to 2607
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -336,7 +336,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Otros productos industriales', new_value='Otros productos industriales')
+#  replace_value(col='categoria', curr_value='Otros productos industriales', new_value='Otros prod. industriales')
 #  Index: 13 entries, 477 to 2607
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
