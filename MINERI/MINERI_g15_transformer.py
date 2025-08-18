@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -22,11 +27,6 @@ def fecha_to_trimestre(df, col, trimestre_map, input_format_pattern='(.*)_([0-9]
 
     df[col] = df[col].map(get_trimestre)
 
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
     return df
 #  DEFINITIONS_END
 
