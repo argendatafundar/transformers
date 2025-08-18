@@ -4,99 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def latest_year(df, by='anio'):
-    latest_year = df[by].max()
-    df = df.query(f'{by} == {latest_year}')
-    df = df.drop(columns = by)
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
-
-@transformer.convert
-def sort_mixed(
-    df, 
-    sort_instructions: dict
-):
-    """
-    Sorts a DataFrame by multiple columns, supporting both categorical (with custom order) and numerical (with direction) sorting.
-
-    Args:
-        df: Input DataFrame.
-        sort_instructions: Dictionary where keys are column names and values are either:
-            - a list of categories (for categorical columns, sorted in that order)
-            - a string 'ascending' or 'descending' (for numerical or string columns)
-
-    Returns:
-        DataFrame sorted by the specified columns in the given order/direction.
-    """
-    import pandas as pd
-
-    by = []
-    ascending = []
-
-    for col, instruction in sort_instructions.items():
-        if isinstance(instruction, list):
-            # Categorical sort
-            df[col] = pd.Categorical(df[col], categories=instruction, ordered=True)
-            by.append(col)
-            ascending.append(True)
-        elif instruction in ['ascending', 'descending']:
-            by.append(col)
-            ascending.append(instruction == 'ascending')
-        else:
-            raise ValueError(f"Invalid sort instruction for column '{col}': {instruction}")
-
-    return df.sort_values(by=by, ascending=ascending).reset_index(drop=True)
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def calcular_ranking(
-    df, 
-    index: list, 
-    query = None,
-    groupby = None, 
-    rank_col: str = 'ranking', 
-    value_col: str = 'valor', 
-    method: str = 'dense',
-    agg: str = 'sum'
-):
-
-    if query is not None and not isinstance(query, str):
-        raise ValueError("query must be a string or None")
-
-    # INSERT_YOUR_CODE
-    if groupby is not None and not isinstance(groupby, list):
-        raise ValueError("groupby must be a list or None")
-
-    df_copy = df.copy()
-    if query is not None:
-        df_copy = df_copy.query(query)
-
-    # If groupby is specified, aggregate value_col before ranking
-    if groupby is not None:
-        # Aggregate value_col
-        df_copy = df_copy.groupby(groupby, as_index=False)[value_col].agg(agg)
-        # Compute ranking
-        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
-        # Merge ranking back to original df on groupby columns
-        df = df.merge(df_copy[groupby + [rank_col]], on=groupby, how='left')
-    else:
-        # Compute ranking without aggregation
-        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
-        df = df.merge(df_copy[index + [rank_col]], on=index, how='left')
-    return df
-
-@transformer.convert
 def expand_and_fill(df: pd.DataFrame, agrupacion: list, index: dict, objetivo: dict) -> pd.DataFrame:
     """
     Expands DataFrame to include all possible combinations of index values for each group
@@ -146,9 +53,107 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
+def sort_mixed(
+    df, 
+    sort_instructions: dict
+):
+    """
+    Sorts a DataFrame by multiple columns, supporting both categorical (with custom order) and numerical (with direction) sorting.
+
+    Args:
+        df: Input DataFrame.
+        sort_instructions: Dictionary where keys are column names and values are either:
+            - a list of categories (for categorical columns, sorted in that order)
+            - a string 'ascending' or 'descending' (for numerical or string columns)
+
+    Returns:
+        DataFrame sorted by the specified columns in the given order/direction.
+    """
+    import pandas as pd
+
+    by = []
+    ascending = []
+
+    for col, instruction in sort_instructions.items():
+        if isinstance(instruction, list):
+            # Categorical sort
+            df[col] = pd.Categorical(df[col], categories=instruction, ordered=True)
+            by.append(col)
+            ascending.append(True)
+        elif instruction in ['ascending', 'descending']:
+            by.append(col)
+            ascending.append(instruction == 'ascending')
+        else:
+            raise ValueError(f"Invalid sort instruction for column '{col}': {instruction}")
+
+    return df.sort_values(by=by, ascending=ascending).reset_index(drop=True)
+
+@transformer.convert
+def drop_na(df, subset:str): 
+    return df.dropna(subset=subset, axis=0)
+
+@transformer.convert
 def to_pandas(df: pl.DataFrame, dummy = True):
     df = df.to_pandas()
     return df
+
+@transformer.convert
+def latest_year(df, by='anio'):
+    latest_year = df[by].max()
+    df = df.query(f'{by} == {latest_year}')
+    df = df.drop(columns = by)
+    return df
+
+@transformer.convert
+def calcular_ranking(
+    df, 
+    index: list, 
+    query = None,
+    groupby = None, 
+    rank_col: str = 'ranking', 
+    value_col: str = 'valor', 
+    method: str = 'dense',
+    agg: str = 'sum'
+):
+
+    if query is not None and not isinstance(query, str):
+        raise ValueError("query must be a string or None")
+
+    # INSERT_YOUR_CODE
+    if groupby is not None and not isinstance(groupby, list):
+        raise ValueError("groupby must be a list or None")
+
+    df_copy = df.copy()
+    if query is not None:
+        df_copy = df_copy.query(query)
+
+    # If groupby is specified, aggregate value_col before ranking
+    if groupby is not None:
+        # Aggregate value_col
+        df_copy = df_copy.groupby(groupby, as_index=False)[value_col].agg(agg)
+        # Compute ranking
+        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
+        # Merge ranking back to original df on groupby columns
+        df = df.merge(df_copy[groupby + [rank_col]], on=groupby, how='left')
+    else:
+        # Compute ranking without aggregation
+        df_copy[rank_col] = df_copy[value_col].rank(method=method, ascending=False)
+        df = df.merge(df_copy[index + [rank_col]], on=index, how='left')
+    return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_value: str = None, mapping = None):
+    if mapping is not None:
+        df = df.replace(mapping).copy()
+    elif col is not None and curr_value is not None and new_value is not None:
+        df = df.replace({col: curr_value}, new_value)
+    else:
+        raise ValueError("Either 'mapping' must be provided, or all of 'col', 'curr_value', and 'new_value' must be provided")
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def rename_cols(df: DataFrame, map):
@@ -165,12 +170,13 @@ pipeline = chain(
 	drop_col(col=['letra', 'calificacion_cod'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
 	drop_na(subset='valor'),
-	replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales'),
-	replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.'),
-	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones'),
+	replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales', mapping=None),
+	replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.', mapping=None),
+	replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones', mapping=None),
 	expand_and_fill(agrupacion=['categoria'], index={'indicador': ['Calificado', 'No calificado', 'Semicalificado']}, objetivo={'valor': 0}),
 	calcular_ranking(index=['categoria'], query='indicador == "Calificado"', groupby=None, rank_col='ranking', value_col='valor', method='dense', agg='sum'),
-	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
+	sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']}),
+	replace_value(col=None, curr_value=None, new_value=None, mapping={'categoria': {'Administración pública': 'Adm. pública', 'Industria manufacturera': 'Ind. manufacturera', 'Actividades administrativas': 'Act. administrativas', 'Servicio doméstico': 'Serv. doméstico'}})
 )
 #  PIPELINE_END
 
@@ -276,7 +282,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales')
+#  replace_value(col='categoria', curr_value='Organizaciones extraterritoriales', new_value='Org. extraterritoriales', mapping=None)
 #  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -291,7 +297,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.')
+#  replace_value(col='categoria', curr_value='Serv. comunitarios, sociales y personales', new_value='Serv. comun., soc. y pers.', mapping=None)
 #  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -306,7 +312,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones')
+#  replace_value(col='categoria', curr_value='Información y comunicaciones', new_value='Info. y comunicaciones', mapping=None)
 #  Index: 65 entries, 7 to 513
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -353,6 +359,22 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  sort_mixed(sort_instructions={'ranking': 'ascending', 'indicador': ['Calificado', 'Semicalificado', 'No calificado']})
+#  RangeIndex: 66 entries, 0 to 65
+#  Data columns (total 4 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   categoria  66 non-null     object  
+#   1   indicador  66 non-null     category
+#   2   valor      66 non-null     float64 
+#   3   ranking    66 non-null     float64 
+#  
+#  |    | categoria               | indicador   |   valor |   ranking |
+#  |---:|:------------------------|:------------|--------:|----------:|
+#  |  0 | Org. extraterritoriales | Calificado  | 97.2321 |         1 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col=None, curr_value=None, new_value=None, mapping={'categoria': {'Administración pública': 'Adm. pública', 'Industria manufacturera': 'Ind. manufacturera', 'Actividades administrativas': 'Act. administrativas', 'Servicio doméstico': 'Serv. doméstico'}})
 #  RangeIndex: 66 entries, 0 to 65
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype   
