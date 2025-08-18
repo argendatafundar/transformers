@@ -4,15 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def filtrar_por_max_anio(df, group_cols):
-    idx = df.groupby(group_cols)['anio'].transform('max') == df['anio']
-    return df[idx]
-
-@transformer.convert
 def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
     df_copy = df.copy()
     df_copy[col] = df_copy[col].replace(replacements)
     return df_copy
+
+@transformer.convert
+def filtrar_por_max_anio(df, group_cols):
+    idx = df.groupby(group_cols)['anio'].transform('max') == df['anio']
+    return df[idx]
 
 @transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
