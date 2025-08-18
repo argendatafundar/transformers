@@ -77,7 +77,7 @@ pipeline = chain(
 	drop_col(col='reportingeconomy', axis=1),
 	rename_cols(map={'productsector_agregado': 'indicador', 'export_value_pc': 'valor', 'year': 'anio'}),
 	replace_value(col=None, curr_value=None, new_value=None, mapping={'indicador': {'Servicios de telecomunicaciones, informática e información': 'Serv. de telecom., informática e información'}}),
-	sort_mixed(sort_instructions={'indicador': ['Viajes', 'Otros servicios empresariales', 'Serv. de telecom., informática e información', 'Transportes', 'Resto']})
+	sort_mixed(sort_instructions={'indicador': ['Viajes', 'Otros servicios empresariales', 'Serv. de telecom., informática e información', 'Transportes', 'Resto'], 'anio': 'ascending'})
 )
 #  PIPELINE_END
 
@@ -173,7 +173,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_mixed(sort_instructions={'indicador': ['Viajes', 'Otros servicios empresariales', 'Serv. de telecom., informática e información', 'Transportes', 'Resto']})
+#  sort_mixed(sort_instructions={'indicador': ['Viajes', 'Otros servicios empresariales', 'Serv. de telecom., informática e información', 'Transportes', 'Resto'], 'anio': 'ascending'})
 #  RangeIndex: 90 entries, 0 to 89
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype   
@@ -186,7 +186,7 @@ pipeline = chain(
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | indicador   |   valor |
 #  |---:|:------------------|:------------------|-------:|:------------|--------:|
-#  |  0 | ARG               | Argentina         |   2013 | Viajes      | 33.0775 |
+#  |  0 | ARG               | Argentina         |   2005 | Viajes      | 42.2577 |
 #  
 #  ------------------------------
 #  
