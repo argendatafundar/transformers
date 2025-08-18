@@ -4,9 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
@@ -16,8 +15,9 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
     return df.sort_values(by=[col1,col2])
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
