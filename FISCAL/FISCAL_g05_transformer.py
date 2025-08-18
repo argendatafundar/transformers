@@ -31,7 +31,7 @@ pipeline = chain(
 	drop_col(col='geocodigoFundar', axis=1),
 	query(condition='componente_egresos_del_gobierno != "TOTAL"'),
 	replace_values(col='componente_egresos_del_gobierno', values={'Otras transferencias corrientes y de capital': 'Otros'}),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Formación bruta de capital', 'Otros'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Prestaciones sociales', 'Subvenciones económicas', 'Rentas / Intereses', 'Formación bruta de capital', 'Otros'])
 )
 #  PIPELINE_END
 
@@ -97,7 +97,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Formación bruta de capital', 'Otros'])
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Prestaciones sociales', 'Subvenciones económicas', 'Rentas / Intereses', 'Formación bruta de capital', 'Otros'])
 #  Index: 246 entries, 77 to 11
 #  Data columns (total 3 columns):
 #   #   Column                           Non-Null Count  Dtype   
