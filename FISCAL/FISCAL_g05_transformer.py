@@ -4,15 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def query(df: DataFrame, condition: str):
@@ -31,7 +31,7 @@ pipeline = chain(
 	drop_col(col='geocodigoFundar', axis=1),
 	query(condition='componente_egresos_del_gobierno != "TOTAL"'),
 	replace_values(col='componente_egresos_del_gobierno', values={'Otras transferencias corrientes y de capital': 'Otros'}),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Otros', 'Formación bruta de capital'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Formación bruta de capital', 'Otros'])
 )
 #  PIPELINE_END
 
@@ -97,8 +97,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Otros', 'Formación bruta de capital'])
-#  Index: 246 entries, 77 to 12
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Francia', 'Brasil', 'Grecia', 'Bélgica', 'Italia', 'Dinamarca', 'Finlandia', 'Austria', 'Letonia', 'Suecia', 'Portugal', 'Noruega', 'Eslovenia', 'Hungría', 'España', 'Alemania', 'Países Bajos', 'Chequia', 'Polonia', 'Argentina', 'Reino Unido', 'Japón', 'Eslovaquia', 'Estonia', 'Canadá', 'Israel', 'Estados Unidos', 'Nueva Zelanda', 'Luxemburgo', 'Rusia', 'Lituania', 'Irlanda', 'Sudáfrica', 'Colombia', 'Turquía', 'Costa Rica', 'Suiza', 'Corea del Sur', 'México', 'China', 'Chile'], col2='componente_egresos_del_gobierno', order2=['Consumo del gobierno', 'Subvenciones económicas', 'Rentas / Intereses', 'Prestaciones sociales', 'Formación bruta de capital', 'Otros'])
+#  Index: 246 entries, 77 to 11
 #  Data columns (total 3 columns):
 #   #   Column                           Non-Null Count  Dtype   
 #  ---  ------                           --------------  -----   
