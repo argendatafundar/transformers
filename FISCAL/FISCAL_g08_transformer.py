@@ -17,6 +17,13 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
@@ -24,7 +31,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	replace_value(col='finalidad_funcion', curr_value='GASTO PÚBLICO TOTAL', new_value='Total'),
 	multiplicar_por_escalar(col='participacion_en_el_gasto_publico_consolidado', k=100),
-	query(condition="finalidad_funcion != 'SERVICIOS DE LA DEUDA PÚBLICA'")
+	query(condition="finalidad_funcion != 'SERVICIOS DE LA DEUDA PÚBLICA'"),
+	ordenar_dos_columnas(col1='finalidad_funcion', order1=['Ciencia y técnica', 'Energía y combustible', 'Trabajo', 'Previsión social', 'Educación superior y universitaria', 'Promoción y asistencia social', 'Agua potable y alcantarillado', 'Total', 'Servicios', 'Salud', 'Industria', 'Defensa y seguridad', 'Producción primaria', 'Justicia', 'Administración general', 'Cultura', 'Educación y cultura sin discriminar', 'Otros gastos en servicios económicos', 'Vivienda y urbanismo', 'Educación básica', 'Otros servicios urbanos'], col2='nivel_de_gobierno', order2=['Nacional', 'Provincial', 'Municipal'])
 )
 #  PIPELINE_END
 
@@ -86,18 +94,36 @@ pipeline = chain(
 #  query(condition="finalidad_funcion != 'SERVICIOS DE LA DEUDA PÚBLICA'")
 #  Index: 63 entries, 0 to 64
 #  Data columns (total 6 columns):
-#   #   Column                                         Non-Null Count  Dtype  
-#  ---  ------                                         --------------  -----  
-#   0   anio                                           63 non-null     int64  
-#   1   nivel_de_gobierno                              63 non-null     object 
-#   2   codigo                                         63 non-null     object 
-#   3   finalidad_funcion                              63 non-null     object 
-#   4   gasto_publico_porcenataje_del_pib              63 non-null     float64
-#   5   participacion_en_el_gasto_publico_consolidado  63 non-null     float64
+#   #   Column                                         Non-Null Count  Dtype   
+#  ---  ------                                         --------------  -----   
+#   0   anio                                           63 non-null     int64   
+#   1   nivel_de_gobierno                              63 non-null     category
+#   2   codigo                                         63 non-null     object  
+#   3   finalidad_funcion                              63 non-null     category
+#   4   gasto_publico_porcenataje_del_pib              63 non-null     float64 
+#   5   participacion_en_el_gasto_publico_consolidado  63 non-null     float64 
 #  
 #  |    |   anio | nivel_de_gobierno   |   codigo | finalidad_funcion   |   gasto_publico_porcenataje_del_pib |   participacion_en_el_gasto_publico_consolidado |
 #  |---:|-------:|:--------------------|---------:|:--------------------|------------------------------------:|------------------------------------------------:|
 #  |  0 |   2023 | Nacional            |        1 | Total               |                             22.2951 |                                         53.2529 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='finalidad_funcion', order1=['Ciencia y técnica', 'Energía y combustible', 'Trabajo', 'Previsión social', 'Educación superior y universitaria', 'Promoción y asistencia social', 'Agua potable y alcantarillado', 'Total', 'Servicios', 'Salud', 'Industria', 'Defensa y seguridad', 'Producción primaria', 'Justicia', 'Administración general', 'Cultura', 'Educación y cultura sin discriminar', 'Otros gastos en servicios económicos', 'Vivienda y urbanismo', 'Educación básica', 'Otros servicios urbanos'], col2='nivel_de_gobierno', order2=['Nacional', 'Provincial', 'Municipal'])
+#  Index: 63 entries, 6 to 59
+#  Data columns (total 6 columns):
+#   #   Column                                         Non-Null Count  Dtype   
+#  ---  ------                                         --------------  -----   
+#   0   anio                                           63 non-null     int64   
+#   1   nivel_de_gobierno                              63 non-null     category
+#   2   codigo                                         63 non-null     object  
+#   3   finalidad_funcion                              63 non-null     category
+#   4   gasto_publico_porcenataje_del_pib              63 non-null     float64 
+#   5   participacion_en_el_gasto_publico_consolidado  63 non-null     float64 
+#  
+#  |    |   anio | nivel_de_gobierno   | codigo   | finalidad_funcion   |   gasto_publico_porcenataje_del_pib |   participacion_en_el_gasto_publico_consolidado |
+#  |---:|-------:|:--------------------|:---------|:--------------------|------------------------------------:|------------------------------------------------:|
+#  |  6 |   2023 | Nacional            | 1.2.1.3  | Ciencia y técnica   |                            0.243942 |                                          91.233 |
 #  
 #  ------------------------------
 #  
