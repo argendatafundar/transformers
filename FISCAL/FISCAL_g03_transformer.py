@@ -32,7 +32,7 @@ pipeline = chain(
 	drop_col(col='geocodigoFundar', axis=1),
 	filtrar_por_max_anio(group_cols=['geonombreFundar', 'ingreso']),
 	replace_multiple_values(col='ingreso', replacements={'Ingresos de mercado más pensiones': 'Pre-intervención', 'Ingreso final': 'Post-intervención'}),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Sudáfrica', 'España', 'Argentina', 'Estados Unidos', 'Brasil', 'Eswatini', 'México', 'Namibia', 'Uruguay', 'Panamá', 'Polonia', 'Lesotho', 'Venezuela', 'Costa Rica', 'Turquía', 'Colombia', 'Zambia', 'Botswana', 'Croacia', 'Rep. Dominicana', 'Túnez', 'Kenia', 'Ucrania', 'Ecuador', 'Rusia', 'Chile', 'Honduras', 'Rumania', 'Perú', 'El Salvador', 'Bolivia', 'Irán', 'Belarús', 'India', 'Nicaragua', 'Albania', 'Guatemala', 'Paraguay', 'Egipto', 'Tanzanía', 'Armenia', 'Uganda', 'Ghana', 'Burkina Faso', 'Togo', 'Sri Lanka', 'Indonesia', 'Jordania', 'Etiopía', 'Comoras', 'Tayikistán', 'Costa de Marfil'], col2='ingreso', order2=['Pre-intervención', 'Post-intervención'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Costa de Marfil', 'Tayikistán', 'Comoras', 'Etiopía', 'Jordania', 'Indonesia', 'Sri Lanka', 'Togo', 'Burkina Faso', 'Ghana', 'Uganda', 'Armenia', 'Tanzanía', 'Egipto', 'Paraguay', 'Guatemala', 'Albania', 'Nicaragua', 'India', 'Belarús', 'Irán', 'Bolivia', 'El Salvador', 'Perú', 'Rumania', 'Honduras', 'Chile', 'Rusia', 'Ecuador', 'Ucrania', 'Kenia', 'Túnez', 'Rep. Dominicana', 'Croacia', 'Botswana', 'Zambia', 'Colombia', 'Turquía', 'Costa Rica', 'Venezuela', 'Lesotho', 'Polonia', 'Panamá', 'Uruguay', 'Namibia', 'México', 'Eswatini', 'Brasil', 'Estados Unidos', 'Argentina', 'España', 'Sudáfrica'], col2='ingreso', order2=['Pre-intervención', 'Post-intervención'])
 )
 #  PIPELINE_END
 
@@ -102,8 +102,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Sudáfrica', 'España', 'Argentina', 'Estados Unidos', 'Brasil', 'Eswatini', 'México', 'Namibia', 'Uruguay', 'Panamá', 'Polonia', 'Lesotho', 'Venezuela', 'Costa Rica', 'Turquía', 'Colombia', 'Zambia', 'Botswana', 'Croacia', 'Rep. Dominicana', 'Túnez', 'Kenia', 'Ucrania', 'Ecuador', 'Rusia', 'Chile', 'Honduras', 'Rumania', 'Perú', 'El Salvador', 'Bolivia', 'Irán', 'Belarús', 'India', 'Nicaragua', 'Albania', 'Guatemala', 'Paraguay', 'Egipto', 'Tanzanía', 'Armenia', 'Uganda', 'Ghana', 'Burkina Faso', 'Togo', 'Sri Lanka', 'Indonesia', 'Jordania', 'Etiopía', 'Comoras', 'Tayikistán', 'Costa de Marfil'], col2='ingreso', order2=['Pre-intervención', 'Post-intervención'])
-#  Index: 104 entries, 120 to 21
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Costa de Marfil', 'Tayikistán', 'Comoras', 'Etiopía', 'Jordania', 'Indonesia', 'Sri Lanka', 'Togo', 'Burkina Faso', 'Ghana', 'Uganda', 'Armenia', 'Tanzanía', 'Egipto', 'Paraguay', 'Guatemala', 'Albania', 'Nicaragua', 'India', 'Belarús', 'Irán', 'Bolivia', 'El Salvador', 'Perú', 'Rumania', 'Honduras', 'Chile', 'Rusia', 'Ecuador', 'Ucrania', 'Kenia', 'Túnez', 'Rep. Dominicana', 'Croacia', 'Botswana', 'Zambia', 'Colombia', 'Turquía', 'Costa Rica', 'Venezuela', 'Lesotho', 'Polonia', 'Panamá', 'Uruguay', 'Namibia', 'México', 'Eswatini', 'Brasil', 'Estados Unidos', 'Argentina', 'España', 'Sudáfrica'], col2='ingreso', order2=['Pre-intervención', 'Post-intervención'])
+#  Index: 104 entries, 20 to 121
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
@@ -112,9 +112,9 @@ pipeline = chain(
 #   2   ingreso          104 non-null    category
 #   3   gini             104 non-null    float64 
 #  
-#  |     | geonombreFundar   |   anio | ingreso          |     gini |
-#  |----:|:------------------|-------:|:-----------------|---------:|
-#  | 120 | Sudáfrica         |   2014 | Pre-intervención | 0.736968 |
+#  |    | geonombreFundar   |   anio | ingreso          |     gini |
+#  |---:|:------------------|-------:|:-----------------|---------:|
+#  | 20 | Costa de Marfil   |   2015 | Pre-intervención | 0.404751 |
 #  
 #  ------------------------------
 #  
