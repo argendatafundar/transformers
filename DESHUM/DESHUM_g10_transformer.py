@@ -11,13 +11,19 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'idhd': 'valor'}),
-	drop_col(col=['continente_fundar', 'es_agregacion'], axis=1)
+	drop_col(col=['continente_fundar', 'es_agregacion'], axis=1),
+	query(condition='anio in [2010, 2022]')
 )
 #  PIPELINE_END
 
@@ -67,6 +73,22 @@ pipeline = chain(
 #   1   geonombreFundar  2106 non-null   object 
 #   2   anio             2106 non-null   int64  
 #   3   valor            2106 non-null   float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|:------------------|-------:|--------:|
+#  |  0 | AFG               | Afganistán        |   2010 |   0.287 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio in [2010, 2022]')
+#  Index: 299 entries, 0 to 2105
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  299 non-null    object 
+#   1   geonombreFundar  299 non-null    object 
+#   2   anio             299 non-null    int64  
+#   3   valor            299 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
 #  |---:|:------------------|:------------------|-------:|--------:|
