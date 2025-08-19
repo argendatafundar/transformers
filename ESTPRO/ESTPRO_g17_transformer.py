@@ -4,24 +4,30 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
+    return df
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 
 @transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='anio == 2022'),
+	to_pandas(dummy=True),
+	query(condition='anio == 2022'),
 	rename_cols(map={'indice_va_trab': 'valor', 'letra_desc_abrev': 'categoria'}),
 	drop_col(col=['letra', 'anio', 'va_por_trabajador'], axis=1)
 )
@@ -29,6 +35,10 @@ query(condition='anio == 2022'),
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 128 entries, 0 to 127
 #  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype  
