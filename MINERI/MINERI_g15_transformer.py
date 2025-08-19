@@ -9,6 +9,11 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def remove_substring(df: DataFrame, col: str, substring: str) -> DataFrame:
+    df[col] = df[col].str.replace(substring, "", regex=False)
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -35,7 +40,8 @@ def fecha_to_trimestre(df, col, trimestre_map, input_format_pattern='(.*)_([0-9]
 pipeline = chain(
 	fecha_to_trimestre(col='fecha', trimestre_map={'I': 1, 'II': 2, 'III': 3, 'IV': 4, 'VI': 4}, input_format_pattern='(.*)_([0-9]{4})', extractor=['trimester', 'year'], trimestre_format='{year}-{trimester}'),
 	rename_cols(map={'fecha': 'aniotrim', 'tasa_feminizacion': 'valor'}),
-	query(condition="aniotrim.str.endswith('-1')")
+	query(condition="aniotrim.str.endswith('-1')"),
+	remove_substring(col='aniotrim', substring='-1')
 )
 #  PIPELINE_END
 
@@ -90,9 +96,23 @@ pipeline = chain(
 #   0   aniotrim  27 non-null     object 
 #   1   valor     27 non-null     float64
 #  
-#  |    | aniotrim   |   valor |
-#  |---:|:-----------|--------:|
-#  |  0 | 1996-1     | 6.62948 |
+#  |    |   aniotrim |   valor |
+#  |---:|-----------:|--------:|
+#  |  0 |       1996 | 6.62948 |
+#  
+#  ------------------------------
+#  
+#  remove_substring(col='aniotrim', substring='-1')
+#  Index: 27 entries, 0 to 104
+#  Data columns (total 2 columns):
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   aniotrim  27 non-null     object 
+#   1   valor     27 non-null     float64
+#  
+#  |    |   aniotrim |   valor |
+#  |---:|-----------:|--------:|
+#  |  0 |       1996 | 6.62948 |
 #  
 #  ------------------------------
 #  
