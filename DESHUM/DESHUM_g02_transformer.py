@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -23,7 +23,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 	query(condition="geonombreFundar == 'Argentina'"),
 	rename_cols(map={'idh': 'valor'}),
-	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1)
+	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
+	query(condition='anio in [1990, 2001, 2011, 2022]')
 )
 #  PIPELINE_END
 
@@ -90,6 +91,21 @@ pipeline = chain(
 #   0   geonombreFundar  33 non-null     object 
 #   1   anio             33 non-null     int64  
 #   2   valor            33 non-null     float64
+#  
+#  |     | geonombreFundar   |   anio |   valor |
+#  |----:|:------------------|-------:|--------:|
+#  | 146 | Argentina         |   1990 |   0.724 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio in [1990, 2001, 2011, 2022]')
+#  Index: 4 entries, 146 to 178
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  4 non-null      object 
+#   1   anio             4 non-null      int64  
+#   2   valor            4 non-null      float64
 #  
 #  |     | geonombreFundar   |   anio |   valor |
 #  |----:|:------------------|-------:|--------:|
