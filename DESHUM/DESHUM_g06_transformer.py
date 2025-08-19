@@ -11,13 +11,19 @@ def rename_cols(df: DataFrame, map):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'anios_prom_educ': 'valor'}),
-	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1)
+	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
+	query(condition='anio in [1990, 2022]')
 )
 #  PIPELINE_END
 
@@ -66,6 +72,21 @@ pipeline = chain(
 #   0   geonombreFundar  6254 non-null   object 
 #   1   anio             6254 non-null   int64  
 #   2   valor            6254 non-null   float64
+#  
+#  |    | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|-------:|--------:|
+#  |  0 | Afganistán        |   1990 |    0.87 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio in [1990, 2022]')
+#  Index: 367 entries, 0 to 6253
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  367 non-null    object 
+#   1   anio             367 non-null    int64  
+#   2   valor            367 non-null    float64
 #  
 #  |    | geonombreFundar   |   anio |   valor |
 #  |---:|:------------------|-------:|--------:|
