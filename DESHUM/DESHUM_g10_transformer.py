@@ -23,7 +23,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	rename_cols(map={'idhd': 'valor'}),
 	drop_col(col=['continente_fundar', 'es_agregacion'], axis=1),
-	query(condition='anio in [2010, 2022]')
+	query(condition='anio in [2010, 2013, 2022]')
 )
 #  PIPELINE_END
 
@@ -80,15 +80,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [2010, 2022]')
-#  Index: 299 entries, 0 to 2105
+#  query(condition='anio in [2010, 2013, 2022]')
+#  Index: 456 entries, 0 to 2105
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  299 non-null    object 
-#   1   geonombreFundar  299 non-null    object 
-#   2   anio             299 non-null    int64  
-#   3   valor            299 non-null    float64
+#   0   geocodigoFundar  456 non-null    object 
+#   1   geonombreFundar  456 non-null    object 
+#   2   anio             456 non-null    int64  
+#   3   valor            456 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio |   valor |
 #  |---:|:------------------|:------------------|-------:|--------:|
