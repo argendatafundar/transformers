@@ -14,6 +14,16 @@ def to_pandas(df: pl.DataFrame, dummy = True):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_value: str = None, mapping = None):
+    if mapping is not None:
+        df = df.replace(mapping).copy()
+    elif col is not None and curr_value is not None and new_value is not None:
+        df = df.replace({col: curr_value}, new_value)
+    else:
+        raise ValueError("Either 'mapping' must be provided, or all of 'col', 'curr_value', and 'new_value' must be provided")
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -66,7 +76,8 @@ pipeline = chain(
 	query(condition='anio == 2022'),
 	rename_cols(map={'indice_va_trab': 'valor', 'letra_desc_abrev': 'categoria'}),
 	drop_col(col=['letra', 'anio', 'va_por_trabajador'], axis=1),
-	sort_mixed(sort_instructions={'valor': 'ascending'})
+	sort_mixed(sort_instructions={'valor': 'ascending'}),
+	replace_value(col=None, curr_value=None, new_value=None, mapping={'categoria': {'Serv. comunitarios, sociales y personales': 'Serv.com., soc y pers.', 'Servicio doméstico': 'Serv. doméstico', 'Serv. inmobiliarios y profesionales': 'Serv. inmob. y prof.', 'Industria manufacturera': 'Ind. manufacturera', 'Transporte y comunicaciones': 'Transp. y comunicaciones.'}})
 )
 #  PIPELINE_END
 
@@ -151,6 +162,20 @@ pipeline = chain(
 #  |    | categoria          |   valor |
 #  |---:|:-------------------|--------:|
 #  |  0 | Servicio doméstico | 8.68611 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col=None, curr_value=None, new_value=None, mapping={'categoria': {'Serv. comunitarios, sociales y personales': 'Serv.com., soc y pers.', 'Servicio doméstico': 'Serv. doméstico', 'Serv. inmobiliarios y profesionales': 'Serv. inmob. y prof.', 'Industria manufacturera': 'Ind. manufacturera', 'Transporte y comunicaciones': 'Transp. y comunicaciones.'}})
+#  RangeIndex: 16 entries, 0 to 15
+#  Data columns (total 2 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   categoria  16 non-null     object 
+#   1   valor      16 non-null     float64
+#  
+#  |    | categoria       |   valor |
+#  |---:|:----------------|--------:|
+#  |  0 | Serv. doméstico | 8.68611 |
 #  
 #  ------------------------------
 #  
