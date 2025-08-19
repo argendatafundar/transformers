@@ -4,20 +4,20 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def wide_to_long(df: DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, var_name=var_name)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-wide_to_long(primary_keys=['anio', 'empleo_base'], value_name='valor', var_name='indicador'),
-	rename_cols(map={'empleo_base': 'serie'})
+	query(condition="empleo_base == 'empleo_minero_siacam'"),
+	drop_col(col='empleo_base', axis=1)
 )
 #  PIPELINE_END
 
@@ -38,35 +38,34 @@ wide_to_long(primary_keys=['anio', 'empleo_base'], value_name='valor', var_name=
 #  
 #  ------------------------------
 #  
-#  wide_to_long(primary_keys=['anio', 'empleo_base'], value_name='valor', var_name='indicador')
-#  RangeIndex: 162 entries, 0 to 161
+#  query(condition="empleo_base == 'empleo_minero_siacam'")
+#  Index: 27 entries, 1 to 79
 #  Data columns (total 4 columns):
-#   #   Column       Non-Null Count  Dtype  
-#  ---  ------       --------------  -----  
-#   0   anio         162 non-null    int64  
-#   1   empleo_base  162 non-null    object 
-#   2   indicador    162 non-null    object 
-#   3   valor        162 non-null    float64
+#   #   Column                           Non-Null Count  Dtype  
+#  ---  ------                           --------------  -----  
+#   0   anio                             27 non-null     int64  
+#   1   empleo_minero_perc_formal_total  27 non-null     float64
+#   2   empleo_base                      27 non-null     object 
+#   3   cantidad_puestos                 27 non-null     float64
 #  
-#  |    |   anio | empleo_base       | indicador                       |    valor |
-#  |---:|-------:|:------------------|:--------------------------------|---------:|
-#  |  0 |   1996 | suma_mineria_oede | empleo_minero_perc_formal_total | 0.383496 |
+#  |    |   anio |   empleo_minero_perc_formal_total | empleo_base          |   cantidad_puestos |
+#  |---:|-------:|----------------------------------:|:---------------------|-------------------:|
+#  |  1 |   1996 |                          0.383496 | empleo_minero_siacam |            13465.3 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'empleo_base': 'serie'})
-#  RangeIndex: 162 entries, 0 to 161
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       162 non-null    int64  
-#   1   serie      162 non-null    object 
-#   2   indicador  162 non-null    object 
-#   3   valor      162 non-null    float64
+#  drop_col(col='empleo_base', axis=1)
+#  Index: 27 entries, 1 to 79
+#  Data columns (total 3 columns):
+#   #   Column                           Non-Null Count  Dtype  
+#  ---  ------                           --------------  -----  
+#   0   anio                             27 non-null     int64  
+#   1   empleo_minero_perc_formal_total  27 non-null     float64
+#   2   cantidad_puestos                 27 non-null     float64
 #  
-#  |    |   anio | serie             | indicador                       |    valor |
-#  |---:|-------:|:------------------|:--------------------------------|---------:|
-#  |  0 |   1996 | suma_mineria_oede | empleo_minero_perc_formal_total | 0.383496 |
+#  |    |   anio |   empleo_minero_perc_formal_total |   cantidad_puestos |
+#  |---:|-------:|----------------------------------:|-------------------:|
+#  |  1 |   1996 |                          0.383496 |            13465.3 |
 #  
 #  ------------------------------
 #  
