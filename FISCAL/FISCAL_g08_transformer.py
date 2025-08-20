@@ -40,7 +40,7 @@ pipeline = chain(
 	query(condition="finalidad_funcion != 'SERVICIOS DE LA DEUDA PÚBLICA'"),
 	ordenar_dos_columnas(col1='finalidad_funcion', order1=['Ciencia y técnica', 'Energía y combustible', 'Trabajo', 'Previsión social', 'Educación superior y universitaria', 'Promoción y asistencia social', 'Agua potable y alcantarillado', 'Total', 'Servicios', 'Salud', 'Industria', 'Defensa y seguridad', 'Producción primaria', 'Justicia', 'Administración general', 'Cultura', 'Educación y cultura sin discriminar', 'Otros gastos en servicios económicos', 'Vivienda y urbanismo', 'Educación básica', 'Otros servicios urbanos'], col2='nivel_de_gobierno', order2=['Nacional', 'Provincial', 'Municipal']),
 	query(condition="finalidad_funcion != 'Educación y cultura sin discriminar'"),
-	replace_multiple_values(col='finalidad_funcion', replacements={'Educación superior y universitaria': 'Educación superior', 'Promoción y asistencia social': 'Asistencia social', 'Otros gastos en servicios económicos': 'Otros servicios económicos', 'Otros servicios urbanos': 'Servicios urbanos', 'Administración general': 'Adm. general'})
+	replace_multiple_values(col='finalidad_funcion', replacements={'Educación superior y universitaria': 'Educación superior', 'Promoción y asistencia social': 'Asistencia social', 'Otros gastos en servicios económicos': 'Otros serv. económicos', 'Otros servicios urbanos': 'Servicios urbanos', 'Administración general': 'Adm. general', 'Agua potable y alcantarillado': 'Agua y alcantarillado'})
 )
 #  PIPELINE_END
 
@@ -153,7 +153,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='finalidad_funcion', replacements={'Educación superior y universitaria': 'Educación superior', 'Promoción y asistencia social': 'Asistencia social', 'Otros gastos en servicios económicos': 'Otros servicios económicos', 'Otros servicios urbanos': 'Servicios urbanos', 'Administración general': 'Adm. general'})
+#  replace_multiple_values(col='finalidad_funcion', replacements={'Educación superior y universitaria': 'Educación superior', 'Promoción y asistencia social': 'Asistencia social', 'Otros gastos en servicios económicos': 'Otros serv. económicos', 'Otros servicios urbanos': 'Servicios urbanos', 'Administración general': 'Adm. general', 'Agua potable y alcantarillado': 'Agua y alcantarillado'})
 #  Index: 60 entries, 6 to 59
 #  Data columns (total 6 columns):
 #   #   Column                                         Non-Null Count  Dtype   
