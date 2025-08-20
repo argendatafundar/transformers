@@ -4,12 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def long_to_wide(df:DataFrame, index:list[str], columns:str, values:str):
-    df = df.pivot(index=index, columns=columns, values=values).reset_index()
-    df.index.name = None
-    df.columns.name = None
-    df.columns = [str(col) for col in df.columns]  # Convertir columnas a str
-    return df  
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
 
 @transformer.convert
 def query(df: DataFrame, condition: str):
@@ -24,10 +21,10 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition="variable in ('gini', 'loggnip')"),
+	query(condition="variable in ('gini','loggnip')"),
+	rename_cols(map={'variable': 'indicador'}),
 	drop_col(col='pais', axis=1),
-	drop_col(col='geocodigoFundar', axis=1),
-	long_to_wide(index=['geonombreFundar'], columns='variable', values='valor')
+	drop_col(col='geocodigoFundar', axis=1)
 )
 #  PIPELINE_END
 
@@ -49,7 +46,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="variable in ('gini', 'loggnip')")
+#  query(condition="variable in ('gini','loggnip')")
 #  Index: 324 entries, 0 to 645
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -66,6 +63,23 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
+#  rename_cols(map={'variable': 'indicador'})
+#  Index: 324 entries, 0 to 645
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  324 non-null    object 
+#   1   geonombreFundar  324 non-null    object 
+#   2   pais             324 non-null    object 
+#   3   indicador        324 non-null    object 
+#   4   valor            304 non-null    float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar    | pais             | indicador   |   valor |
+#  |---:|:------------------|:-------------------|:-----------------|:------------|--------:|
+#  |  0 | PNG               | Papúa Nueva Guinea | Papua New Guinea | gini        |   41.85 |
+#  
+#  ------------------------------
+#  
 #  drop_col(col='pais', axis=1)
 #  Index: 324 entries, 0 to 645
 #  Data columns (total 4 columns):
@@ -73,12 +87,12 @@ pipeline = chain(
 #  ---  ------           --------------  -----  
 #   0   geocodigoFundar  324 non-null    object 
 #   1   geonombreFundar  324 non-null    object 
-#   2   variable         324 non-null    object 
+#   2   indicador        324 non-null    object 
 #   3   valor            304 non-null    float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar    | variable   |   valor |
-#  |---:|:------------------|:-------------------|:-----------|--------:|
-#  |  0 | PNG               | Papúa Nueva Guinea | gini       |   41.85 |
+#  |    | geocodigoFundar   | geonombreFundar    | indicador   |   valor |
+#  |---:|:------------------|:-------------------|:------------|--------:|
+#  |  0 | PNG               | Papúa Nueva Guinea | gini        |   41.85 |
 #  
 #  ------------------------------
 #  
@@ -88,27 +102,12 @@ pipeline = chain(
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
 #   0   geonombreFundar  324 non-null    object 
-#   1   variable         324 non-null    object 
+#   1   indicador        324 non-null    object 
 #   2   valor            304 non-null    float64
 #  
-#  |    | geonombreFundar    | variable   |   valor |
-#  |---:|:-------------------|:-----------|--------:|
-#  |  0 | Papúa Nueva Guinea | gini       |   41.85 |
-#  
-#  ------------------------------
-#  
-#  long_to_wide(index=['geonombreFundar'], columns='variable', values='valor')
-#  RangeIndex: 162 entries, 0 to 161
-#  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geonombreFundar  162 non-null    object 
-#   1   gini             153 non-null    float64
-#   2   loggnip          151 non-null    float64
-#  
-#  |    | geonombreFundar   |   gini |   loggnip |
-#  |---:|:------------------|-------:|----------:|
-#  |  0 | Albania           |  28.96 |      9.25 |
+#  |    | geonombreFundar    | indicador   |   valor |
+#  |---:|:-------------------|:------------|--------:|
+#  |  0 | Papúa Nueva Guinea | gini        |   41.85 |
 #  
 #  ------------------------------
 #  
