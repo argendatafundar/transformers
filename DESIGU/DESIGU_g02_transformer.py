@@ -12,7 +12,7 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'ano': 'anio', 'gini': 'valor'})
+	rename_cols(map={'ano': 'anio', 'gini': 'valor'})
 )
 #  PIPELINE_END
 
