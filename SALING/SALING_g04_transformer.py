@@ -4,12 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def to_pandas(df: DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
 
 @transformer.convert
 def rename_cols(df: DataFrame, map):
@@ -17,25 +14,25 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
-    return df
-
-@transformer.convert
-def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.replace({col: curr_value}, new_value)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-drop_col(col='year', axis=1),
+	to_pandas(dummy=True),
+	drop_col(col='year', axis=1),
 	drop_col(col='semestre', axis=1),
 	rename_cols(map={'deflactor': 'indicador', 'region': 'categoria', 'indice': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
@@ -46,6 +43,10 @@ drop_col(col='year', axis=1),
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 14 entries, 0 to 13
 #  Data columns (total 5 columns):
 #   #   Column     Non-Null Count  Dtype  
