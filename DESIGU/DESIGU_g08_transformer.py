@@ -16,7 +16,7 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'code': 'geocodigo', 'indicador': 'valor'}),
+	rename_cols(map={'code': 'geocodigo', 'indicador': 'valor'}),
 	drop_col(col=['orden', 'pais'], axis=1)
 )
 #  PIPELINE_END
@@ -24,47 +24,50 @@ rename_cols(map={'code': 'geocodigo', 'indicador': 'valor'}),
 
 #  start()
 #  RangeIndex: 109 entries, 0 to 108
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   orden      109 non-null    int64  
-#   1   pais       109 non-null    object 
-#   2   code       109 non-null    object 
-#   3   indicador  109 non-null    float64
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  109 non-null    object 
+#   1   geonombreFundar  109 non-null    object 
+#   2   orden            109 non-null    int64  
+#   3   pais             109 non-null    object 
+#   4   indicador        109 non-null    float64
 #  
-#  |    |   orden | pais   | code   |   indicador |
-#  |---:|--------:|:-------|:-------|------------:|
-#  |  0 |     109 | Bhutan | BTN    |        0.21 |
+#  |    | geocodigoFundar   | geonombreFundar   |   orden | pais   |   indicador |
+#  |---:|:------------------|:------------------|--------:|:-------|------------:|
+#  |  0 | BTN               | Bhután            |     109 | Bhutan |        0.21 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'code': 'geocodigo', 'indicador': 'valor'})
 #  RangeIndex: 109 entries, 0 to 108
-#  Data columns (total 4 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   orden      109 non-null    int64  
-#   1   pais       109 non-null    object 
-#   2   geocodigo  109 non-null    object 
-#   3   valor      109 non-null    float64
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  109 non-null    object 
+#   1   geonombreFundar  109 non-null    object 
+#   2   orden            109 non-null    int64  
+#   3   pais             109 non-null    object 
+#   4   valor            109 non-null    float64
 #  
-#  |    |   orden | pais   | geocodigo   |   valor |
-#  |---:|--------:|:-------|:------------|--------:|
-#  |  0 |     109 | Bhutan | BTN         |    0.21 |
+#  |    | geocodigoFundar   | geonombreFundar   |   orden | pais   |   valor |
+#  |---:|:------------------|:------------------|--------:|:-------|--------:|
+#  |  0 | BTN               | Bhután            |     109 | Bhutan |    0.21 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['orden', 'pais'], axis=1)
 #  RangeIndex: 109 entries, 0 to 108
-#  Data columns (total 2 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   geocodigo  109 non-null    object 
-#   1   valor      109 non-null    float64
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  109 non-null    object 
+#   1   geonombreFundar  109 non-null    object 
+#   2   valor            109 non-null    float64
 #  
-#  |    | geocodigo   |   valor |
-#  |---:|:------------|--------:|
-#  |  0 | BTN         |    0.21 |
+#  |    | geocodigoFundar   | geonombreFundar   |   valor |
+#  |---:|:------------------|:------------------|--------:|
+#  |  0 | BTN               | Bhután            |    0.21 |
 #  
 #  ------------------------------
 #  
