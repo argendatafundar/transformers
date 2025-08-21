@@ -9,6 +9,11 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
 def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -17,13 +22,18 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'fuente': 'indicador', 'decil': 'categoria', 'proporcion': 'valor'}),
+	to_pandas(dummy=True),
+	rename_cols(map={'fuente': 'indicador', 'decil': 'categoria', 'proporcion': 'valor'}),
 	mutiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 50 entries, 0 to 49
 #  Data columns (total 5 columns):
 #   #   Column      Non-Null Count  Dtype  
