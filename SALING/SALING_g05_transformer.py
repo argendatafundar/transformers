@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
 def concatenar_columnas(df:DataFrame, cols:list, nueva_col:str, separtor:str = "-"):
     df[nueva_col] = df[cols].astype(str).agg(separtor.join, axis=1)
     return df
@@ -13,15 +18,16 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def to_pandas(df: DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'),
+	to_pandas(dummy=True),
+	concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'),
 	drop_col(col=['year', 'semestre'], axis=1),
 	rename_cols(map={'region': 'categoria', 'indice': 'valor'})
 )
@@ -29,18 +35,23 @@ concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 336 entries, 0 to 335
-#  Data columns (total 4 columns):
+#  Data columns (total 5 columns):
 #   #   Column    Non-Null Count  Dtype  
 #  ---  ------    --------------  -----  
 #   0   year      336 non-null    int64  
 #   1   semestre  336 non-null    int64  
 #   2   region    336 non-null    object 
 #   3   indice    320 non-null    float64
+#   4   aniosem   336 non-null    object 
 #  
-#  |    |   year |   semestre | region   |   indice |
-#  |---:|-------:|-----------:|:---------|---------:|
-#  |  0 |   2003 |          2 | Total    |      100 |
+#  |    |   year |   semestre | region   |   indice | aniosem   |
+#  |---:|-------:|-----------:|:---------|---------:|:----------|
+#  |  0 |   2003 |          2 | Total    |      100 | 2003-2    |
 #  
 #  ------------------------------
 #  
