@@ -12,36 +12,36 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'ano': 'anio', 'brecha': 'valor'})
+	rename_cols(map={'ano': 'anio', 'brecha': 'valor'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 22 entries, 0 to 21
+#  RangeIndex: 23 entries, 0 to 22
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   ano     22 non-null     int64  
-#   1   brecha  22 non-null     float64
+#   0   ano     23 non-null     int64  
+#   1   brecha  23 non-null     float64
 #  
 #  |    |   ano |   brecha |
 #  |---:|------:|---------:|
-#  |  0 |  2000 |     0.14 |
+#  |  0 |  2000 |    0.138 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'ano': 'anio', 'brecha': 'valor'})
-#  RangeIndex: 22 entries, 0 to 21
+#  RangeIndex: 23 entries, 0 to 22
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   anio    22 non-null     int64  
-#   1   valor   22 non-null     float64
+#   0   anio    23 non-null     int64  
+#   1   valor   23 non-null     float64
 #  
 #  |    |   anio |   valor |
 #  |---:|-------:|--------:|
-#  |  0 |   2000 |    0.14 |
+#  |  0 |   2000 |   0.138 |
 #  
 #  ------------------------------
 #  
