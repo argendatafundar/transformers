@@ -12,7 +12,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio >= 2010 and anio <= 2018')
+	query(condition='anio.isin([2010, 2014, 2018])')
 )
 #  PIPELINE_END
 
@@ -34,16 +34,16 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio >= 2010 and anio <= 2018')
-#  Index: 446 entries, 0 to 1594
+#  query(condition='anio.isin([2010, 2014, 2018])')
+#  Index: 147 entries, 0 to 1594
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  446 non-null    object 
-#   1   anio             446 non-null    int64  
-#   2   valor            446 non-null    float64
-#   3   fuente           446 non-null    object 
-#   4   geonombreFundar  446 non-null    object 
+#   0   geocodigoFundar  147 non-null    object 
+#   1   anio             147 non-null    int64  
+#   2   valor            147 non-null    float64
+#   3   fuente           147 non-null    object 
+#   4   geonombreFundar  147 non-null    object 
 #  
 #  |    | geocodigoFundar   |   anio |   valor | fuente   | geonombreFundar   |
 #  |---:|:------------------|-------:|--------:|:---------|:------------------|
