@@ -38,7 +38,7 @@ def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
 pipeline = chain(
 	replace_value(col='finalidades', curr_value='SERVICIOS DE LA DEUDA PÚBLICA', new_value='Servicios de la deuda pública'),
 	custom_logic(),
-	query(condition="categoria != 'Educación superior y universitaria'"),
+	query(condition="categoria != 'Educación y cultura sin discriminar'"),
 	replace_multiple_values(col='categoria', replacements={'Administración general': 'Adm. general', 'Justicia': 'Justicia', 'Defensa y seguridad': 'Defensa y seguridad', 'Educación básica': 'Educación básica', 'Educación superior y universitaria': 'Educación superior', 'Ciencia y técnica': 'Ciencia y técnica', 'Cultura': 'Cultura', 'Educación y cultura sin discriminar': 'Educación y cultura', 'Atención pública de la salud': 'Salud pública', 'Obras sociales - Atención de la salud': 'Obras sociales', 'INSSJyP - Atención de la salud': 'PAMI', 'Agua potable y alcantarillado': 'Agua y alcantarillado', 'Vivienda y urbanismo': 'Vivienda y urbanismo', 'Promoción y asistencia social pública': 'Asistencia social', 'Obras sociales - Prestaciones sociales': 'Obras sociales', 'INSSJyP - Prestaciones sociales': 'PAMI', 'Previsión social': 'Previsión social', 'Programas de empleo y seguro de desempleo': 'Empleo', 'Asignaciones familiares': 'Asignaciones familiares', 'Otros servicios urbanos': 'Servicios urbanos', 'Producción primaria': 'Producción primaria', 'Energía y combustible': 'Energía y combustible', 'Industria': 'Industria', 'Transporte': 'Transporte', 'Comunicaciones': 'Comunicaciones', 'Otros gastos en servicios económicos': 'Servicios económicos', 'Servicios de la deuda pública': 'Deuda pública'}),
 	agg_sum(key_cols=['anio', 'categoria'], summarised_col='gasto_publico_consolidado')
 )
@@ -101,7 +101,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="categoria != 'Educación superior y universitaria'")
+#  query(condition="categoria != 'Educación y cultura sin discriminar'")
 #  Index: 1144 entries, 0 to 1187
 #  Data columns (total 7 columns):
 #   #   Column                     Non-Null Count  Dtype  
