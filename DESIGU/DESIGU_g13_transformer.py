@@ -9,6 +9,11 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
@@ -18,9 +23,9 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
+	query(condition="categoria != 'brecha'"),
 	replace_value(col='categoria', curr_value='quintil1', new_value='Quintil 1'),
-	replace_value(col='categoria', curr_value='quintil5', new_value='Quintil 5'),
-	replace_value(col='categoria', curr_value='brecha', new_value='Brecha')
+	replace_value(col='categoria', curr_value='quintil5', new_value='Quintil 5')
 )
 #  PIPELINE_END
 
@@ -55,14 +60,29 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='quintil1', new_value='Quintil 1')
-#  RangeIndex: 117 entries, 0 to 116
+#  query(condition="categoria != 'brecha'")
+#  Index: 78 entries, 0 to 115
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       117 non-null    int64  
-#   1   categoria  117 non-null    object 
-#   2   valor      117 non-null    float64
+#   0   anio       78 non-null     int64  
+#   1   categoria  78 non-null     object 
+#   2   valor      78 non-null     float64
+#  
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1986 | quintil1    |     6.7 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='categoria', curr_value='quintil1', new_value='Quintil 1')
+#  Index: 78 entries, 0 to 115
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       78 non-null     int64  
+#   1   categoria  78 non-null     object 
+#   2   valor      78 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
@@ -71,28 +91,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='quintil5', new_value='Quintil 5')
-#  RangeIndex: 117 entries, 0 to 116
+#  Index: 78 entries, 0 to 115
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       117 non-null    int64  
-#   1   categoria  117 non-null    object 
-#   2   valor      117 non-null    float64
-#  
-#  |    |   anio | categoria   |   valor |
-#  |---:|-------:|:------------|--------:|
-#  |  0 |   1986 | Quintil 1   |     6.7 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='brecha', new_value='Brecha')
-#  RangeIndex: 117 entries, 0 to 116
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   anio       117 non-null    int64  
-#   1   categoria  117 non-null    object 
-#   2   valor      117 non-null    float64
+#   0   anio       78 non-null     int64  
+#   1   categoria  78 non-null     object 
+#   2   valor      78 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
