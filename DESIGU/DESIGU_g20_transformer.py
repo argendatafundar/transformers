@@ -18,7 +18,7 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	rename_cols(map={'ano': 'anio', 'indice': 'valor'}),
-	query(condition='anio in [anio.min(), anio.max(), 1984]')
+	query(condition='anio in [anio.min(), 2002, anio.max()]')
 )
 #  PIPELINE_END
 
@@ -51,7 +51,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [anio.min(), anio.max(), 1984]')
+#  query(condition='anio in [anio.min(), 2002, anio.max()]')
 #  Index: 3 entries, 0 to 44
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
