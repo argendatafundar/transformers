@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
     df = df.replace({col: curr_value}, new_value)
     return df
@@ -20,7 +25,8 @@ pipeline = chain(
 	rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
 	replace_value(col='categoria', curr_value='agua', new_value='Agua'),
 	replace_value(col='categoria', curr_value='sanidad', new_value='Saneamiento baño'),
-	replace_value(col='categoria', curr_value='cloacas', new_value='Cloacas')
+	replace_value(col='categoria', curr_value='cloacas', new_value='Cloacas'),
+	query(condition='index != 0')
 )
 #  PIPELINE_END
 
@@ -102,6 +108,22 @@ pipeline = chain(
 #  |    |   anio |   genero_cod | genero_desc   |   hs_trabajadas_sem |
 #  |---:|-------:|-------------:|:--------------|--------------------:|
 #  |  0 |   2003 |            0 | Mujeres       |                  98 |
+#  
+#  ------------------------------
+#  
+#  query(condition='index != 0')
+#  Index: 42 entries, 1 to 42
+#  Data columns (total 4 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   anio               42 non-null     int64  
+#   1   genero_cod         42 non-null     int64  
+#   2   genero_desc        42 non-null     object 
+#   3   hs_trabajadas_sem  42 non-null     float64
+#  
+#  |    |   anio |   genero_cod | genero_desc   |   hs_trabajadas_sem |
+#  |---:|-------:|-------------:|:--------------|--------------------:|
+#  |  1 |   2003 |            1 | Hombres       |             42.6659 |
 #  
 #  ------------------------------
 #  
