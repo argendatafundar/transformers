@@ -22,10 +22,8 @@ def rename_cols(df: DataFrame, map):
 
 #  PIPELINE_START
 pipeline = chain(
-	rename_cols(map={'ano': 'anio', 'variable': 'categoria'}),
-	replace_value(col='categoria', curr_value='agua', new_value='Agua'),
-	replace_value(col='categoria', curr_value='sanidad', new_value='Saneamiento baño'),
-	replace_value(col='categoria', curr_value='cloacas', new_value='Cloacas'),
+	rename_cols(map={'ano': 'anio'}),
+	replace_value(col='genero_desc', curr_value='Hombres', new_value='Varones'),
 	query(condition='index != 0')
 )
 #  PIPELINE_END
@@ -47,7 +45,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'ano': 'anio', 'variable': 'categoria'})
+#  rename_cols(map={'ano': 'anio'})
 #  RangeIndex: 43 entries, 0 to 42
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
@@ -63,39 +61,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value='agua', new_value='Agua')
-#  RangeIndex: 43 entries, 0 to 42
-#  Data columns (total 4 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   anio               43 non-null     int64  
-#   1   genero_cod         43 non-null     int64  
-#   2   genero_desc        43 non-null     object 
-#   3   hs_trabajadas_sem  43 non-null     float64
-#  
-#  |    |   anio |   genero_cod | genero_desc   |   hs_trabajadas_sem |
-#  |---:|-------:|-------------:|:--------------|--------------------:|
-#  |  0 |   2003 |            0 | Mujeres       |                  98 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='sanidad', new_value='Saneamiento baño')
-#  RangeIndex: 43 entries, 0 to 42
-#  Data columns (total 4 columns):
-#   #   Column             Non-Null Count  Dtype  
-#  ---  ------             --------------  -----  
-#   0   anio               43 non-null     int64  
-#   1   genero_cod         43 non-null     int64  
-#   2   genero_desc        43 non-null     object 
-#   3   hs_trabajadas_sem  43 non-null     float64
-#  
-#  |    |   anio |   genero_cod | genero_desc   |   hs_trabajadas_sem |
-#  |---:|-------:|-------------:|:--------------|--------------------:|
-#  |  0 |   2003 |            0 | Mujeres       |                  98 |
-#  
-#  ------------------------------
-#  
-#  replace_value(col='categoria', curr_value='cloacas', new_value='Cloacas')
+#  replace_value(col='genero_desc', curr_value='Hombres', new_value='Varones')
 #  RangeIndex: 43 entries, 0 to 42
 #  Data columns (total 4 columns):
 #   #   Column             Non-Null Count  Dtype  
@@ -123,7 +89,7 @@ pipeline = chain(
 #  
 #  |    |   anio |   genero_cod | genero_desc   |   hs_trabajadas_sem |
 #  |---:|-------:|-------------:|:--------------|--------------------:|
-#  |  1 |   2003 |            1 | Hombres       |             42.6659 |
+#  |  1 |   2003 |            1 | Varones       |             42.6659 |
 #  
 #  ------------------------------
 #  
