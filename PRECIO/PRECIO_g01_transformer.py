@@ -12,7 +12,7 @@ def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFra
 
 #  PIPELINE_START
 pipeline = chain(
-	map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y prendas de vestir', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y prendas de vestir', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Transporte, comunicaciones y otros servicios', 'Transporte': 'Transporte, comunicaciones y otros servicios', 'Bienes y servicios varios': 'Transporte, comunicaciones y otros servicios'})
+	map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones y otros servivcios', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Comunicaciones y otros servivcios'})
 )
 #  PIPELINE_END
 
@@ -31,7 +31,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y prendas de vestir', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y prendas de vestir', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Transporte, comunicaciones y otros servicios', 'Transporte': 'Transporte, comunicaciones y otros servicios', 'Bienes y servicios varios': 'Transporte, comunicaciones y otros servicios'})
+#  map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones y otros servivcios', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Comunicaciones y otros servivcios'})
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
