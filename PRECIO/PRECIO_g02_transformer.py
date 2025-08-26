@@ -37,7 +37,7 @@ pipeline = chain(
 	agg_sum(key_cols=['region', 'sector_agrupado'], summarised_col='valor'),
 	rescale(group_cols=['region'], summarised_col='valor'),
 	drop_col(col='valor', axis=1),
-	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Cultura y esparcimiento', 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
+	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Vivienda, equipamiento y otros', 'Cultura y esparcimiento', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
 )
 #  PIPELINE_END
 
@@ -120,7 +120,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Cultura y esparcimiento', 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
+#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Vivienda, equipamiento y otros', 'Cultura y esparcimiento', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
 #  Index: 56 entries, 16 to 9
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
