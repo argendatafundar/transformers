@@ -17,17 +17,17 @@ def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFra
     return df
 
 @transformer.convert
+def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame:
+    df['value_scaled'] = df.groupby(group_cols)[summarised_col].transform(
+    lambda x: 100*(x/x.sum()))
+    return df
+
+@transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
     import pandas as pd
     df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
     df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
     return df.sort_values(by=[col1,col2])
-
-@transformer.convert
-def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame:
-    df['value_scaled'] = df.groupby(group_cols)[summarised_col].transform(
-    lambda x: 100*(x/x.sum()))
-    return df
 #  DEFINITIONS_END
 
 
