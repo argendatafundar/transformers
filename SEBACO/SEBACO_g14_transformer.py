@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
@@ -29,17 +29,11 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio.isin([anio.min(), (anio.max() + anio.min())/2, anio.max()])'),
 	rename_cols(map={'sector': 'categoria', 'prop_mujeres': 'valor'}),
 	sort_values(how='ascending', by=['anio', 'categoria']),
 	multiplicar_por_escalar(col='valor', k=100),
@@ -63,29 +57,14 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio.isin([anio.min(), (anio.max() + anio.min())/2, anio.max()])')
-#  Index: 6 entries, 0 to 33
-#  Data columns (total 3 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   anio          6 non-null      int64  
-#   1   sector        6 non-null      object 
-#   2   prop_mujeres  6 non-null      float64
-#  
-#  |    |   anio | sector   |   prop_mujeres |
-#  |---:|-------:|:---------|---------------:|
-#  |  0 |   2007 | SBC      |       0.384661 |
-#  
-#  ------------------------------
-#  
 #  rename_cols(map={'sector': 'categoria', 'prop_mujeres': 'valor'})
-#  Index: 6 entries, 0 to 33
+#  RangeIndex: 34 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       6 non-null      int64  
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
+#   0   anio       34 non-null     int64  
+#   1   categoria  34 non-null     object 
+#   2   valor      34 non-null     float64
 #  
 #  |    |   anio | categoria   |    valor |
 #  |---:|-------:|:------------|---------:|
@@ -94,13 +73,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'categoria'])
-#  RangeIndex: 6 entries, 0 to 5
+#  RangeIndex: 34 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       6 non-null      int64  
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
+#   0   anio       34 non-null     int64  
+#   1   categoria  34 non-null     object 
+#   2   valor      34 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
@@ -109,13 +88,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 6 entries, 0 to 5
+#  RangeIndex: 34 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       6 non-null      int64  
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
+#   0   anio       34 non-null     int64  
+#   1   categoria  34 non-null     object 
+#   2   valor      34 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
@@ -124,13 +103,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Total economia', new_value='Total economía', mapping=None)
-#  RangeIndex: 6 entries, 0 to 5
+#  RangeIndex: 34 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       6 non-null      int64  
-#   1   categoria  6 non-null      object 
-#   2   valor      6 non-null      float64
+#   0   anio       34 non-null     int64  
+#   1   categoria  34 non-null     object 
+#   2   valor      34 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
