@@ -4,25 +4,23 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 
 @transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
+
+@transformer.convert
 def str_replace(df: DataFrame, col: str, pattern, replace: str, reg: bool = True):
     df[col] = df[col].str.replace(pattern, replace, regex=reg)
+    return df
+
+@transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -36,11 +34,11 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'}),
-	sort_values(how='ascending', by=['categoria', 'indicador']),
+	rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
 	str_replace(col='indicador', pattern='^[a-z]\\. ', replace='', reg=True),
-	ordenar_dos_columnas(col1='indicador', order1=['Sin instrucción', 'Primario incompleto', 'Primario completo', 'Secundario incompleto', 'Secundario completo', 'Superior incompleto', 'Superior completo'], col2='categoria', order2=['SBC', 'Sector privado', 'Total economía'])
+	replace_multiple_values(col='categoria', replacements={'SBC': 'SBC', 'Sector privado': 'Privado', 'Total economía': 'Total'}),
+	ordenar_dos_columnas(col1='indicador', order1=['Superior completo', 'Superior incompleto', 'Secundario completo', 'Secundario incompleto', 'Primario completo', 'Primario incompleto', 'Sin instrucción'], col2='categoria', order2=['SBC', 'Total', 'Privado'])
 )
 #  PIPELINE_END
 
@@ -61,21 +59,6 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #  ------------------------------
 #  
 #  rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valor'})
-#  RangeIndex: 21 entries, 0 to 20
-#  Data columns (total 3 columns):
-#   #   Column     Non-Null Count  Dtype  
-#  ---  ------     --------------  -----  
-#   0   indicador  21 non-null     object 
-#   1   categoria  21 non-null     object 
-#   2   valor      21 non-null     float64
-#  
-#  |    | indicador              | categoria   |      valor |
-#  |---:|:-----------------------|:------------|-----------:|
-#  |  0 | a. Primario incompleto | SBC         | 0.00194999 |
-#  
-#  ------------------------------
-#  
-#  sort_values(how='ascending', by=['categoria', 'indicador'])
 #  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
@@ -120,8 +103,8 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='indicador', order1=['Sin instrucción', 'Primario incompleto', 'Primario completo', 'Secundario incompleto', 'Secundario completo', 'Superior incompleto', 'Superior completo'], col2='categoria', order2=['SBC', 'Sector privado', 'Total economía'])
-#  Index: 21 entries, 6 to 19
+#  replace_multiple_values(col='categoria', replacements={'SBC': 'SBC', 'Sector privado': 'Privado', 'Total economía': 'Total'})
+#  RangeIndex: 21 entries, 0 to 20
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype   
 #  ---  ------     --------------  -----   
@@ -129,9 +112,24 @@ rename_cols(map={'nivel': 'indicador', 'sector': 'categoria', 'prop_educ': 'valo
 #   1   categoria  21 non-null     category
 #   2   valor      21 non-null     float64 
 #  
-#  |    | indicador       | categoria   |    valor |
-#  |---:|:----------------|:------------|---------:|
-#  |  6 | Sin instrucción | SBC         | 0.109376 |
+#  |    | indicador           | categoria   |    valor |
+#  |---:|:--------------------|:------------|---------:|
+#  |  0 | Primario incompleto | SBC         | 0.194999 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='indicador', order1=['Superior completo', 'Superior incompleto', 'Secundario completo', 'Secundario incompleto', 'Primario completo', 'Primario incompleto', 'Sin instrucción'], col2='categoria', order2=['SBC', 'Total', 'Privado'])
+#  Index: 21 entries, 15 to 19
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype   
+#  ---  ------     --------------  -----   
+#   0   indicador  21 non-null     category
+#   1   categoria  21 non-null     category
+#   2   valor      21 non-null     float64 
+#  
+#  |    | indicador         | categoria   |   valor |
+#  |---:|:------------------|:------------|--------:|
+#  | 15 | Superior completo | SBC         | 62.7181 |
 #  
 #  ------------------------------
 #  
