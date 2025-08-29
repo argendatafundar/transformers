@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	multiplicar_por_escalar(col='prop_sbc', k=100.0)
+	multiplicar_por_escalar(col='prop_sbc', k=100.0),
+	query(condition='anio.isin([1996, 2003, 2011, 2022])')
 )
 #  PIPELINE_END
 
@@ -40,6 +46,21 @@ pipeline = chain(
 #   0   anio      27 non-null     int64  
 #   1   sbc       27 non-null     float64
 #   2   prop_sbc  27 non-null     float64
+#  
+#  |    |   anio |    sbc |   prop_sbc |
+#  |---:|-------:|-------:|-----------:|
+#  |  0 |   1996 | 140069 |     3.9892 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio.isin([1996, 2003, 2011, 2022])')
+#  Index: 4 entries, 0 to 26
+#  Data columns (total 3 columns):
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   anio      4 non-null      int64  
+#   1   sbc       4 non-null      float64
+#   2   prop_sbc  4 non-null      float64
 #  
 #  |    |   anio |    sbc |   prop_sbc |
 #  |---:|-------:|-------:|-----------:|
