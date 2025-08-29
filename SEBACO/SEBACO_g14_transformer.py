@@ -26,23 +26,23 @@ def sort_values(df: DataFrame, how: str, by: list):
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 
 @transformer.convert
-def quedarse_con_n_anios(df: DataFrame, year_col:str, n_years:int):
-    years = df[year_col].sort_values().unique().tolist()
-    L = len(years) - 1  # último índice
-    idx = [round(i * L / (n - 1)) for i in range(n_years)]
-    filter_years = [years[i] for i in idx]
-    return  df[df[year_col].isin(filter_years)]
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def quedarse_con_n_anios(df: DataFrame, year_col:str, n_years:int):
+    years = df[year_col].sort_values().unique().tolist()
+    L = len(years) - 1  # último índice
+    idx = [round(i * L / (n_years - 1)) for i in range(n_years)]
+    filter_years = [years[i] for i in idx]
+    return  df[df[year_col].isin(filter_years)]
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	quedarse_con_n_anios(year_col='anio', n_years=4),
+	quedarse_con_n_anios(year_col='anio', n_years=3),
 	rename_cols(map={'sector': 'categoria', 'prop_mujeres': 'valor'}),
 	sort_values(how='ascending', by=['anio', 'categoria']),
 	multiplicar_por_escalar(col='valor', k=100),
@@ -66,14 +66,14 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  quedarse_con_n_anios(year_col='anio', n_years=4)
-#  Index: 8 entries, 0 to 9
+#  quedarse_con_n_anios(year_col='anio', n_years=3)
+#  Index: 6 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          8 non-null      int64  
-#   1   sector        8 non-null      object 
-#   2   prop_mujeres  8 non-null      float64
+#   0   anio          6 non-null      int64  
+#   1   sector        6 non-null      object 
+#   2   prop_mujeres  6 non-null      float64
 #  
 #  |    |   anio | sector   |   prop_mujeres |
 #  |---:|-------:|:---------|---------------:|
@@ -82,13 +82,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  rename_cols(map={'sector': 'categoria', 'prop_mujeres': 'valor'})
-#  Index: 8 entries, 0 to 9
+#  Index: 6 entries, 0 to 33
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       8 non-null      int64  
-#   1   categoria  8 non-null      object 
-#   2   valor      8 non-null      float64
+#   0   anio       6 non-null      int64  
+#   1   categoria  6 non-null      object 
+#   2   valor      6 non-null      float64
 #  
 #  |    |   anio | categoria   |    valor |
 #  |---:|-------:|:------------|---------:|
@@ -97,13 +97,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  sort_values(how='ascending', by=['anio', 'categoria'])
-#  RangeIndex: 8 entries, 0 to 7
+#  RangeIndex: 6 entries, 0 to 5
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       8 non-null      int64  
-#   1   categoria  8 non-null      object 
-#   2   valor      8 non-null      float64
+#   0   anio       6 non-null      int64  
+#   1   categoria  6 non-null      object 
+#   2   valor      6 non-null      float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
@@ -112,13 +112,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 8 entries, 0 to 7
+#  RangeIndex: 6 entries, 0 to 5
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       8 non-null      int64  
-#   1   categoria  8 non-null      object 
-#   2   valor      8 non-null      float64
+#   0   anio       6 non-null      int64  
+#   1   categoria  6 non-null      object 
+#   2   valor      6 non-null      float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
@@ -127,13 +127,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='categoria', curr_value='Total economia', new_value='Total economía', mapping=None)
-#  RangeIndex: 8 entries, 0 to 7
+#  RangeIndex: 6 entries, 0 to 5
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       8 non-null      int64  
-#   1   categoria  8 non-null      object 
-#   2   valor      8 non-null      float64
+#   0   anio       6 non-null      int64  
+#   1   categoria  6 non-null      object 
+#   2   valor      6 non-null      float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
