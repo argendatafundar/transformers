@@ -4,27 +4,37 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
+	to_pandas(dummy=True),
 	query(condition='geonombreFundar == "Argentina"'),
 	rename_cols(map={'tipo_idh': 'categoria'}),
-	query(condition='anio in [1990, 2022]')
+	query(condition='anio in [1990, 2006, 2022]')
 )
 #  PIPELINE_END
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 13596 entries, 0 to 13595
 #  Data columns (total 6 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -78,17 +88,17 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1990, 2022]')
-#  Index: 4 entries, 330 to 395
+#  query(condition='anio in [1990, 2006, 2022]')
+#  Index: 6 entries, 330 to 395
 #  Data columns (total 6 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  4 non-null      object 
-#   1   geonombreFundar  4 non-null      object 
-#   2   anio             4 non-null      int64  
-#   3   categoria        4 non-null      object 
-#   4   country          4 non-null      object 
-#   5   valor            4 non-null      float64
+#   0   geocodigoFundar  6 non-null      object 
+#   1   geonombreFundar  6 non-null      object 
+#   2   anio             6 non-null      int64  
+#   3   categoria        6 non-null      object 
+#   4   country          6 non-null      object 
+#   5   valor            6 non-null      float64
 #  
 #  |     | geocodigoFundar   | geonombreFundar   |   anio | categoria   | country   |   valor |
 #  |----:|:------------------|:------------------|-------:|:------------|:----------|--------:|
