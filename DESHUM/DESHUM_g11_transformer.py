@@ -4,16 +4,22 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 
 @transformer.convert
-def drop_na(df, subset:str): 
-    return df.dropna(subset=subset, axis=0)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 
 @transformer.convert
-def fill_mundo_world(df: DataFrame) -> DataFrame:
+def drop_na(df:DataFrame, cols:list):
+    df = df.dropna(subset=cols, axis=0)
+    return df
+
+@transformer.convert
+def fill_mundo_world(df: DataFrame, dummy = True) -> DataFrame:
     df.loc[
         (df['country'] == 'World') & df['geonombreFundar'].isna(),
         'geonombreFundar'
@@ -21,23 +27,28 @@ def fill_mundo_world(df: DataFrame) -> DataFrame:
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
+	to_pandas(dummy=True),
 	rename_cols(map={'gdi': 'valor'}),
-	fill_mundo_world(),
-	drop_na(subset=['valor']),
-	query(condition='anio in [1990, 2022]')
+	fill_mundo_world(dummy=True),
+	drop_na(cols=['valor']),
+	query(condition='anio in [1990, 2006, 2022]')
 )
 #  PIPELINE_END
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -71,7 +82,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  fill_mundo_world()
+#  fill_mundo_world(dummy=True)
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -88,7 +99,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  drop_na(subset=['valor'])
+#  drop_na(cols=['valor'])
 #  Index: 5014 entries, 18 to 6797
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -105,16 +116,16 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1990, 2022]')
-#  Index: 269 entries, 32 to 6797
+#  query(condition='anio in [1990, 2006, 2022]')
+#  Index: 438 entries, 32 to 6797
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geocodigoFundar  267 non-null    object 
-#   1   geonombreFundar  269 non-null    object 
-#   2   anio             269 non-null    int64  
-#   3   country          269 non-null    object 
-#   4   valor            269 non-null    float64
+#   0   geocodigoFundar  435 non-null    object 
+#   1   geonombreFundar  438 non-null    object 
+#   2   anio             438 non-null    int64  
+#   3   country          438 non-null    object 
+#   4   valor            438 non-null    float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | country     |   valor |
 #  |---:|:------------------|:------------------|-------:|:------------|--------:|
