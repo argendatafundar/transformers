@@ -13,6 +13,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -21,14 +26,19 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
+	to_pandas(dummy=True),
 	rename_cols(map={'anios_prom_educ': 'valor'}),
 	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
-	query(condition='anio in [1990, 2022]')
+	query(condition='anio in [1990, 2006, 2022]')
 )
 #  PIPELINE_END
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 6254 entries, 0 to 6253
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
@@ -79,14 +89,14 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1990, 2022]')
-#  Index: 367 entries, 0 to 6253
+#  query(condition='anio in [1990, 2006, 2022]')
+#  Index: 567 entries, 0 to 6253
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   geonombreFundar  367 non-null    object 
-#   1   anio             367 non-null    int64  
-#   2   valor            367 non-null    float64
+#   0   geonombreFundar  567 non-null    object 
+#   1   anio             567 non-null    int64  
+#   2   valor            567 non-null    float64
 #  
 #  |    | geonombreFundar   |   anio |   valor |
 #  |---:|:------------------|-------:|--------:|
