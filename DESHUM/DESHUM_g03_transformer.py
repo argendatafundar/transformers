@@ -13,6 +13,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -21,6 +26,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
+	to_pandas(dummy=True),
 	rename_cols(map={'idh': 'valor'}),
 	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
 	query(condition='anio in [1990, 2001, 2011, 2022]')
@@ -29,6 +35,10 @@ pipeline = chain(
 
 
 #  start()
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
 #  RangeIndex: 6171 entries, 0 to 6170
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
