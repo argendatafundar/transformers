@@ -84,7 +84,7 @@ def to_pandas(df: pl.DataFrame, dummy = True):
 #  PIPELINE_START
 pipeline = chain(
 	to_pandas(dummy=True),
-	rename_cols(map={'expectativa_educ': 'valor'}),
+	rename_cols(map={'expectativa_vida': 'valor'}),
 	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
 	apply_lambda(col='geonombreFundar', lambda_str='lambda x: x.replace("Países de desarrollo", "P. de desarrollo")', new_col=None)
 )
@@ -113,7 +113,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'expectativa_educ': 'valor'})
+#  rename_cols(map={'expectativa_vida': 'valor'})
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
@@ -123,41 +123,41 @@ pipeline = chain(
 #   2   continente_fundar  6435 non-null   object 
 #   3   es_agregacion      6435 non-null   float64
 #   4   anio               6798 non-null   int64  
-#   5   expectativa_vida   6798 non-null   float64
+#   5   valor              6798 non-null   float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar   | continente_fundar   |   es_agregacion |   anio |   expectativa_vida |
-#  |---:|:------------------|:------------------|:--------------------|----------------:|-------:|-------------------:|
-#  |  0 | AFG               | Afganistán        | Asia                |               0 |   1990 |              45.97 |
+#  |    | geocodigoFundar   | geonombreFundar   | continente_fundar   |   es_agregacion |   anio |   valor |
+#  |---:|:------------------|:------------------|:--------------------|----------------:|-------:|--------:|
+#  |  0 | AFG               | Afganistán        | Asia                |               0 |   1990 |   45.97 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1)
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 3 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   geonombreFundar   6798 non-null   object 
-#   1   anio              6798 non-null   int64  
-#   2   expectativa_vida  6798 non-null   float64
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  6798 non-null   object 
+#   1   anio             6798 non-null   int64  
+#   2   valor            6798 non-null   float64
 #  
-#  |    | geonombreFundar   |   anio |   expectativa_vida |
-#  |---:|:------------------|-------:|-------------------:|
-#  |  0 | Afganistán        |   1990 |              45.97 |
+#  |    | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|-------:|--------:|
+#  |  0 | Afganistán        |   1990 |   45.97 |
 #  
 #  ------------------------------
 #  
 #  apply_lambda(col='geonombreFundar', lambda_str='lambda x: x.replace("Países de desarrollo", "P. de desarrollo")', new_col=None)
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 3 columns):
-#   #   Column            Non-Null Count  Dtype  
-#  ---  ------            --------------  -----  
-#   0   geonombreFundar   6798 non-null   object 
-#   1   anio              6798 non-null   int64  
-#   2   expectativa_vida  6798 non-null   float64
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geonombreFundar  6798 non-null   object 
+#   1   anio             6798 non-null   int64  
+#   2   valor            6798 non-null   float64
 #  
-#  |    | geonombreFundar   |   anio |   expectativa_vida |
-#  |---:|:------------------|-------:|-------------------:|
-#  |  0 | Afganistán        |   1990 |              45.97 |
+#  |    | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|-------:|--------:|
+#  |  0 | Afganistán        |   1990 |   45.97 |
 #  
 #  ------------------------------
 #  
