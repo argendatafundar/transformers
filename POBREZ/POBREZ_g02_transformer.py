@@ -29,7 +29,7 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 pipeline = chain(
 	quedarse_con_n_anios(year_col='year', n_years=2),
 	replace_multiple_values(col='province', replacements={'san_luis': 'San Luis', 'neuquen': 'Neuquén', 'santa_fe': 'Santa Fe', 'san_juan': 'San Juan', 'santiago_del_estero': 'Santiago del Estero', 'PBA': 'Interior de PBA', 'caba': 'CABA', 'la_pampa': 'La Pampa', 'tierra_del_fuego': 'Tierra del Fuego', 'salta': 'Salta', 'chubut': 'Chubut', 'cordoba': 'Córdoba', 'tucuman': 'Tucumán', 'jujuy': 'Jujuy', 'chaco': 'Chaco', 'la_rioja': 'La Rioja', 'catamarca': 'Catamarca', 'rio_negro': 'Río Negro', 'mendoza': 'Mendoza', 'formosa': 'Formosa', 'partidos_GBA': 'Partidos del GBA', 'santa_cruz': 'Santa Cruz', 'entre rios': 'Entre Ríos', 'corrientes': 'Corrientes', 'misiones': 'Misiones', 'argentina': 'Total Nacional'}),
-	ordenar_dos_columnas(col1='province', order1=['Santiago del Estero', 'Formosa', 'Jujuy', 'Chaco', 'Catamarca', 'Misiones', 'Corrientes', 'Salta', 'Tucumán', 'Neuquén', 'Río Negro', 'Chubut', 'La Rioja', 'Entre Ríos', 'San Luis', 'San Juan', 'Santa Cruz', 'La Pampa', 'Total Nacional', 'Santa Fe', 'Córdoba', 'Partidos del GBA', 'Mendoza', 'Tierra del Fuego', 'Interior de PBA', 'CABA'], col2='year', order2=[1980, 2022])
+	ordenar_dos_columnas(col1='province', order1=['CABA', 'Interior de PBA', 'Tierra del Fuego', 'Mendoza', 'Partidos del GBA', 'Córdoba', 'Santa Fe', 'Total Nacional', 'La Pampa', 'Santa Cruz', 'San Juan', 'San Luis', 'Entre Ríos', 'La Rioja', 'Chubut', 'Río Negro', 'Neuquén', 'Tucumán', 'Salta', 'Corrientes', 'Misiones', 'Catamarca', 'Chaco', 'Jujuy', 'Formosa', 'Santiago del Estero'], col2='year', order2=[1980, 2022])
 )
 #  PIPELINE_END
 
@@ -79,8 +79,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='province', order1=['Santiago del Estero', 'Formosa', 'Jujuy', 'Chaco', 'Catamarca', 'Misiones', 'Corrientes', 'Salta', 'Tucumán', 'Neuquén', 'Río Negro', 'Chubut', 'La Rioja', 'Entre Ríos', 'San Luis', 'San Juan', 'Santa Cruz', 'La Pampa', 'Total Nacional', 'Santa Fe', 'Córdoba', 'Partidos del GBA', 'Mendoza', 'Tierra del Fuego', 'Interior de PBA', 'CABA'], col2='year', order2=[1980, 2022])
-#  Index: 52 entries, 115 to 9
+#  ordenar_dos_columnas(col1='province', order1=['CABA', 'Interior de PBA', 'Tierra del Fuego', 'Mendoza', 'Partidos del GBA', 'Córdoba', 'Santa Fe', 'Total Nacional', 'La Pampa', 'Santa Cruz', 'San Juan', 'San Luis', 'Entre Ríos', 'La Rioja', 'Chubut', 'Río Negro', 'Neuquén', 'Tucumán', 'Salta', 'Corrientes', 'Misiones', 'Catamarca', 'Chaco', 'Jujuy', 'Formosa', 'Santiago del Estero'], col2='year', order2=[1980, 2022])
+#  Index: 52 entries, 5 to 119
 #  Data columns (total 3 columns):
 #   #   Column    Non-Null Count  Dtype   
 #  ---  ------    --------------  -----   
@@ -88,9 +88,9 @@ pipeline = chain(
 #   1   year      52 non-null     category
 #   2   nbi_rate  52 non-null     float64 
 #  
-#  |     | province            |   year |   nbi_rate |
-#  |----:|:--------------------|-------:|-----------:|
-#  | 115 | Santiago del Estero |   1980 |       45.8 |
+#  |    | province   |   year |   nbi_rate |
+#  |---:|:-----------|-------:|-----------:|
+#  |  5 | CABA       |   1980 |        7.4 |
 #  
 #  ------------------------------
 #  
