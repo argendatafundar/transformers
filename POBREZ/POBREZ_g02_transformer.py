@@ -4,17 +4,17 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
-    df[col] = df[col].replace(replacements)
-    return df
-
-@transformer.convert
 def quedarse_con_n_anios(df: DataFrame, year_col:str, n_years:int):
     years = df[year_col].sort_values().unique().tolist()
     L = len(years) - 1  # último índice
     idx = [round(i * L / (n_years - 1)) for i in range(n_years)]
     filter_years = [years[i] for i in idx]
     return  df[df[year_col].isin(filter_years)]
+
+@transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
 
 @transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
