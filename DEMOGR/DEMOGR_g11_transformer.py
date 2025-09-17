@@ -43,7 +43,7 @@ pipeline = chain(
 	agregar_anio(),
 	query(condition="(anio >= 1950 and fuente =='World Population Prospects (UN)') or (anio < 1950 and fuente == 'INDEC')"),
 	sort_values(how='ascending', by=['anio']),
-	drop_col(col=['fuente', 'medida_fecha', 'valor_fecha'], axis=1)
+	drop_col(col=['medida_fecha', 'valor_fecha'], axis=1)
 )
 #  PIPELINE_END
 
@@ -115,17 +115,18 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  drop_col(col=['fuente', 'medida_fecha', 'valor_fecha'], axis=1)
+#  drop_col(col=['medida_fecha', 'valor_fecha'], axis=1)
 #  RangeIndex: 80 entries, 0 to 79
-#  Data columns (total 2 columns):
+#  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
 #   0   exp_vida_al_nacer  80 non-null     float64
-#   1   anio               80 non-null     int64  
+#   1   fuente             80 non-null     object 
+#   2   anio               80 non-null     int64  
 #  
-#  |    |   exp_vida_al_nacer |   anio |
-#  |---:|--------------------:|-------:|
-#  |  0 |               32.86 |   1882 |
+#  |    |   exp_vida_al_nacer | fuente   |   anio |
+#  |---:|--------------------:|:---------|-------:|
+#  |  0 |               32.86 | INDEC    |   1882 |
 #  
 #  ------------------------------
 #  
