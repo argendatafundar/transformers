@@ -13,7 +13,7 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 #  PIPELINE_START
 pipeline = chain(
 	replace_value(col='fuente', curr_value='World Population Prospects (UN)', new_value='WPP'),
-	replace_value(col='fuente', curr_value='Lattes et al (1975)', new_value='Lattes et al. (1975)'),
+	replace_value(col='fuente', curr_value='Lattes et al (1975)', new_value='Lattes (1975)'),
 	replace_value(col='fuente', curr_value='Maddison Project Database', new_value='MDP')
 )
 #  PIPELINE_END
@@ -49,7 +49,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='fuente', curr_value='Lattes et al (1975)', new_value='Lattes et al. (1975)')
+#  replace_value(col='fuente', curr_value='Lattes et al (1975)', new_value='Lattes (1975)')
 #  RangeIndex: 94 entries, 0 to 93
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype 
