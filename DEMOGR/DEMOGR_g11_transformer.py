@@ -4,15 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 
 @transformer.convert
 def agregar_anio(df: pd.DataFrame) -> pd.DataFrame:
@@ -32,6 +26,17 @@ def agregar_anio(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 @transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -43,7 +48,8 @@ pipeline = chain(
 	agregar_anio(),
 	query(condition="(anio >= 1950 and fuente =='World Population Prospects (UN)') or (anio < 1950 and fuente == 'INDEC')"),
 	sort_values(how='ascending', by=['anio']),
-	drop_col(col=['medida_fecha', 'valor_fecha'], axis=1)
+	drop_col(col=['medida_fecha', 'valor_fecha'], axis=1),
+	replace_value(col='fuente', curr_value='World Population Prospects (UN)', new_value='WPP')
 )
 #  PIPELINE_END
 
@@ -116,6 +122,21 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  drop_col(col=['medida_fecha', 'valor_fecha'], axis=1)
+#  RangeIndex: 80 entries, 0 to 79
+#  Data columns (total 3 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   exp_vida_al_nacer  80 non-null     float64
+#   1   fuente             80 non-null     object 
+#   2   anio               80 non-null     int64  
+#  
+#  |    |   exp_vida_al_nacer | fuente   |   anio |
+#  |---:|--------------------:|:---------|-------:|
+#  |  0 |               32.86 | INDEC    |   1882 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='fuente', curr_value='World Population Prospects (UN)', new_value='WPP')
 #  RangeIndex: 80 entries, 0 to 79
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
