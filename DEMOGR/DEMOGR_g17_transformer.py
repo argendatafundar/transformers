@@ -4,14 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
-    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
-
-@transformer.convert
 def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
     df_copy = df.copy()
     df_copy[col] = df_copy[col].replace(replacements)
     return df_copy
+
+@transformer.convert
+def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
+    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 
 @transformer.convert
 def sumar_dos_columnas(df:DataFrame, col1:str, col2:str, new_col:str)->DataFrame:
