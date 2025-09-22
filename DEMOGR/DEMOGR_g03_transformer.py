@@ -7,12 +7,18 @@ from data_transformers import chain, transformer
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.replace({col: curr_value}, new_value)
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio <= 2025')
+	query(condition='anio <= 2025'),
+	replace_value(col='geonombreFundar', curr_value='América Latina y el Caribe', new_value='A. Latina')
 )
 #  PIPELINE_END
 
@@ -34,6 +40,22 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  query(condition='anio <= 2025')
+#  Index: 18088 entries, 0 to 35862
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             18088 non-null  int64  
+#   1   geocodigoFundar  18088 non-null  object 
+#   2   edad_mediana     18088 non-null  float64
+#   3   geonombreFundar  18088 non-null  object 
+#  
+#  |    |   anio | geocodigoFundar   |   edad_mediana | geonombreFundar   |
+#  |---:|-------:|:------------------|---------------:|:------------------|
+#  |  0 |   1950 | BDI               |        18.3054 | Burundi           |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='geonombreFundar', curr_value='América Latina y el Caribe', new_value='A. Latina')
 #  Index: 18088 entries, 0 to 35862
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
