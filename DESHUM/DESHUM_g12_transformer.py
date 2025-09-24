@@ -19,7 +19,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	rename_cols(map={'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="pais_nombre in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi', 'Liechtenstein', 'Somalia', 'Níger', 'Japón', 'América Latina y el Caribe')")
+	query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Japón', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia')")
 )
 #  PIPELINE_END
 
@@ -75,20 +75,20 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="pais_nombre in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi', 'Liechtenstein', 'Somalia', 'Níger', 'Japón', 'América Latina y el Caribe')")
-#  Index: 24 entries, 254 to 10027
+#  query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Japón', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia')")
+#  Index: 28 entries, 28 to 10027
 #  Data columns (total 5 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   iso3         24 non-null     object 
-#   1   anio         24 non-null     int64  
-#   2   pais_nombre  24 non-null     object 
-#   3   indicador    24 non-null     object 
-#   4   valor        24 non-null     float64
+#   0   iso3         28 non-null     object 
+#   1   anio         28 non-null     int64  
+#   2   pais_nombre  28 non-null     object 
+#   3   indicador    28 non-null     object 
+#   4   valor        28 non-null     float64
 #  
-#  |     | iso3   |   anio | pais_nombre   | indicador   |   valor |
-#  |----:|:-------|-------:|:--------------|:------------|--------:|
-#  | 254 | ARG    |   2022 | Argentina     | Varones     |   0.845 |
+#  |    | iso3   |   anio | pais_nombre   | indicador   |   valor |
+#  |---:|:-------|-------:|:--------------|:------------|--------:|
+#  | 28 | AFG    |   2022 | Afganistán    | Varones     |   0.534 |
 #  
 #  ------------------------------
 #  
