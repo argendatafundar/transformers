@@ -19,7 +19,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	rename_cols(map={'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay', 'Liechtenstein')")
+	query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'Somalia', 'Burundi', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay', 'Liechtenstein')")
 )
 #  PIPELINE_END
 
@@ -75,16 +75,16 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay', 'Liechtenstein')")
-#  Index: 34 entries, 28 to 10027
+#  query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'Somalia', 'Burundi', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay', 'Liechtenstein')")
+#  Index: 38 entries, 28 to 10027
 #  Data columns (total 5 columns):
 #   #   Column       Non-Null Count  Dtype  
 #  ---  ------       --------------  -----  
-#   0   iso3         34 non-null     object 
-#   1   anio         34 non-null     int64  
-#   2   pais_nombre  34 non-null     object 
-#   3   indicador    34 non-null     object 
-#   4   valor        34 non-null     float64
+#   0   iso3         38 non-null     object 
+#   1   anio         38 non-null     int64  
+#   2   pais_nombre  38 non-null     object 
+#   3   indicador    38 non-null     object 
+#   4   valor        38 non-null     float64
 #  
 #  |    | iso3   |   anio | pais_nombre   | indicador   |   valor |
 #  |---:|:-------|-------:|:--------------|:------------|--------:|
