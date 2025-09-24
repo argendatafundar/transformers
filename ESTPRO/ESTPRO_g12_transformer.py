@@ -4,9 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
 
 @transformer.convert
 def sort_mixed(
@@ -45,21 +49,12 @@ def sort_mixed(
     return df.sort_values(by=by, ascending=ascending).reset_index(drop=True)
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
 
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
@@ -67,84 +62,79 @@ def mutiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-	to_pandas(dummy=True),
 	rename_cols(map={'letra_desc_abrev': 'categoria', 'porc_mujeres': 'valor'}),
 	drop_col(col=['letra'], axis=1),
-	mutiplicar_por_escalar(col='valor', k=100),
-	query(condition='anio in [1996, 2008, 2021]'),
+	multiplicar_por_escalar(col='valor', k=100),
+	query(condition='anio in [1996, 2008, 2022]'),
 	sort_mixed(sort_instructions={'categoria': 'ascending', 'anio': 'ascending'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  
-#  ------------------------------
-#  
-#  to_pandas(dummy=True)
-#  RangeIndex: 390 entries, 0 to 389
+#  RangeIndex: 435 entries, 0 to 434
 #  Data columns (total 4 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   anio              390 non-null    int64  
-#   1   letra             390 non-null    object 
-#   2   letra_desc_abrev  390 non-null    object 
-#   3   porc_mujeres      390 non-null    float64
+#   0   anio              435 non-null    int64  
+#   1   letra             435 non-null    object 
+#   2   letra_desc_abrev  435 non-null    object 
+#   3   porc_mujeres      435 non-null    float64
 #  
 #  |    |   anio | letra   | letra_desc_abrev   |   porc_mujeres |
 #  |---:|-------:|:--------|:-------------------|---------------:|
-#  |  0 |   1996 | A       | Agro               |      0.0918044 |
+#  |  0 |   1996 | A       | Agro               |      0.0921219 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'letra_desc_abrev': 'categoria', 'porc_mujeres': 'valor'})
-#  RangeIndex: 390 entries, 0 to 389
+#  RangeIndex: 435 entries, 0 to 434
 #  Data columns (total 4 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       390 non-null    int64  
-#   1   letra      390 non-null    object 
-#   2   categoria  390 non-null    object 
-#   3   valor      390 non-null    float64
+#   0   anio       435 non-null    int64  
+#   1   letra      435 non-null    object 
+#   2   categoria  435 non-null    object 
+#   3   valor      435 non-null    float64
 #  
 #  |    |   anio | letra   | categoria   |     valor |
 #  |---:|-------:|:--------|:------------|----------:|
-#  |  0 |   1996 | A       | Agro        | 0.0918044 |
+#  |  0 |   1996 | A       | Agro        | 0.0921219 |
 #  
 #  ------------------------------
 #  
 #  drop_col(col=['letra'], axis=1)
-#  RangeIndex: 390 entries, 0 to 389
+#  RangeIndex: 435 entries, 0 to 434
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       390 non-null    int64  
-#   1   categoria  390 non-null    object 
-#   2   valor      390 non-null    float64
+#   0   anio       435 non-null    int64  
+#   1   categoria  435 non-null    object 
+#   2   valor      435 non-null    float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  0 |   1996 | Agro        | 9.18044 |
+#  |  0 |   1996 | Agro        | 9.21219 |
 #  
 #  ------------------------------
 #  
-#  mutiplicar_por_escalar(col='valor', k=100)
-#  RangeIndex: 390 entries, 0 to 389
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 435 entries, 0 to 434
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
-#   0   anio       390 non-null    int64  
-#   1   categoria  390 non-null    object 
-#   2   valor      390 non-null    float64
+#   0   anio       435 non-null    int64  
+#   1   categoria  435 non-null    object 
+#   2   valor      435 non-null    float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  0 |   1996 | Agro        | 9.18044 |
+#  |  0 |   1996 | Agro        | 9.21219 |
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1996, 2008, 2021]')
-#  Index: 45 entries, 0 to 389
+#  query(condition='anio in [1996, 2008, 2022]')
+#  Index: 45 entries, 0 to 404
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
 #  ---  ------     --------------  -----  
@@ -154,7 +144,7 @@ pipeline = chain(
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  0 |   1996 | Agro        | 9.18044 |
+#  |  0 |   1996 | Agro        | 9.21219 |
 #  
 #  ------------------------------
 #  
@@ -169,7 +159,7 @@ pipeline = chain(
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
-#  |  0 |   1996 | Agro        | 9.18044 |
+#  |  0 |   1996 | Agro        | 9.21219 |
 #  
 #  ------------------------------
 #  
