@@ -66,7 +66,8 @@ pipeline = chain(
 	drop_col(col=['letra'], axis=1),
 	multiplicar_por_escalar(col='valor', k=100),
 	query(condition='anio in [1996, 2008, 2022]'),
-	sort_mixed(sort_instructions={'categoria': 'ascending', 'anio': 'ascending'})
+	sort_mixed(sort_instructions={'categoria': 'ascending', 'anio': 'ascending'}),
+	query(condition="categoria != 'No definido'")
 )
 #  PIPELINE_END
 
@@ -156,6 +157,21 @@ pipeline = chain(
 #   0   anio       45 non-null     int64  
 #   1   categoria  45 non-null     object 
 #   2   valor      45 non-null     float64
+#  
+#  |    |   anio | categoria   |   valor |
+#  |---:|-------:|:------------|--------:|
+#  |  0 |   1996 | Agro        | 9.21219 |
+#  
+#  ------------------------------
+#  
+#  query(condition="categoria != 'No definido'")
+#  Index: 42 entries, 0 to 44
+#  Data columns (total 3 columns):
+#   #   Column     Non-Null Count  Dtype  
+#  ---  ------     --------------  -----  
+#   0   anio       42 non-null     int64  
+#   1   categoria  42 non-null     object 
+#   2   valor      42 non-null     float64
 #  
 #  |    |   anio | categoria   |   valor |
 #  |---:|-------:|:------------|--------:|
