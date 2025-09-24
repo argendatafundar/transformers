@@ -19,7 +19,7 @@ def rename_cols(df: DataFrame, map):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	rename_cols(map={'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Brasil', 'Uruguay')")
+	query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay')")
 )
 #  PIPELINE_END
 
@@ -75,7 +75,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Brasil', 'Uruguay')")
+#  query(condition="pais_nombre in ('Argentina', 'Yemen','Afganistán','Iraq','Siria','Mundo', 'India', 'Jordania', 'Suecia', 'América Latina y el Caribe', 'Noruega', 'Suiza', 'España', 'Italia', 'Chile', 'Uruguay')")
 #  Index: 32 entries, 28 to 10027
 #  Data columns (total 5 columns):
 #   #   Column       Non-Null Count  Dtype  
