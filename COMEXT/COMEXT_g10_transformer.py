@@ -4,17 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def replace_value(df: DataFrame, mapping: dict):
-    df = df.replace(mapping)
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
@@ -41,36 +32,40 @@ def summarize(df: DataFrame, groupby: list, columns: list = None, operation: str
     return result
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
     return df
 
 @transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
+def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_value: str = None, mapping = None):
+    if mapping is not None:
+        df = df.replace(mapping).copy()
+    elif col is not None and curr_value is not None and new_value is not None:
+        df = df.replace({col: curr_value}, new_value)
+    else:
+        raise ValueError("Either 'mapping' must be provided, or all of 'col', 'curr_value', and 'new_value' must be provided")
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	to_pandas(dummy=True),
 	query(condition='geocodigoFundar == "ARG"'),
 	drop_col(col='geocodigoFundar', axis=1),
 	drop_col(col='location_name_short_en', axis=1),
 	drop_col(col='sitc_2_1_cod', axis=1),
 	rename_cols(map={'year': 'anio', 'sitc_product_name_es': 'indicador', 'export_value_pc': 'valor'}),
-	replace_value(mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manufact', 'Artículos manufacturados diversos': 'Artículos manufact', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}}),
+	replace_value(col=None, curr_value=None, new_value=None, mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manuf.', 'Artículos manufacturados diversos': 'Artículos manuf.', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}}),
 	summarize(groupby=['geonombreFundar', 'anio', 'indicador'], columns='valor', operation='sum')
 )
 #  PIPELINE_END
 
 
 #  start()
-#  
-#  ------------------------------
-#  
-#  to_pandas(dummy=True)
 #  RangeIndex: 122560 entries, 0 to 122559
 #  Data columns (total 7 columns):
 #   #   Column                  Non-Null Count   Dtype  
@@ -175,7 +170,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manufact', 'Artículos manufacturados diversos': 'Artículos manufact', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}})
+#  replace_value(col=None, curr_value=None, new_value=None, mapping={'indicador': {'Maquinaria y material de transporte': 'Maquinaria y mat. de transp.', 'Productos químicos': 'Prod. químicos', 'Combustibles minerales, lubricantes y productos similares': 'Comb. minerales y lubricantes', 'Materiales crudos, no comestibles, excepto combustibles': 'Materiales crudos', 'Aceites y mantecas de origen animal y vegetal': 'Aceites y mantecas', 'Bebidas y tabaco': 'Bebidas y tabaco', 'Productos alimenticios': 'Prod. alimenticios', 'Artículos manufacturados, clasificados principalmente según el material': 'Artículos manuf.', 'Artículos manufacturados diversos': 'Artículos manuf.', 'Transacciones y mercaderías diversas, N. E. P.': 'Otros no clasificados'}})
 #  Index: 600 entries, 50 to 120309
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
