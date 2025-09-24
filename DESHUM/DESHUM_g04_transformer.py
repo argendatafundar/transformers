@@ -4,6 +4,10 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -69,21 +73,11 @@ def apply_lambda(df: DataFrame, col: str, lambda_str: str, new_col: str = None):
     df_result[output_col] = result
 
     return df_result
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	to_pandas(dummy=True),
 	rename_cols(map={'expectativa_vida': 'valor'}),
 	drop_col(col=['geocodigoFundar', 'continente_fundar', 'es_agregacion'], axis=1),
 	apply_lambda(col='geonombreFundar', lambda_str='lambda x: x.replace("Países de desarrollo", "P. de desarrollo")', new_col=None)
@@ -92,10 +86,6 @@ pipeline = chain(
 
 
 #  start()
-#  
-#  ------------------------------
-#  
-#  to_pandas(dummy=True)
 #  RangeIndex: 6798 entries, 0 to 6797
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
