@@ -4,12 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def ordenar_categorica(df, col1:str, order1:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    return df.sort_values(by=[col1])
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -24,100 +18,59 @@ def rename_cols(df: DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	rename_cols(map={'sexo': 'indicador', 'idh': 'valor'}),
-	query(condition="geonombreFundar in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')"),
-	ordenar_categorica(col1='geonombreFundar', order1=['Argentina', 'Brasil', 'Burundi', 'Noruega', 'Suiza', 'Yemen', 'Mundo'])
+	rename_cols(map={'sexo': 'indicador', 'idh': 'valor', 'geonombreFundar': 'pais_nombre'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 13596 entries, 0 to 13595
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  13530 non-null  object 
-#   1   geonombreFundar  13530 non-null  object 
-#   2   country          13596 non-null  object 
-#   3   anio             13596 non-null  int64  
-#   4   sexo             13596 non-null  object 
-#   5   idh              10028 non-null  float64
+#  RangeIndex: 10028 entries, 0 to 10027
+#  Data columns (total 5 columns):
+#   #   Column       Non-Null Count  Dtype  
+#  ---  ------       --------------  -----  
+#   0   iso3         10028 non-null  object 
+#   1   anio         10028 non-null  int64  
+#   2   pais_nombre  10028 non-null  object 
+#   3   sexo         10028 non-null  object 
+#   4   idh          10028 non-null  float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar   | country     |   anio | sexo    |   idh |
-#  |---:|:------------------|:------------------|:------------|-------:|:--------|------:|
-#  |  0 | AFG               | Afganistán        | Afghanistan |   1990 | Varones |   nan |
+#  |    | iso3   |   anio | pais_nombre   | sexo    |   idh |
+#  |---:|:-------|-------:|:--------------|:--------|------:|
+#  |  0 | AFG    |   2008 | Afganistán    | Varones | 0.499 |
 #  
 #  ------------------------------
 #  
 #  query(condition='anio == anio.max()')
-#  Index: 412 entries, 32 to 13595
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  410 non-null    object 
-#   1   geonombreFundar  410 non-null    object 
-#   2   country          412 non-null    object 
-#   3   anio             412 non-null    int64  
-#   4   sexo             412 non-null    object 
-#   5   idh              386 non-null    float64
+#  Index: 386 entries, 28 to 10027
+#  Data columns (total 5 columns):
+#   #   Column       Non-Null Count  Dtype  
+#  ---  ------       --------------  -----  
+#   0   iso3         386 non-null    object 
+#   1   anio         386 non-null    int64  
+#   2   pais_nombre  386 non-null    object 
+#   3   sexo         386 non-null    object 
+#   4   idh          386 non-null    float64
 #  
-#  |    | geocodigoFundar   | geonombreFundar   | country     |   anio | sexo    |      idh |
-#  |---:|:------------------|:------------------|:------------|-------:|:--------|---------:|
-#  | 32 | AFG               | Afganistán        | Afghanistan |   2022 | Varones | 0.534145 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'sexo': 'indicador', 'idh': 'valor'})
-#  Index: 412 entries, 32 to 13595
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geocodigoFundar  410 non-null    object 
-#   1   geonombreFundar  410 non-null    object 
-#   2   country          412 non-null    object 
-#   3   anio             412 non-null    int64  
-#   4   indicador        412 non-null    object 
-#   5   valor            386 non-null    float64
-#  
-#  |    | geocodigoFundar   | geonombreFundar   | country     |   anio | indicador   |    valor |
-#  |---:|:------------------|:------------------|:------------|-------:|:------------|---------:|
-#  | 32 | AFG               | Afganistán        | Afghanistan |   2022 | Varones     | 0.534145 |
+#  |    | iso3   |   anio | pais_nombre   | sexo    |   idh |
+#  |---:|:-------|-------:|:--------------|:--------|------:|
+#  | 28 | AFG    |   2022 | Afganistán    | Varones | 0.534 |
 #  
 #  ------------------------------
 #  
-#  query(condition="geonombreFundar in ('Argentina', 'Yemen','Noruega','Brasil','Suiza','Mundo','Burundi')")
-#  Index: 12 entries, 197 to 13133
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   geocodigoFundar  12 non-null     object  
-#   1   geonombreFundar  12 non-null     category
-#   2   country          12 non-null     object  
-#   3   anio             12 non-null     int64   
-#   4   indicador        12 non-null     object  
-#   5   valor            12 non-null     float64 
+#  rename_cols(map={'sexo': 'indicador', 'idh': 'valor', 'geonombreFundar': 'pais_nombre'})
+#  Index: 386 entries, 28 to 10027
+#  Data columns (total 5 columns):
+#   #   Column       Non-Null Count  Dtype  
+#  ---  ------       --------------  -----  
+#   0   iso3         386 non-null    object 
+#   1   anio         386 non-null    int64  
+#   2   pais_nombre  386 non-null    object 
+#   3   indicador    386 non-null    object 
+#   4   valor        386 non-null    float64
 #  
-#  |     | geocodigoFundar   | geonombreFundar   | country   |   anio | indicador   |    valor |
-#  |----:|:------------------|:------------------|:----------|-------:|:------------|---------:|
-#  | 197 | ARG               | Argentina         | Argentina |   2022 | Varones     | 0.845473 |
-#  
-#  ------------------------------
-#  
-#  ordenar_categorica(col1='geonombreFundar', order1=['Argentina', 'Brasil', 'Burundi', 'Noruega', 'Suiza', 'Yemen', 'Mundo'])
-#  Index: 12 entries, 197 to 13133
-#  Data columns (total 6 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   geocodigoFundar  12 non-null     object  
-#   1   geonombreFundar  12 non-null     category
-#   2   country          12 non-null     object  
-#   3   anio             12 non-null     int64   
-#   4   indicador        12 non-null     object  
-#   5   valor            12 non-null     float64 
-#  
-#  |     | geocodigoFundar   | geonombreFundar   | country   |   anio | indicador   |    valor |
-#  |----:|:------------------|:------------------|:----------|-------:|:------------|---------:|
-#  | 197 | ARG               | Argentina         | Argentina |   2022 | Varones     | 0.845473 |
+#  |    | iso3   |   anio | pais_nombre   | indicador   |   valor |
+#  |---:|:-------|-------:|:--------------|:------------|--------:|
+#  | 28 | AFG    |   2022 | Afganistán    | Varones     |   0.534 |
 #  
 #  ------------------------------
 #  
