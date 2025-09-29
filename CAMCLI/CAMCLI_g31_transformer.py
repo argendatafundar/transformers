@@ -19,7 +19,7 @@ def pd_loc(df, expr):
 #  PIPELINE_START
 pipeline = chain(
 	to_pandas(dummy=True),
-	pd_loc(expr="df['year'] % 4 == 0")
+	pd_loc(expr="df['year'].isin([2024,\n 2019,\n 2014,\n 2009,\n 2004,\n 1999,\n 1994,\n 1989,\n 1984,\n 1979,\n 1974,\n 1969,\n 1964,\n 1959,\n 1954,\n 1949,\n 1944])")
 )
 #  PIPELINE_END
 
@@ -44,19 +44,19 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  pd_loc(expr="df['year'] % 4 == 0")
-#  Index: 22 entries, 0 to 84
+#  pd_loc(expr="df['year'].isin([2024,\n 2019,\n 2014,\n 2009,\n 2004,\n 1999,\n 1994,\n 1989,\n 1984,\n 1979,\n 1974,\n 1969,\n 1964,\n 1959,\n 1954,\n 1949,\n 1944])")
+#  Index: 17 entries, 4 to 84
 #  Data columns (total 4 columns):
 #   #   Column               Non-Null Count  Dtype  
 #  ---  ------               --------------  -----  
-#   0   geonombreFundar      22 non-null     object 
-#   1   geocodigoFundar      22 non-null     object 
-#   2   year                 22 non-null     int64  
-#   3   temperature_anomaly  22 non-null     float64
+#   0   geonombreFundar      17 non-null     object 
+#   1   geocodigoFundar      17 non-null     object 
+#   2   year                 17 non-null     int64  
+#   3   temperature_anomaly  17 non-null     float64
 #  
 #  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly |
 #  |---:|:------------------|:------------------|-------:|----------------------:|
-#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 |
+#  |  4 | Argentina         | ARG               |   1944 |              0.623713 |
 #  
 #  ------------------------------
 #  
