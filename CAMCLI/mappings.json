@@ -105,19 +105,19 @@
             "public": "CAMCLI_g18"
         }
     ],
-    "evolucion_temperatura_aire_1850_2020.csv": [
+    "evolucion_temperatura_aire.csv": [
         {
             "private": "CAMCLI_7-1-1_4",
             "public": "CAMCLI_g19"
         }
     ],
-    "evolucion_temperatura_1850_2023.csv": [
+    "evolucion_temperatura_base_1861_1890.csv": [
         {
             "private": "CAMCLI_7-1-1_5",
             "public": "CAMCLI_g20"
         }
     ],
-    "06_evolucion_nivel_del_mar_1993_2022.csv": [
+    "06_evolucion_nivel_del_mar.csv": [
         {
             "private": "CAMCLI_7-1-1_6",
             "public": "CAMCLI_g21"
@@ -163,6 +163,13 @@
         {
             "private": "CAMCLI_7-1-1_28",
             "public": "CAMCLI_g28"
-        }
-    ]
+        },
+    "anomalia_temperatura_anual_argentina.csv": [
+        "private": "CAMCLI_7-1-1_31",
+        "public": "CAMCLI_g31"
+    ],
+    "diferencia_temperatura_paises.csv" : [
+        "private": "CAMCLI_7-1-1_29",
+        "public": "CAMCLI_g29"
+
 }
