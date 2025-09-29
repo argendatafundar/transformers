@@ -4,18 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def pd_loc(df: DataFrame, expr: str):
-    import pandas as pd
-    import numpy as np
-
-    return df.loc[eval(expr)]
-
-@transformer.convert
 def to_pandas(df, dummy = True):
     import polars as pl
     if isinstance(df, pl.DataFrame):
         df = df.to_pandas()
     return df
+
+@transformer.convert
+def pd_loc(df, expr):
+    return df.loc[eval(expr)]
 #  DEFINITIONS_END
 
 
