@@ -19,7 +19,7 @@ def pd_loc(df, expr):
 #  PIPELINE_START
 pipeline = chain(
 	to_pandas(dummy=True),
-	pd_loc(expr="df['year'] % 2 == 0")
+	pd_loc(expr="df['year'] % 4 == 0")
 )
 #  PIPELINE_END
 
@@ -44,15 +44,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  pd_loc(expr="df['year'] % 2 == 0")
-#  Index: 43 entries, 0 to 84
+#  pd_loc(expr="df['year'] % 4 == 0")
+#  Index: 22 entries, 0 to 84
 #  Data columns (total 4 columns):
 #   #   Column               Non-Null Count  Dtype  
 #  ---  ------               --------------  -----  
-#   0   geonombreFundar      43 non-null     object 
-#   1   geocodigoFundar      43 non-null     object 
-#   2   year                 43 non-null     int64  
-#   3   temperature_anomaly  43 non-null     float64
+#   0   geonombreFundar      22 non-null     object 
+#   1   geocodigoFundar      22 non-null     object 
+#   2   year                 22 non-null     int64  
+#   3   temperature_anomaly  22 non-null     float64
 #  
 #  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly |
 #  |---:|:------------------|:------------------|-------:|----------------------:|
