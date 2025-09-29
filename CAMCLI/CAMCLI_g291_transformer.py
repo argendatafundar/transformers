@@ -4,11 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_na(df:DataFrame, col:str):
-    df = df.dropna(subset=col, axis=0)
-    return df
-
-@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -18,6 +13,11 @@ def to_pandas(df, dummy = True):
     import polars as pl
     if isinstance(df, pl.DataFrame):
         df = df.to_pandas()
+    return df
+
+@transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
     return df
 #  DEFINITIONS_END
 
