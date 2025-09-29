@@ -4,65 +4,60 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def to_pandas(df, dummy = True):
+    import polars as pl
+    if isinstance(df, pl.DataFrame):
+        df = df.to_pandas()
     return df
 
 @transformer.convert
-def datetime_to_year(df, col: str):
-    from pandas import to_datetime
-    df[col] = to_datetime(df[col]).dt.year
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'fecha': 'anio', 'anomalia_temperatura_deg_c': 'valor'}),
-	datetime_to_year(col='anio')
+	to_pandas(dummy=True),
+	rename_cols(map={'year': 'anio', 'near_surface_temperature_anomaly': 'valor'})
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 171 entries, 0 to 170
-#  Data columns (total 2 columns):
-#   #   Column                      Non-Null Count  Dtype  
-#  ---  ------                      --------------  -----  
-#   0   fecha                       171 non-null    object 
-#   1   anomalia_temperatura_deg_c  171 non-null    float64
-#  
-#  |    | fecha      |   anomalia_temperatura_deg_c |
-#  |---:|:-----------|-----------------------------:|
-#  |  0 | 1850-01-01 |                       -0.059 |
 #  
 #  ------------------------------
 #  
-#  rename_cols(map={'fecha': 'anio', 'anomalia_temperatura_deg_c': 'valor'})
-#  RangeIndex: 171 entries, 0 to 170
-#  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    171 non-null    int32  
-#   1   valor   171 non-null    float64
+#  to_pandas(dummy=True)
+#  RangeIndex: 176 entries, 0 to 175
+#  Data columns (total 4 columns):
+#   #   Column                            Non-Null Count  Dtype  
+#  ---  ------                            --------------  -----  
+#   0   geocodigoFundar                   176 non-null    object 
+#   1   year                              176 non-null    int64  
+#   2   near_surface_temperature_anomaly  176 non-null    float64
+#   3   geonombreFundar                   176 non-null    object 
 #  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1850 |  -0.059 |
+#  |    | geocodigoFundar   |   year |   near_surface_temperature_anomaly | geonombreFundar   |
+#  |---:|:------------------|-------:|-----------------------------------:|:------------------|
+#  |  0 | WLD               |   1850 |                         -0.0554137 | Mundo             |
 #  
 #  ------------------------------
 #  
-#  datetime_to_year(col='anio')
-#  RangeIndex: 171 entries, 0 to 170
-#  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    171 non-null    int32  
-#   1   valor   171 non-null    float64
+#  rename_cols(map={'year': 'anio', 'near_surface_temperature_anomaly': 'valor'})
+#  RangeIndex: 176 entries, 0 to 175
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  176 non-null    object 
+#   1   anio             176 non-null    int64  
+#   2   valor            176 non-null    float64
+#   3   geonombreFundar  176 non-null    object 
 #  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1850 |  -0.059 |
+#  |    | geocodigoFundar   |   anio |      valor | geonombreFundar   |
+#  |---:|:------------------|-------:|-----------:|:------------------|
+#  |  0 | WLD               |   1850 | -0.0554137 | Mundo             |
 #  
 #  ------------------------------
 #  
