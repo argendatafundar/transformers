@@ -166,12 +166,17 @@
         }
     ],
     "anomalia_temperatura_anual_argentina.csv": [
-        "private": "CAMCLI_7-1-1_31",
-        "public": "CAMCLI_g31"
+       {
+            "private": "CAMCLI_7-1-1_31",
+            "public": "CAMCLI_g31"
+       }
     ],
     "diferencia_temperatura_paises.csv" : [
-        "private": "CAMCLI_7-1-1_29",
-        "public": "CAMCLI_g29"
+        {
+            "private": "CAMCLI_7-1-1_29",
+            "public": "CAMCLI_g29"
+        }
     ]
 }
+
 
