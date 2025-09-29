@@ -175,8 +175,17 @@
         {
             "private": "CAMCLI_7-1-1_29",
             "public": "CAMCLI_g29"
+        },
+        {
+            "private": "CAMCLI_7-1-1_29",
+            "public": "CAMCLI_g291"
+        },
+        {
+            "private": "CAMCLI_7-1-1_29",
+            "public": "CAMCLI_g292"
         }
     ]
 }
+
 
 
