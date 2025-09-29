@@ -4,9 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def compute_col(df, new_col, expr):
-    df[new_col] = eval(expr)
-    return df
+def pd_loc(df: DataFrame, expr: str):
+    import pandas as pd
+    import numpy as np
+
+    return df.loc[eval(expr)]
 
 @transformer.convert
 def to_pandas(df, dummy = True):
@@ -20,8 +22,7 @@ def to_pandas(df, dummy = True):
 #  PIPELINE_START
 pipeline = chain(
 	to_pandas(dummy=True),
-	compute_col(new_col='categoria', expr="df['temperature_anomaly'] > 0"),
-	compute_col(new_col='anio_etiq', expr="''")
+	pd_loc(expr="df['year'] % 2 == 0")
 )
 #  PIPELINE_END
 
@@ -32,55 +33,33 @@ pipeline = chain(
 #  
 #  to_pandas(dummy=True)
 #  RangeIndex: 85 entries, 0 to 84
-#  Data columns (total 6 columns):
+#  Data columns (total 4 columns):
 #   #   Column               Non-Null Count  Dtype  
 #  ---  ------               --------------  -----  
 #   0   geonombreFundar      85 non-null     object 
 #   1   geocodigoFundar      85 non-null     object 
 #   2   year                 85 non-null     int64  
 #   3   temperature_anomaly  85 non-null     float64
-#   4   categoria            85 non-null     bool   
-#   5   anio_etiq            85 non-null     object 
 #  
-#  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly | categoria   | anio_etiq   |
-#  |---:|:------------------|:------------------|-------:|----------------------:|:------------|:------------|
-#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 | False       |             |
+#  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly |
+#  |---:|:------------------|:------------------|-------:|----------------------:|
+#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 |
 #  
 #  ------------------------------
 #  
-#  compute_col(new_col='categoria', expr="df['temperature_anomaly'] > 0")
-#  RangeIndex: 85 entries, 0 to 84
-#  Data columns (total 6 columns):
+#  pd_loc(expr="df['year'] % 2 == 0")
+#  Index: 43 entries, 0 to 84
+#  Data columns (total 4 columns):
 #   #   Column               Non-Null Count  Dtype  
 #  ---  ------               --------------  -----  
-#   0   geonombreFundar      85 non-null     object 
-#   1   geocodigoFundar      85 non-null     object 
-#   2   year                 85 non-null     int64  
-#   3   temperature_anomaly  85 non-null     float64
-#   4   categoria            85 non-null     bool   
-#   5   anio_etiq            85 non-null     object 
+#   0   geonombreFundar      43 non-null     object 
+#   1   geocodigoFundar      43 non-null     object 
+#   2   year                 43 non-null     int64  
+#   3   temperature_anomaly  43 non-null     float64
 #  
-#  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly | categoria   | anio_etiq   |
-#  |---:|:------------------|:------------------|-------:|----------------------:|:------------|:------------|
-#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 | False       |             |
-#  
-#  ------------------------------
-#  
-#  compute_col(new_col='anio_etiq', expr="''")
-#  RangeIndex: 85 entries, 0 to 84
-#  Data columns (total 6 columns):
-#   #   Column               Non-Null Count  Dtype  
-#  ---  ------               --------------  -----  
-#   0   geonombreFundar      85 non-null     object 
-#   1   geocodigoFundar      85 non-null     object 
-#   2   year                 85 non-null     int64  
-#   3   temperature_anomaly  85 non-null     float64
-#   4   categoria            85 non-null     bool   
-#   5   anio_etiq            85 non-null     object 
-#  
-#  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly | categoria   | anio_etiq   |
-#  |---:|:------------------|:------------------|-------:|----------------------:|:------------|:------------|
-#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 | False       |             |
+#  |    | geonombreFundar   | geocodigoFundar   |   year |   temperature_anomaly |
+#  |---:|:------------------|:------------------|-------:|----------------------:|
+#  |  0 | Argentina         | ARG               |   1940 |             -0.520686 |
 #  
 #  ------------------------------
 #  
