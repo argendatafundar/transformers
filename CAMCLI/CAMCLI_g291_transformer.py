@@ -9,15 +9,15 @@ def rename_cols(df: DataFrame, map):
     return df
 
 @transformer.convert
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
+    return df
+
+@transformer.convert
 def to_pandas(df, dummy = True):
     import polars as pl
     if isinstance(df, pl.DataFrame):
         df = df.to_pandas()
-    return df
-
-@transformer.convert
-def drop_na(df:DataFrame, col:str):
-    df = df.dropna(subset=col, axis=0)
     return df
 #  DEFINITIONS_END
 
