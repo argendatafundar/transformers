@@ -4,8 +4,9 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
+    return df
 
 @transformer.convert
 def query(df: DataFrame, condition: str):
@@ -16,21 +17,6 @@ def query(df: DataFrame, condition: str):
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
-
-@transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, None))
-    return df
-
-@transformer.convert
-def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
-    return df.groupby(key_cols)[summarised_col].sum().reset_index()
-
-@transformer.convert
-def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame:
-    df['value_scaled'] = df.groupby(group_cols)[summarised_col].transform(
-    lambda x: 100*(x/x.sum()))
-    return df
 #  DEFINITIONS_END
 
 
@@ -38,10 +24,7 @@ def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame
 pipeline = chain(
 	multiplicar_por_escalar(col='porcentaje', k=100),
 	query(condition="rubro != 'Total gasto de consumo'"),
-	map_categoria(curr_col='rubro', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcohólicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcohólicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educación': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda, agua, electricidad, gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Varios'}),
-	agg_sum(key_cols=['periodo', 'sector_agrupado'], summarised_col='porcentaje'),
-	rescale(group_cols=['periodo'], summarised_col='porcentaje'),
-	drop_col(col='porcentaje', axis=1)
+	replace_multiple_values(col='rubro', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda, agua, electricidad, gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcohólicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcohólicas': 'Alimentos y bebidas'})
 )
 #  PIPELINE_END
 
@@ -78,80 +61,31 @@ pipeline = chain(
 #  
 #  query(condition="rubro != 'Total gasto de consumo'")
 #  Index: 36 entries, 0 to 38
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   rubro            36 non-null     object 
-#   1   periodo          36 non-null     object 
-#   2   porcentaje       36 non-null     float64
-#   3   sector_agrupado  33 non-null     object 
-#  
-#  |    | rubro                              | periodo   |   porcentaje | sector_agrupado             |
-#  |---:|:-----------------------------------|:----------|-------------:|:----------------------------|
-#  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997 |         28.8 | Alimentos, bebidas y tabaco |
-#  
-#  ------------------------------
-#  
-#  map_categoria(curr_col='rubro', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcohólicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcohólicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educación': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda, agua, electricidad, gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Varios'})
-#  Index: 36 entries, 0 to 38
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   rubro            36 non-null     object 
-#   1   periodo          36 non-null     object 
-#   2   porcentaje       36 non-null     float64
-#   3   sector_agrupado  33 non-null     object 
-#  
-#  |    | rubro                              | periodo   |   porcentaje | sector_agrupado             |
-#  |---:|:-----------------------------------|:----------|-------------:|:----------------------------|
-#  |  0 | Alimentos y bebidas no alcohólicas | 1996-1997 |         28.8 | Alimentos, bebidas y tabaco |
-#  
-#  ------------------------------
-#  
-#  agg_sum(key_cols=['periodo', 'sector_agrupado'], summarised_col='porcentaje')
-#  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   periodo          24 non-null     object 
-#   1   sector_agrupado  24 non-null     object 
-#   2   porcentaje       24 non-null     float64
-#   3   value_scaled     24 non-null     float64
-#  
-#  |    | periodo   | sector_agrupado             |   porcentaje |   value_scaled |
-#  |---:|:----------|:----------------------------|-------------:|---------------:|
-#  |  0 | 1996-1997 | Alimentos, bebidas y tabaco |         31.3 |        33.9479 |
-#  
-#  ------------------------------
-#  
-#  rescale(group_cols=['periodo'], summarised_col='porcentaje')
-#  RangeIndex: 24 entries, 0 to 23
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   periodo          24 non-null     object 
-#   1   sector_agrupado  24 non-null     object 
-#   2   porcentaje       24 non-null     float64
-#   3   value_scaled     24 non-null     float64
-#  
-#  |    | periodo   | sector_agrupado             |   porcentaje |   value_scaled |
-#  |---:|:----------|:----------------------------|-------------:|---------------:|
-#  |  0 | 1996-1997 | Alimentos, bebidas y tabaco |         31.3 |        33.9479 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='porcentaje', axis=1)
-#  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   periodo          24 non-null     object 
-#   1   sector_agrupado  24 non-null     object 
-#   2   value_scaled     24 non-null     float64
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   rubro       36 non-null     object 
+#   1   periodo     36 non-null     object 
+#   2   porcentaje  36 non-null     float64
 #  
-#  |    | periodo   | sector_agrupado             |   value_scaled |
-#  |---:|:----------|:----------------------------|---------------:|
-#  |  0 | 1996-1997 | Alimentos, bebidas y tabaco |        33.9479 |
+#  |    | rubro               | periodo   |   porcentaje |
+#  |---:|:--------------------|:----------|-------------:|
+#  |  0 | Alimentos y bebidas | 1996-1997 |         28.8 |
+#  
+#  ------------------------------
+#  
+#  replace_multiple_values(col='rubro', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda, agua, electricidad, gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcohólicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcohólicas': 'Alimentos y bebidas'})
+#  Index: 36 entries, 0 to 38
+#  Data columns (total 3 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   rubro       36 non-null     object 
+#   1   periodo     36 non-null     object 
+#   2   porcentaje  36 non-null     float64
+#  
+#  |    | rubro               | periodo   |   porcentaje |
+#  |---:|:--------------------|:----------|-------------:|
+#  |  0 | Alimentos y bebidas | 1996-1997 |         28.8 |
 #  
 #  ------------------------------
 #  
