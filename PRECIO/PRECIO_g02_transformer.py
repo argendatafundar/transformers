@@ -4,22 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
-    return df.groupby(key_cols)[summarised_col].sum().reset_index()
-
-@transformer.convert
-def drop_col(df: DataFrame, col, axis=1):
-    return df.drop(col, axis=axis)
-
-@transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, None))
-    return df
-
-@transformer.convert
-def rescale(df:DataFrame, group_cols:list[str], summarised_col:str) -> DataFrame:
-    df['value_scaled'] = df.groupby(group_cols)[summarised_col].transform(
-    lambda x: 100*(x/x.sum()))
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df[col] = df[col].replace(replacements)
     return df
 
 @transformer.convert
@@ -33,11 +19,8 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 
 #  PIPELINE_START
 pipeline = chain(
-	map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Varios'}),
-	agg_sum(key_cols=['region', 'sector_agrupado'], summarised_col='valor'),
-	rescale(group_cols=['region'], summarised_col='valor'),
-	drop_col(col='valor', axis=1),
-	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Vivienda, equipamiento y otros', 'Cultura y esparcimiento', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
+	replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'}),
+	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreacion y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educacion'])
 )
 #  PIPELINE_END
 
@@ -57,81 +40,33 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  map_categoria(curr_col='sector', new_col='sector_agrupado', mapper={'Alimentos y bebidas no alcoholicas': 'Alimentos, bebidas y tabaco', 'Bebidas alcoholicas y tabaco': 'Alimentos, bebidas y tabaco', 'Educacion': 'Educación y salud', 'Salud': 'Educación y salud', 'Recreacion y cultura': 'Cultura y esparcimiento', 'Restaurantes y hoteles': 'Cultura y esparcimiento', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, equipamiento y otros', 'Equipamiento y mantenimiento del hogar': 'Vivienda, equipamiento y otros', 'Prendas de vestir y calzado': 'Prendas de vestir y calzado', 'Comunicaciones': 'Comunicaciones', 'Transporte': 'Transporte', 'Bienes y servicios varios': 'Varios'})
+#  replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'})
 #  RangeIndex: 84 entries, 0 to 83
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   region           84 non-null     object 
-#   1   sector           84 non-null     object 
-#   2   valor            84 non-null     float64
-#   3   sector_agrupado  84 non-null     object 
-#  
-#  |    | region   | sector                             |   valor | sector_agrupado             |
-#  |---:|:---------|:-----------------------------------|--------:|:----------------------------|
-#  |  0 | GBA      | Alimentos y bebidas no alcoholicas |    23.4 | Alimentos, bebidas y tabaco |
-#  
-#  ------------------------------
-#  
-#  agg_sum(key_cols=['region', 'sector_agrupado'], summarised_col='valor')
-#  RangeIndex: 56 entries, 0 to 55
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   region           56 non-null     object 
-#   1   sector_agrupado  56 non-null     object 
-#   2   valor            56 non-null     float64
-#   3   value_scaled     56 non-null     float64
-#  
-#  |    | region   | sector_agrupado             |   valor |   value_scaled |
-#  |---:|:---------|:----------------------------|--------:|---------------:|
-#  |  0 | Cuyo     | Alimentos, bebidas y tabaco |      32 |         32.032 |
-#  
-#  ------------------------------
-#  
-#  rescale(group_cols=['region'], summarised_col='valor')
-#  RangeIndex: 56 entries, 0 to 55
-#  Data columns (total 4 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   region           56 non-null     object 
-#   1   sector_agrupado  56 non-null     object 
-#   2   valor            56 non-null     float64
-#   3   value_scaled     56 non-null     float64
-#  
-#  |    | region   | sector_agrupado             |   valor |   value_scaled |
-#  |---:|:---------|:----------------------------|--------:|---------------:|
-#  |  0 | Cuyo     | Alimentos, bebidas y tabaco |      32 |         32.032 |
-#  
-#  ------------------------------
-#  
-#  drop_col(col='valor', axis=1)
-#  RangeIndex: 56 entries, 0 to 55
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   region           56 non-null     category
-#   1   sector_agrupado  56 non-null     category
-#   2   value_scaled     56 non-null     float64 
+#   #   Column  Non-Null Count  Dtype   
+#  ---  ------  --------------  -----   
+#   0   region  84 non-null     category
+#   1   sector  84 non-null     category
+#   2   valor   84 non-null     float64 
 #  
-#  |    | region   | sector_agrupado             |   value_scaled |
-#  |---:|:---------|:----------------------------|---------------:|
-#  |  0 | Cuyo     | Alimentos, bebidas y tabaco |         32.032 |
+#  |    | region   | sector              |   valor |
+#  |---:|:---------|:--------------------|--------:|
+#  |  0 | GBA      | Alimentos y bebidas |    23.4 |
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector_agrupado', order2=['Alimentos, bebidas y tabaco', 'Vivienda, equipamiento y otros', 'Cultura y esparcimiento', 'Prendas de vestir y calzado', 'Transporte', 'Educación y salud', 'Varios', 'Comunicaciones'])
-#  Index: 56 entries, 16 to 9
+#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreacion y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educacion'])
+#  Index: 84 entries, 2 to 54
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype   
-#  ---  ------           --------------  -----   
-#   0   region           56 non-null     category
-#   1   sector_agrupado  56 non-null     category
-#   2   value_scaled     56 non-null     float64 
+#   #   Column  Non-Null Count  Dtype   
+#  ---  ------  --------------  -----   
+#   0   region  84 non-null     category
+#   1   sector  84 non-null     category
+#   2   valor   84 non-null     float64 
 #  
-#  |    | region   | sector_agrupado             |   value_scaled |
-#  |---:|:---------|:----------------------------|---------------:|
-#  | 16 | NEA      | Alimentos, bebidas y tabaco |           38.9 |
+#  |    | region   | sector              |   valor |
+#  |---:|:---------|:--------------------|--------:|
+#  |  2 | NEA      | Alimentos y bebidas |    35.3 |
 #  
 #  ------------------------------
 #  
