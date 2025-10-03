@@ -19,8 +19,8 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'}),
-	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreacion y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educacion'])
+	replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas', 'Educacion': 'Educación', 'Recreacion y cultura': 'Recreación y cultura'}),
+	ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreación y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educación'])
 )
 #  PIPELINE_END
 
@@ -40,7 +40,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'})
+#  replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas', 'Educacion': 'Educación', 'Recreacion y cultura': 'Recreación y cultura'})
 #  RangeIndex: 84 entries, 0 to 83
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype   
@@ -55,7 +55,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreacion y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educacion'])
+#  ordenar_dos_columnas(col1='region', order1=['NEA', 'NOA', 'Pampeana', 'Cuyo', 'Patagonia', 'Nacional', 'GBA'], col2='sector', order2=['Alimentos y bebidas', 'Vestimenta', 'Transporte', 'Vivienda, serv. púb. y comb.', 'Equip. y mant. hogar', 'Recreación y cultura', 'Salud', 'Restaurantes y hoteles', 'Alcohol y tabaco', 'Varios', 'Comunicaciones', 'Educación'])
 #  Index: 84 entries, 2 to 54
 #  Data columns (total 3 columns):
 #   #   Column  Non-Null Count  Dtype   
