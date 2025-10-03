@@ -12,7 +12,7 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'})
+	replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas', 'Educacion': 'Educación', 'Recreacion y cultura': 'Recreación y cultura'})
 )
 #  PIPELINE_END
 
@@ -31,7 +31,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas'})
+#  replace_multiple_values(col='sector', replacements={'Prendas de vestir y calzado': 'Vestimenta', 'Vivienda agua electricidad gas y otros combustibles': 'Vivienda, serv. púb. y comb.', 'Equipamiento y mantenimiento del hogar': 'Equip. y mant. hogar', 'Bienes y servicios varios': 'Varios', 'Bebidas alcoholicas y tabaco': 'Alcohol y tabaco', 'Alimentos y bebidas no alcoholicas': 'Alimentos y bebidas', 'Educacion': 'Educación', 'Recreacion y cultura': 'Recreación y cultura'})
 #  RangeIndex: 12 entries, 0 to 11
 #  Data columns (total 2 columns):
 #   #   Column  Non-Null Count  Dtype  
