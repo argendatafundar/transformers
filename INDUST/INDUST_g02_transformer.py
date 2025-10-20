@@ -4,6 +4,14 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
+    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -12,7 +20,9 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio == anio.max()')
+	query(condition='anio == anio.max()'),
+	drop_col(col=['anio', 'letra'], axis=1),
+	pivot_longer(id_cols=['letra_desc'], names_to_col='variable', values_to_col='valor')
 )
 #  PIPELINE_END
 
@@ -48,6 +58,36 @@ pipeline = chain(
 #  |     |   anio | letra   | letra_desc   |   prop_empleo |   prop_vab |
 #  |----:|-------:|:--------|:-------------|--------------:|-----------:|
 #  | 280 |   2024 | A_B     | Agro y pesca |     0.0644079 |  0.0717834 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col=['anio', 'letra'], axis=1)
+#  Index: 14 entries, 280 to 293
+#  Data columns (total 3 columns):
+#   #   Column       Non-Null Count  Dtype  
+#  ---  ------       --------------  -----  
+#   0   letra_desc   14 non-null     object 
+#   1   prop_empleo  14 non-null     float64
+#   2   prop_vab     14 non-null     float64
+#  
+#  |     | letra_desc   |   prop_empleo |   prop_vab |
+#  |----:|:-------------|--------------:|-----------:|
+#  | 280 | Agro y pesca |     0.0644079 |  0.0717834 |
+#  
+#  ------------------------------
+#  
+#  pivot_longer(id_cols=['letra_desc'], names_to_col='variable', values_to_col='valor')
+#  RangeIndex: 28 entries, 0 to 27
+#  Data columns (total 3 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   letra_desc  28 non-null     object 
+#   1   variable    28 non-null     object 
+#   2   valor       28 non-null     float64
+#  
+#  |    | letra_desc   | variable    |     valor |
+#  |---:|:-------------|:------------|----------:|
+#  |  0 | Agro y pesca | prop_empleo | 0.0644079 |
 #  
 #  ------------------------------
 #  
