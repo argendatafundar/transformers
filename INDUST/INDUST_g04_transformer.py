@@ -8,6 +8,11 @@ def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -17,7 +22,8 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	drop_col(col=['provincia_id'], axis=1)
+	drop_col(col=['provincia_id'], axis=1),
+	multiplicar_por_escalar(col='prop_industria', k=100)
 )
 #  PIPELINE_END
 
@@ -65,7 +71,22 @@ pipeline = chain(
 #  
 #  |    |   anio | provincia    |   prop_industria |
 #  |---:|-------:|:-------------|-----------------:|
-#  |  0 |   2023 | Buenos Aires |         0.488809 |
+#  |  0 |   2023 | Buenos Aires |          48.8809 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='prop_industria', k=100)
+#  Index: 24 entries, 0 to 23
+#  Data columns (total 3 columns):
+#   #   Column          Non-Null Count  Dtype  
+#  ---  ------          --------------  -----  
+#   0   anio            24 non-null     int64  
+#   1   provincia       24 non-null     object 
+#   2   prop_industria  24 non-null     float64
+#  
+#  |    |   anio | provincia    |   prop_industria |
+#  |---:|-------:|:-------------|-----------------:|
+#  |  0 |   2023 | Buenos Aires |          48.8809 |
 #  
 #  ------------------------------
 #  
