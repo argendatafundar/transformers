@@ -32,19 +32,7 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Reparaciones y otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None),
 	multiplicar_por_escalar(col='prop_sobre_industria', k=100),
-	ordenar_dos_columnas(col1='geocodigoFundar', order1=8666    ASEAN
-8665     APEC
-8664      VNM
-8663      ARE
-8662      UKR
-        ...  
-8583      CHL
-8582      CAN
-8581      BEL
-8580      AUT
-8579      AUS
-Name: geocodigoFundar, Length: 88, dtype: category
-Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APEC' < 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+	ordenar_dos_columnas(col1='geocodigoFundar', order1=['ASEAN', 'APEC', 'VNM', 'ARE', 'UKR', 'TUN', 'THA', 'TWN', 'ZAF', 'SGP', 'SEN', 'SAU', 'STP', 'RUS', 'ROU', 'PHL', 'PER', 'PAK', 'NGA', 'MMR', 'MAR', 'MLT', 'MYS', 'LAO', 'KAZ', 'JOR', 'IDN', 'IND', 'HKG', 'EGY', 'COD', 'CYP', 'HRV', 'CIV', 'CHN', 'CMR', 'KHM', 'BGR', 'BRN', 'BRA', 'BLR', 'BGD', 'ARG', 'AGO', 'OECD', 'EU27_2020', 'EU28', 'EU15', 'EA19', 'G20', 'USA', 'GBR', 'TUR', 'CHE', 'SWE', 'ESP', 'SVN', 'SVK', 'PRT', 'POL', 'NOR', 'NZL', 'NLD', 'MEX', 'LUX', 'LTU', 'LVA', 'KOR', 'JPN', 'ITA', 'ISR', 'IRL', 'ISL', 'HUN', 'GRC', 'DEU', 'FRA', 'FIN', 'EST', 'DNK', 'CZE', 'CRI', 'COL', 'CHL', 'CAN', 'BEL', 'AUT', 'AUS'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
 )
 #  PIPELINE_END
 
@@ -124,20 +112,8 @@ Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APE
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geocodigoFundar', order1=8666    ASEAN
-#  8665     APEC
-#  8664      VNM
-#  8663      ARE
-#  8662      UKR
-#          ...  
-#  8583      CHL
-#  8582      CAN
-#  8581      BEL
-#  8580      AUT
-#  8579      AUS
-#  Name: geocodigoFundar, Length: 88, dtype: category
-#  Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APEC' < 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
-#  Index: 792 entries, 8579 to 8842
+#  ordenar_dos_columnas(col1='geocodigoFundar', order1=['ASEAN', 'APEC', 'VNM', 'ARE', 'UKR', 'TUN', 'THA', 'TWN', 'ZAF', 'SGP', 'SEN', 'SAU', 'STP', 'RUS', 'ROU', 'PHL', 'PER', 'PAK', 'NGA', 'MMR', 'MAR', 'MLT', 'MYS', 'LAO', 'KAZ', 'JOR', 'IDN', 'IND', 'HKG', 'EGY', 'COD', 'CYP', 'HRV', 'CIV', 'CHN', 'CMR', 'KHM', 'BGR', 'BRN', 'BRA', 'BLR', 'BGD', 'ARG', 'AGO', 'OECD', 'EU27_2020', 'EU28', 'EU15', 'EA19', 'G20', 'USA', 'GBR', 'TUR', 'CHE', 'SWE', 'ESP', 'SVN', 'SVK', 'PRT', 'POL', 'NOR', 'NZL', 'NLD', 'MEX', 'LUX', 'LTU', 'LVA', 'KOR', 'JPN', 'ITA', 'ISR', 'IRL', 'ISL', 'HUN', 'GRC', 'DEU', 'FRA', 'FIN', 'EST', 'DNK', 'CZE', 'CRI', 'COL', 'CHL', 'CAN', 'BEL', 'AUT', 'AUS'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+#  Index: 792 entries, 8666 to 8755
 #  Data columns (total 7 columns):
 #   #   Column                Non-Null Count  Dtype   
 #  ---  ------                --------------  -----   
@@ -149,9 +125,9 @@ Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APE
 #   5   geonombreFundar       792 non-null    object  
 #   6   actividad2            792 non-null    category
 #  
-#  |      |   anio | geocodigoFundar   | sector   | actividad                                |   prop_sobre_industria | geonombreFundar   | actividad2                  |
-#  |-----:|-------:|:------------------|:---------|:-----------------------------------------|-----------------------:|:------------------|:----------------------------|
-#  | 8579 |   2022 | AUS               | C10T12   | Productos alimenticios, bebidas y tabaco |                21.6109 | Australia         | Alimentos, bebidas y tabaco |
+#  |      |   anio | geocodigoFundar   | sector   | actividad                                |   prop_sobre_industria | geonombreFundar                             | actividad2                  |
+#  |-----:|-------:|:------------------|:---------|:-----------------------------------------|-----------------------:|:--------------------------------------------|:----------------------------|
+#  | 8666 |   2022 | ASEAN             | C10T12   | Productos alimenticios, bebidas y tabaco |                21.4876 | Asociación de Naciones del Sudeste Asiático | Alimentos, bebidas y tabaco |
 #  
 #  ------------------------------
 #  
