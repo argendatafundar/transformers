@@ -32,7 +32,19 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Reparaciones y otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None),
 	multiplicar_por_escalar(col='prop_sobre_industria', k=100),
-	ordenar_dos_columnas(col1='geocodigoFundar', order1=['AUS', 'AUT', 'BEL', 'CAN', 'CHL', 'COL', 'CRI', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'ISL', 'IRL', 'ISR', 'ITA', 'JPN', 'KOR', 'LVA', 'LTU', 'LUX', 'MEX', 'NLD', 'NZL', 'NOR', 'POL', 'PRT', 'SVK', 'SVN', 'ESP', 'SWE', 'CHE', 'TUR', 'GBR', 'USA', 'G20', 'EA19', 'EU15', 'EU28', 'EU27_2020', 'OECD', 'AGO', 'ARG', 'BGD', 'BLR', 'BRA', 'BRN', 'BGR', 'KHM', 'CMR', 'CHN', 'CIV', 'HRV', 'CYP', 'COD', 'EGY', 'HKG', 'IND', 'IDN', 'JOR', 'KAZ', 'LAO', 'MYS', 'MLT', 'MAR', 'MMR', 'NGA', 'PAK', 'PER', 'PHL', 'ROU', 'RUS', 'STP', 'SAU', 'SEN', 'SGP', 'ZAF', 'TWN', 'THA', 'TUN', 'UKR', 'ARE', 'VNM', 'APEC', 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+	ordenar_dos_columnas(col1='geocodigoFundar', order1=8666    ASEAN
+8665     APEC
+8664      VNM
+8663      ARE
+8662      UKR
+        ...  
+8583      CHL
+8582      CAN
+8581      BEL
+8580      AUT
+8579      AUS
+Name: geocodigoFundar, Length: 88, dtype: category
+Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APEC' < 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
 )
 #  PIPELINE_END
 
@@ -112,7 +124,19 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geocodigoFundar', order1=['AUS', 'AUT', 'BEL', 'CAN', 'CHL', 'COL', 'CRI', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'ISL', 'IRL', 'ISR', 'ITA', 'JPN', 'KOR', 'LVA', 'LTU', 'LUX', 'MEX', 'NLD', 'NZL', 'NOR', 'POL', 'PRT', 'SVK', 'SVN', 'ESP', 'SWE', 'CHE', 'TUR', 'GBR', 'USA', 'G20', 'EA19', 'EU15', 'EU28', 'EU27_2020', 'OECD', 'AGO', 'ARG', 'BGD', 'BLR', 'BRA', 'BRN', 'BGR', 'KHM', 'CMR', 'CHN', 'CIV', 'HRV', 'CYP', 'COD', 'EGY', 'HKG', 'IND', 'IDN', 'JOR', 'KAZ', 'LAO', 'MYS', 'MLT', 'MAR', 'MMR', 'NGA', 'PAK', 'PER', 'PHL', 'ROU', 'RUS', 'STP', 'SAU', 'SEN', 'SGP', 'ZAF', 'TWN', 'THA', 'TUN', 'UKR', 'ARE', 'VNM', 'APEC', 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+#  ordenar_dos_columnas(col1='geocodigoFundar', order1=8666    ASEAN
+#  8665     APEC
+#  8664      VNM
+#  8663      ARE
+#  8662      UKR
+#          ...  
+#  8583      CHL
+#  8582      CAN
+#  8581      BEL
+#  8580      AUT
+#  8579      AUS
+#  Name: geocodigoFundar, Length: 88, dtype: category
+#  Categories (88, object): ['AUS' < 'AUT' < 'BEL' < 'CAN' ... 'ARE' < 'VNM' < 'APEC' < 'ASEAN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
 #  Index: 792 entries, 8579 to 8842
 #  Data columns (total 7 columns):
 #   #   Column                Non-Null Count  Dtype   
