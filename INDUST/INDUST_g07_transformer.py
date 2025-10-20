@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -12,7 +17,8 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition="anio == anio.max() & geocodigoFundar == 'ARG'")
+	query(condition="anio == anio.max() & geocodigoFundar == 'ARG'"),
+	multiplicar_por_escalar(col='prop', k=100)
 )
 #  PIPELINE_END
 
@@ -51,9 +57,29 @@ pipeline = chain(
 #   6   prop             5 non-null      float64
 #   7   source           5 non-null      object 
 #  
-#  |      |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full                  |   exportaciones |      prop | source                 |
-#  |-----:|-------:|:------------------|:------------------|:------------|:--------------------------------|----------------:|----------:|:-----------------------|
-#  | 2366 |   2023 | ARG               | Argentina         | mat         | Manufacturas de alta tecnología |     1.47161e+09 | 0.0236206 | proyeccion_indice_baci |
+#  |      |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full                  |   exportaciones |    prop | source                 |
+#  |-----:|-------:|:------------------|:------------------|:------------|:--------------------------------|----------------:|--------:|:-----------------------|
+#  | 2366 |   2023 | ARG               | Argentina         | mat         | Manufacturas de alta tecnología |     1.47161e+09 | 2.36206 | proyeccion_indice_baci |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='prop', k=100)
+#  Index: 5 entries, 2366 to 2614
+#  Data columns (total 8 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             5 non-null      int64  
+#   1   geocodigoFundar  5 non-null      object 
+#   2   geonombreFundar  5 non-null      object 
+#   3   lall_code        5 non-null      object 
+#   4   lall_desc_full   5 non-null      object 
+#   5   exportaciones    5 non-null      float64
+#   6   prop             5 non-null      float64
+#   7   source           5 non-null      object 
+#  
+#  |      |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full                  |   exportaciones |    prop | source                 |
+#  |-----:|-------:|:------------------|:------------------|:------------|:--------------------------------|----------------:|--------:|:-----------------------|
+#  | 2366 |   2023 | ARG               | Argentina         | mat         | Manufacturas de alta tecnología |     1.47161e+09 | 2.36206 | proyeccion_indice_baci |
 #  
 #  ------------------------------
 #  
