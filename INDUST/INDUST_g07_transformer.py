@@ -26,7 +26,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition="anio == anio.max() & geocodigoFundar == 'ARG'"),
 	multiplicar_por_escalar(col='prop', k=100),
-	sort_values(how='ascending', by='prop')
+	sort_values(how='descending', by='prop')
 )
 #  PIPELINE_END
 
@@ -91,7 +91,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by='prop')
+#  sort_values(how='descending', by='prop')
 #  RangeIndex: 5 entries, 0 to 4
 #  Data columns (total 8 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -105,9 +105,9 @@ pipeline = chain(
 #   6   prop             5 non-null      float64
 #   7   source           5 non-null      object 
 #  
-#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full                  |   exportaciones |    prop | source                 |
-#  |---:|-------:|:------------------|:------------------|:------------|:--------------------------------|----------------:|--------:|:-----------------------|
-#  |  0 |   2023 | ARG               | Argentina         | mbt         | Manufacturas de baja tecnología |     1.03181e+09 | 1.65614 | proyeccion_indice_baci |
+#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full      |   exportaciones |    prop | source                 |
+#  |---:|-------:|:------------------|:------------------|:------------|:--------------------|----------------:|--------:|:-----------------------|
+#  |  0 |   2023 | ARG               | Argentina         | pp          | Productos primarios |     3.49511e+10 | 56.0994 | proyeccion_indice_baci |
 #  
 #  ------------------------------
 #  
