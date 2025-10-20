@@ -9,6 +9,11 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
     return df
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -18,7 +23,8 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition="geocodigoFundar == 'ARG'"),
-	replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'Producto', 'share_industrial_employment': 'Empleo'})
+	replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'Producto', 'share_industrial_employment': 'Empleo'}),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -51,9 +57,9 @@ pipeline = chain(
 #   3   variable         163 non-null    object 
 #   4   valor            163 non-null    float64
 #  
-#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |    valor |
-#  |----:|-------:|:------------------|:------------------|:-----------|---------:|
-#  | 421 |   1935 | ARG               | Argentina         | Producto   | 0.148221 |
+#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
+#  |----:|-------:|:------------------|:------------------|:-----------|--------:|
+#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
 #  
 #  ------------------------------
 #  
@@ -68,9 +74,26 @@ pipeline = chain(
 #   3   variable         163 non-null    object 
 #   4   valor            163 non-null    float64
 #  
-#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |    valor |
-#  |----:|-------:|:------------------|:------------------|:-----------|---------:|
-#  | 421 |   1935 | ARG               | Argentina         | Producto   | 0.148221 |
+#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
+#  |----:|-------:|:------------------|:------------------|:-----------|--------:|
+#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  Index: 163 entries, 421 to 583
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             163 non-null    int64  
+#   1   geocodigoFundar  163 non-null    object 
+#   2   geonombreFundar  163 non-null    object 
+#   3   variable         163 non-null    object 
+#   4   valor            163 non-null    float64
+#  
+#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
+#  |----:|-------:|:------------------|:------------------|:-----------|--------:|
+#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
 #  
 #  ------------------------------
 #  
