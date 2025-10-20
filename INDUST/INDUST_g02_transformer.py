@@ -12,6 +12,11 @@ def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_c
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -22,7 +27,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['anio', 'letra'], axis=1),
-	pivot_longer(id_cols=['letra_desc'], names_to_col='variable', values_to_col='valor')
+	pivot_longer(id_cols=['letra_desc'], names_to_col='variable', values_to_col='valor'),
+	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
 
@@ -85,9 +91,24 @@ pipeline = chain(
 #   1   variable    28 non-null     object 
 #   2   valor       28 non-null     float64
 #  
-#  |    | letra_desc   | variable    |     valor |
-#  |---:|:-------------|:------------|----------:|
-#  |  0 | Agro y pesca | prop_empleo | 0.0644079 |
+#  |    | letra_desc   | variable    |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  0 | Agro y pesca | prop_empleo | 6.44079 |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='valor', k=100)
+#  RangeIndex: 28 entries, 0 to 27
+#  Data columns (total 3 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   letra_desc  28 non-null     object 
+#   1   variable    28 non-null     object 
+#   2   valor       28 non-null     float64
+#  
+#  |    | letra_desc   | variable    |   valor |
+#  |---:|:-------------|:------------|--------:|
+#  |  0 | Agro y pesca | prop_empleo | 6.44079 |
 #  
 #  ------------------------------
 #  
