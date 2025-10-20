@@ -9,6 +9,7 @@ id_grafico,nombre_archivo
 8,share_industria_impo.csv
 9,vab_por_industria.csv
 10,pib_indust_per_capita_arg_evolucion.csv
+11,peso_industria_empleo_prod_historico.csv
 12,estructura_industria.csv
 13,cambio_industria_decadas.csv
 14,expo_industriales.csv
