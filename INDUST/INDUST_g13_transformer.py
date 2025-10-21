@@ -37,7 +37,7 @@ pipeline = chain(
 	multiplicar_por_escalar(col='prop', k=100),
 	map_categoria(curr_col='provincia', new_col='provincia2', mapper={'Buenos Aires': 'Buenos Aires', 'CABA': 'CABA', 'Santa Fe': 'Santa Fe', 'Córdoba': 'Córdoba', 'Mendoza': 'Mendoza', 'Tucumán': 'Tucumán'}, default='Otros'),
 	agg_sum(key_cols=['anio', 'provincia2'], summarised_col='prop'),
-	ordenar_dos_columnas(col1='anio', order1=[1914, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
+	ordenar_dos_columnas(col1='anio', order1=[1913, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
 )
 #  PIPELINE_END
 
@@ -114,28 +114,28 @@ pipeline = chain(
 #  Data columns (total 3 columns):
 #   #   Column      Non-Null Count  Dtype   
 #  ---  ------      --------------  -----   
-#   0   anio        63 non-null     category
+#   0   anio        70 non-null     category
 #   1   provincia2  70 non-null     category
 #   2   prop        70 non-null     float64 
 #  
 #  |    |   anio | provincia2   |   prop |
 #  |---:|-------:|:-------------|-------:|
-#  |  0 |    nan | Buenos Aires |  23.56 |
+#  |  0 |   1913 | Buenos Aires |  23.56 |
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='anio', order1=[1914, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
-#  Index: 70 entries, 7 to 4
+#  ordenar_dos_columnas(col1='anio', order1=[1913, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
+#  Index: 70 entries, 0 to 67
 #  Data columns (total 3 columns):
 #   #   Column      Non-Null Count  Dtype   
 #  ---  ------      --------------  -----   
-#   0   anio        63 non-null     category
+#   0   anio        70 non-null     category
 #   1   provincia2  70 non-null     category
 #   2   prop        70 non-null     float64 
 #  
 #  |    |   anio | provincia2   |   prop |
 #  |---:|-------:|:-------------|-------:|
-#  |  7 |   1935 | Buenos Aires |   26.5 |
+#  |  0 |   1913 | Buenos Aires |  23.56 |
 #  
 #  ------------------------------
 #  
