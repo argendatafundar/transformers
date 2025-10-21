@@ -32,7 +32,7 @@ pipeline = chain(
 	query(condition='anio.isin([1914, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024])'),
 	multiplicar_por_escalar(col='prop', k=100),
 	replace_multiple_values(col='sector', replacements={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Madera, papel y edición': 'Madera y papel', 'Alimentos, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, cuero y calzado': 'Textiles', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y elaborados de metal': 'Siderúrgica y metalúrgica', 'Químicos, minerales no metálicos': 'Química y minerales no metálicos', 'Otras manufacturas': 'Reparaciones y otras manufacturas', 'Maquinarias y equipos': 'Maquinaria y equipos'}),
-	sort_values(how='ascending', by=['intensidad_tecnologica'])
+	sort_values(how='ascending', by=['anio', 'intensidad_tecnologica'])
 )
 #  PIPELINE_END
 
@@ -101,7 +101,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='ascending', by=['intensidad_tecnologica'])
+#  sort_values(how='ascending', by=['anio', 'intensidad_tecnologica'])
 #  RangeIndex: 99 entries, 0 to 98
 #  Data columns (total 4 columns):
 #   #   Column                  Non-Null Count  Dtype  
@@ -111,9 +111,9 @@ pipeline = chain(
 #   2   prop                    99 non-null     float64
 #   3   intensidad_tecnologica  99 non-null     object 
 #  
-#  |    |   anio | sector               |    prop | intensidad_tecnologica   |
-#  |---:|-------:|:---------------------|--------:|:-------------------------|
-#  |  0 |   1973 | Maquinaria y equipos | 5.20309 | High tech                |
+#  |    |   anio | sector                |    prop | intensidad_tecnologica   |
+#  |---:|-------:|:----------------------|--------:|:-------------------------|
+#  |  0 |   1914 | Equipos de transporte | 1.87465 | High tech                |
 #  
 #  ------------------------------
 #  
