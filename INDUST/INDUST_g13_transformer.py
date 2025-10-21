@@ -9,6 +9,11 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:str = None )->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default))
+    return df
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -18,7 +23,8 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio.isin([1913, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024])'),
-	multiplicar_por_escalar(col='prop', k=100)
+	multiplicar_por_escalar(col='prop', k=100),
+	map_categoria(curr_col='provincia', new_col='provincia2', mapper={'Buenos Aires': 'Buenos Aires', 'CABA': 'CABA', 'Santa Fe': 'Santa Fe', 'Córdoba': 'Córdoba', 'Mendoza': 'Mendoza', 'Tucumán': 'Tucumán'}, default='Otros')
 )
 #  PIPELINE_END
 
@@ -41,33 +47,52 @@ pipeline = chain(
 #  
 #  query(condition='anio.isin([1913, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024])')
 #  Index: 240 entries, 0 to 683
-#  Data columns (total 4 columns):
+#  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
 #   0   anio          240 non-null    int64  
 #   1   provincia_id  240 non-null    int64  
 #   2   provincia     240 non-null    object 
 #   3   prop          240 non-null    float64
+#   4   provincia2    240 non-null    object 
 #  
-#  |    |   anio |   provincia_id | provincia   |   prop |
-#  |---:|-------:|---------------:|:------------|-------:|
-#  |  0 |   1913 |              2 | CABA        |  37.19 |
+#  |    |   anio |   provincia_id | provincia   |   prop | provincia2   |
+#  |---:|-------:|---------------:|:------------|-------:|:-------------|
+#  |  0 |   1913 |              2 | CABA        |  37.19 | CABA         |
 #  
 #  ------------------------------
 #  
 #  multiplicar_por_escalar(col='prop', k=100)
 #  Index: 240 entries, 0 to 683
-#  Data columns (total 4 columns):
+#  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
 #   0   anio          240 non-null    int64  
 #   1   provincia_id  240 non-null    int64  
 #   2   provincia     240 non-null    object 
 #   3   prop          240 non-null    float64
+#   4   provincia2    240 non-null    object 
 #  
-#  |    |   anio |   provincia_id | provincia   |   prop |
-#  |---:|-------:|---------------:|:------------|-------:|
-#  |  0 |   1913 |              2 | CABA        |  37.19 |
+#  |    |   anio |   provincia_id | provincia   |   prop | provincia2   |
+#  |---:|-------:|---------------:|:------------|-------:|:-------------|
+#  |  0 |   1913 |              2 | CABA        |  37.19 | CABA         |
+#  
+#  ------------------------------
+#  
+#  map_categoria(curr_col='provincia', new_col='provincia2', mapper={'Buenos Aires': 'Buenos Aires', 'CABA': 'CABA', 'Santa Fe': 'Santa Fe', 'Córdoba': 'Córdoba', 'Mendoza': 'Mendoza', 'Tucumán': 'Tucumán'}, default='Otros')
+#  Index: 240 entries, 0 to 683
+#  Data columns (total 5 columns):
+#   #   Column        Non-Null Count  Dtype  
+#  ---  ------        --------------  -----  
+#   0   anio          240 non-null    int64  
+#   1   provincia_id  240 non-null    int64  
+#   2   provincia     240 non-null    object 
+#   3   prop          240 non-null    float64
+#   4   provincia2    240 non-null    object 
+#  
+#  |    |   anio |   provincia_id | provincia   |   prop | provincia2   |
+#  |---:|-------:|---------------:|:------------|-------:|:-------------|
+#  |  0 |   1913 |              2 | CABA        |  37.19 | CABA         |
 #  
 #  ------------------------------
 #  
