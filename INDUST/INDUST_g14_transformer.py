@@ -9,6 +9,11 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 #  DEFINITIONS_END
@@ -17,7 +22,8 @@ def drop_col(df: DataFrame, col, axis=1):
 #  PIPELINE_START
 pipeline = chain(
 	drop_col(col=['exportaciones_industriales'], axis=1),
-	multiplicar_por_escalar(col='prop', k=100)
+	multiplicar_por_escalar(col='prop', k=100),
+	query(condition="geocodigoFundar == 'ARG'")
 )
 #  PIPELINE_END
 
@@ -71,6 +77,23 @@ pipeline = chain(
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_desc_full     |   prop |
 #  |---:|-------:|:------------------|:------------------|:-------------------|-------:|
 #  |  0 |   1962 | AFG               | Afganistán        | Total manufacturas | 17.697 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigoFundar == 'ARG'")
+#  Index: 310 entries, 5 to 61711
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             310 non-null    int64  
+#   1   geocodigoFundar  310 non-null    object 
+#   2   geonombreFundar  310 non-null    object 
+#   3   lall_desc_full   310 non-null    object 
+#   4   prop             310 non-null    float64
+#  
+#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_desc_full     |    prop |
+#  |---:|-------:|:------------------|:------------------|:-------------------|--------:|
+#  |  5 |   1962 | ARG               | Argentina         | Total manufacturas | 17.9953 |
 #  
 #  ------------------------------
 #  
