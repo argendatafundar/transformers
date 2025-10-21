@@ -4,18 +4,29 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
+    return df.groupby(key_cols)[summarised_col].sum().reset_index()
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
 
 @transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:str = None )->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default))
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
+
+@transformer.convert
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:str = None )->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default))
     return df
 #  DEFINITIONS_END
 
@@ -24,7 +35,9 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 pipeline = chain(
 	query(condition='anio.isin([1913, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024])'),
 	multiplicar_por_escalar(col='prop', k=100),
-	map_categoria(curr_col='provincia', new_col='provincia2', mapper={'Buenos Aires': 'Buenos Aires', 'CABA': 'CABA', 'Santa Fe': 'Santa Fe', 'Córdoba': 'Córdoba', 'Mendoza': 'Mendoza', 'Tucumán': 'Tucumán'}, default='Otros')
+	map_categoria(curr_col='provincia', new_col='provincia2', mapper={'Buenos Aires': 'Buenos Aires', 'CABA': 'CABA', 'Santa Fe': 'Santa Fe', 'Córdoba': 'Córdoba', 'Mendoza': 'Mendoza', 'Tucumán': 'Tucumán'}, default='Otros'),
+	agg_sum(key_cols=['anio', 'provincia2'], summarised_col='prop'),
+	ordenar_dos_columnas(col1='anio', order1=[1914, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
 )
 #  PIPELINE_END
 
@@ -93,6 +106,36 @@ pipeline = chain(
 #  |    |   anio |   provincia_id | provincia   |   prop | provincia2   |
 #  |---:|-------:|---------------:|:------------|-------:|:-------------|
 #  |  0 |   1913 |              2 | CABA        |  37.19 | CABA         |
+#  
+#  ------------------------------
+#  
+#  agg_sum(key_cols=['anio', 'provincia2'], summarised_col='prop')
+#  RangeIndex: 70 entries, 0 to 69
+#  Data columns (total 3 columns):
+#   #   Column      Non-Null Count  Dtype   
+#  ---  ------      --------------  -----   
+#   0   anio        63 non-null     category
+#   1   provincia2  70 non-null     category
+#   2   prop        70 non-null     float64 
+#  
+#  |    |   anio | provincia2   |   prop |
+#  |---:|-------:|:-------------|-------:|
+#  |  0 |    nan | Buenos Aires |  23.56 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='anio', order1=[1914, 1935, 1946, 1953, 1963, 1973, 1984, 1993, 2003, 2011, 2024], col2='provincia2', order2=['Buenos Aires', 'CABA', 'Santa Fe', 'Córdoba', 'Mendoza', 'Tucumán', 'Otros'])
+#  Index: 70 entries, 7 to 4
+#  Data columns (total 3 columns):
+#   #   Column      Non-Null Count  Dtype   
+#  ---  ------      --------------  -----   
+#   0   anio        63 non-null     category
+#   1   provincia2  70 non-null     category
+#   2   prop        70 non-null     float64 
+#  
+#  |    |   anio | provincia2   |   prop |
+#  |---:|-------:|:-------------|-------:|
+#  |  7 |   1935 | Buenos Aires |   26.5 |
 #  
 #  ------------------------------
 #  
