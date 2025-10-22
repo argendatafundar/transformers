@@ -18,7 +18,8 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition="intensidad_id_ocde_desc == 'Media y alta intensidad de I+D'"),
-	multiplicar_por_escalar(col='prop_vab', k=100)
+	multiplicar_por_escalar(col='prop_vab', k=100),
+	query(condition='anio.isin([1995,2004,2022])')
 )
 #  PIPELINE_END
 
@@ -70,6 +71,24 @@ pipeline = chain(
 #   3   intensidad_id_ocde_desc  2492 non-null   object 
 #   4   vab                      2492 non-null   float64
 #   5   prop_vab                 2492 non-null   float64
+#  
+#  |    |   anio | geocodigoFundar   | geonombreFundar   | intensidad_id_ocde_desc        |     vab |   prop_vab |
+#  |---:|-------:|:------------------|:------------------|:-------------------------------|--------:|-----------:|
+#  |  1 |   1995 | AGO               | Angola            | Media y alta intensidad de I+D | 187.779 |    48.2373 |
+#  
+#  ------------------------------
+#  
+#  query(condition='anio.isin([1995,2004,2022])')
+#  Index: 267 entries, 1 to 4983
+#  Data columns (total 6 columns):
+#   #   Column                   Non-Null Count  Dtype  
+#  ---  ------                   --------------  -----  
+#   0   anio                     267 non-null    int64  
+#   1   geocodigoFundar          267 non-null    object 
+#   2   geonombreFundar          267 non-null    object 
+#   3   intensidad_id_ocde_desc  267 non-null    object 
+#   4   vab                      267 non-null    float64
+#   5   prop_vab                 267 non-null    float64
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | intensidad_id_ocde_desc        |     vab |   prop_vab |
 #  |---:|-------:|:------------------|:------------------|:-------------------------------|--------:|-----------:|
