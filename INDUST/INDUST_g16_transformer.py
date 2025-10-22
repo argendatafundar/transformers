@@ -31,7 +31,7 @@ pipeline = chain(
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | flujo                      |   valores_corrientes |   valores_constantes |
 #  |---:|-------:|:------------------|:------------------|:---------------------------|---------------------:|---------------------:|
-#  |  0 |   1962 | AFG               | Afganistán        | Exportaciones industriales |          1.44588e+07 |          1.11638e+06 |
+#  |  0 |   1962 | AFG               | Afganistán        | Exportaciones industriales |              14.4588 |              111.638 |
 #  
 #  ------------------------------
 #  
@@ -49,7 +49,7 @@ pipeline = chain(
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | flujo                      |   valores_corrientes |   valores_constantes |
 #  |---:|-------:|:------------------|:------------------|:---------------------------|---------------------:|---------------------:|
-#  | 10 |   1962 | ARG               | Argentina         | Exportaciones industriales |          2.34905e+08 |          1.81373e+07 |
+#  | 10 |   1962 | ARG               | Argentina         | Exportaciones industriales |              234.905 |              1813.73 |
 #  
 #  ------------------------------
 #  
