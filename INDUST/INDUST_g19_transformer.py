@@ -19,7 +19,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition="intensidad_id_ocde_desc == 'Media y alta intensidad de I+D'"),
 	multiplicar_por_escalar(col='prop_vab', k=100),
-	query(condition='anio.isin([1995,2004,2022])')
+	query(condition='anio.isin([1995, 2000, 2004, 2011, 2022])')
 )
 #  PIPELINE_END
 
@@ -78,17 +78,17 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio.isin([1995,2004,2022])')
-#  Index: 267 entries, 1 to 4983
+#  query(condition='anio.isin([1995, 2000, 2004, 2011, 2022])')
+#  Index: 445 entries, 1 to 4983
 #  Data columns (total 6 columns):
 #   #   Column                   Non-Null Count  Dtype  
 #  ---  ------                   --------------  -----  
-#   0   anio                     267 non-null    int64  
-#   1   geocodigoFundar          267 non-null    object 
-#   2   geonombreFundar          267 non-null    object 
-#   3   intensidad_id_ocde_desc  267 non-null    object 
-#   4   vab                      267 non-null    float64
-#   5   prop_vab                 267 non-null    float64
+#   0   anio                     445 non-null    int64  
+#   1   geocodigoFundar          445 non-null    object 
+#   2   geonombreFundar          445 non-null    object 
+#   3   intensidad_id_ocde_desc  445 non-null    object 
+#   4   vab                      445 non-null    float64
+#   5   prop_vab                 445 non-null    float64
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | intensidad_id_ocde_desc        |     vab |   prop_vab |
 #  |---:|-------:|:------------------|:------------------|:-------------------------------|--------:|-----------:|
