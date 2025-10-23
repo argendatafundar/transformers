@@ -39,6 +39,7 @@ def rename_cols(df: pl.DataFrame, map):
 pipeline = chain(
 	rename_cols(map={'tipo_energia': 'indicador', 'porcentaje': 'valor', 'geocodigoFundar': 'geocodigo'}),
 	df_sql(query="select * from self where indicador != 'Total' and geocodigo = 'ARG'"),
+	df_sql(query="select * from self where indicador != 'Otras renovables'"),
 	drop_na(cols=['valor']),
 	drop_cols(cols=['valor_en_twh']),
 	replace_value(col='indicador', mapping={'Bioenergia': 'Bioenergía', 'Carbon': 'Carbón', 'Petroleo': 'Petróleo', 'Eolica': 'Eólica'}, alias=None)
@@ -55,6 +56,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  df_sql(query="select * from self where indicador != 'Total' and geocodigo = 'ARG'")
+#  
+#  ------------------------------
+#  
+#  df_sql(query="select * from self where indicador != 'Otras renovables'")
 #  
 #  ------------------------------
 #  
