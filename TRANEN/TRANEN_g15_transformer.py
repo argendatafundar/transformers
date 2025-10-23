@@ -4,20 +4,23 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_na(df: pl.DataFrame, cols: list):
-    return df.drop_nulls(subset=cols)
-
-@transformer.convert
-def rename_cols(df: pl.DataFrame, map):
-    return df.rename(map)
-
-@transformer.convert
 def drop_col(df: pl.DataFrame, col, axis=1):
     return df.drop(col)
 
 @transformer.convert
-def query(df: pl.DataFrame, condition: str):
-    return df.filter(eval(condition))
+def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.with_columns(pl.col(col).replace(curr_value, new_value))
+    return df
+
+@transformer.convert
+def sort_values(df: pl.DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    return df.sort(by=by, descending=how == 'descending')
+
+@transformer.convert
+def wide_to_long(df: pl.DataFrame, primary_keys, value_name='valor', var_name='indicador'):
+    return df.melt(id_vars=primary_keys, value_name=value_name, variable_name=var_name)
 
 @transformer.convert
 def recalculo_kaya(df: pl.DataFrame, group: str, date_col: str):
@@ -86,19 +89,16 @@ def recalculo_kaya(df: pl.DataFrame, group: str, date_col: str):
     return result
 
 @transformer.convert
-def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.with_columns(pl.col(col).replace(curr_value, new_value))
-    return df
+def query(df: pl.DataFrame, condition: str):
+    return df.filter(eval(condition))
 
 @transformer.convert
-def wide_to_long(df: pl.DataFrame, primary_keys, value_name='valor', var_name='indicador'):
-    return df.melt(id_vars=primary_keys, value_name=value_name, variable_name=var_name)
+def rename_cols(df: pl.DataFrame, map):
+    return df.rename(map)
 
 @transformer.convert
-def sort_values(df: pl.DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    return df.sort(by=by, descending=how == 'descending')
+def drop_na(df: pl.DataFrame, cols: list):
+    return df.drop_nulls(subset=cols)
 #  DEFINITIONS_END
 
 
