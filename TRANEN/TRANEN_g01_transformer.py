@@ -20,12 +20,18 @@ def sort_values_by_comparison(df, colname: str, precedence: dict, prefix=[], suf
     df_[mapcol] = df_[colname].map(precedence)
     df_ = df_.sort_values(by=[*prefix, mapcol, *suffix])
     return df_.drop(mapcol, axis=1)
+
+@transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-query(condition='tipo_energia != "Total"'),
+	to_pandas(dummy=True),
+	query(condition='tipo_energia != "Total"'),
 	rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'}),
 	sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio'], suffix=[])
 )
@@ -33,14 +39,18 @@ query(condition='tipo_energia != "Total"'),
 
 
 #  start()
-#  RangeIndex: 836 entries, 0 to 835
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
+#  RangeIndex: 847 entries, 0 to 846
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          836 non-null    int64  
-#   1   tipo_energia  836 non-null    object 
-#   2   valor_en_twh  836 non-null    float64
-#   3   porcentaje    836 non-null    float64
+#   0   anio          847 non-null    int64  
+#   1   tipo_energia  847 non-null    object 
+#   2   valor_en_twh  847 non-null    float64
+#   3   porcentaje    847 non-null    float64
 #  
 #  |    |   anio | tipo_energia     |   valor_en_twh |   porcentaje |
 #  |---:|-------:|:-----------------|---------------:|-------------:|
@@ -49,14 +59,14 @@ query(condition='tipo_energia != "Total"'),
 #  ------------------------------
 #  
 #  query(condition='tipo_energia != "Total"')
-#  Index: 760 entries, 0 to 759
+#  Index: 770 entries, 0 to 769
 #  Data columns (total 4 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
-#   0   anio          760 non-null    int64  
-#   1   tipo_energia  760 non-null    object 
-#   2   valor_en_twh  760 non-null    float64
-#   3   porcentaje    760 non-null    float64
+#   0   anio          770 non-null    int64  
+#   1   tipo_energia  770 non-null    object 
+#   2   valor_en_twh  770 non-null    float64
+#   3   porcentaje    770 non-null    float64
 #  
 #  |    |   anio | tipo_energia     |   valor_en_twh |   porcentaje |
 #  |---:|-------:|:-----------------|---------------:|-------------:|
@@ -65,14 +75,14 @@ query(condition='tipo_energia != "Total"'),
 #  ------------------------------
 #  
 #  rename_cols(map={'tipo_energia': 'indicador', 'valor_en_twh': 'valor'})
-#  Index: 760 entries, 0 to 759
+#  Index: 770 entries, 0 to 769
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   anio        760 non-null    int64  
-#   1   indicador   760 non-null    object 
-#   2   valor       760 non-null    float64
-#   3   porcentaje  760 non-null    float64
+#   0   anio        770 non-null    int64  
+#   1   indicador   770 non-null    object 
+#   2   valor       770 non-null    float64
+#   3   porcentaje  770 non-null    float64
 #  
 #  |    |   anio | indicador        |   valor |   porcentaje |
 #  |---:|-------:|:-----------------|--------:|-------------:|
@@ -81,14 +91,14 @@ query(condition='tipo_energia != "Total"'),
 #  ------------------------------
 #  
 #  sort_values_by_comparison(colname='indicador', precedence={'Otras renovables': 0, 'Biocombustibles': 1, 'Solar': 2, 'Eólica': 3, 'Nuclear': 4, 'Hidro': 5, 'Gas natural': 6, 'Petróleo': 7, 'Carbón': 8, 'Biomasa tradicional': 9}, prefix=['anio'], suffix=[])
-#  Index: 760 entries, 0 to 759
+#  Index: 770 entries, 0 to 769
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
 #  ---  ------      --------------  -----  
-#   0   anio        760 non-null    int64  
-#   1   indicador   760 non-null    object 
-#   2   valor       760 non-null    float64
-#   3   porcentaje  760 non-null    float64
+#   0   anio        770 non-null    int64  
+#   1   indicador   770 non-null    object 
+#   2   valor       770 non-null    float64
+#   3   porcentaje  770 non-null    float64
 #  
 #  |    |   anio | indicador        |   valor |   porcentaje |
 #  |---:|-------:|:-----------------|--------:|-------------:|
