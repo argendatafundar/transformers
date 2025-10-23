@@ -4,16 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def sort_values_by_comparison(df: pl.DataFrame, colname: str, precedence: dict, prefix=[], suffix=[]):
-    mapcol = colname+'_map'
-    df_ = df.clone()
-    df_ = df_.with_columns(pl.col(colname).replace(precedence).alias(mapcol))
-    df_ = df_.sort([*prefix, mapcol, *suffix])
-    return df_.drop(mapcol)
-
-@transformer.convert
-def rename_cols(df: pl.DataFrame, map):
-    df = df.rename(map)
+def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
+    df = df.with_columns(pl.col(col).replace(curr_value, new_value))
     return df
 
 @transformer.convert
@@ -28,12 +20,20 @@ def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame:
     return df
 
 @transformer.convert
+def sort_values_by_comparison(df: pl.DataFrame, colname: str, precedence: dict, prefix=[], suffix=[]):
+    mapcol = colname+'_map'
+    df_ = df.clone()
+    df_ = df_.with_columns(pl.col(colname).replace(precedence).alias(mapcol))
+    df_ = df_.sort([*prefix, mapcol, *suffix])
+    return df_.drop(mapcol)
+
+@transformer.convert
 def drop_na(df: pl.DataFrame, cols: list):
     return df.drop_nulls(subset=cols)
 
 @transformer.convert
-def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
-    df = df.with_columns(pl.col(col).replace(curr_value, new_value))
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(map)
     return df
 #  DEFINITIONS_END
 
