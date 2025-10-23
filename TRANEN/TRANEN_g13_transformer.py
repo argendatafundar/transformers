@@ -4,22 +4,8 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: pl.DataFrame, map):
-    df = df.rename(map)
-    return df
-
-@transformer.convert
 def drop_cols(df, cols):
     return df.drop(cols)
-
-@transformer.convert
-def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
-    df = df.sql(query)
-    return df
-
-@transformer.convert
-def drop_na(df: pl.DataFrame, cols: list):
-    return df.drop_nulls(subset=cols)
 
 @transformer.convert
 def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
@@ -31,6 +17,20 @@ def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
         pl.col(col).replace(mapping).alias(alias)
     )
 
+    return df
+
+@transformer.convert
+def df_sql(df: pl.DataFrame, query: str) -> pl.DataFrame: 
+    df = df.sql(query)
+    return df
+
+@transformer.convert
+def drop_na(df: pl.DataFrame, cols: list):
+    return df.drop_nulls(subset=cols)
+
+@transformer.convert
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(map)
     return df
 #  DEFINITIONS_END
 
