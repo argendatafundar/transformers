@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def to_pandas(df: pl.DataFrame, dummy = True):
-    df = df.to_pandas()
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
     return df
 
 @transformer.convert
