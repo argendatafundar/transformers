@@ -4,11 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def to_pandas(df: pl.DataFrame, dummy = True):
     df = df.to_pandas()
     return df
@@ -19,6 +14,19 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
+    return df
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
 #  DEFINITIONS_END
@@ -26,7 +34,7 @@ def drop_col(df: DataFrame, col, axis=1):
 
 #  PIPELINE_START
 pipeline = chain(
-	to_pandas(dummy=True),
+to_pandas(dummy=True),
 	query(condition='geocodigoFundar == "ARG" & anio == anio.max()'),
 	rename_cols(map={'fuente_energia': 'nivel2', 'porcentaje': 'valor', 'tipo_energia': 'nivel1'}),
 	drop_col(col='anio', axis=1),
