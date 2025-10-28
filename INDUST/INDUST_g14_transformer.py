@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -13,11 +18,6 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
     df_copy = df.copy()
     df_copy[col] = df_copy[col].replace(replacements)
     return df_copy
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
 
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
