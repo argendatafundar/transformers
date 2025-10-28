@@ -30,7 +30,7 @@ pipeline = chain(
 	drop_col(col=['exportaciones_industriales'], axis=1),
 	multiplicar_por_escalar(col='prop', k=100),
 	query(condition="geocodigoFundar == 'ARG'"),
-	replace_multiple_values(col='lall_desc_full', replacements={'Total manufacturas': 'Total', 'Manufacturas basadas en recursos naturales': 'Basadas en RRNN', 'Manufacturas de alta tecnología': 'Alta tecnología', 'Manufacturas de media tecnología': 'Media tecnología', 'Manufacturas de baja tecnología': 'Baja tecnología'})
+	replace_multiple_values(col='lall_desc_full', replacements={'Total manufacturas': 'Total manufacturas', 'Manufacturas basadas en recursos naturales': 'Basadas en RRNN', 'Manufacturas de alta tecnología': 'Alta tecnología', 'Manufacturas de media tecnología': 'Media tecnología', 'Manufacturas de baja tecnología': 'Baja tecnología'})
 )
 #  PIPELINE_END
 
@@ -104,7 +104,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='lall_desc_full', replacements={'Total manufacturas': 'Total', 'Manufacturas basadas en recursos naturales': 'Basadas en RRNN', 'Manufacturas de alta tecnología': 'Alta tecnología', 'Manufacturas de media tecnología': 'Media tecnología', 'Manufacturas de baja tecnología': 'Baja tecnología'})
+#  replace_multiple_values(col='lall_desc_full', replacements={'Total manufacturas': 'Total manufacturas', 'Manufacturas basadas en recursos naturales': 'Basadas en RRNN', 'Manufacturas de alta tecnología': 'Alta tecnología', 'Manufacturas de media tecnología': 'Media tecnología', 'Manufacturas de baja tecnología': 'Baja tecnología'})
 #  Index: 310 entries, 5 to 61711
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -115,9 +115,9 @@ pipeline = chain(
 #   3   lall_desc_full   310 non-null    object 
 #   4   prop             310 non-null    float64
 #  
-#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_desc_full   |    prop |
-#  |---:|-------:|:------------------|:------------------|:-----------------|--------:|
-#  |  5 |   1962 | ARG               | Argentina         | Total            | 17.9953 |
+#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_desc_full     |    prop |
+#  |---:|-------:|:------------------|:------------------|:-------------------|--------:|
+#  |  5 |   1962 | ARG               | Argentina         | Total manufacturas | 17.9953 |
 #  
 #  ------------------------------
 #  
