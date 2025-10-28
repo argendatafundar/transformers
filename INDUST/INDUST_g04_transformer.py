@@ -30,7 +30,7 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['provincia_id'], axis=1),
 	multiplicar_por_escalar(col='prop_industria', k=100),
-	replace_multiple_values(col='provincia', replacements={'Tierra del Fuego': 'T. del Fuego', 'Santiago del Estero': 'Sgo. del Estero'})
+	replace_multiple_values(col='provincia', replacements={'Tierra del Fuego': 'T. del Fuego', 'Santiago del Estero': 'S. del Estero'})
 )
 #  PIPELINE_END
 
@@ -97,7 +97,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='provincia', replacements={'Tierra del Fuego': 'T. del Fuego', 'Santiago del Estero': 'Sgo. del Estero'})
+#  replace_multiple_values(col='provincia', replacements={'Tierra del Fuego': 'T. del Fuego', 'Santiago del Estero': 'S. del Estero'})
 #  Index: 24 entries, 0 to 23
 #  Data columns (total 3 columns):
 #   #   Column          Non-Null Count  Dtype  
