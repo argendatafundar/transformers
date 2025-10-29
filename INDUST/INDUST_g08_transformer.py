@@ -4,11 +4,16 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def sort_values(df: DataFrame, how: str, by: list):
-    if how not in ['ascending', 'descending']:
-        raise ValueError('how must be either "ascending" or "descending"')
-    
-    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 
 @transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
@@ -16,9 +21,11 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     return df
 
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
 #  DEFINITIONS_END
 
 
@@ -26,7 +33,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition="anio == anio.max() & geocodigoFundar == 'ARG'"),
 	multiplicar_por_escalar(col='prop', k=100),
-	sort_values(how='descending', by='prop')
+	sort_values(how='descending', by='prop'),
+	ordenar_dos_columnas(col1='lall_desc_full', order1=['Productos primarios', 'Manufacturas basadas en recursos naturales', 'Manufacturas de baja tecnología', 'Manufacturas de media tecnología', 'Manufacturas de alta tecnología'], col2='lall_code', order2=['pp', 'mrrnn', 'mbt', 'mmt', 'mat'])
 )
 #  PIPELINE_END
 
@@ -94,20 +102,40 @@ pipeline = chain(
 #  sort_values(how='descending', by='prop')
 #  RangeIndex: 5 entries, 0 to 4
 #  Data columns (total 8 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   anio             5 non-null      int64  
-#   1   geocodigoFundar  5 non-null      object 
-#   2   geonombreFundar  5 non-null      object 
-#   3   lall_code        5 non-null      object 
-#   4   lall_desc_full   5 non-null      object 
-#   5   importaciones    5 non-null      float64
-#   6   prop             5 non-null      float64
-#   7   source           5 non-null      object 
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   anio             5 non-null      int64   
+#   1   geocodigoFundar  5 non-null      object  
+#   2   geonombreFundar  5 non-null      object  
+#   3   lall_code        5 non-null      category
+#   4   lall_desc_full   5 non-null      category
+#   5   importaciones    5 non-null      float64 
+#   6   prop             5 non-null      float64 
+#   7   source           5 non-null      object  
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full                   |   importaciones |    prop | source                 |
 #  |---:|-------:|:------------------|:------------------|:------------|:---------------------------------|----------------:|--------:|:-----------------------|
 #  |  0 |   2023 | ARG               | Argentina         | mmt         | Manufacturas de media tecnología |     2.60779e+10 | 41.1547 | proyeccion_indice_baci |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='lall_desc_full', order1=['Productos primarios', 'Manufacturas basadas en recursos naturales', 'Manufacturas de baja tecnología', 'Manufacturas de media tecnología', 'Manufacturas de alta tecnología'], col2='lall_code', order2=['pp', 'mrrnn', 'mbt', 'mmt', 'mat'])
+#  Index: 5 entries, 1 to 3
+#  Data columns (total 8 columns):
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   anio             5 non-null      int64   
+#   1   geocodigoFundar  5 non-null      object  
+#   2   geonombreFundar  5 non-null      object  
+#   3   lall_code        5 non-null      category
+#   4   lall_desc_full   5 non-null      category
+#   5   importaciones    5 non-null      float64 
+#   6   prop             5 non-null      float64 
+#   7   source           5 non-null      object  
+#  
+#  |    |   anio | geocodigoFundar   | geonombreFundar   | lall_code   | lall_desc_full      |   importaciones |    prop | source                 |
+#  |---:|-------:|:------------------|:------------------|:------------|:--------------------|----------------:|--------:|:-----------------------|
+#  |  1 |   2023 | ARG               | Argentina         | pp          | Productos primarios |     1.18395e+10 | 18.6844 | proyeccion_indice_baci |
 #  
 #  ------------------------------
 #  
