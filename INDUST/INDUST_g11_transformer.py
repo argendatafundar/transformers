@@ -4,13 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict, new_col:str = None) -> DataFrame:
-    new_col = col if new_col is None else new_col
-    df_copy = df.copy()
-    df_copy[new_col] = df_copy[col].replace(replacements)
-    return df_copy
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -19,6 +12,13 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict, new_col:str = None) -> DataFrame:
+    new_col = col if new_col is None else new_col
+    df_copy = df.copy()
+    df_copy[new_col] = df_copy[col].replace(replacements)
+    return df_copy
 #  DEFINITIONS_END
 
 
