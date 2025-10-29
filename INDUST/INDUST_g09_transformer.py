@@ -11,11 +11,6 @@ def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[s
     return df.sort_values(by=[col1,col2])
 
 @transformer.convert
-def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default = None)->DataFrame:
-    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default))
-    return df
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -24,15 +19,20 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def map_categoria(df:DataFrame, curr_col:str, new_col:str, mapper:dict, default:str = None)->DataFrame:
+    df[new_col] = df[curr_col].apply(lambda x: mapper.get(x, default))
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Reparaciones y otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None),
+	map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles y calzado', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None),
 	multiplicar_por_escalar(col='prop_sobre_industria', k=100),
-	ordenar_dos_columnas(col1='geocodigoFundar', order1=['STP', 'COD', 'PHL', 'HKG', 'CMR', 'NGA', 'SEN', 'NZL', 'ISL', 'LAO', 'CIV', 'CRI', 'UKR', 'CHL', 'IDN', 'CYP', 'COL', 'ARG', 'JOR', 'MMR', 'GRC', 'MAR', 'PER', 'MEX', 'KAZ', 'THA', 'AUS', 'ASEAN', 'AGO', 'PAK', 'BLR', 'ROU', 'ZAF', 'ESP', 'NOR', 'HRV', 'BGR', 'EGY', 'LTU', 'BRA', 'NLD', 'CAN', 'TUN', 'LVA', 'PRT', 'GBR', 'TUR', 'FRA', 'BGD', 'RUS', 'MLT', 'BEL', 'POL', 'EST', 'APEC', 'ARE', 'G20', 'SAU', 'OECD', 'ISR', 'EU28', 'AUT', 'CHN', 'EU15', 'LUX', 'EU27_2020', 'EA19', 'ITA', 'JPN', 'KHM', 'USA', 'VNM', 'IND', 'HUN', 'MYS', 'DNK', 'CZE', 'CHE', 'SVK', 'DEU', 'SVN', 'FIN', 'IRL', 'SWE', 'SGP', 'TWN', 'KOR', 'BRN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+	ordenar_dos_columnas(col1='geocodigoFundar', order1=['STP', 'COD', 'PHL', 'HKG', 'CMR', 'NGA', 'SEN', 'NZL', 'ISL', 'LAO', 'CIV', 'CRI', 'UKR', 'CHL', 'IDN', 'CYP', 'COL', 'ARG', 'JOR', 'MMR', 'GRC', 'MAR', 'PER', 'MEX', 'KAZ', 'THA', 'AUS', 'ASEAN', 'AGO', 'PAK', 'BLR', 'ROU', 'ZAF', 'ESP', 'NOR', 'HRV', 'BGR', 'EGY', 'LTU', 'BRA', 'NLD', 'CAN', 'TUN', 'LVA', 'PRT', 'GBR', 'TUR', 'FRA', 'BGD', 'RUS', 'MLT', 'BEL', 'POL', 'EST', 'APEC', 'ARE', 'G20', 'SAU', 'OECD', 'ISR', 'EU28', 'AUT', 'CHN', 'EU15', 'LUX', 'EU27_2020', 'EA19', 'ITA', 'JPN', 'KHM', 'USA', 'VNM', 'IND', 'HUN', 'MYS', 'DNK', 'CZE', 'CHE', 'SVK', 'DEU', 'SVN', 'FIN', 'IRL', 'SWE', 'SGP', 'TWN', 'KOR', 'BRN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles y calzado', 'Madera y papel', 'Otras manufacturas', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
 )
 #  PIPELINE_END
 
@@ -74,7 +74,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Reparaciones y otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None)
+#  map_categoria(curr_col='actividad', new_col='actividad2', mapper={'Equipos informáticos, electrónicos y eléctricos': 'Electrónica', 'Productos de madera, papel e impresión': 'Madera y papel', 'Productos alimenticios, bebidas y tabaco': 'Alimentos, bebidas y tabaco', 'Textiles, productos textiles, cuero y calzado': 'Textiles y calzado', 'Equipos de transporte': 'Equipos de transporte', 'Metales básicos y productos metálicos fabricados': 'Siderúrgica y metalúrgica', 'Productos químicos y minerales no metálicos': 'Química y minerales no metálicos', 'Manufactura n.c.o.p.; reparación e instalación de maquinaria y equipos': 'Otras manufacturas', 'Maquinaria y equipos, n.c.o.p.': 'Maquinaria y equipos'}, default=None)
 #  Index: 792 entries, 105 to 8842
 #  Data columns (total 7 columns):
 #   #   Column                Non-Null Count  Dtype   
@@ -112,7 +112,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geocodigoFundar', order1=['STP', 'COD', 'PHL', 'HKG', 'CMR', 'NGA', 'SEN', 'NZL', 'ISL', 'LAO', 'CIV', 'CRI', 'UKR', 'CHL', 'IDN', 'CYP', 'COL', 'ARG', 'JOR', 'MMR', 'GRC', 'MAR', 'PER', 'MEX', 'KAZ', 'THA', 'AUS', 'ASEAN', 'AGO', 'PAK', 'BLR', 'ROU', 'ZAF', 'ESP', 'NOR', 'HRV', 'BGR', 'EGY', 'LTU', 'BRA', 'NLD', 'CAN', 'TUN', 'LVA', 'PRT', 'GBR', 'TUR', 'FRA', 'BGD', 'RUS', 'MLT', 'BEL', 'POL', 'EST', 'APEC', 'ARE', 'G20', 'SAU', 'OECD', 'ISR', 'EU28', 'AUT', 'CHN', 'EU15', 'LUX', 'EU27_2020', 'EA19', 'ITA', 'JPN', 'KHM', 'USA', 'VNM', 'IND', 'HUN', 'MYS', 'DNK', 'CZE', 'CHE', 'SVK', 'DEU', 'SVN', 'FIN', 'IRL', 'SWE', 'SGP', 'TWN', 'KOR', 'BRN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles', 'Reparaciones y otras manufacturas', 'Madera y papel', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
+#  ordenar_dos_columnas(col1='geocodigoFundar', order1=['STP', 'COD', 'PHL', 'HKG', 'CMR', 'NGA', 'SEN', 'NZL', 'ISL', 'LAO', 'CIV', 'CRI', 'UKR', 'CHL', 'IDN', 'CYP', 'COL', 'ARG', 'JOR', 'MMR', 'GRC', 'MAR', 'PER', 'MEX', 'KAZ', 'THA', 'AUS', 'ASEAN', 'AGO', 'PAK', 'BLR', 'ROU', 'ZAF', 'ESP', 'NOR', 'HRV', 'BGR', 'EGY', 'LTU', 'BRA', 'NLD', 'CAN', 'TUN', 'LVA', 'PRT', 'GBR', 'TUR', 'FRA', 'BGD', 'RUS', 'MLT', 'BEL', 'POL', 'EST', 'APEC', 'ARE', 'G20', 'SAU', 'OECD', 'ISR', 'EU28', 'AUT', 'CHN', 'EU15', 'LUX', 'EU27_2020', 'EA19', 'ITA', 'JPN', 'KHM', 'USA', 'VNM', 'IND', 'HUN', 'MYS', 'DNK', 'CZE', 'CHE', 'SVK', 'DEU', 'SVN', 'FIN', 'IRL', 'SWE', 'SGP', 'TWN', 'KOR', 'BRN'], col2='actividad2', order2=['Alimentos, bebidas y tabaco', 'Textiles y calzado', 'Madera y papel', 'Otras manufacturas', 'Química y minerales no metálicos', 'Equipos de transporte', 'Siderúrgica y metalúrgica', 'Electrónica', 'Maquinaria y equipos'])
 #  Index: 792 entries, 8654 to 8804
 #  Data columns (total 7 columns):
 #   #   Column                Non-Null Count  Dtype   
