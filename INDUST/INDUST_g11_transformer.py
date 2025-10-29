@@ -4,9 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
-    df[col] = df[col].replace(replacements)
-    return df
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict, new_col:str = None) -> DataFrame:
+    new_col = col if new_col is None else new_col
+    df_copy = df.copy()
+    df_copy[new_col] = df_copy[col].replace(replacements)
+    return df_copy
 
 @transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
@@ -23,7 +25,7 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition="geocodigoFundar == 'ARG'"),
-	replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'Producto', 'share_industrial_employment': 'Empleo'}),
+	replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'PIB', 'share_industrial_employment': 'Empleo'}, new_col=None),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
@@ -57,13 +59,13 @@ pipeline = chain(
 #   3   variable         163 non-null    object 
 #   4   valor            163 non-null    float64
 #  
-#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
-#  |----:|-------:|:------------------|:------------------|:-----------|--------:|
-#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
+#  |     |   anio | geocodigoFundar   | geonombreFundar   | variable             |    valor |
+#  |----:|-------:|:------------------|:------------------|:---------------------|---------:|
+#  | 421 |   1935 | ARG               | Argentina         | share_industrial_gdp | 0.148221 |
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'Producto', 'share_industrial_employment': 'Empleo'})
+#  replace_multiple_values(col='variable', replacements={'share_industrial_gdp': 'PIB', 'share_industrial_employment': 'Empleo'}, new_col=None)
 #  Index: 163 entries, 421 to 583
 #  Data columns (total 5 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -76,7 +78,7 @@ pipeline = chain(
 #  
 #  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
 #  |----:|-------:|:------------------|:------------------|:-----------|--------:|
-#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
+#  | 421 |   1935 | ARG               | Argentina         | PIB        | 14.8221 |
 #  
 #  ------------------------------
 #  
@@ -93,7 +95,7 @@ pipeline = chain(
 #  
 #  |     |   anio | geocodigoFundar   | geonombreFundar   | variable   |   valor |
 #  |----:|-------:|:------------------|:------------------|:-----------|--------:|
-#  | 421 |   1935 | ARG               | Argentina         | Producto   | 14.8221 |
+#  | 421 |   1935 | ARG               | Argentina         | PIB        | 14.8221 |
 #  
 #  ------------------------------
 #  
