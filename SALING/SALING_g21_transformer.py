@@ -14,23 +14,16 @@ def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_va
     return df
 
 @transformer.convert
-def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_col:str) -> DataFrame:
-    return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
-
-@transformer.convert
-def rownumber(df:DataFrame):
-    df['id'] = list(range(1, len(df)+1))
-    return df
-
-@transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
-    return df
-
-@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
@@ -39,9 +32,7 @@ pipeline = chain(
 	query(condition="variable.isin(['hombres1','mujeres1'])"),
 	replace_value(col='variable', curr_value='hombres1', new_value='Varones', mapping=None),
 	replace_value(col='variable', curr_value='mujeres1', new_value='Mujeres', mapping=None),
-	rownumber(),
-	rename_cols(map={'variable': 'genero'}),
-	pivot_longer(id_cols=['id', 'genero'], names_to_col='variable', values_to_col='value')
+	ordenar_dos_columnas(col1='edad', order1=[25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75], col2='variable', order2=['Varones', 'Mujeres'])
 )
 #  PIPELINE_END
 
@@ -93,65 +84,31 @@ pipeline = chain(
 #  
 #  replace_value(col='variable', curr_value='mujeres1', new_value='Mujeres', mapping=None)
 #  Index: 102 entries, 0 to 201
-#  Data columns (total 4 columns):
-#   #   Column    Non-Null Count  Dtype  
-#  ---  ------    --------------  -----  
-#   0   edad      102 non-null    int64  
-#   1   variable  102 non-null    object 
-#   2   valor     102 non-null    float64
-#   3   id        102 non-null    int64  
+#  Data columns (total 3 columns):
+#   #   Column    Non-Null Count  Dtype   
+#  ---  ------    --------------  -----   
+#   0   edad      102 non-null    category
+#   1   variable  102 non-null    category
+#   2   valor     102 non-null    float64 
 #  
-#  |    |   edad | variable   |   valor |   id |
-#  |---:|-------:|:-----------|--------:|-----:|
-#  |  0 |     25 | Varones    |  360178 |    1 |
+#  |    |   edad | variable   |   valor |
+#  |---:|-------:|:-----------|--------:|
+#  |  0 |     25 | Varones    |  360178 |
 #  
 #  ------------------------------
 #  
-#  rownumber()
+#  ordenar_dos_columnas(col1='edad', order1=[25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75], col2='variable', order2=['Varones', 'Mujeres'])
 #  Index: 102 entries, 0 to 201
-#  Data columns (total 4 columns):
-#   #   Column    Non-Null Count  Dtype  
-#  ---  ------    --------------  -----  
-#   0   edad      102 non-null    int64  
-#   1   variable  102 non-null    object 
-#   2   valor     102 non-null    float64
-#   3   id        102 non-null    int64  
+#  Data columns (total 3 columns):
+#   #   Column    Non-Null Count  Dtype   
+#  ---  ------    --------------  -----   
+#   0   edad      102 non-null    category
+#   1   variable  102 non-null    category
+#   2   valor     102 non-null    float64 
 #  
-#  |    |   edad | variable   |   valor |   id |
-#  |---:|-------:|:-----------|--------:|-----:|
-#  |  0 |     25 | Varones    |  360178 |    1 |
-#  
-#  ------------------------------
-#  
-#  rename_cols(map={'variable': 'genero'})
-#  Index: 102 entries, 0 to 201
-#  Data columns (total 4 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   edad    102 non-null    int64  
-#   1   genero  102 non-null    object 
-#   2   valor   102 non-null    float64
-#   3   id      102 non-null    int64  
-#  
-#  |    |   edad | genero   |   valor |   id |
-#  |---:|-------:|:---------|--------:|-----:|
-#  |  0 |     25 | Varones  |  360178 |    1 |
-#  
-#  ------------------------------
-#  
-#  pivot_longer(id_cols=['id', 'genero'], names_to_col='variable', values_to_col='value')
-#  RangeIndex: 204 entries, 0 to 203
-#  Data columns (total 4 columns):
-#   #   Column    Non-Null Count  Dtype  
-#  ---  ------    --------------  -----  
-#   0   id        204 non-null    int64  
-#   1   genero    204 non-null    object 
-#   2   variable  204 non-null    object 
-#   3   value     204 non-null    float64
-#  
-#  |    |   id | genero   | variable   |   value |
-#  |---:|-----:|:---------|:-----------|--------:|
-#  |  0 |    1 | Varones  | edad       |      25 |
+#  |    |   edad | variable   |   valor |
+#  |---:|-------:|:-----------|--------:|
+#  |  0 |     25 | Varones    |  360178 |
 #  
 #  ------------------------------
 #  
