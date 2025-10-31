@@ -4,20 +4,20 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def rename_cols(df: DataFrame, map):
-    df = df.rename(columns=map)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def rename_cols(df: DataFrame, map):
+    df = df.rename(columns=map)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'tipo_prima': 'categoria', 'prima': 'valor'}),
+	rename_cols(map={'tipo_prima': 'categoria', 'prima': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100)
 )
 #  PIPELINE_END
