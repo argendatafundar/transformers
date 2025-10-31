@@ -27,7 +27,7 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 pipeline = chain(
 	multiplicar_por_escalar(col='proporcion', k=100),
 	replace_multiple_values(col='fuente', replacements={'Ingreso laboral': 'Laboral', 'Ingreso de capital': 'Capital', 'Ingreso de jubilaciones': 'Jubilaciones', 'Ingreso de transferencias estatales': 'Transferencias estatales', 'Otros ingresos': 'Otros ingresos'}),
-	ordenar_dos_columnas(col1='edad_jefe', order1=['24 o menos', '25 a 34', '35 a 44', '45 a 54', '55 a 64', '65 o mas'], col2='fuente', order2=['Laboral', 'Capital', 'Jubilaciones', 'Transferencias estatales', 'Otros ingresos'])
+	ordenar_dos_columnas(col1='edad_jefe', order1=['65 o mas55 a 64', '35 a 44', '45 a 54', '25 a 34', '24 o menos'], col2='fuente', order2=['Laboral', 'Capital', 'Jubilaciones', 'Transferencias estatales', 'Otros ingresos'])
 )
 #  PIPELINE_END
 
@@ -73,7 +73,7 @@ pipeline = chain(
 #  ---  ------      --------------  -----   
 #   0   year        30 non-null     int64   
 #   1   semestre    30 non-null     int64   
-#   2   edad_jefe   30 non-null     category
+#   2   edad_jefe   20 non-null     category
 #   3   fuente      30 non-null     category
 #   4   proporcion  30 non-null     float64 
 #  
@@ -83,20 +83,20 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='edad_jefe', order1=['24 o menos', '25 a 34', '35 a 44', '45 a 54', '55 a 64', '65 o mas'], col2='fuente', order2=['Laboral', 'Capital', 'Jubilaciones', 'Transferencias estatales', 'Otros ingresos'])
-#  Index: 30 entries, 0 to 29
+#  ordenar_dos_columnas(col1='edad_jefe', order1=['65 o mas55 a 64', '35 a 44', '45 a 54', '25 a 34', '24 o menos'], col2='fuente', order2=['Laboral', 'Capital', 'Jubilaciones', 'Transferencias estatales', 'Otros ingresos'])
+#  Index: 30 entries, 2 to 29
 #  Data columns (total 5 columns):
 #   #   Column      Non-Null Count  Dtype   
 #  ---  ------      --------------  -----   
 #   0   year        30 non-null     int64   
 #   1   semestre    30 non-null     int64   
-#   2   edad_jefe   30 non-null     category
+#   2   edad_jefe   20 non-null     category
 #   3   fuente      30 non-null     category
 #   4   proporcion  30 non-null     float64 
 #  
 #  |    |   year |   semestre | edad_jefe   | fuente   |   proporcion |
 #  |---:|-------:|-----------:|:------------|:---------|-------------:|
-#  |  0 |   2024 |          1 | 24 o menos  | Laboral  |      74.2226 |
+#  |  2 |   2024 |          1 | 35 a 44     | Laboral  |      88.2807 |
 #  
 #  ------------------------------
 #  
