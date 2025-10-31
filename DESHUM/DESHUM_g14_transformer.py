@@ -12,7 +12,8 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition="metrica == 'Ranking'")
+	query(condition="metrica == 'Ranking'"),
+	query(condition="geocodigoFundar.isin(['NOR', 'DNK', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'URY', 'CHN', 'BRA', 'COL', 'BOL', 'IND', 'AFG', 'YEM'])")
 )
 #  PIPELINE_END
 
@@ -44,6 +45,23 @@ pipeline = chain(
 #   2   metrica          308 non-null    object 
 #   3   valor            308 non-null    float64
 #   4   geonombreFundar  308 non-null    object 
+#  
+#  |    | geocodigoFundar   | tipo_idh   | metrica   |   valor | geonombreFundar   |
+#  |---:|:------------------|:-----------|:----------|--------:|:------------------|
+#  |  2 | AFG               | IDH        | Ranking   |     143 | Afganistán        |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigoFundar.isin(['NOR', 'DNK', 'ISL', 'SWE', 'AUS', 'USA', 'CHL', 'ARG', 'URY', 'CHN', 'BRA', 'COL', 'BOL', 'IND', 'AFG', 'YEM'])")
+#  Index: 32 entries, 2 to 603
+#  Data columns (total 5 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   geocodigoFundar  32 non-null     object 
+#   1   tipo_idh         32 non-null     object 
+#   2   metrica          32 non-null     object 
+#   3   valor            32 non-null     float64
+#   4   geonombreFundar  32 non-null     object 
 #  
 #  |    | geocodigoFundar   | tipo_idh   | metrica   |   valor | geonombreFundar   |
 #  |---:|:------------------|:-----------|:----------|--------:|:------------------|
