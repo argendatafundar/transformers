@@ -14,13 +14,19 @@ def sort_values(df: DataFrame, how: str, by: list):
 def concatenar_columnas(df:DataFrame, cols:list, nueva_col:str, separtor:str = "-"):
     df[nueva_col] = df[cols].astype(str).agg(separtor.join, axis=1)
     return df
+
+@transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
 	concatenar_columnas(cols=['year', 'semestre'], nueva_col='aniosem', separtor='-'),
-	sort_values(how='ascending', by=['year', 'semestre'])
+	sort_values(how='ascending', by=['year', 'semestre']),
+	multiplicar_por_escalar(col='proporcion', k=100)
 )
 #  PIPELINE_END
 
@@ -71,7 +77,24 @@ pipeline = chain(
 #  
 #  |    |   year |   semestre | genero   |   proporcion | aniosem   |
 #  |---:|-------:|-----------:|:---------|-------------:|:----------|
-#  |  0 |   2003 |          2 | Mujer    |     0.727663 | 2003-2    |
+#  |  0 |   2003 |          2 | Mujer    |      72.7663 | 2003-2    |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='proporcion', k=100)
+#  RangeIndex: 80 entries, 0 to 79
+#  Data columns (total 5 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   year        80 non-null     int64  
+#   1   semestre    80 non-null     int64  
+#   2   genero      80 non-null     object 
+#   3   proporcion  76 non-null     float64
+#   4   aniosem     80 non-null     object 
+#  
+#  |    |   year |   semestre | genero   |   proporcion | aniosem   |
+#  |---:|-------:|-----------:|:---------|-------------:|:----------|
+#  |  0 |   2003 |          2 | Mujer    |      72.7663 | 2003-2    |
 #  
 #  ------------------------------
 #  
