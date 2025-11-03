@@ -16,6 +16,13 @@ def query(df: DataFrame, condition: str):
 @transformer.convert
 def drop_col(df: DataFrame, col, axis=1):
     return df.drop(col, axis=axis)
+
+@transformer.convert
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 #  DEFINITIONS_END
 
 
@@ -23,7 +30,8 @@ def drop_col(df: DataFrame, col, axis=1):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['geocodigoFundar', 'anio'], axis=1),
-	multiplicar_por_escalar(col='ocupado', k=100)
+	multiplicar_por_escalar(col='ocupado', k=100),
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Formosa', 'Chaco', 'Corrientes', 'San Juan', 'Río Negro', 'Santiago del Estero', 'Santa Cruz', 'Córdoba', 'Entre Ríos', 'Salta', 'Tucumán', 'La Pampa', 'Catamarca', 'Mendoza', 'La Rioja', 'Neuquén', 'San Luis', 'Chubut', 'Buenos Aires', 'Misiones', 'Jujuy', 'Santa Fe', 'Tierra del Fuego', 'CABA'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
 )
 #  PIPELINE_END
 
@@ -65,11 +73,11 @@ pipeline = chain(
 #  drop_col(col=['geocodigoFundar', 'anio'], axis=1)
 #  Index: 96 entries, 495 to 755
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geonombreFundar  96 non-null     object 
-#   1   nivel_ed_fundar  96 non-null     object 
-#   2   ocupado          96 non-null     float64
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   geonombreFundar  96 non-null     category
+#   1   nivel_ed_fundar  96 non-null     category
+#   2   ocupado          96 non-null     float64 
 #  
 #  |     | geonombreFundar   | nivel_ed_fundar             |   ocupado |
 #  |----:|:------------------|:----------------------------|----------:|
@@ -80,15 +88,30 @@ pipeline = chain(
 #  multiplicar_por_escalar(col='ocupado', k=100)
 #  Index: 96 entries, 495 to 755
 #  Data columns (total 3 columns):
-#   #   Column           Non-Null Count  Dtype  
-#  ---  ------           --------------  -----  
-#   0   geonombreFundar  96 non-null     object 
-#   1   nivel_ed_fundar  96 non-null     object 
-#   2   ocupado          96 non-null     float64
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   geonombreFundar  96 non-null     category
+#   1   nivel_ed_fundar  96 non-null     category
+#   2   ocupado          96 non-null     float64 
 #  
 #  |     | geonombreFundar   | nivel_ed_fundar             |   ocupado |
 #  |----:|:------------------|:----------------------------|----------:|
 #  | 495 | Buenos Aires      | Hasta secundario incompleto |   69.1307 |
+#  
+#  ------------------------------
+#  
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Formosa', 'Chaco', 'Corrientes', 'San Juan', 'Río Negro', 'Santiago del Estero', 'Santa Cruz', 'Córdoba', 'Entre Ríos', 'Salta', 'Tucumán', 'La Pampa', 'Catamarca', 'Mendoza', 'La Rioja', 'Neuquén', 'San Luis', 'Chubut', 'Buenos Aires', 'Misiones', 'Jujuy', 'Santa Fe', 'Tierra del Fuego', 'CABA'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
+#  Index: 96 entries, 740 to 500
+#  Data columns (total 3 columns):
+#   #   Column           Non-Null Count  Dtype   
+#  ---  ------           --------------  -----   
+#   0   geonombreFundar  96 non-null     category
+#   1   nivel_ed_fundar  96 non-null     category
+#   2   ocupado          96 non-null     float64 
+#  
+#  |     | geonombreFundar   | nivel_ed_fundar   |   ocupado |
+#  |----:|:------------------|:------------------|----------:|
+#  | 740 | Formosa           | Total             |   65.3564 |
 #  
 #  ------------------------------
 #  
