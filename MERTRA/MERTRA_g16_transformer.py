@@ -31,7 +31,7 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	drop_col(col=['geocodigoFundar', 'anio'], axis=1),
 	multiplicar_por_escalar(col='ocupado', k=100),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Formosa', 'Chaco', 'Corrientes', 'San Juan', 'Río Negro', 'Santiago del Estero', 'Santa Cruz', 'Córdoba', 'Entre Ríos', 'Salta', 'Tucumán', 'La Pampa', 'Catamarca', 'Mendoza', 'La Rioja', 'Neuquén', 'San Luis', 'Chubut', 'Buenos Aires', 'Misiones', 'Jujuy', 'Santa Fe', 'Tierra del Fuego', 'CABA'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['CABA', 'Tierra del Fuego', 'Santa Fe', 'Jujuy', 'Misiones', 'Buenos Aires', 'Chubut', 'San Luis', 'Neuquén', 'La Rioja', 'Mendoza', 'Catamarca', 'La Pampa', 'Tucumán', 'Salta', 'Entre Ríos', 'Córdoba', 'Santa Cruz', 'Santiago del Estero', 'Río Negro', 'San Juan', 'Corrientes', 'Chaco', 'Formosa'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
 )
 #  PIPELINE_END
 
@@ -100,8 +100,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Formosa', 'Chaco', 'Corrientes', 'San Juan', 'Río Negro', 'Santiago del Estero', 'Santa Cruz', 'Córdoba', 'Entre Ríos', 'Salta', 'Tucumán', 'La Pampa', 'Catamarca', 'Mendoza', 'La Rioja', 'Neuquén', 'San Luis', 'Chubut', 'Buenos Aires', 'Misiones', 'Jujuy', 'Santa Fe', 'Tierra del Fuego', 'CABA'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
-#  Index: 96 entries, 740 to 500
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['CABA', 'Tierra del Fuego', 'Santa Fe', 'Jujuy', 'Misiones', 'Buenos Aires', 'Chubut', 'San Luis', 'Neuquén', 'La Rioja', 'Mendoza', 'Catamarca', 'La Pampa', 'Tucumán', 'Salta', 'Entre Ríos', 'Córdoba', 'Santa Cruz', 'Santiago del Estero', 'Río Negro', 'San Juan', 'Corrientes', 'Chaco', 'Formosa'], col2='nivel_ed_fundar', order2=['Total', 'Hasta secundario incompleto', 'Secundario completo', 'Superior incompleto o completo'])
+#  Index: 96 entries, 733 to 521
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype   
 #  ---  ------           --------------  -----   
@@ -111,7 +111,7 @@ pipeline = chain(
 #  
 #  |     | geonombreFundar   | nivel_ed_fundar   |   ocupado |
 #  |----:|:------------------|:------------------|----------:|
-#  | 740 | Formosa           | Total             |   65.3564 |
+#  | 733 | CABA              | Total             |   84.8856 |
 #  
 #  ------------------------------
 #  
