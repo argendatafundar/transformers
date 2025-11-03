@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
-    df[col] = df[col]*k
+def cast_to_string(df:DataFrame, number_col:str):
+    df[number_col] = "Año " + df[number_col].astype(str)
     return df
 
 @transformer.convert
-def cast_to_string(df:DataFrame, number_col:str):
-    df[number_col] = df[number_col].astype(str)
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
 
@@ -47,9 +47,9 @@ pipeline = chain(
 #   1   edad            648 non-null    int64  
 #   2   tasa_actividad  648 non-null    float64
 #  
-#  |    |   anio |   edad |   tasa_actividad |
-#  |---:|-------:|-------:|-----------------:|
-#  |  0 |   2016 |     10 |         0.156134 |
+#  |    | anio     |   edad |   tasa_actividad |
+#  |---:|:---------|-------:|-----------------:|
+#  |  0 | Año 2016 |     10 |         0.156134 |
 #  
 #  ------------------------------
 #  
@@ -62,9 +62,9 @@ pipeline = chain(
 #   1   edad            648 non-null    int64  
 #   2   tasa_actividad  648 non-null    float64
 #  
-#  |    |   anio |   edad |   tasa_actividad |
-#  |---:|-------:|-------:|-----------------:|
-#  |  0 |   2016 |     10 |         0.156134 |
+#  |    | anio     |   edad |   tasa_actividad |
+#  |---:|:---------|-------:|-----------------:|
+#  |  0 | Año 2016 |     10 |         0.156134 |
 #  
 #  ------------------------------
 #  
