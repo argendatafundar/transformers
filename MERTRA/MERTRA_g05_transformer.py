@@ -25,6 +25,7 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 pipeline = chain(
 	multiplicar_por_escalar(col='valor', k=100),
 	query(condition="apertura_sexo != 'total'"),
+	query(condition='anio == anio.max()'),
 	replace_multiple_values(col='apertura_sexo', replacements={'varon': 'Varones', 'mujer': 'Mujeres', 'brecha': 'Brecha'})
 )
 #  PIPELINE_END
@@ -78,19 +79,35 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='apertura_sexo', replacements={'varon': 'Varones', 'mujer': 'Mujeres', 'brecha': 'Brecha'})
-#  Index: 1944 entries, 1 to 2591
+#  query(condition='anio == anio.max()')
+#  Index: 243 entries, 2269 to 2591
 #  Data columns (total 4 columns):
 #   #   Column         Non-Null Count  Dtype  
 #  ---  ------         --------------  -----  
-#   0   anio           1944 non-null   int64  
-#   1   edad           1944 non-null   int64  
-#   2   apertura_sexo  1944 non-null   object 
-#   3   valor          1944 non-null   float64
+#   0   anio           243 non-null    int64  
+#   1   edad           243 non-null    int64  
+#   2   apertura_sexo  243 non-null    object 
+#   3   valor          243 non-null    float64
 #  
-#  |    |   anio |   edad | apertura_sexo   |    valor |
-#  |---:|-------:|-------:|:----------------|---------:|
-#  |  1 |   2016 |     10 | Varones         | 0.304733 |
+#  |      |   anio |   edad | apertura_sexo   |      valor |
+#  |-----:|-------:|-------:|:----------------|-----------:|
+#  | 2269 |   2023 |     10 | varon           | 0.00777848 |
+#  
+#  ------------------------------
+#  
+#  replace_multiple_values(col='apertura_sexo', replacements={'varon': 'Varones', 'mujer': 'Mujeres', 'brecha': 'Brecha'})
+#  Index: 243 entries, 2269 to 2591
+#  Data columns (total 4 columns):
+#   #   Column         Non-Null Count  Dtype  
+#  ---  ------         --------------  -----  
+#   0   anio           243 non-null    int64  
+#   1   edad           243 non-null    int64  
+#   2   apertura_sexo  243 non-null    object 
+#   3   valor          243 non-null    float64
+#  
+#  |      |   anio |   edad | apertura_sexo   |      valor |
+#  |-----:|-------:|-------:|:----------------|-----------:|
+#  | 2269 |   2023 |     10 | Varones         | 0.00777848 |
 #  
 #  ------------------------------
 #  
