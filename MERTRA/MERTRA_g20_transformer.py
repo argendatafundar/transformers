@@ -4,14 +4,16 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: DataFrame) -> DataFrame:
+def txtwrapper(df: DataFrame, col:str, width:int)->DataFrame:
+    import textwrap
+    df[col] = df[col].apply(lambda text: "\n".join(textwrap.wrap(text, width=width)))
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	txtwrapper(col='tipo_trabajo', width=15)
 )
 #  PIPELINE_END
 
@@ -31,7 +33,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  identity()
+#  txtwrapper(col='tipo_trabajo', width=15)
 #  RangeIndex: 9 entries, 0 to 8
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
