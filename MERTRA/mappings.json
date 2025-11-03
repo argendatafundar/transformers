@@ -27,6 +27,14 @@
         {
             "private": "MERTRA_4-3-4_5",
             "public": "MERTRA_g05"
+        },
+        {
+            "private": "MERTRA_4-3-4_5",
+            "public": "MERTRA_g99"
+        },
+        {
+            "private": "MERTRA_4-3-4_5",
+            "public": "MERTRA_g98"
         }
     ],
     "media_movil_por_edad_reg_desc_fundar_de_tasa_actividad.csv": [
