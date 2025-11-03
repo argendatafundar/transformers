@@ -4,11 +4,6 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def cast_to_string(df:DataFrame, number_col:str):
-    df[number_col] = "Año " + df[number_col].astype(str)
-    return df
-
-@transformer.convert
 def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
     df[col] = df[col]*k
     return df
@@ -17,8 +12,7 @@ def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
 
 #  PIPELINE_START
 pipeline = chain(
-	multiplicar_por_escalar(col='tasa_actividad', k=100),
-	cast_to_string(number_col='anio')
+	multiplicar_por_escalar(col='tasa_actividad', k=100)
 )
 #  PIPELINE_END
 
@@ -43,28 +37,13 @@ pipeline = chain(
 #  Data columns (total 3 columns):
 #   #   Column          Non-Null Count  Dtype  
 #  ---  ------          --------------  -----  
-#   0   anio            648 non-null    object 
+#   0   anio            648 non-null    int64  
 #   1   edad            648 non-null    int64  
 #   2   tasa_actividad  648 non-null    float64
 #  
-#  |    | anio     |   edad |   tasa_actividad |
-#  |---:|:---------|-------:|-----------------:|
-#  |  0 | Año 2016 |     10 |         0.156134 |
-#  
-#  ------------------------------
-#  
-#  cast_to_string(number_col='anio')
-#  RangeIndex: 648 entries, 0 to 647
-#  Data columns (total 3 columns):
-#   #   Column          Non-Null Count  Dtype  
-#  ---  ------          --------------  -----  
-#   0   anio            648 non-null    object 
-#   1   edad            648 non-null    int64  
-#   2   tasa_actividad  648 non-null    float64
-#  
-#  |    | anio     |   edad |   tasa_actividad |
-#  |---:|:---------|-------:|-----------------:|
-#  |  0 | Año 2016 |     10 |         0.156134 |
+#  |    |   anio |   edad |   tasa_actividad |
+#  |---:|-------:|-------:|-----------------:|
+#  |  0 |   2016 |     10 |         0.156134 |
 #  
 #  ------------------------------
 #  
