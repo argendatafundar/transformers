@@ -29,7 +29,7 @@ def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_va
 pipeline = chain(
 	rename_cols(map={'tipo_prima': 'categoria', 'prima': 'valor'}),
 	multiplicar_por_escalar(col='valor', k=100),
-	replace_value(col='categoria', curr_value=None, new_value=None, mapping={'Controlando por variables sociodemográficas': 'Con control', 'Sin control por otras variables': 'Sin controles'})
+	replace_value(col='categoria', curr_value=None, new_value=None, mapping={'Controlando por variables sociodemográficas': 'Con controles', 'Sin control por otras variables': 'Sin controlar'})
 )
 #  PIPELINE_END
 
@@ -79,7 +79,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', curr_value=None, new_value=None, mapping={'Controlando por variables sociodemográficas': 'Con control', 'Sin control por otras variables': 'Sin controles'})
+#  replace_value(col='categoria', curr_value=None, new_value=None, mapping={'Controlando por variables sociodemográficas': 'Con controles', 'Sin control por otras variables': 'Sin controlar'})
 #  RangeIndex: 42 entries, 0 to 41
 #  Data columns (total 3 columns):
 #   #   Column     Non-Null Count  Dtype  
@@ -88,9 +88,9 @@ pipeline = chain(
 #   1   valor      42 non-null     float64
 #   2   categoria  42 non-null     object 
 #  
-#  |    |   anio |   valor | categoria   |
-#  |---:|-------:|--------:|:------------|
-#  |  0 |   2003 | 43.8929 | Con control |
+#  |    |   anio |   valor | categoria     |
+#  |---:|-------:|--------:|:--------------|
+#  |  0 |   2003 | 43.8929 | Con controles |
 #  
 #  ------------------------------
 #  
