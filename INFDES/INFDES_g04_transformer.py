@@ -12,7 +12,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio>1986')
+	query(condition='anio>=1988')
 )
 #  PIPELINE_END
 
@@ -32,14 +32,14 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio>1986')
-#  Index: 66 entries, 0 to 66
+#  query(condition='anio>=1988')
+#  Index: 65 entries, 0 to 66
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
 #  ---  ------             --------------  -----  
-#   0   anio               66 non-null     int64  
-#   1   tipo_informalidad  66 non-null     object 
-#   2   valor              66 non-null     float64
+#   0   anio               65 non-null     int64  
+#   1   tipo_informalidad  65 non-null     object 
+#   2   valor              65 non-null     float64
 #  
 #  |    |   anio | tipo_informalidad     |   valor |
 #  |---:|-------:|:----------------------|--------:|
