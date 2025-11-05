@@ -9,12 +9,18 @@ def sort_values(df: DataFrame, how: str, by: list):
         raise ValueError('how must be either "ascending" or "descending"')
     
     return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	sort_values(how='ascending', by=['geocodigoFundar'])
+	sort_values(how='ascending', by=['geocodigoFundar']),
+	query(condition="geocodigoFundar  != 'PAN'")
 )
 #  PIPELINE_END
 
@@ -46,6 +52,23 @@ pipeline = chain(
 #   2   anio               29 non-null     int64  
 #   3   tipo_informalidad  29 non-null     object 
 #   4   valor              29 non-null     float64
+#  
+#  |    | geocodigoFundar   | geonombreFundar   |   anio | tipo_informalidad                    |   valor |
+#  |---:|:------------------|:------------------|-------:|:-------------------------------------|--------:|
+#  |  0 | ARG               | Argentina         |   2022 | Informalidad (definición productiva) |    40.1 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geocodigoFundar  != 'PAN'")
+#  Index: 28 entries, 0 to 28
+#  Data columns (total 5 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   geocodigoFundar    28 non-null     object 
+#   1   geonombreFundar    28 non-null     object 
+#   2   anio               28 non-null     int64  
+#   3   tipo_informalidad  28 non-null     object 
+#   4   valor              28 non-null     float64
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | tipo_informalidad                    |   valor |
 #  |---:|:------------------|:------------------|-------:|:-------------------------------------|--------:|
