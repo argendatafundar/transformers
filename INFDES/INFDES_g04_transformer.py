@@ -4,14 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: DataFrame) -> DataFrame:
+def drop_na(df:DataFrame, col:str):
+    df = df.dropna(subset=col, axis=0)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	drop_na(col='valor')
 )
 #  PIPELINE_END
 
@@ -31,7 +32,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  identity()
+#  drop_na(col='valor')
 #  RangeIndex: 67 entries, 0 to 66
 #  Data columns (total 3 columns):
 #   #   Column             Non-Null Count  Dtype  
