@@ -34,7 +34,7 @@ pipeline = chain(
 	query(condition="geonombreFundar not in ['Kirguistán','Filipinas','Montenegro','Chipre','México','Azerbaiyán']"),
 	filtrar_por_max_anio(group_cols=['geonombreFundar', 'estado']),
 	sort_values(how='ascending', by=['estado']),
-	ordenar_dos_columnas(col1='geonombreFundar', order1=['Suecia', 'Noruega', 'Chequia', 'Japón', 'Australia', 'Canadá', 'Nueva Zelanda', 'Estonia', 'Eslovaquia', 'Lituania', 'Reino Unido', 'Letonia', 'Taiwán', 'Suiza', 'Finlandia', 'Dinamarca', 'Países Bajos', 'Hungría', 'Francia', 'Líbano', 'Jordania', 'Austria', 'Grecia', 'Italia', 'Hong Kong', 'Irlanda del Norte', 'Chile', 'Estados Unidos', 'Belarús', 'Alemania', 'Corea del Sur', 'Ucrania', 'Marruecos', 'Singapur', 'Argentina', 'Túnez', 'Eslovenia', 'Islandia', 'Puerto Rico', 'Myanmar', 'Macao', 'Bulgaria', 'Serbia', 'Egipto', 'Armenia', 'Ecuador', 'Nicaragua', 'Portugal', 'Zimbabwe', 'Bosnia y Herzegovina', 'Albania', 'Macedonia del Norte', 'China', 'Malasia', 'Maldivas', 'Libia', 'Indonesia', 'Rusia', 'Colombia', 'Georgia', 'Rumania', 'Uruguay', 'Tayikistán', 'Guatemala', 'Tailandia', 'Venezuela', 'Etiopía', 'Bangladesh', 'Vietnam', 'Perú', 'Kenia', 'Pakistán', 'Polonia', 'Iraq', 'Brasil', 'España', 'Irán', 'Turquía', 'Kazajstán', 'Mongolia', 'Andorra', 'Croacia', 'Bolivia', 'Nigeria'], col2='estado', order2=['Desocupado', 'Ocupado'])
+	ordenar_dos_columnas(col1='geonombreFundar', order1=['Nigeria', 'Bolivia', 'Croacia', 'Andorra', 'Mongolia', 'Kazajstán', 'Turquía', 'Irán', 'España', 'Brasil', 'Iraq', 'Polonia', 'Pakistán', 'Kenia', 'Perú', 'Vietnam', 'Bangladesh', 'Etiopía', 'Venezuela', 'Tailandia', 'Guatemala', 'Tayikistán', 'Uruguay', 'Rumania', 'Georgia', 'Colombia', 'Rusia', 'Indonesia', 'Libia', 'Maldivas', 'Malasia', 'China', 'Macedonia del Norte', 'Albania', 'Bosnia y Herzegovina', 'Zimbabwe', 'Portugal', 'Nicaragua', 'Ecuador', 'Armenia', 'Egipto', 'Serbia', 'Bulgaria', 'Macao', 'Myanmar', 'Puerto Rico', 'Islandia', 'Eslovenia', 'Túnez', 'Argentina', 'Singapur', 'Marruecos', 'Ucrania', 'Corea del Sur', 'Alemania', 'Belarús', 'Estados Unidos', 'Chile', 'Irlanda del Norte', 'Hong Kong', 'Italia', 'Grecia', 'Austria', 'Jordania', 'Líbano', 'Francia', 'Hungría', 'Países Bajos', 'Dinamarca', 'Finlandia', 'Suiza', 'Taiwán', 'Letonia', 'Reino Unido', 'Lituania', 'Eslovaquia', 'Estonia', 'Nueva Zelanda', 'Canadá', 'Australia', 'Japón', 'Chequia', 'Noruega', 'Suecia'], col2='estado', order2=['Desocupado', 'Ocupado'])
 )
 #  PIPELINE_END
 
@@ -107,8 +107,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Suecia', 'Noruega', 'Chequia', 'Japón', 'Australia', 'Canadá', 'Nueva Zelanda', 'Estonia', 'Eslovaquia', 'Lituania', 'Reino Unido', 'Letonia', 'Taiwán', 'Suiza', 'Finlandia', 'Dinamarca', 'Países Bajos', 'Hungría', 'Francia', 'Líbano', 'Jordania', 'Austria', 'Grecia', 'Italia', 'Hong Kong', 'Irlanda del Norte', 'Chile', 'Estados Unidos', 'Belarús', 'Alemania', 'Corea del Sur', 'Ucrania', 'Marruecos', 'Singapur', 'Argentina', 'Túnez', 'Eslovenia', 'Islandia', 'Puerto Rico', 'Myanmar', 'Macao', 'Bulgaria', 'Serbia', 'Egipto', 'Armenia', 'Ecuador', 'Nicaragua', 'Portugal', 'Zimbabwe', 'Bosnia y Herzegovina', 'Albania', 'Macedonia del Norte', 'China', 'Malasia', 'Maldivas', 'Libia', 'Indonesia', 'Rusia', 'Colombia', 'Georgia', 'Rumania', 'Uruguay', 'Tayikistán', 'Guatemala', 'Tailandia', 'Venezuela', 'Etiopía', 'Bangladesh', 'Vietnam', 'Perú', 'Kenia', 'Pakistán', 'Polonia', 'Iraq', 'Brasil', 'España', 'Irán', 'Turquía', 'Kazajstán', 'Mongolia', 'Andorra', 'Croacia', 'Bolivia', 'Nigeria'], col2='estado', order2=['Desocupado', 'Ocupado'])
-#  Index: 168 entries, 20 to 112
+#  ordenar_dos_columnas(col1='geonombreFundar', order1=['Nigeria', 'Bolivia', 'Croacia', 'Andorra', 'Mongolia', 'Kazajstán', 'Turquía', 'Irán', 'España', 'Brasil', 'Iraq', 'Polonia', 'Pakistán', 'Kenia', 'Perú', 'Vietnam', 'Bangladesh', 'Etiopía', 'Venezuela', 'Tailandia', 'Guatemala', 'Tayikistán', 'Uruguay', 'Rumania', 'Georgia', 'Colombia', 'Rusia', 'Indonesia', 'Libia', 'Maldivas', 'Malasia', 'China', 'Macedonia del Norte', 'Albania', 'Bosnia y Herzegovina', 'Zimbabwe', 'Portugal', 'Nicaragua', 'Ecuador', 'Armenia', 'Egipto', 'Serbia', 'Bulgaria', 'Macao', 'Myanmar', 'Puerto Rico', 'Islandia', 'Eslovenia', 'Túnez', 'Argentina', 'Singapur', 'Marruecos', 'Ucrania', 'Corea del Sur', 'Alemania', 'Belarús', 'Estados Unidos', 'Chile', 'Irlanda del Norte', 'Hong Kong', 'Italia', 'Grecia', 'Austria', 'Jordania', 'Líbano', 'Francia', 'Hungría', 'Países Bajos', 'Dinamarca', 'Finlandia', 'Suiza', 'Taiwán', 'Letonia', 'Reino Unido', 'Lituania', 'Eslovaquia', 'Estonia', 'Nueva Zelanda', 'Canadá', 'Australia', 'Japón', 'Chequia', 'Noruega', 'Suecia'], col2='estado', order2=['Desocupado', 'Ocupado'])
+#  Index: 168 entries, 25 to 87
 #  Data columns (total 5 columns):
 #   #   Column             Non-Null Count  Dtype   
 #  ---  ------             --------------  -----   
@@ -120,7 +120,7 @@ pipeline = chain(
 #  
 #  |    | geocodigoFundar   | geonombreFundar   |   anio | estado     |   satisfaccion_vida |
 #  |---:|:------------------|:------------------|-------:|:-----------|--------------------:|
-#  | 20 | SWE               | Suecia            |   2017 | Desocupado |             5.56892 |
+#  | 25 | NGA               | Nigeria           |   2018 | Desocupado |              5.5686 |
 #  
 #  ------------------------------
 #  
