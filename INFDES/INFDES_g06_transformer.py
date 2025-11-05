@@ -14,6 +14,10 @@ def imput_na(df:DataFrame, bool_mask:list[bool], col:str, value:Any):
     return df
 
 @transformer.convert
+def drop_col(df: DataFrame, col, axis=1):
+    return df.drop(col, axis=axis)
+
+@transformer.convert
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
@@ -24,7 +28,8 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	multiplicar_por_escalar(col='valor', k=100),
 	imput_na(bool_mask=[False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True], col='geonombreFundar', value='Nacional'),
-	query(condition='anio == anio.max()')
+	query(condition='anio == anio.max()'),
+	drop_col(col=['geocodigoFundar', 'prov_cod'], axis=1)
 )
 #  PIPELINE_END
 
@@ -98,6 +103,22 @@ pipeline = chain(
 #  |     | geocodigoFundar   | geonombreFundar   |   anio |   prov_cod | tipo_informalidad                    |   valor |
 #  |----:|:------------------|:------------------|-------:|-----------:|:-------------------------------------|--------:|
 #  | 330 | AR-C              | CABA              |   2023 |          2 | Informalidad (definición productiva) | 26.7745 |
+#  
+#  ------------------------------
+#  
+#  drop_col(col=['geocodigoFundar', 'prov_cod'], axis=1)
+#  Index: 50 entries, 330 to 393
+#  Data columns (total 4 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   geonombreFundar    50 non-null     object 
+#   1   anio               50 non-null     int64  
+#   2   tipo_informalidad  50 non-null     object 
+#   3   valor              50 non-null     float64
+#  
+#  |     | geonombreFundar   |   anio | tipo_informalidad                    |   valor |
+#  |----:|:------------------|-------:|:-------------------------------------|--------:|
+#  | 330 | CABA              |   2023 | Informalidad (definición productiva) | 26.7745 |
 #  
 #  ------------------------------
 #  
