@@ -25,7 +25,7 @@ def query(df: DataFrame, condition: str):
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	multiplicar_por_escalar(col='tasa_informalidad_legal', k=100),
-	replace_multiple_values(col='apertura_sexo', replacements={'femenino': 'Mujeres', 'masculino': 'Mujeres', 'total': 'Total'})
+	replace_multiple_values(col='apertura_sexo', replacements={'femenino': 'Mujeres', 'masculino': 'Varones', 'total': 'Total'})
 )
 #  PIPELINE_END
 
@@ -78,7 +78,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='apertura_sexo', replacements={'femenino': 'Mujeres', 'masculino': 'Mujeres', 'total': 'Total'})
+#  replace_multiple_values(col='apertura_sexo', replacements={'femenino': 'Mujeres', 'masculino': 'Varones', 'total': 'Total'})
 #  Index: 159 entries, 1113 to 1271
 #  Data columns (total 4 columns):
 #   #   Column                   Non-Null Count  Dtype  
