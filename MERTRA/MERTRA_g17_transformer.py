@@ -17,7 +17,7 @@ def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_va
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales\u200c', 'Mujeres': 'Mujer\u200c', 'Varones': 'Varon\u200c'})
+	replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales\u200c', 'Mujeres': 'Mujeres\u200c', 'Varones': 'Varones\u200c'})
 )
 #  PIPELINE_END
 
@@ -37,7 +37,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales\u200c', 'Mujeres': 'Mujer\u200c', 'Varones': 'Varon\u200c'})
+#  replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales\u200c', 'Mujeres': 'Mujeres\u200c', 'Varones': 'Varones\u200c'})
 #  RangeIndex: 9 entries, 0 to 8
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
