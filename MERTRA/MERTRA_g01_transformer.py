@@ -17,7 +17,7 @@ def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_va
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Total\u200c\u200c', 'Mujeres': 'Mujeres\u200c\u200c', 'Varones': 'Varones\u200c\u200c\u200c\u200c'})
+	replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales', 'Mujeres': 'Mujer', 'Varones': 'Varon'})
 )
 #  PIPELINE_END
 
@@ -37,7 +37,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Total\u200c\u200c', 'Mujeres': 'Mujeres\u200c\u200c', 'Varones': 'Varones\u200c\u200c\u200c\u200c'})
+#  replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'Totales', 'Mujeres': 'Mujer', 'Varones': 'Varon'})
 #  RangeIndex: 9 entries, 0 to 8
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
@@ -46,9 +46,9 @@ pipeline = chain(
 #   1   tipo_trabajo  9 non-null      object 
 #   2   minutos       9 non-null      float64
 #  
-#  |    | sexo   | tipo_trabajo   |   minutos |
-#  |---:|:-------|:---------------|----------:|
-#  |  0 | Total‌‌  | Trabajo total  |   501.643 |
+#  |    | sexo    | tipo_trabajo   |   minutos |
+#  |---:|:--------|:---------------|----------:|
+#  |  0 | Totales | Trabajo total  |   501.643 |
 #  
 #  ------------------------------
 #  
