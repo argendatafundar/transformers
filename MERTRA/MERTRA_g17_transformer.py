@@ -4,14 +4,20 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: DataFrame) -> DataFrame:
+def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_value: str = None, mapping = None):
+    if mapping is not None:
+        df = df.replace(mapping).copy()
+    elif col is not None and curr_value is not None and new_value is not None:
+        df = df.replace({col: curr_value}, new_value)
+    else:
+        raise ValueError("Either 'mapping' must be provided, or all of 'col', 'curr_value', and 'new_value' must be provided")
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'T', 'Mujeres': 'M', 'Varones': 'V'})
 )
 #  PIPELINE_END
 
@@ -31,7 +37,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  identity()
+#  replace_value(col='sexo', curr_value=None, new_value=None, mapping={'Total': 'T', 'Mujeres': 'M', 'Varones': 'V'})
 #  RangeIndex: 9 entries, 0 to 8
 #  Data columns (total 3 columns):
 #   #   Column        Non-Null Count  Dtype  
@@ -42,7 +48,7 @@ pipeline = chain(
 #  
 #  |    | sexo   | tipo_trabajo   |   minutos |
 #  |---:|:-------|:---------------|----------:|
-#  |  0 | Total  | Trabajo total  |   501.643 |
+#  |  0 | T      | Trabajo total  |   501.643 |
 #  
 #  ------------------------------
 #  
