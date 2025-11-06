@@ -4,14 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def identity(df: DataFrame) -> DataFrame:
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	identity()
+	multiplicar_por_escalar(col='tasa_participacion', k=100)
 )
 #  PIPELINE_END
 
@@ -31,7 +32,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  identity()
+#  multiplicar_por_escalar(col='tasa_participacion', k=100)
 #  RangeIndex: 33 entries, 0 to 32
 #  Data columns (total 3 columns):
 #   #   Column              Non-Null Count  Dtype  
@@ -42,7 +43,7 @@ pipeline = chain(
 #  
 #  |    |   anio | sexo    |   tasa_participacion |
 #  |---:|-------:|:--------|---------------------:|
-#  |  0 |   1869 | Varones |             0.906793 |
+#  |  0 |   1869 | Varones |              90.6793 |
 #  
 #  ------------------------------
 #  
