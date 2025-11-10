@@ -24,7 +24,7 @@ def filtrar_por_max_anio(df, group_cols):
 pipeline = chain(
 	query(condition="geonombreFundar not in ['Kirguistán']"),
 	filtrar_por_max_anio(group_cols=['geonombreFundar', 'estado']),
-	map_categoria(curr_col='geonombreFundar', new_col='color', mapper={'Argentina': 'Argentina'}, default='Otros')
+	map_categoria(curr_col='geonombreFundar', new_col='color', mapper={'Argentina': 'Argentina', 'Suecia': 'Suecia', 'Noruega': 'Noruega'}, default='Otros')
 )
 #  PIPELINE_END
 
@@ -81,7 +81,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  map_categoria(curr_col='geonombreFundar', new_col='color', mapper={'Argentina': 'Argentina'}, default='Otros')
+#  map_categoria(curr_col='geonombreFundar', new_col='color', mapper={'Argentina': 'Argentina', 'Suecia': 'Suecia', 'Noruega': 'Noruega'}, default='Otros')
 #  Index: 178 entries, 0 to 192
 #  Data columns (total 6 columns):
 #   #   Column             Non-Null Count  Dtype  
