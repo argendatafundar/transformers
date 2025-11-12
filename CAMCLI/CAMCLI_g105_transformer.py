@@ -65,7 +65,7 @@ pipeline = chain(
 #  
 #  |    |   anio | sector   | geocodigoFundar   | entity               |   valor_en_ggco2e | geonombreFundar   |
 #  |---:|-------:|:---------|:------------------|:---------------------|------------------:|:------------------|
-#  |  0 |   1750 | AGSyOUT  | WLD               | KYOTOGHG (AR6GWP100) |            544850 | Mundo             |
+#  |  0 |   1750 | AGSyOUT  | WLD               | KYOTOGHG (AR6GWP100) |            558000 | Mundo             |
 #  
 #  ------------------------------
 #  
@@ -83,7 +83,7 @@ pipeline = chain(
 #  
 #  |    |   anio | indicador   | geocodigoFundar   | entity               |   valor | geonombreFundar   |
 #  |---:|-------:|:------------|:------------------|:---------------------|--------:|:------------------|
-#  |  0 |   1750 | AGSyOUT     | WLD               | KYOTOGHG (AR6GWP100) |  544.85 | Mundo             |
+#  |  0 |   1750 | AGSyOUT     | WLD               | KYOTOGHG (AR6GWP100) |     558 | Mundo             |
 #  
 #  ------------------------------
 #  
@@ -101,7 +101,7 @@ pipeline = chain(
 #  
 #  |    |   anio | indicador   | geocodigoFundar   | entity               |   valor | geonombreFundar   |
 #  |---:|-------:|:------------|:------------------|:---------------------|--------:|:------------------|
-#  |  0 |   1750 | AGSyOUT     | WLD               | KYOTOGHG (AR6GWP100) |  544.85 | Mundo             |
+#  |  0 |   1750 | AGSyOUT     | WLD               | KYOTOGHG (AR6GWP100) |     558 | Mundo             |
 #  
 #  ------------------------------
 #  
@@ -119,7 +119,7 @@ pipeline = chain(
 #  
 #  |    |   anio | indicador   | geocodigoFundar   | entity               |   valor | geonombreFundar   |
 #  |---:|-------:|:------------|:------------------|:---------------------|--------:|:------------------|
-#  |  1 |   1750 | Energía     | WLD               | KYOTOGHG (AR6GWP100) | 152.144 | Mundo             |
+#  |  1 |   1750 | Energía     | WLD               | KYOTOGHG (AR6GWP100) |     152 | Mundo             |
 #  
 #  ------------------------------
 #  
