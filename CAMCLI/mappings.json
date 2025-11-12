@@ -17,7 +17,7 @@
             "public": "CAMCLI_g03"
         }
     ],
-    "emisiones_sector_global_2016.csv": [
+    "emisiones_sector_global.csv": [
         {
             "private": "CAMCLI_1-1-1_10",
             "public": "CAMCLI_g04"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
