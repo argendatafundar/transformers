@@ -1,11 +1,11 @@
 {
-    "emisiones_anuales_co2_region_2021.csv": [
+    "emisiones_gei_region_participacion.csv": [
         {
             "private": "CAMCLI_1-1-1_7",
             "public": "CAMCLI_g01"
         }
     ],
-    "emisiones_anuales_co2_region.csv": [
+    "emisiones_anuales_gei_region.csv": [
         {
             "private": "CAMCLI_1-1-1_8",
             "public": "CAMCLI_g02"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
