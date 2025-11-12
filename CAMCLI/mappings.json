@@ -23,7 +23,7 @@
             "public": "CAMCLI_g04"
         }
     ],
-    "emisiones_global_sec_1850_2014.csv": [
+    "emisiones_global_sectoriales_historico.csv": [
         {
             "private": "CAMCLI_1-1-1_11",
             "public": "CAMCLI_g05"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
