@@ -77,7 +77,7 @@
             "public": "CAMCLI_g13"
         }
     ],
-    "emisiones_prov_2010_2018.csv": [
+    "emisiones_prov_arg.csv": [
         {
             "private": "CAMCLI_1-1-1_20",
             "public": "CAMCLI_g14"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
