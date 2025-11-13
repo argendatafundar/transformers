@@ -28,30 +28,34 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  to_pandas(dummy=True)
-#  RangeIndex: 29 entries, 0 to 28
-#  Data columns (total 2 columns):
+#  RangeIndex: 33 entries, 0 to 32
+#  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   anio             29 non-null     int64  
-#   1   valor_en_mtco2e  29 non-null     float64
+#   0   anio             33 non-null     int64  
+#   1   valor_en_mtco2e  33 non-null     float64
+#   2   geonombreFundar  33 non-null     object 
+#   3   geocodigoFundar  33 non-null     object 
 #  
-#  |    |   anio |   valor_en_mtco2e |
-#  |---:|-------:|------------------:|
-#  |  0 |   1990 |            263.54 |
+#  |    |   anio |   valor_en_mtco2e | geonombreFundar   | geocodigoFundar   |
+#  |---:|-------:|------------------:|:------------------|:------------------|
+#  |  0 |   1990 |            273.82 | Argentina         | ARG               |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'valor_en_mtco2e': 'valor'})
-#  RangeIndex: 29 entries, 0 to 28
-#  Data columns (total 2 columns):
-#   #   Column  Non-Null Count  Dtype  
-#  ---  ------  --------------  -----  
-#   0   anio    29 non-null     int64  
-#   1   valor   29 non-null     float64
+#  RangeIndex: 33 entries, 0 to 32
+#  Data columns (total 4 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             33 non-null     int64  
+#   1   valor            33 non-null     float64
+#   2   geonombreFundar  33 non-null     object 
+#   3   geocodigoFundar  33 non-null     object 
 #  
-#  |    |   anio |   valor |
-#  |---:|-------:|--------:|
-#  |  0 |   1990 |  263.54 |
+#  |    |   anio |   valor | geonombreFundar   | geocodigoFundar   |
+#  |---:|-------:|--------:|:------------------|:------------------|
+#  |  0 |   1990 |  273.82 | Argentina         | ARG               |
 #  
 #  ------------------------------
 #  
