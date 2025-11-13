@@ -71,7 +71,7 @@
             "public": "CAMCLI_g12"
         }
     ],
-    "emisiones_residuos_1990_2018.csv": [
+    "emisiones_residuos_arg.csv": [
         {
             "private": "CAMCLI_1-1-1_19",
             "public": "CAMCLI_g13"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
