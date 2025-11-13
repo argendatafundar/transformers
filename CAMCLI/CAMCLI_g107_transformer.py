@@ -1,0 +1,48 @@
+from pandas import DataFrame
+from data_transformers import chain, transformer
+
+
+#  DEFINITIONS_START
+@transformer.convert
+def identity(df: DataFrame, dummy = True) -> DataFrame:
+    return df
+
+@transformer.convert
+def round(df: pl.DataFrame, col, digits):
+    df = df.with_columns([
+        pl.col(col).round(digits).alias(col)
+    ])
+    return df
+
+@transformer.convert
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(mapping=map)
+    return df
+#  DEFINITIONS_END
+
+
+#  PIPELINE_START
+pipeline = chain(
+	identity(dummy=True),
+	rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'}),
+	round(col='y', digits=1)
+)
+#  PIPELINE_END
+
+
+#  start()
+#  
+#  ------------------------------
+#  
+#  identity(dummy=True)
+#  
+#  ------------------------------
+#  
+#  rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'})
+#  
+#  ------------------------------
+#  
+#  round(col='y', digits=1)
+#  
+#  ------------------------------
+#  
