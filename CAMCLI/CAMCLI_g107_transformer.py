@@ -31,7 +31,7 @@ def rename_cols(df: pl.DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	identity(dummy=True),
-	sort_values(by=['geonombreFundar', 'sector'], descending=None),
+	sort_values(by=['geonombreFundar', 'sector'], descending=False),
 	rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'}),
 	round(col='y', digits=1)
 )
@@ -46,7 +46,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(by=['geonombreFundar', 'sector'], descending=None)
+#  sort_values(by=['geonombreFundar', 'sector'], descending=False)
 #  
 #  ------------------------------
 #  
