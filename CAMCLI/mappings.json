@@ -59,7 +59,7 @@
             "public": "CAMCLI_g10"
         }
     ],
-    "emisiones_afolu_1990_2018.csv": [
+    "emisiones_afolu_arg.csv": [
         {
             "private": "CAMCLI_1-1-1_17",
             "public": "CAMCLI_g11"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
