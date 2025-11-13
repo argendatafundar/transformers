@@ -41,13 +41,13 @@
             "public": "CAMCLI_g07"
         }
     ],
-    "emisiones_arg_1990_2018.csv": [
+    "emisiones_arg.csv": [
         {
             "private": "CAMCLI_1-1-1_14",
             "public": "CAMCLI_g08"
         }
     ],
-    "emisiones_arg_sec_1990_2018.csv": [
+    "emisiones_arg_sec.csv": [
         {
             "private": "CAMCLI_1-1-1_15",
             "public": "CAMCLI_g09"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
