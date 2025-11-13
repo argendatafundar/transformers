@@ -29,7 +29,7 @@
             "public": "CAMCLI_g05"
         }
     ],
-    "emisiones_subsec_arg_2018.csv": [
+    "emisiones_subsec_arg.csv": [
         {
             "private": "CAMCLI_1-1-1_12",
             "public": "CAMCLI_g06"
@@ -186,6 +186,7 @@
         }
     ]
 }
+
 
 
 
