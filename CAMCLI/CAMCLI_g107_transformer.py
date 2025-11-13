@@ -15,6 +15,13 @@ def round(df: pl.DataFrame, col, digits):
     return df
 
 @transformer.convert
+def sort_values(df: pl.DataFrame, by, descending = None):
+    if not descending:
+        descending = [False] * len(by)
+    df = df.sort(by = by, descending= descending)
+    return df
+
+@transformer.convert
 def rename_cols(df: pl.DataFrame, map):
     df = df.rename(mapping=map)
     return df
@@ -24,6 +31,7 @@ def rename_cols(df: pl.DataFrame, map):
 #  PIPELINE_START
 pipeline = chain(
 	identity(dummy=True),
+	sort_values(by=['geonombreFundar', 'sector'], descending=None),
 	rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'}),
 	round(col='y', digits=1)
 )
@@ -35,6 +43,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  identity(dummy=True)
+#  
+#  ------------------------------
+#  
+#  sort_values(by=['geonombreFundar', 'sector'], descending=None)
 #  
 #  ------------------------------
 #  
