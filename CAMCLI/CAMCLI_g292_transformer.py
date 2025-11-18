@@ -24,15 +24,15 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  to_pandas(dummy=True)
-#  RangeIndex: 213 entries, 0 to 212
+#  RangeIndex: 212 entries, 0 to 211
 #  Data columns (total 5 columns):
 #   #   Column                       Non-Null Count  Dtype  
 #  ---  ------                       --------------  -----  
 #   0   geocodigoFundar              195 non-null    object 
-#   1   temperature_anomaly_40_69    213 non-null    float64
-#   2   temperature_anomaly_20_adel  213 non-null    float64
-#   3   dif                          213 non-null    float64
-#   4   geonombreFundar              213 non-null    object 
+#   1   temperature_anomaly_40_69    212 non-null    float64
+#   2   temperature_anomaly_20_adel  212 non-null    float64
+#   3   dif                          212 non-null    float64
+#   4   geonombreFundar              212 non-null    object 
 #  
 #  |    | geocodigoFundar   |   temperature_anomaly_40_69 |   temperature_anomaly_20_adel |     dif | geonombreFundar   |
 #  |---:|:------------------|----------------------------:|------------------------------:|--------:|:------------------|
