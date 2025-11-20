@@ -4,13 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def drop_cols(df, cols):
-    return df.drop(cols)
-
-@transformer.convert
 def pl_filter(df: pl.DataFrame, query: str):
     df = df.filter(eval(query))
     return df
+
+@transformer.convert
+def drop_cols(df, cols):
+    return df.drop(cols)
 
 @transformer.convert
 def rename_cols(df: pl.DataFrame, map):
