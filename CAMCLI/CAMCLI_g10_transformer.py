@@ -18,6 +18,18 @@ def drop_col(df: pl.DataFrame, col, axis=1):
         return df.drop([col])
 
 @transformer.convert
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
+    return df
+
+@transformer.convert
 def sort_values_by_comparison(df: pl.DataFrame, colname: str, precedence: dict, prefix=[], suffix=[]):
     mapcol = colname + '_map'
 
@@ -32,18 +44,6 @@ def sort_values_by_comparison(df: pl.DataFrame, colname: str, precedence: dict, 
 
     # Drop the temporary mapping column
     return df_.drop(mapcol)
-
-@transformer.convert
-def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
-
-    if not alias:
-        alias = col
-
-    df = df.with_columns(
-        pl.col(col).replace(mapping).alias(alias)
-    )
-
-    return df
 #  DEFINITIONS_END
 
 
