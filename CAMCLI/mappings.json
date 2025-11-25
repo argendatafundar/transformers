@@ -9,6 +9,14 @@
         {
             "private": "CAMCLI_1-1-1_8",
             "public": "CAMCLI_g02"
+        },
+        {
+            "private": "CAMCLI_1-1-1_8",
+            "public": "CAMCLI_g1021"
+        },
+        {
+            "private": "CAMCLI_1-1-1_8",
+            "public": "CAMCLI_g1022"
         }
     ],
     "emisiones_per_cap.csv": [
@@ -186,6 +194,7 @@
         }
     ]
 }
+
 
 
 
