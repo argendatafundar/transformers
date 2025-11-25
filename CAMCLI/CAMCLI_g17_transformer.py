@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def rename_cols(df: pl.DataFrame, map):
+    df = df.rename(map)
+    return df
+
+@transformer.convert
 def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
     df = df.with_columns(pl.col(col).replace(curr_value, new_value))
     return df
@@ -11,11 +16,6 @@ def replace_value(df: pl.DataFrame, col: str, curr_value: str, new_value: str):
 @transformer.convert
 def mutiplicar_por_escalar(df: pl.DataFrame, col:str, k:float):
     df = df.with_columns(pl.col(col) * k)
-    return df
-
-@transformer.convert
-def rename_cols(df: pl.DataFrame, map):
-    df = df.rename(map)
     return df
 
 @transformer.convert
