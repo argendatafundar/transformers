@@ -4,10 +4,22 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
+    return df
+
+@transformer.convert
 def latest_year(df: pl.DataFrame, by='anio'):
     latest_year = df[by].max()
     df = df.filter(pl.col(by) == latest_year)
-    df = df.drop(by)
+    # df = df.drop(by)
     return df
 
 @transformer.convert
@@ -23,18 +35,6 @@ def drop_col(df: pl.DataFrame, col, axis=1):
         return df.drop(col)
     else:
         return df.drop([col])
-
-@transformer.convert
-def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
-
-    if not alias:
-        alias = col
-
-    df = df.with_columns(
-        pl.col(col).replace(mapping).alias(alias)
-    )
-
-    return df
 #  DEFINITIONS_END
 
 
