@@ -4,6 +4,12 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def drop_na(df:pl.DataFrame, cols:list):
+    df = df.drop_nans(subset=cols)
+    df = df.drop_nulls(subset=cols)
+    return df
+
+@transformer.convert
 def sort_values(df: pl.DataFrame, by, descending = None):
     if not descending:
         descending = [False] * len(by)
@@ -13,12 +19,6 @@ def sort_values(df: pl.DataFrame, by, descending = None):
 @transformer.convert
 def pl_filter(df: pl.DataFrame, query: str):
     df = df.filter(eval(query))
-    return df
-
-@transformer.convert
-def drop_na(df:pl.DataFrame, cols:list):
-    df = df.drop_nans(subset=cols)
-    df = df.drop_nulls(subset=cols)
     return df
 #  DEFINITIONS_END
 
