@@ -4,13 +4,15 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def recalculate_shares(df: pl.DataFrame, group_col: str, value_col:str):
-    # Group by the specified column and calculate shares within each group
-    df = df.with_columns([
-        pl.col(value_col).sum().over(group_col).alias('group_total')
-    ]).with_columns([
-        (pl.col(value_col) * 100 / pl.col('group_total')).alias('y')
-    ]).drop('group_total')
+def replace_value(df: pl.DataFrame, col: str, mapping: dict, alias: str = None):
+
+    if not alias:
+        alias = col
+
+    df = df.with_columns(
+        pl.col(col).replace(mapping).alias(alias)
+    )
+
     return df
 
 @transformer.convert
@@ -21,17 +23,29 @@ def round(df: pl.DataFrame, col, digits):
     return df
 
 @transformer.convert
+def identity(df: DataFrame, dummy = True) -> DataFrame:
+    return df
+
+@transformer.convert
 def rename_cols(df: pl.DataFrame, map):
     df = df.rename(mapping=map)
+    return df
+
+@transformer.convert
+def sort_values(df: pl.DataFrame, by, descending = None):
+    if not descending:
+        descending = [False] * len(by)
+    df = df.sort(by = by, descending= descending)
     return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
+	identity(dummy=True),
+	sort_values(by=['geonombreFundar', 'sector'], descending=True),
 	rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'}),
-	round(col='y', digits=1),
-	recalculate_shares(group_col='x', value_col='y'),
+	replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP'}, alias=None),
 	round(col='y', digits=1)
 )
 #  PIPELINE_END
@@ -41,15 +55,19 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
+#  identity(dummy=True)
+#  
+#  ------------------------------
+#  
+#  sort_values(by=['geonombreFundar', 'sector'], descending=True)
+#  
+#  ------------------------------
+#  
 #  rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'})
 #  
 #  ------------------------------
 #  
-#  round(col='y', digits=1)
-#  
-#  ------------------------------
-#  
-#  recalculate_shares(group_col='x', value_col='y')
+#  replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP'}, alias=None)
 #  
 #  ------------------------------
 #  
