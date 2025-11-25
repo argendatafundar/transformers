@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def to_pandas(df: pl.DataFrame, dummy = True):
+    df = df.to_pandas()
+    return df
+
+@transformer.convert
 def rename_cols(df: DataFrame, map):
     df = df.rename(columns=map)
     return df
@@ -17,57 +22,83 @@ def replace_value(df: DataFrame, col: str, curr_value: str, new_value: str):
 
 #  PIPELINE_START
 pipeline = chain(
-rename_cols(map={'sector': 'nivel1', 'subsector': 'nivel2', 'subsubsector': 'nivel3', 'valor_en_porcent': 'valor'}),
-	replace_value(col='nivel1', curr_value='Industria Química', new_value='PIUP')
+	to_pandas(dummy=True),
+	rename_cols(map={'sector': 'nivel1', 'subsector': 'nivel2', 'subsubsector': 'nivel3', 'valor_en_porcent': 'valor'}),
+	replace_value(col='nivel1', curr_value='Procesos industriales', new_value='PIUP'),
+	replace_value(col='nivel1', curr_value='Agricultura', new_value='AGSyOUT')
 )
 #  PIPELINE_END
 
 
 #  start()
-#  RangeIndex: 29 entries, 0 to 28
-#  Data columns (total 4 columns):
+#  
+#  ------------------------------
+#  
+#  to_pandas(dummy=True)
+#  RangeIndex: 19 entries, 0 to 18
+#  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
 #  ---  ------            --------------  -----  
-#   0   sector            29 non-null     object 
-#   1   subsector         29 non-null     object 
-#   2   subsubsector      29 non-null     object 
-#   3   valor_en_porcent  29 non-null     float64
+#   0   sector            19 non-null     object 
+#   1   subsector         19 non-null     object 
+#   2   subsubsector      19 non-null     object 
+#   3   anio              19 non-null     int64  
+#   4   valor_en_porcent  19 non-null     float64
 #  
-#  |    | sector   | subsector   | subsubsector   |   valor_en_porcent |
-#  |---:|:---------|:------------|:---------------|-------------------:|
-#  |  0 | Energía  | Transporte  | Carretera      |               11.9 |
+#  |    | sector      | subsector                        | subsubsector                     |   anio |   valor_en_porcent |
+#  |---:|:------------|:---------------------------------|:---------------------------------|-------:|-------------------:|
+#  |  0 | Agricultura | Quema de biomasa, suelos y arroz | Quema de biomasa, suelos y arroz |   2024 |              4.924 |
 #  
 #  ------------------------------
 #  
 #  rename_cols(map={'sector': 'nivel1', 'subsector': 'nivel2', 'subsubsector': 'nivel3', 'valor_en_porcent': 'valor'})
-#  RangeIndex: 29 entries, 0 to 28
-#  Data columns (total 4 columns):
+#  RangeIndex: 19 entries, 0 to 18
+#  Data columns (total 5 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  29 non-null     object 
-#   1   nivel2  29 non-null     object 
-#   2   nivel3  29 non-null     object 
-#   3   valor   29 non-null     float64
+#   0   nivel1  19 non-null     object 
+#   1   nivel2  19 non-null     object 
+#   2   nivel3  19 non-null     object 
+#   3   anio    19 non-null     int64  
+#   4   valor   19 non-null     float64
 #  
-#  |    | nivel1   | nivel2     | nivel3    |   valor |
-#  |---:|:---------|:-----------|:----------|--------:|
-#  |  0 | Energía  | Transporte | Carretera |    11.9 |
+#  |    | nivel1      | nivel2                           | nivel3                           |   anio |   valor |
+#  |---:|:------------|:---------------------------------|:---------------------------------|-------:|--------:|
+#  |  0 | Agricultura | Quema de biomasa, suelos y arroz | Quema de biomasa, suelos y arroz |   2024 |   4.924 |
 #  
 #  ------------------------------
 #  
-#  replace_value(col='nivel1', curr_value='Industria Química', new_value='PIUP')
-#  RangeIndex: 29 entries, 0 to 28
-#  Data columns (total 4 columns):
+#  replace_value(col='nivel1', curr_value='Procesos industriales', new_value='PIUP')
+#  RangeIndex: 19 entries, 0 to 18
+#  Data columns (total 5 columns):
 #   #   Column  Non-Null Count  Dtype  
 #  ---  ------  --------------  -----  
-#   0   nivel1  29 non-null     object 
-#   1   nivel2  29 non-null     object 
-#   2   nivel3  29 non-null     object 
-#   3   valor   29 non-null     float64
+#   0   nivel1  19 non-null     object 
+#   1   nivel2  19 non-null     object 
+#   2   nivel3  19 non-null     object 
+#   3   anio    19 non-null     int64  
+#   4   valor   19 non-null     float64
 #  
-#  |    | nivel1   | nivel2     | nivel3    |   valor |
-#  |---:|:---------|:-----------|:----------|--------:|
-#  |  0 | Energía  | Transporte | Carretera |    11.9 |
+#  |    | nivel1      | nivel2                           | nivel3                           |   anio |   valor |
+#  |---:|:------------|:---------------------------------|:---------------------------------|-------:|--------:|
+#  |  0 | Agricultura | Quema de biomasa, suelos y arroz | Quema de biomasa, suelos y arroz |   2024 |   4.924 |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='nivel1', curr_value='Agricultura', new_value='AGSyOUT')
+#  RangeIndex: 19 entries, 0 to 18
+#  Data columns (total 5 columns):
+#   #   Column  Non-Null Count  Dtype  
+#  ---  ------  --------------  -----  
+#   0   nivel1  19 non-null     object 
+#   1   nivel2  19 non-null     object 
+#   2   nivel3  19 non-null     object 
+#   3   anio    19 non-null     int64  
+#   4   valor   19 non-null     float64
+#  
+#  |    | nivel1   | nivel2                           | nivel3                           |   anio |   valor |
+#  |---:|:---------|:---------------------------------|:---------------------------------|-------:|--------:|
+#  |  0 | AGSyOUT  | Quema de biomasa, suelos y arroz | Quema de biomasa, suelos y arroz |   2024 |   4.924 |
 #  
 #  ------------------------------
 #  
