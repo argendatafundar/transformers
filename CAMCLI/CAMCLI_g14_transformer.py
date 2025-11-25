@@ -44,7 +44,8 @@ pipeline = chain(
 	rename_cols(map={'geocodigoFundar': 'geocodigo', 'sector': 'indicador', 'valor_en_mtco2e': 'valor'}),
 	drop_cols(cols=['anio']),
 	sort_values(by=['geonombreFundar', 'indicador'], descending=None),
-	replace_value(col='geonombreFundar', mapping={'Santiago del Estero': 'S. del Estero', 'Tierra del Fuego': 'T. del Fuego'}, alias=None)
+	replace_value(col='geonombreFundar', mapping={'Santiago del Estero': 'S. del Estero', 'Tierra del Fuego': 'T. del Fuego'}, alias=None),
+	replace_value(col='indicador', mapping={'AGSyOUT': 'AGSyUT'}, alias=None)
 )
 #  PIPELINE_END
 
@@ -70,6 +71,10 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  replace_value(col='geonombreFundar', mapping={'Santiago del Estero': 'S. del Estero', 'Tierra del Fuego': 'T. del Fuego'}, alias=None)
+#  
+#  ------------------------------
+#  
+#  replace_value(col='indicador', mapping={'AGSyOUT': 'AGSyUT'}, alias=None)
 #  
 #  ------------------------------
 #  
