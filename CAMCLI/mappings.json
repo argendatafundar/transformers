@@ -35,6 +35,14 @@
         {
             "private": "CAMCLI_1-1-1_11",
             "public": "CAMCLI_g05"
+        },
+        {
+            "private": "CAMCLI_1-1-1_11",
+            "public": "CAMCLI_g1051"
+        },
+                {
+            "private": "CAMCLI_1-1-1_11",
+            "public": "CAMCLI_g1052"
         }
     ],
     "emisiones_subsec_arg.csv": [
@@ -194,6 +202,7 @@
         }
     ]
 }
+
 
 
 
