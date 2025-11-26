@@ -47,7 +47,7 @@ pipeline = chain(
 	drop_cols(cols='geocodigoFundar'),
 	to_pandas(dummy=True),
 	filter_equals(col='geonombreFundar', valor='Mundo', negacion=True),
-	recategorizar_resto(col='geonombreFundar', seleccion=['China', 'Estados Unidos', 'India', 'Rusia', 'Brasil', 'Indonesia', 'Irán', 'Japón', 'Arabia Saudita', 'Canadá', 'Argentina'], etiqueta='Resto'),
+	recategorizar_resto(col='geonombreFundar', seleccion=['Estados Unidos', 'China', 'Rusia', 'India', 'Brasil', 'Alemania', 'Indonesia', 'Reino Unido', 'Japón', 'Canadá', 'Argentina'], etiqueta='Resto'),
 	agrupar_y_sumar(col_indicador='geonombreFundar', col_anio='anio'),
 	multiplicar_por_escalar(col='valor', k=1e-06)
 )
@@ -92,7 +92,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  recategorizar_resto(col='geonombreFundar', seleccion=['China', 'Estados Unidos', 'India', 'Rusia', 'Brasil', 'Indonesia', 'Irán', 'Japón', 'Arabia Saudita', 'Canadá', 'Argentina'], etiqueta='Resto')
+#  recategorizar_resto(col='geonombreFundar', seleccion=['Estados Unidos', 'China', 'Rusia', 'India', 'Brasil', 'Alemania', 'Indonesia', 'Reino Unido', 'Japón', 'Canadá', 'Argentina'], etiqueta='Resto')
 #  Index: 34104 entries, 0 to 34277
 #  Data columns (total 3 columns):
 #   #   Column           Non-Null Count  Dtype  
@@ -116,9 +116,9 @@ pipeline = chain(
 #   1   anio             2088 non-null   int64  
 #   2   valor            2088 non-null   float64
 #  
-#  |    | geonombreFundar   |   anio |    valor |
-#  |---:|:------------------|-------:|---------:|
-#  |  0 | Arabia Saudita    |   1850 | -0.69028 |
+#  |    | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|-------:|--------:|
+#  |  0 | Alemania          |   1850 | 78.8999 |
 #  
 #  ------------------------------
 #  
@@ -131,9 +131,9 @@ pipeline = chain(
 #   1   anio             2088 non-null   int64  
 #   2   valor            2088 non-null   float64
 #  
-#  |    | geonombreFundar   |   anio |    valor |
-#  |---:|:------------------|-------:|---------:|
-#  |  0 | Arabia Saudita    |   1850 | -0.69028 |
+#  |    | geonombreFundar   |   anio |   valor |
+#  |---:|:------------------|-------:|--------:|
+#  |  0 | Alemania          |   1850 | 78.8999 |
 #  
 #  ------------------------------
 #  
