@@ -4,9 +4,13 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame: 
-    df.loc[:, f'cumsum_{cum_col}'] = df.loc[:, cum_col].cumsum()
-
+def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_value: str = None, mapping = None):
+    if mapping is not None:
+        df = df.replace(mapping).copy()
+    elif col is not None and curr_value is not None and new_value is not None:
+        df = df.replace({col: curr_value}, new_value)
+    else:
+        raise ValueError("Either 'mapping' must be provided, or all of 'col', 'curr_value', and 'new_value' must be provided")
     return df
 
 @transformer.convert
@@ -38,19 +42,42 @@ def custom_logic(df: DataFrame) -> DataFrame:
 def query(df: DataFrame, condition: str):
     df = df.query(condition)    
     return df
+
+@transformer.convert
+def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame: 
+    df.loc[:, f'cumsum_{cum_col}'] = df.loc[:, cum_col].cumsum()
+
+    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
+	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú'}),
 	custom_logic(),
-	query(condition="residencia == 'no_residentes'"),
+	query(condition="residencia == 'residentes'"),
 	columna_acumulada(cum_col='share')
 )
 #  PIPELINE_END
 
 
 #  start()
+#  RangeIndex: 104 entries, 0 to 103
+#  Data columns (total 4 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   residencia  104 non-null    object 
+#   1   localidad   104 non-null    object 
+#   2   share       104 non-null    float64
+#   3   top_10      104 non-null    object 
+#  
+#  |    | residencia    | localidad    |    share | top_10         |
+#  |---:|:--------------|:-------------|---------:|:---------------|
+#  |  0 | no_residentes | Bahia Blanca | 0.132146 | Resto destinos |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú'})
 #  RangeIndex: 104 entries, 0 to 103
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
@@ -78,12 +105,12 @@ pipeline = chain(
 #  
 #  |    | residencia    | localidad   |   share | top_10   |
 #  |---:|:--------------|:------------|--------:|:---------|
-#  |  0 | no_residentes | Caba        | 59.5021 | Top 10   |
+#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |
 #  
 #  ------------------------------
 #  
-#  query(condition="residencia == 'no_residentes'")
-#  Index: 11 entries, 0 to 20
+#  query(condition="residencia == 'residentes'")
+#  Index: 11 entries, 1 to 21
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -93,14 +120,14 @@ pipeline = chain(
 #   3   top_10        11 non-null     object 
 #   4   cumsum_share  11 non-null     float64
 #  
-#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:--------------|:------------|--------:|:---------|---------------:|
-#  |  0 | no_residentes | Caba        | 59.5021 | Top 10   |        59.5021 |
+#  |    | residencia   | localidad   |   share | top_10   |   cumsum_share |
+#  |---:|:-------------|:------------|--------:|:---------|---------------:|
+#  |  1 | residentes   | CABA        | 18.7903 | Top 10   |        18.7903 |
 #  
 #  ------------------------------
 #  
 #  columna_acumulada(cum_col='share')
-#  Index: 11 entries, 0 to 20
+#  Index: 11 entries, 1 to 21
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -110,9 +137,9 @@ pipeline = chain(
 #   3   top_10        11 non-null     object 
 #   4   cumsum_share  11 non-null     float64
 #  
-#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:--------------|:------------|--------:|:---------|---------------:|
-#  |  0 | no_residentes | Caba        | 59.5021 | Top 10   |        59.5021 |
+#  |    | residencia   | localidad   |   share | top_10   |   cumsum_share |
+#  |---:|:-------------|:------------|--------:|:---------|---------------:|
+#  |  1 | residentes   | CABA        | 18.7903 | Top 10   |        18.7903 |
 #  
 #  ------------------------------
 #  
