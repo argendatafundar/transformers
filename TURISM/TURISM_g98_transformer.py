@@ -55,7 +55,7 @@ def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame:
 pipeline = chain(
 	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú'}),
 	custom_logic(),
-	query(condition="residencia == 'residentes'"),
+	query(condition="residencia == 'no_residentes'"),
 	columna_acumulada(cum_col='share')
 )
 #  PIPELINE_END
@@ -109,8 +109,8 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition="residencia == 'residentes'")
-#  Index: 11 entries, 1 to 21
+#  query(condition="residencia == 'no_residentes'")
+#  Index: 11 entries, 0 to 20
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -120,14 +120,14 @@ pipeline = chain(
 #   3   top_10        11 non-null     object 
 #   4   cumsum_share  11 non-null     float64
 #  
-#  |    | residencia   | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:-------------|:------------|--------:|:---------|---------------:|
-#  |  1 | residentes   | CABA        | 18.7903 | Top 10   |        18.7903 |
+#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
+#  |---:|:--------------|:------------|--------:|:---------|---------------:|
+#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |        59.5021 |
 #  
 #  ------------------------------
 #  
 #  columna_acumulada(cum_col='share')
-#  Index: 11 entries, 1 to 21
+#  Index: 11 entries, 0 to 20
 #  Data columns (total 5 columns):
 #   #   Column        Non-Null Count  Dtype  
 #  ---  ------        --------------  -----  
@@ -137,9 +137,9 @@ pipeline = chain(
 #   3   top_10        11 non-null     object 
 #   4   cumsum_share  11 non-null     float64
 #  
-#  |    | residencia   | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:-------------|:------------|--------:|:---------|---------------:|
-#  |  1 | residentes   | CABA        | 18.7903 | Top 10   |        18.7903 |
+#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
+#  |---:|:--------------|:------------|--------:|:---------|---------------:|
+#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |        59.5021 |
 #  
 #  ------------------------------
 #  
