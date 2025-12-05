@@ -53,7 +53,7 @@ def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame:
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú'}),
+	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú', 'San Martin De Los Andes': 'S. M. de los Andes'}),
 	custom_logic(),
 	query(condition="residencia == 'no_residentes'"),
 	columna_acumulada(cum_col='share')
@@ -77,7 +77,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú'})
+#  replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú', 'San Martin De Los Andes': 'S. M. de los Andes'})
 #  RangeIndex: 104 entries, 0 to 103
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
