@@ -14,6 +14,17 @@ def replace_value(df: DataFrame, col: str = None, curr_value: str = None, new_va
     return df
 
 @transformer.convert
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
+
+@transformer.convert
+def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame: 
+    df.loc[:, f'cumsum_{cum_col}'] = df.loc[:, cum_col].cumsum()
+
+    return df
+
+@transformer.convert
 def custom_logic(df: DataFrame) -> DataFrame:
     # separar los dos subconjuntos
     df_top10 = df[df['top_10'] == 'Top 10'].copy()
@@ -22,7 +33,7 @@ def custom_logic(df: DataFrame) -> DataFrame:
     # si hay filas del resto, agregarlas
     if not df_resto.empty:
         # reemplazar localidades
-        df_resto.loc[:, 'localidad'] = 'Resto localidades'
+        df_resto.loc[:, 'localidad'] = 'Resto'
 
         # agregar
         df_resto_agg = (
@@ -37,23 +48,12 @@ def custom_logic(df: DataFrame) -> DataFrame:
     df = pd.concat([df_top10.sort_values(by='share', ascending=False), df_resto_agg], ignore_index=True)
 
     return df
-
-@transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
-
-@transformer.convert
-def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame: 
-    df.loc[:, f'cumsum_{cum_col}'] = df.loc[:, cum_col].cumsum()
-
-    return df
 #  DEFINITIONS_END
 
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú', 'San Martin De Los Andes': 'S. M. de los Andes'}),
+	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'MDQ', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'P. Iguazú', 'San Martin De Los Andes': 'S. M. Andes'}),
 	custom_logic(),
 	query(condition="residencia == 'no_residentes'"),
 	columna_acumulada(cum_col='share')
@@ -77,7 +77,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'Mar del Plata', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'Puerto Iguazú', 'San Martin De Los Andes': 'S. M. de los Andes'})
+#  replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'MDQ', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'P. Iguazú', 'San Martin De Los Andes': 'S. M. Andes'})
 #  RangeIndex: 104 entries, 0 to 103
 #  Data columns (total 4 columns):
 #   #   Column      Non-Null Count  Dtype  
