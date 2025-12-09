@@ -4,17 +4,17 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
-    return df.groupby(key_cols)[summarised_col].sum().reset_index()
-
-@transformer.convert
 def custom_logic(df: DataFrame) -> DataFrame:
     df['sub_categoria'] = df.apply(
         lambda row: 'Resto' if (row['categoria'] == 'No limítrofe') & 
-        (row['descripcion_pais'] not in ['Estado Unidos', 'España', 'Perú', 
+        (row['descripcion_pais'] not in ['Estados Unidos', 'España', 'Perú', 
                                         'Francia', 'Italia', 'Alemania', 
                                         'Colombia', 'México', 'Reino Unido']) else row['descripcion_pais'], axis=1)
     return df
+
+@transformer.convert
+def agg_sum(df: DataFrame, key_cols:list[str], summarised_col:str) -> DataFrame:
+    return df.groupby(key_cols)[summarised_col].sum().reset_index()
 #  DEFINITIONS_END
 
 
@@ -65,13 +65,13 @@ pipeline = chain(
 #  ------------------------------
 #  
 #  agg_sum(key_cols=['categoria', 'sub_categoria'], summarised_col='distribucion_gasto_receptivo')
-#  RangeIndex: 14 entries, 0 to 13
+#  RangeIndex: 15 entries, 0 to 14
 #  Data columns (total 3 columns):
 #   #   Column                        Non-Null Count  Dtype  
 #  ---  ------                        --------------  -----  
-#   0   categoria                     14 non-null     object 
-#   1   sub_categoria                 14 non-null     object 
-#   2   distribucion_gasto_receptivo  14 non-null     float64
+#   0   categoria                     15 non-null     object 
+#   1   sub_categoria                 15 non-null     object 
+#   2   distribucion_gasto_receptivo  15 non-null     float64
 #  
 #  |    | categoria   | sub_categoria   |   distribucion_gasto_receptivo |
 #  |---:|:------------|:----------------|-------------------------------:|
