@@ -4,6 +4,11 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
+def multiplicar_por_escalar(df: DataFrame, col:str, k:float):
+    df[col] = df[col]*k
+    return df
+
+@transformer.convert
 def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
     df_copy = df.copy()
     df_copy[col] = df_copy[col].replace(replacements)
@@ -13,7 +18,8 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 
 #  PIPELINE_START
 pipeline = chain(
-	replace_multiple_values(col='medida', replacements={'Arribos turísticos en temporada, en cantidad de personas': 'Verano', 'Arribos turísticos anuales en cantidad de personas': 'Total anual'})
+	replace_multiple_values(col='medida', replacements={'Arribos turísticos en temporada, en cantidad de personas': 'Verano', 'Arribos turísticos anuales en cantidad de personas': 'Total anual'}),
+	multiplicar_por_escalar(col='arribos_turistas', k=0.001)
 )
 #  PIPELINE_END
 
@@ -48,7 +54,24 @@ pipeline = chain(
 #  
 #  |    |   anio | medida   |   arribos_turistas | fuente           | tipo_serie   |
 #  |---:|-------:|:---------|-------------------:|:-----------------|:-------------|
-#  |  0 |   1887 | Verano   |               1416 | Pastoriza (2008) | original     |
+#  |  0 |   1887 | Verano   |              1.416 | Pastoriza (2008) | original     |
+#  
+#  ------------------------------
+#  
+#  multiplicar_por_escalar(col='arribos_turistas', k=0.001)
+#  RangeIndex: 91 entries, 0 to 90
+#  Data columns (total 5 columns):
+#   #   Column            Non-Null Count  Dtype  
+#  ---  ------            --------------  -----  
+#   0   anio              91 non-null     int64  
+#   1   medida            91 non-null     object 
+#   2   arribos_turistas  91 non-null     float64
+#   3   fuente            91 non-null     object 
+#   4   tipo_serie        91 non-null     object 
+#  
+#  |    |   anio | medida   |   arribos_turistas | fuente           | tipo_serie   |
+#  |---:|-------:|:---------|-------------------:|:-----------------|:-------------|
+#  |  0 |   1887 | Verano   |              1.416 | Pastoriza (2008) | original     |
 #  
 #  ------------------------------
 #  
