@@ -13,6 +13,13 @@ def pivot_longer(df: DataFrame, id_cols:list[str], names_to_col:str, values_to_c
     return df.melt(id_vars=id_cols, var_name=names_to_col, value_name=values_to_col)
 
 @transformer.convert
+def sort_values(df: DataFrame, how: str, by: list):
+    if how not in ['ascending', 'descending']:
+        raise ValueError('how must be either "ascending" or "descending"')
+    
+    return df.sort_values(by=by, ascending=how=='ascending').reset_index(drop=True)
+
+@transformer.convert
 def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
     df_copy = df.copy()
     df_copy[col] = df_copy[col].replace(replacements)
@@ -24,7 +31,8 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 pipeline = chain(
 	query(condition='anio == anio.max()'),
 	pivot_longer(id_cols=['anio', 'rama_etq'], names_to_col='variable', values_to_col='value'),
-	replace_multiple_values(col='variable', replacements={'fem_tasa': 'Feminización', 'joven_tasa': 'Empleo joven', 'inform_tasa': 'Informalidad'})
+	replace_multiple_values(col='variable', replacements={'fem_tasa': 'Feminización', 'joven_tasa': 'Empleo joven', 'inform_tasa': 'Informalidad'}),
+	sort_values(how='descending', by=['variable', 'rama_etq'])
 )
 #  PIPELINE_END
 
@@ -92,6 +100,22 @@ pipeline = chain(
 #  |    |   anio | rama_etq          | variable     |   value |
 #  |---:|-------:|:------------------|:-------------|--------:|
 #  |  0 |   2024 | Agencias de viaje | Feminización | 57.9139 |
+#  
+#  ------------------------------
+#  
+#  sort_values(how='descending', by=['variable', 'rama_etq'])
+#  RangeIndex: 24 entries, 0 to 23
+#  Data columns (total 4 columns):
+#   #   Column    Non-Null Count  Dtype  
+#  ---  ------    --------------  -----  
+#   0   anio      24 non-null     int64  
+#   1   rama_etq  24 non-null     object 
+#   2   variable  24 non-null     object 
+#   3   value     24 non-null     float64
+#  
+#  |    |   anio | rama_etq                | variable     |   value |
+#  |---:|-------:|:------------------------|:-------------|--------:|
+#  |  0 |   2024 | Transporte de pasajeros | Informalidad | 41.7234 |
 #  
 #  ------------------------------
 #  
