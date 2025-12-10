@@ -19,7 +19,7 @@ def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFr
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	replace_multiple_values(col='provincia', replacements={'Tierra Del Fuego': 'Tierra del Fuego', 'Santiago Del Estero': 'Santiago del Estero', 'Entre Rios': 'Entre Ríos', 'Rio Negro': 'Río Negro', 'Neuquen': 'Neuquén', 'Cordoba': 'Córdoba'})
+	replace_multiple_values(col='provincia', replacements={'Tierra Del Fuego': 'Tierra del Fuego', 'Santiago Del Estero': 'Santiago del Estero', 'Entre Rios': 'Entre Ríos', 'Rio Negro': 'Río Negro', 'Neuquen': 'Neuquén', 'Cordoba': 'Córdoba', 'Tucuman': 'Tucumán'})
 )
 #  PIPELINE_END
 
@@ -58,7 +58,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_multiple_values(col='provincia', replacements={'Tierra Del Fuego': 'Tierra del Fuego', 'Santiago Del Estero': 'Santiago del Estero', 'Entre Rios': 'Entre Ríos', 'Rio Negro': 'Río Negro', 'Neuquen': 'Neuquén', 'Cordoba': 'Córdoba'})
+#  replace_multiple_values(col='provincia', replacements={'Tierra Del Fuego': 'Tierra del Fuego', 'Santiago Del Estero': 'Santiago del Estero', 'Entre Rios': 'Entre Ríos', 'Rio Negro': 'Río Negro', 'Neuquen': 'Neuquén', 'Cordoba': 'Córdoba', 'Tucuman': 'Tucumán'})
 #  Index: 25 entries, 0 to 24
 #  Data columns (total 5 columns):
 #   #   Column            Non-Null Count  Dtype  
