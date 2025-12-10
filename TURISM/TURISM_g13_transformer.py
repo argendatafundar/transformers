@@ -32,7 +32,7 @@ pipeline = chain(
 	query(condition='anio == anio.max()'),
 	pivot_longer(id_cols=['anio', 'rama_etq'], names_to_col='variable', values_to_col='value'),
 	replace_multiple_values(col='variable', replacements={'fem_tasa': 'Feminización', 'joven_tasa': 'Empleo joven', 'inform_tasa': 'Informalidad'}),
-	sort_values(how='descending', by=['variable', 'rama_etq'])
+	sort_values(how='descending', by=['rama_etq', 'variable'])
 )
 #  PIPELINE_END
 
@@ -103,7 +103,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  sort_values(how='descending', by=['variable', 'rama_etq'])
+#  sort_values(how='descending', by=['rama_etq', 'variable'])
 #  RangeIndex: 24 entries, 0 to 23
 #  Data columns (total 4 columns):
 #   #   Column    Non-Null Count  Dtype  
