@@ -41,7 +41,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio in [1980, 1990, 2000, 2010, 2024]'),
+	query(condition='anio in [2000, 2010, 2024]'),
 	complete_cases(key_cols=['geocodigoFundar'], n=3)
 )
 #  PIPELINE_END
@@ -63,35 +63,35 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio in [1980, 1990, 2000, 2010, 2024]')
-#  Index: 736 entries, 4 to 7504
+#  query(condition='anio in [2000, 2010, 2024]')
+#  Index: 484 entries, 14 to 7504
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   anio             736 non-null    int64  
-#   1   geocodigoFundar  736 non-null    object 
-#   2   geonombreFundar  736 non-null    object 
-#   3   expo_turisticas  736 non-null    float64
+#   0   anio             484 non-null    int64  
+#   1   geocodigoFundar  484 non-null    object 
+#   2   geonombreFundar  484 non-null    object 
+#   3   expo_turisticas  484 non-null    float64
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   |   expo_turisticas |
 #  |---:|-------:|:------------------|:------------------|------------------:|
-#  |  4 |   1990 | ABW               | Aruba             |           349.497 |
+#  | 14 |   2000 | ABW               | Aruba             |           814.486 |
 #  
 #  ------------------------------
 #  
 #  complete_cases(key_cols=['geocodigoFundar'], n=3)
-#  RangeIndex: 90 entries, 0 to 89
+#  RangeIndex: 363 entries, 0 to 362
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   anio             90 non-null     int64  
-#   1   geocodigoFundar  90 non-null     object 
-#   2   geonombreFundar  90 non-null     object 
-#   3   expo_turisticas  90 non-null     float64
+#   0   anio             363 non-null    int64  
+#   1   geocodigoFundar  363 non-null    object 
+#   2   geonombreFundar  363 non-null    object 
+#   3   expo_turisticas  363 non-null    float64
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   |   expo_turisticas |
 #  |---:|-------:|:------------------|:------------------|------------------:|
-#  |  0 |   1990 | ABW               | Aruba             |           349.497 |
+#  |  0 |   2000 | AGO               | Angola            |                 0 |
 #  
 #  ------------------------------
 #  
