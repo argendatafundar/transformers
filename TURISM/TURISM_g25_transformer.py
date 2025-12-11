@@ -12,7 +12,7 @@ def query(df: DataFrame, condition: str):
 
 #  PIPELINE_START
 pipeline = chain(
-	query(condition='anio >= 2000')
+	query(condition='anio in [2000,2010,2024]')
 )
 #  PIPELINE_END
 
@@ -33,15 +33,15 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  query(condition='anio >= 2000')
-#  Index: 4439 entries, 14 to 7555
+#  query(condition='anio in [2000,2010,2024]')
+#  Index: 489 entries, 14 to 7555
 #  Data columns (total 4 columns):
 #   #   Column           Non-Null Count  Dtype  
 #  ---  ------           --------------  -----  
-#   0   anio             4439 non-null   int64  
-#   1   geocodigoFundar  4439 non-null   object 
-#   2   geonombreFundar  4362 non-null   object 
-#   3   expo_turisticas  4439 non-null   float64
+#   0   anio             489 non-null    int64  
+#   1   geocodigoFundar  489 non-null    object 
+#   2   geonombreFundar  481 non-null    object 
+#   3   expo_turisticas  489 non-null    float64
 #  
 #  |    |   anio | geocodigoFundar   | geonombreFundar   |   expo_turisticas |
 #  |---:|-------:|:------------------|:------------------|------------------:|
