@@ -45,7 +45,7 @@ pipeline = chain(
 	identity(dummy=True),
 	sort_values(by=['geonombreFundar', 'sector'], descending=True),
 	rename_cols(map={'geonombreFundar': 'x', 'sector': 'categoria', 'valor_en_porcent': 'y'}),
-	replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP', 'AGSyOUT': 'AGSyOUT '}, alias=None),
+	replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP', 'AGSyOUT': ' AGSyOUT'}, alias=None),
 	round(col='y', digits=1)
 )
 #  PIPELINE_END
@@ -67,7 +67,7 @@ pipeline = chain(
 #  
 #  ------------------------------
 #  
-#  replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP', 'AGSyOUT': 'AGSyOUT '}, alias=None)
+#  replace_value(col='categoria', mapping={'Procesos industriales y uso de productos': 'PIUP', 'AGSyOUT': ' AGSyOUT'}, alias=None)
 #  
 #  ------------------------------
 #  
