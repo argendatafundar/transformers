@@ -19,6 +19,10 @@ id_grafico,nombre_archivo
 18,participacion_arg_pib_ind_mundial.csv
 19,complejidad_vab.csv
 20,peso_arg_expo_ind.csv
+21,pib_industrial_por_regiones.csv
+22,pib_industrial_asiaticos.csv
+23,asia_export_manuf_tecnologia.csv
+24,pib_per_capita_industrial_relativo_eeuu.csv
 151,peso_industrial_provincias.csv
 152,peso_industrial_provincias.csv
 41,pbg_industrial_distribucion.csv
