@@ -19,12 +19,6 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def columna_acumulada(df:DataFrame, cum_col:str)-> DataFrame: 
-    df.loc[:, f'cumsum_{cum_col}'] = df.loc[:, cum_col].cumsum()
-
-    return df
-
-@transformer.convert
 def custom_logic(df: DataFrame) -> DataFrame:
     # separar los dos subconjuntos
     df_top10 = df[df['top_10'] == 'Top 10'].copy()
@@ -56,7 +50,7 @@ pipeline = chain(
 	replace_value(col='localidad', curr_value=None, new_value=None, mapping={'Caba': 'CABA', 'Mar Del Plata': 'MDQ', 'Cordoba': 'Córdoba', 'Puerto Iguazu': 'P. Iguazú', 'San Martin De Los Andes': 'S. M. Andes'}),
 	custom_logic(),
 	query(condition="residencia == 'no_residentes'"),
-	columna_acumulada(cum_col='share')
+	query(condition="localidad != 'Resto'")
 )
 #  PIPELINE_END
 
@@ -111,35 +105,33 @@ pipeline = chain(
 #  
 #  query(condition="residencia == 'no_residentes'")
 #  Index: 11 entries, 0 to 20
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   residencia    11 non-null     object 
-#   1   localidad     11 non-null     object 
-#   2   share         11 non-null     float64
-#   3   top_10        11 non-null     object 
-#   4   cumsum_share  11 non-null     float64
+#  Data columns (total 4 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   residencia  11 non-null     object 
+#   1   localidad   11 non-null     object 
+#   2   share       11 non-null     float64
+#   3   top_10      11 non-null     object 
 #  
-#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:--------------|:------------|--------:|:---------|---------------:|
-#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |        59.5021 |
+#  |    | residencia    | localidad   |   share | top_10   |
+#  |---:|:--------------|:------------|--------:|:---------|
+#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |
 #  
 #  ------------------------------
 #  
-#  columna_acumulada(cum_col='share')
-#  Index: 11 entries, 0 to 20
-#  Data columns (total 5 columns):
-#   #   Column        Non-Null Count  Dtype  
-#  ---  ------        --------------  -----  
-#   0   residencia    11 non-null     object 
-#   1   localidad     11 non-null     object 
-#   2   share         11 non-null     float64
-#   3   top_10        11 non-null     object 
-#   4   cumsum_share  11 non-null     float64
+#  query(condition="localidad != 'Resto'")
+#  Index: 10 entries, 0 to 19
+#  Data columns (total 4 columns):
+#   #   Column      Non-Null Count  Dtype  
+#  ---  ------      --------------  -----  
+#   0   residencia  10 non-null     object 
+#   1   localidad   10 non-null     object 
+#   2   share       10 non-null     float64
+#   3   top_10      10 non-null     object 
 #  
-#  |    | residencia    | localidad   |   share | top_10   |   cumsum_share |
-#  |---:|:--------------|:------------|--------:|:---------|---------------:|
-#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |        59.5021 |
+#  |    | residencia    | localidad   |   share | top_10   |
+#  |---:|:--------------|:------------|--------:|:---------|
+#  |  0 | no_residentes | CABA        | 59.5021 | Top 10   |
 #  
 #  ------------------------------
 #  
