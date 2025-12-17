@@ -27,7 +27,8 @@ def custom_string_funcion(df: DataFrame):
 pipeline = chain(
 	replace_value(col='agregado', curr_value='No turístico', new_value='No turística', mapping=None),
 	replace_value(col='industria', curr_value='No turístico', new_value='No turística', mapping=None),
-	custom_string_funcion()
+	custom_string_funcion(),
+	replace_value(col='industria2', curr_value=None, new_value=None, mapping={'Alojamiento para visitantes': 'Alojamiento', 'Industria de provisión de alimentos y bebidas': 'Gastronomía', 'Agencias de viajes y otros servicios de reserva': 'Agencias de viajes'})
 )
 #  PIPELINE_END
 
@@ -103,6 +104,25 @@ pipeline = chain(
 #  |    |   anio | agregado   | industria                      |   empleo_total |     prop |   prop_intraturismo | industria2                  |
 #  |---:|-------:|:-----------|:-------------------------------|---------------:|---------:|--------------------:|:----------------------------|
 #  |  0 |   2022 | Turística  | 1. Alojamiento para visitantes |        92.3066 | 0.422351 |             7.70901 | Alojamiento para visitantes |
+#  
+#  ------------------------------
+#  
+#  replace_value(col='industria2', curr_value=None, new_value=None, mapping={'Alojamiento para visitantes': 'Alojamiento', 'Industria de provisión de alimentos y bebidas': 'Gastronomía', 'Agencias de viajes y otros servicios de reserva': 'Agencias de viajes'})
+#  RangeIndex: 6 entries, 0 to 5
+#  Data columns (total 7 columns):
+#   #   Column             Non-Null Count  Dtype  
+#  ---  ------             --------------  -----  
+#   0   anio               6 non-null      int64  
+#   1   agregado           6 non-null      object 
+#   2   industria          6 non-null      object 
+#   3   empleo_total       6 non-null      float64
+#   4   prop               6 non-null      float64
+#   5   prop_intraturismo  5 non-null      float64
+#   6   industria2         6 non-null      object 
+#  
+#  |    |   anio | agregado   | industria                      |   empleo_total |     prop |   prop_intraturismo | industria2   |
+#  |---:|-------:|:-----------|:-------------------------------|---------------:|---------:|--------------------:|:-------------|
+#  |  0 |   2022 | Turística  | 1. Alojamiento para visitantes |        92.3066 | 0.422351 |             7.70901 | Alojamiento  |
 #  
 #  ------------------------------
 #  
