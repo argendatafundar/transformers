@@ -42,7 +42,8 @@ def query(df: DataFrame, condition: str):
 #  PIPELINE_START
 pipeline = chain(
 	query(condition='anio == anio.max()'),
-	complete_cases(key_cols=['importer_iso3', 'geonombreFundar'], n=2)
+	complete_cases(key_cols=['importer_iso3', 'geonombreFundar'], n=2),
+	query(condition="geonombreFundar in ['Brasil', 'Estados Unidos', 'Chile', 'India', 'China', 'Perú', 'Uruguay', 'Paraguay', 'Colombia', 'Países Bajos', 'Canadá', 'España', 'México', 'Bolivia', 'Alemania']")
 )
 #  PIPELINE_END
 
@@ -98,6 +99,24 @@ pipeline = chain(
 #  |    |   anio | importer_iso3   | geonombreFundar   | tipo_bien   |    expo |      prop |
 #  |---:|-------:|:----------------|:------------------|:------------|--------:|----------:|
 #  |  0 |   2023 | ALB             | Albania           | Primarios   | 7655.34 | 0.0200102 |
+#  
+#  ------------------------------
+#  
+#  query(condition="geonombreFundar in ['Brasil', 'Estados Unidos', 'Chile', 'India', 'China', 'Perú', 'Uruguay', 'Paraguay', 'Colombia', 'Países Bajos', 'Canadá', 'España', 'México', 'Bolivia', 'Alemania']")
+#  Index: 30 entries, 16 to 285
+#  Data columns (total 6 columns):
+#   #   Column           Non-Null Count  Dtype  
+#  ---  ------           --------------  -----  
+#   0   anio             30 non-null     int64  
+#   1   importer_iso3    30 non-null     object 
+#   2   geonombreFundar  30 non-null     object 
+#   3   tipo_bien        30 non-null     object 
+#   4   expo             30 non-null     float64
+#   5   prop             30 non-null     float64
+#  
+#  |    |   anio | importer_iso3   | geonombreFundar   | tipo_bien   |        expo |    prop |
+#  |---:|-------:|:----------------|:------------------|:------------|------------:|--------:|
+#  | 16 |   2023 | CHN             | China             | Primarios   | 4.12386e+06 | 10.7793 |
 #  
 #  ------------------------------
 #  
