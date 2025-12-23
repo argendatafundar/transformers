@@ -23,6 +23,10 @@ id_grafico,nombre_archivo
 22,pib_industrial_asiaticos.csv
 23,asia_export_manuf_tecnologia.csv
 24,pib_per_capita_industrial_relativo_eeuu.csv
+25,exportaciones_por_destino.csv
+26,importaciones_por_origen.csv
+27,composicion_exportaciones_intensidad_destino.csv
+28,composicion_importaciones_intensidad_origen.csv
 151,peso_industrial_provincias.csv
 152,peso_industrial_provincias.csv
 41,pbg_industrial_distribucion.csv
