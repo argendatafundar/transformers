@@ -4,9 +4,10 @@ from data_transformers import chain, transformer
 
 #  DEFINITIONS_START
 @transformer.convert
-def query(df: DataFrame, condition: str):
-    df = df.query(condition)    
-    return df
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df_copy = df.copy()
+    df_copy[col] = df_copy[col].replace(replacements)
+    return df_copy
 
 @transformer.convert
 def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
@@ -21,10 +22,9 @@ def drop_na(df:DataFrame, col:str):
     return df
 
 @transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
-    df_copy = df.copy()
-    df_copy[col] = df_copy[col].replace(replacements)
-    return df_copy
+def query(df: DataFrame, condition: str):
+    df = df.query(condition)    
+    return df
 #  DEFINITIONS_END
 
 
