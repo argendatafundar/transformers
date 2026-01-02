@@ -9,10 +9,11 @@ def query(df: DataFrame, condition: str):
     return df
 
 @transformer.convert
-def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
-    df_copy = df.copy()
-    df_copy[col] = df_copy[col].replace(replacements)
-    return df_copy
+def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
+    import pandas as pd
+    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
+    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
+    return df.sort_values(by=[col1,col2])
 
 @transformer.convert
 def drop_na(df:DataFrame, col:str):
@@ -20,11 +21,10 @@ def drop_na(df:DataFrame, col:str):
     return df
 
 @transformer.convert
-def ordenar_dos_columnas(df, col1:str, order1:list[str], col2:str, order2:list[str]):
-    import pandas as pd
-    df[col1] = pd.Categorical(df[col1], categories=order1, ordered=True)
-    df[col2] = pd.Categorical(df[col2], categories=order2, ordered=True)
-    return df.sort_values(by=[col1,col2])
+def replace_multiple_values(df: DataFrame, col:str, replacements:dict) -> DataFrame:
+    df_copy = df.copy()
+    df_copy[col] = df_copy[col].replace(replacements)
+    return df_copy
 #  DEFINITIONS_END
 
 
